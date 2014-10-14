@@ -4,6 +4,7 @@
 			var $this = $(this);
 			var width = $this.width();
 			var text_wrapper = $this.find(':first');
+			if (!text_wrapper.is('div, span, p')) return;
 			text_wrapper.css('width','');
 			$this.find('.more_text').remove();
 			if (parseInt(text_wrapper.outerWidth()) <= parseInt(width)) return;
