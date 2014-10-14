@@ -1,0 +1,12 @@
+html, body, .container-fluid, .row-fluid, .row, .col-max-height {height:100%;}
+body {font-size:12px; overflow-x:hidden;}
+.container-fluid {padding-left:0px;}
+thead tr th:last-child {text-align:center;color:#888888;}
+tbody tr td:last-child {text-align:center;color:#888888;}
+th {border-left:solid 1px #bbbbbb; background-color:#eeeeee;}
+th:first-of-type {border-left:inherit;}
+td {position:relative; background-color:white; overflow:hidden;}
+td > div {white-space:nowrap; overflow:hidden; position:absolute; top:5px; left:-5px; border-left:solid 10px white;}
+.header {height:50px; background-color:#444444; padding:0px 15px 0px 15px;}
+.spreadsheet {padding-right:0px;}
+.collections {border-left:solid 1px #bbbbbb; background-color:white;}

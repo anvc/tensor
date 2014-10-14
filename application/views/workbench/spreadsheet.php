@@ -1,49 +1,46 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-md-9">
-    
+
+<div class="header row">
+<img style="float:left;" src="<?php echo base_url().APPPATH ?>views/workbench/images/header-left.jpg" />
+<img style="float:right;" src="<?php echo base_url().APPPATH ?>views/workbench/images/header-right.jpg" />
+</div>
+
+<div class="row">
+<div class="spreadsheet col-md-9 col-xs-9">    
 <table class="table table-hover table-condensed">
 <thead>
-<tr><th>rdf:resource</th><th>dcterms:title</th><th>dcterms:description</th><th>dcterms:source</th><th>dcterms:subject</th><th><big>+/-</big></th></tr>
+<tr><th>rdf:resource</th><th>dcterms:title</th><th>dcterms:description</th><th>po:duration</th><th>dcterms:subject</th><th><big>+/-</big></th></tr>
 </thead>
 <tbody>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
-<tr><td><a href="#">foobar.jpg</a></td><td>Foobar in Paradise</td><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit ...</td><td>YouTube</td><td>Love, Hate</td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/foobar.jpg">foobar.jpg</a></div></td><td><div>The Godfather</div></td><td><div>The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.</div></td><td><div>175 min</div></td><td><div>Mob, Conflict</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/foo.jpg">foo.jpg</a></div></td><td><div>The Shawshank Redemption</div></td><td><div>Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.</div></td><td><div>142 min</div></td><td><div>Prison, Escape, Isolation</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/barbas.jpg">barbas.jpg</a></div></td><td><div>Schindler's List</div></td><td><div>In Poland during World War II, Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.</div></td><td><div>195 min</div></td><td><div>War, Persecution</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/foobarbas.jpg">foobarbas.jpg</a></div></td><td><div>Raging Bull</div></td><td><div>An emotionally self-destructive boxer's journey through life, as the violence and temper that leads him to the top in the ring, destroys his life outside it.</div></td><td><div>129 min</div></td><td><div>Sport, Violence</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/bas.jpg">bas.jpg</a></div></td><td><div>Casablanca</div></td><td><div>Set in unoccupied Africa during the early days of World War II: An American expatriate meets a former lover, with unforeseen complications.</div></td><td><div>102 min</div></td><td><div>Love, Conflict, War</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/foobar.jpg">foobar.jpg</a></div></td><td><div>The Godfather</div></td><td><div>The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.</div></td><td><div>175 min</div></td><td><div>Mob, Conflict</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/foo.jpg">foo.jpg</a></div></td><td><div>The Shawshank Redemption</div></td><td><div>Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.</div></td><td><div>142 min</div></td><td><div>Prison, Escape, Isolation</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/barbas.jpg">barbas.jpg</a></div></td><td><div>Schindler's List</div></td><td><div>In Poland during World War II, Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.</div></td><td><div>195 min</div></td><td><div>War, Persecution</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/foobarbas.jpg">foobarbas.jpg</a></div></td><td><div>Raging Bull</div></td><td><div>An emotionally self-destructive boxer's journey through life, as the violence and temper that leads him to the top in the ring, destroys his life outside it.</div></td><td><div>129 min</div></td><td><div>Sport, Violence</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/bas.jpg">bas.jpg</a></div></td><td><div>Casablanca</div></td><td><div>Set in unoccupied Africa during the early days of World War II: An American expatriate meets a former lover, with unforeseen complications.</div></td><td><div>102 min</div></td><td><div>Love, Conflict, War</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/foobar.jpg">foobar.jpg</a></div></td><td><div>The Godfather</div></td><td><div>The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.</div></td><td><div>175 min</div></td><td><div>Mob, Conflict</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/foo.jpg">foo.jpg</a></div></td><td><div>The Shawshank Redemption</div></td><td><div>Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.</div></td><td><div>142 min</div></td><td><div>Prison, Escape, Isolation</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/barbas.jpg">barbas.jpg</a></div></td><td><div>Schindler's List</div></td><td><div>In Poland during World War II, Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.</div></td><td><div>195 min</div></td><td><div>War, Persecution</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/foobarbas.jpg">foobarbas.jpg</a></div></td><td><div>Raging Bull</div></td><td><div>An emotionally self-destructive boxer's journey through life, as the violence and temper that leads him to the top in the ring, destroys his life outside it.</div></td><td><div>129 min</div></td><td><div>Sport, Violence</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/bas.jpg">bas.jpg</a></div></td><td><div>Casablanca</div></td><td><div>Set in unoccupied Africa during the early days of World War II: An American expatriate meets a former lover, with unforeseen complications.</div></td><td><div>102 min</div></td><td><div>Love, Conflict, War</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/foobar.jpg">foobar.jpg</a></div></td><td><div>The Godfather</div></td><td><div>The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.</div></td><td><div>175 min</div></td><td><div>Mob, Conflict</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/foo.jpg">foo.jpg</a></div></td><td><div>The Shawshank Redemption</div></td><td><div>Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.</div></td><td><div>142 min</div></td><td><div>Prison, Escape, Isolation</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/barbas.jpg">barbas.jpg</a></div></td><td><div>Schindler's List</div></td><td><div>In Poland during World War II, Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.</div></td><td><div>195 min</div></td><td><div>War, Persecution</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/foobarbas.jpg">foobarbas.jpg</a></div></td><td><div>Raging Bull</div></td><td><div>An emotionally self-destructive boxer's journey through life, as the violence and temper that leads him to the top in the ring, destroys his life outside it.</div></td><td><div>129 min</div></td><td><div>Sport, Violence</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/bas.jpg">bas.jpg</a></div></td><td><div>Casablanca</div></td><td><div>Set in unoccupied Africa during the early days of World War II: An American expatriate meets a former lover, with unforeseen complications.</div></td><td><div>102 min</div></td><td><div>Love, Conflict, War</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/foobar.jpg">foobar.jpg</a></div></td><td><div>The Godfather</div></td><td><div>The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.</div></td><td><div>175 min</div></td><td><div>Mob, Conflict</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/foo.jpg">foo.jpg</a></div></td><td><div>The Shawshank Redemption</div></td><td><div>Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.</div></td><td><div>142 min</div></td><td><div>Prison, Escape, Isolation</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/barbas.jpg">barbas.jpg</a></div></td><td><div>Schindler's List</div></td><td><div>In Poland during World War II, Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.</div></td><td><div>195 min</div></td><td><div>War, Persecution</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/foobarbas.jpg">foobarbas.jpg</a></div></td><td><div>Raging Bull</div></td><td><div>An emotionally self-destructive boxer's journey through life, as the violence and temper that leads him to the top in the ring, destroys his life outside it.</div></td><td><div>129 min</div></td><td><div>Sport, Violence</div></td><td>&#8615;</td></tr>
+<tr><td><div><a href="#" title="http://example.com/media/bas.jpg">bas.jpg</a></div></td><td><div>Casablanca</div></td><td><div>Set in unoccupied Africa during the early days of World War II: An American expatriate meets a former lover, with unforeseen complications.</div></td><td><div>102 min</div></td><td><div>Love, Conflict, War</div></td><td>&#8615;</td></tr>
 </tbody>
 </table>    
-    
-    
-    </div>
-    <div class="col-max-height col-md-3" style="background-color:blue;">cccc</div>
-  </div>
+</div>
+<div class="collections col-max-height col-md-3 col-xs-3">Collection panel</div>
+</div>
+
 </div>
