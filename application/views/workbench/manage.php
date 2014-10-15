@@ -40,7 +40,18 @@
 </tbody>
 </table>    
 </div>
-<div class="collections col-max-height col-md-3 col-xs-3"><p style="text-align:center;margin-top:100px;">Collections panel here</div>
+<div class="collections col-max-height col-md-3 col-xs-3">
+<form action="/workbench/workbench/import">
+<div class="btn-group btn-group-justified">
+<button type="submit" class="btn btn-two btn-sm btn-default">Import</button>
+<button type="button" class="btn btn-two btn-sm">Manage</button>
+</div>
+</form>
+<div class="archives-content archives-content-center">
+Collections sidebar<br />
+<a href="javascript:void(null)">Create a new collection</a>
+</div>
+</div>
 </div>
 
 </div>

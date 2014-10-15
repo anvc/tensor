@@ -14,6 +14,7 @@
 	};
 	$.fn.metadataPanel = function() {
 		var $parent = $(this);
+		var disallowed_tags = ['input','iframe','embed','object'];
 		// Remove
 		if ($parent.hasClass('active')) {
 			$metadata = $parent.next();
@@ -32,10 +33,10 @@
 			var predicates = [];
 			var $values = $('.spreadsheet tbody td:not(:last)');
 			$('.spreadsheet thead th:not(:last)').each(function() {
-				predicates.push($(this).text());
+				predicates.push($.trim($(this).text()));
 			});
 			for (var k = 0; k < predicates.length; k++) {
-				var value = $values.eq(k).children(':first').html();
+				var value = $.trim($('<div>'+$values.eq(k).children(':first').html()+'</div>').find(disallowed_tags.join(',')).remove().end().html());
 				var $row = $('<div class="row"><div class="col-md-3 col-xs-3" style="text-align:left;font-weight:bold;">'+predicates[k]+'</div><div class="col-md-9 col-xs-9" style="text-align:left;">'+value+'</div></div>');
 				$container.append($row);
 			}
@@ -63,6 +64,12 @@ $(document).ready(function() {
 		if ($this.hasClass('metadata')) return;
 		var $tr = $this.closest('tr');
 		$tr.metadataPanel();
+	});
+	
+	$('input[type="checkbox"]#checkall').change(function() {
+		var is_checked = (this.checked) ? true : false;
+		$('.table').find('input[type="checkbox"]').prop('checked', is_checked);
+		this.blur();
 	});
 	
 });

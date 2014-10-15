@@ -6,6 +6,8 @@ class Workbench extends CI_Controller {
 		
 		parent::__construct();
 		
+		$this->data = array();
+		
 		$this->load->helper('url');
 		
 		$this->load->library("template");
@@ -19,7 +21,10 @@ class Workbench extends CI_Controller {
 		
 	}
 	
-	public function spreadsheet() {
+	public function import() {
+		
+		$this->data['title'] = 'Workbench: Import';
+		
 		$this->template->add_css(APPPATH.'views/common/bootstrap/css/bootstrap.min.css');
 		$this->template->add_css(APPPATH.'views/common/resizable-columns/jquery.resizableColumns.css');
 		$this->template->add_css(APPPATH.'views/workbench/css/spreadsheet.css');
@@ -28,7 +33,23 @@ class Workbench extends CI_Controller {
 		$this->template->add_js(base_url().APPPATH.'views/common/resizable-columns/jquery.resizableColumns.js'); 
 		$this->template->add_js(base_url().APPPATH.'views/common/ba-resize/jquery.ba-resize.js'); 
 		$this->template->add_js(base_url().APPPATH.'views/workbench/js/spreadsheet.js'); 
-		$this->template->render("workbench/spreadsheet");
+		$this->template->render("workbench/import", $this->data);
+		
+	}	
+	
+	public function manage() {
+		
+		$this->data['title'] = 'Workbench: Manage';
+		
+		$this->template->add_css(APPPATH.'views/common/bootstrap/css/bootstrap.min.css');
+		$this->template->add_css(APPPATH.'views/common/resizable-columns/jquery.resizableColumns.css');
+		$this->template->add_css(APPPATH.'views/workbench/css/spreadsheet.css');
+		$this->template->add_js('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'); // TODO: make local
+		$this->template->add_js(base_url().APPPATH.'views/common/bootstrap/js/bootstrap.min.js'); 
+		$this->template->add_js(base_url().APPPATH.'views/common/resizable-columns/jquery.resizableColumns.js'); 
+		$this->template->add_js(base_url().APPPATH.'views/common/ba-resize/jquery.ba-resize.js'); 
+		$this->template->add_js(base_url().APPPATH.'views/workbench/js/spreadsheet.js'); 
+		$this->template->render("workbench/manage", $this->data);
 		
 	}
 	
