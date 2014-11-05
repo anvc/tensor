@@ -1,3 +1,16 @@
+$(document).ready(function() {
+	set_add_another();
+});
+
+function set_add_another() {
+	$('.add_another').click(function() {
+		$link = $(this);
+		var $another = $link.prev().clone().insertAfter($link.prev());
+		$another.find('input').val('').prop('checked',false);
+		$link.blur();
+	});
+}
+
 function loading(bool) {
 	if (bool) {
 		$('#loading').show();
@@ -18,7 +31,6 @@ function do_search(form) {
 		alert('Please select one or more places to search');
 		return;
 	}
-	loading(true);
 	$('input:checked').each(function() {
 		var $this = $(this);
 		var parser = $this.data('parser');
@@ -27,15 +39,19 @@ function do_search(form) {
 		// Get store URI
 		switch (store_uri_from) {
 			case "next-input":
-				store_uri = $this.nextAll('input:first').val();
+				store_uri = $.trim($this.nextAll('input:first').val());
 				break;
 		};
+		if (!store_uri.length) return;
 		// Append (if applicable)
 		if ($this.data('store-append').length) {
 			store_uri += $this.data('store-append');
 		}
 		// Search query
 		store_uri = store_uri.replace('%1',sq);
+		// Reset table
+		$('#spreadsheet').spreadsheet_create();
+		loading(true);
 		// Get parser and parse
 		var parser_path = $('link#base_url').attr('href')+'/application/views/common/parsers/jquery.'+parser+'.js';
 		$.getScript(parser_path, function() {
@@ -88,7 +104,5 @@ function store_complete_callback(results) {
 		$view.find('table').find('input[type="checkbox"]').prop('checked', is_checked);
 		this.blur();
 	});	
-	
-	loading(false);
 	
 }

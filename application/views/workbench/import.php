@@ -21,7 +21,8 @@
 </form>
 <p>Select places to search:</p>
 <div class="input-group" style="width:100%;">
-<input type="checkbox" id="s1" data-parser="scalar" data-store-uri-from="next-input" data-store-append="/rdf/instancesof/media?format=json&sq=%1" /><label for="s1"> Scalar book URL: </label> <input name="scalar_book_url" type="text" placeholder="http://" />
+<div><input type="checkbox" data-parser="scalar" data-store-uri-from="next-input" data-store-append="/rdf/instancesof/media?format=json&sq=%1" /><label> Scalar book URL </label> <input name="scalar_book_url" type="text" placeholder="http://" /></div>
+<a class="add_another" href="javascript:void(null);">add another</a> 
 </div>
 <hr style="height:1px;color:#aaaaaa;background-color:#aaaaaa;overflow:hidden;margin:8px 0px 15px 0px;" />
 <div class="input-group" style="width:100%;">

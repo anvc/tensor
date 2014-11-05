@@ -27,7 +27,9 @@
     		alert('Non-proxy ajax requests not supported');
     		return;
     	};
+    	if (window['loading']) loading(true);
     	$.getJSON(opts.proxy_uri, proxy_data(), function( data ) {
+    		if (window['loading']) loading(false);
     		parse_store_results(data);
     	}).fail(function(jqXHR) {
     		error_callback(jqXHR);

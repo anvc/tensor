@@ -18,19 +18,29 @@
 					'shoah':'http://tempuri.org/'
 			},
 			rows: null,
-			default_num_predicates: 4
+			default_num_predicates: 4,
+			do_create_table: false,
+			do_create_header: false
 	};  	
 	var opts = {};
 	var predicates = [];
 	var $self = null;
 	
+	$.fn.spreadsheet_create = function(options) {
+		opts = $.extend( {}, defaults, options );
+		namespaces_reversed();
+		$self = this;
+		do_create_table();
+		do_create_header();
+	}
+	
     $.fn.spreadsheet_view = function(options) {
     	opts = $.extend( {}, defaults, options );
     	namespaces_reversed();
     	$self = this;
-        do_create_table();
+        if (opts.do_create_table) do_create_table();
+        if (opts.do_create_header) do_create_header();
         do_create_cells();
-        do_create_header();
         return $self;
     };
     
@@ -74,6 +84,16 @@
     }
     
     function predicates_to_display(arr) {
+    	return [
+   		     'http://purl.org/dc/terms/title',
+		     'http://purl.org/dc/terms/description',
+		     'http://purl.org/dc/terms/source',
+		     'http://purl.org/dc/terms/contributor',
+		     'http://simile.mit.edu/2003/10/ontologies/artstor#url'    	        
+    	       ];
+    }
+    
+    function _predicates_to_display(arr) {
     	var privileged_predicates = [
     	                		     'http://purl.org/dc/terms/title',
     	                		     'http://purl.org/dc/terms/description',
