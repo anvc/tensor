@@ -3,7 +3,7 @@
 	var defaults = {
 			store_uri: null,
     		mapping_uri: null,
-    		data_uri: null,
+    		source_uri: null,
     		proxy: true,
     		proxy_uri: null,
     		error_callback: null,
@@ -38,7 +38,10 @@
     
     function proxy_data() {
     	return {
-    		store_uri:opts.store_uri
+    		graph_uri:(opts.graph_uri)?opts.graph_uri:'',
+    		store_uri:(opts.store_uri)?opts.store_uri:'',
+    		mapping_uri:(opts.mapping_uri)?opts.mapping_uri:'',
+    		source_uri:(opts.source_uri)?opts.source_uri:''
     	};
     };
     

@@ -9,7 +9,7 @@ tbody tr td:not(.metadata) {text-align:center; cursor:pointer;}
 th {border-left:solid 1px #bbbbbb; background-color:#eeeeee;}
 th:first-of-type {border-left:inherit;}
 td {position:relative; background-color:white; overflow:hidden; height:26px;}
-td > div:not(.container) {white-space:nowrap; overflow:hidden; position:absolute; top:5px; left:-5px; border-left:solid 10px white;}
+td > div:not(.container) {white-space:nowrap; overflow:hidden; position:absolute; top:5px; left:5px; right:5px; text-align:left;}
 .header {height:50px; background-color:#444444; padding:0px 15px 0px 15px;}
 #search {margin-bottom:12px;}
 .spreadsheet {padding-right:0px; padding-left:0px; padding-bottom:25px;}
