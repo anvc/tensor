@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	set_add_another();
+	set_view_buttons();
 });
 
 function set_add_another() {
@@ -8,6 +9,15 @@ function set_add_another() {
 		var $another = $link.prev().clone().insertAfter($link.prev());
 		$another.find('input').val('').prop('checked',false);
 		$link.blur();
+	});
+}
+
+function set_view_buttons() {
+	$('.view-buttons').find('button').click(function() {
+		var $clicked = $(this);
+		$clicked.siblings().removeClass('btn-primary').addClass('btn-default');
+		$clicked.removeClass('btn-default').addClass('btn-primary');
+		spreadsheet_ui($clicked.attr('id'));
 	});
 }
 
@@ -112,26 +122,16 @@ function store_complete_callback(_results) {
 	
 }
 
-function spreadsheet_ui() {
+function spreadsheet_ui(view) {
 
+	if ('undefined'==typeof(results)) return;
+	if ('undefined'==typeof(view)) view = $('.view-buttons').find('button[class*="btn-primary"]').attr('id');
 	results = sort_rdfjson_by_prop(results, 'http://purl.org/dc/terms/title');
 
-	var $view = $('#spreadsheet').spreadsheet_view({rows:results});
-	
-	$view.find('table').resizableColumns();
-	
-	$view.find('tr').on('click', 'td:not(:first):not(:has(a))', function() {
-		var $this = $(this);
-		if ($this.hasClass('metadata')) return;
-		var $tr = $this.closest('tr');
-		$tr.metadataPanel();
+	var view_path = $('link#base_url').attr('href')+'application/views/common/views/jquery.'+view+'.js';
+	$.getScript(view_path, function() {
+		$('#spreadsheet').spreadsheet_view({rows:results});
 	});
-	
-	$view.find('table').on('change', '#checkall', function() {
-		var is_checked = (this.checked) ? true : false;
-		$view.find('table').find('input[type="checkbox"]').prop('checked', is_checked);
-		this.blur();
-	});		
 	
 }
 

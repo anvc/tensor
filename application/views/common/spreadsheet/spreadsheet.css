@@ -23,8 +23,11 @@ tr.active td > div {border-color:#dff0d8;}
 .collections {border-left:solid 1px #bbbbbb; background-color:white;}
 .btn-group-justified > .btn-sm {padding-top:8px; border-radius:0}
 .btn-group-justified > .btn-two {width:50%;} /* not sure why this is needed to stretch the buttons */
-#footer {position:fixed; width:100%; bottom:0; background-color:#dddddd; padding:8px 16px 8px 16px;}
+#footer {position:fixed; width:100%; bottom:0; background-color:#dddddd; padding:8px 16px 8px 16px; border-top:solid 1px #bbbbbb;}
 .footer-center {text-align:center;}
+.view-buttons {margin-right:50px;}
+.view-buttons button {padding-right:10px;}
+.view-buttons img {float:left; margin-top:1px; margin-right:8px;}
 label[data-unsupported="1"] {color:#aaaaaa;}
 /* Modals */
 #error .modal-body {background-color:#ffdbdb;}
