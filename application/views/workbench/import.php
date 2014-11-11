@@ -16,7 +16,7 @@
 </div>
 </form>
 <div class="archives-content">
-<form id="search" action="" onsubmit="do_search(this);return false;">
+<form id="search" action="" onsubmit="do_search();return false;">
 <input type="text" placeholder="Search" /> <button class="btn btn-xs btn-default" type="submit">Search</button>
 </form>
 <p>Select places to search:</p>

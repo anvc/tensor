@@ -18,28 +18,18 @@
 					'shoah':'http://tempuri.org/'
 			},
 			rows: null,
-			default_num_predicates: 4,
-			do_create_table: false,
-			do_create_header: false
+			default_num_predicates: 4
 	};  	
 	var opts = {};
 	var predicates = [];
 	var $self = null;
 	
-	$.fn.spreadsheet_create = function(options) {
-		opts = $.extend( {}, defaults, options );
-		namespaces_reversed();
-		$self = this;
-		do_create_table();
-		do_create_header();
-	}
-	
     $.fn.spreadsheet_view = function(options) {
     	opts = $.extend( {}, defaults, options );
     	namespaces_reversed();
     	$self = this;
-        if (opts.do_create_table) do_create_table();
-        if (opts.do_create_header) do_create_header();
+        do_create_table();
+        do_create_header();
         do_create_cells();
         return $self;
     };
@@ -87,7 +77,8 @@
     	return [
    		     'http://purl.org/dc/terms/title',
 		     'http://purl.org/dc/terms/description',
-		     'http://purl.org/dc/terms/contributor'
+		     'http://purl.org/dc/terms/contributor',
+		     'http://purl.org/dc/terms/source'
     	       ];
     }
     
@@ -95,7 +86,8 @@
     	var privileged_predicates = [
     	                		     'http://purl.org/dc/terms/title',
     	                		     'http://purl.org/dc/terms/description',
-    	                		     'http://purl.org/dc/terms/contributor'
+    	                		     'http://purl.org/dc/terms/contributor',
+    	                		     'http://purl.org/dc/terms/source'
     	                		    ];    
     	predicates = [];
     	for (var j in opts.rows) {
