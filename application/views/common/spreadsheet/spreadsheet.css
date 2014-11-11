@@ -25,6 +25,7 @@ tr.active td > div {border-color:#dff0d8;}
 .btn-group-justified > .btn-two {width:50%;} /* not sure why this is needed to stretch the buttons */
 #footer {position:fixed; width:100%; bottom:0; background-color:#dddddd; padding:8px 16px 8px 16px;}
 .footer-center {text-align:center;}
+label[data-unsupported="1"] {color:#aaaaaa;}
 /* Modals */
 #error .modal-body {background-color:#ffdbdb;}
 #error .modal-header, #error .modal-footer {border-color:#ff4b4b;}

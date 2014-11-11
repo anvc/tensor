@@ -77,7 +77,7 @@
     		$('<td><div><input type="checkbox" /><a target="_blank" href="'+j+'" title="'+j+'">'+basename(j)+'</a></div></td>').appendTo($row);
     		for (var k in to_display) {
     			var value = ('undefined'!=typeof(opts.rows[j][to_display[k]])) ? opts.rows[j][to_display[k]][0].value : '';
-    			if ('http'==value.substr(0,4)) value = '<a target="_blank" href="'+value+'" title="'+value+'">'+basename(value)+'</a>';
+    			value = value.linkify();
     			$('<td><div>'+value+'</div></td>').appendTo($row);
     		}
     	}
@@ -87,7 +87,7 @@
     	return [
    		     'http://purl.org/dc/terms/title',
 		     'http://purl.org/dc/terms/description',
-		     'http://purl.org/dc/terms/contributor',	        
+		     'http://purl.org/dc/terms/contributor'
     	       ];
     }
     
@@ -95,7 +95,7 @@
     	var privileged_predicates = [
     	                		     'http://purl.org/dc/terms/title',
     	                		     'http://purl.org/dc/terms/description',
-    	                		     'http://purl.org/dc/terms/contributor',
+    	                		     'http://purl.org/dc/terms/contributor'
     	                		    ];    
     	predicates = [];
     	for (var j in opts.rows) {

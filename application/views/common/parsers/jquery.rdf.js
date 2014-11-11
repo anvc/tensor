@@ -10,8 +10,7 @@
 		var results = {};
 		for (var uri in data) {
 			if ('http://scalar.usc.edu/2012/01/scalar-ns#ArchiveEntity'==data[uri]['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'][0].value) {
-				var resource = uri.substr(0, uri.lastIndexOf('.'));
-				results[resource] = data[uri];
+				results[uri] = data[uri];
 			}
 		}		
 		this.opts.complete_callback(results);

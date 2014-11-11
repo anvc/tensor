@@ -13,6 +13,7 @@ class Proxy_model extends CI_Model {
 		$store_uri =@ $_REQUEST['store_uri'];
 		$mapping_uri =@ $_REQUEST['mapping_uri'];
 		$source_uri =@ $_REQUEST['source_uri'];
+		$content_type = (isset($_REQUEST['content_type']) && !empty($_REQUEST['content_type'])) ? $_REQUEST['content_type'] : 'xml';
 
 		if (empty($source_uri)) return self::error('Missing source URI');
 		
@@ -21,13 +22,13 @@ class Proxy_model extends CI_Model {
 			require_once(FCPATH."/application/views/common/arc2/ARC2.php");
 			$url = 'http://fusion-sqid.isi.edu:8080/publishrdf/rdf/r2rml/rdf';
 			$arr = array(
-				'SparqlEndPoint'=>$store_uri,
-				'GraphURI'=>$graph_uri,
+				'SparqlEndPoint'=>urlencode($store_uri),
+				'GraphURI'=>urlencode($graph_uri),
 				'TripleStore'=>'Virtuoso',
 				'Overwrite'=>'true',
-				'DataURL'=>$source_uri,
-				'R2rmlURI'=>$mapping_uri,
-				'ContentType'=>'XML',
+				'DataURL'=>rawurlencode(str_replace(' ','+',$source_uri)),
+				'R2rmlURI'=>urlencode($mapping_uri),
+				'ContentType'=>strtoupper($content_type),
 				'RefreshModel'=>'true'
 			);
 			// url-ify the data for the POST
@@ -41,7 +42,7 @@ class Proxy_model extends CI_Model {
 			curl_setopt($ch,CURLOPT_POSTFIELDS, $arr_string);
 			curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
 			$content = curl_exec($ch);
-			curl_close($ch);			
+			curl_close($ch);
 			// Convert from TTL to RDF-JSON
 			$parser = ARC2::getTurtleParser();
 			$parser->parse('http://example.com/', $content);

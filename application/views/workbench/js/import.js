@@ -35,13 +35,15 @@ function do_search(form) {
 		var $this = $(this);
 		var parser = $this.data('parser');
 		var source_uri_from = $this.data('source-uri-from');
-		var graph_uri = store_uri = mapping_uri = source_uri = '';
+		var graph_uri = store_uri = mapping_uri = source_uri = content_type = '';
 		// Get graph URI
 		graph_uri = $this.data('graph-uri');
 		// Get store URI
 		store_uri = $this.data('store-uri');
 		// Get mapping URI
 		mapping_uri = $this.data('mapping-uri');
+		// Get content type
+		content_type = $this.data('content-type');
 		// Get source URI
 		switch (source_uri_from) {
 			case "next-input":
@@ -68,6 +70,7 @@ function do_search(form) {
 				store_uri: ('undefined'!=typeof(store_uri))?store_uri:null,
 				mapping_uri: ('undefined'!=typeof(mapping_uri))?mapping_uri:null,
 				source_uri: ('undefined'!=typeof(source_uri))?source_uri:null,
+				content_type: ('undefined'!=typeof(content_type))?content_type:null,
 				proxy:true,
 				proxy_uri:$('link#proxy_uri').attr('href'),
 				error_callback:store_error_callback,

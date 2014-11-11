@@ -21,25 +21,42 @@
 </form>
 <p>Select places to search:</p>
 <div class="input-group" style="width:100%;">
-<div><input type="checkbox" data-parser="scalar" data-source-uri-from="next-input" data-source-append="/rdf/instancesof/media?format=json&sq=%1" /><label> Scalar book URL </label> <input name="scalar_book_url" type="text" placeholder="http://" /></div>
+<div>
+<input type="checkbox" data-parser="scalar" 
+	data-source-uri-from="next-input" 
+	data-source-append="/rdf/instancesof/media?format=json&sq=%1" 
+	/><label> Scalar book URL </label> <input name="scalar_book_url" type="text" placeholder="http://" />
+</div>
 <a class="add_another" href="javascript:void(null);">add another</a> 
 </div>
 <hr style="height:1px;color:#aaaaaa;background-color:#aaaaaa;overflow:hidden;margin:8px 0px 15px 0px;" />
 <div class="input-group" style="width:100%;">
-<input type="checkbox" id="r1" data-parser="rdf" data-graph-uri="http://fusion-sqid.isi.edu:8890/scalar" data-store-uri="http://fusion-sqid.isi.edu:8890/sparql-graph-crud-auth/" data-mapping-uri="http://scalar.usc.edu/tmp/WSP1WS2-CriticalCommonsSearch-auto-model.ttl" data-source-uri="http://criticalcommons.org/cc/playlist?SearchableText=%1" /><label for="r1"> Critical Commons</label><br />
-<input type="checkbox" id="r2" /><label for="r2"> Cuban Theater Digital Archive</label><br />
-<input type="checkbox" id="r3" /><label for="r3"> Hemispheric Institute DVL</label><br />
-<input type="checkbox" id="r4" /><label for="r4"> Hypercities</label><br />
-<input type="checkbox" id="r5" /><label for="r5"> Internet Archive</label><br />
-<input type="checkbox" id="r6" /><label for="r6"> PLAY!</label><br />
-<input type="checkbox" id="r7" /><label for="r7"> Shoah Foundation VHA Online</label><br />
+<input type="checkbox" id="r1" data-parser="rdf" 
+	data-graph-uri="http://fusion-sqid.isi.edu:8890/scalar" 
+	data-store-uri="http://fusion-sqid.isi.edu:8890/sparql-graph-crud-auth/" 
+	data-mapping-uri="http://scalar.usc.edu/static/R2RML/WSP1WS2-CriticalCommons-auto-model.ttl" 
+	data-source-uri="http://criticalcommons.org/cc/playlist?SearchableText=%1" 
+	data-content-type="xml"
+	/><label for="r1"> Critical Commons</label><br />
+<input type="checkbox" id="r2" /><label for="r2" data-unsupported="1"> Cuban Theater Digital Archive</label><br />
+<input type="checkbox" id="r3" /><label for="r3" data-unsupported="1"> Hemispheric Institute DVL</label><br />
+<input type="checkbox" id="r4" /><label for="r4" data-unsupported="1"> Hypercities</label><br />
+<input type="checkbox" id="r5" /><label for="r5" data-unsupported="1"> Internet Archive</label><br />
+<input type="checkbox" id="r6" /><label for="r6" data-unsupported="1"> PLAY!</label><br />
+<input type="checkbox" id="r7" /><label for="r7" data-unsupported="1"> Shoah Foundation VHA Online</label><br />
 <hr style="height:1px;color:#aaaaaa;background-color:#aaaaaa;overflow:hidden;margin:8px 0px 15px 0px;" />
-<input type="checkbox" id="r8" /><label for="r8"> Getty Museum Collection</label><br />
-<input type="checkbox" id="r9" /><label for="r9"> Prezi</label><br />
-<input type="checkbox" id="r10" /><label for="r10"> Soundcloud</label><br />
-<input type="checkbox" id="r11" /><label for="r11"> Metropolitan Museum of Art</label><br />
-<input type="checkbox" id="r12" /><label for="r12"> Vimeo</label><br />
-<input type="checkbox" id="r13" /><label for="r13"> YouTube</label><br />
+<input type="checkbox" id="r8" /><label for="r8" data-unsupported="1"> Getty Museum Collection</label><br />
+<input type="checkbox" id="r9" /><label for="r9" data-unsupported="1"> Prezi</label><br />
+<input type="checkbox" id="r10" /><label for="r10" data-unsupported="1"> Soundcloud</label><br />
+<input type="checkbox" id="r11" /><label for="r11" data-unsupported="1"> Metropolitan Museum of Art</label><br />
+<input type="checkbox" id="r12" /><label for="r12" data-unsupported="1"> Vimeo</label><br />
+<input type="checkbox" id="r13" data-parser="rdf" 
+	data-graph-uri="http://fusion-sqid.isi.edu:8890/scalar" 
+	data-store-uri="http://fusion-sqid.isi.edu:8890/sparql-graph-crud-auth/" 
+	data-mapping-uri="http://scalar.usc.edu/static/R2RML/WSP1WS2-YouTube3-auto-model.ttl" 
+	data-source-uri="https://www.googleapis.com/youtube/v3/search?part=snippet&q=%1&maxResults=50&type=video&key=AIzaSyAI9koLGtnZpygU7nMuHVT7xJbwUU-sQBw"
+	data-content-type="json"
+	/><label for="r13"> YouTube</label><br />
 </div>
 </div>
 </div>

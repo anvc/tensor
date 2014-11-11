@@ -33,6 +33,7 @@ class Workbench extends CI_Controller {
 		$this->template->add_js(base_url().APPPATH.'views/common/bootstrap/js/bootstrap.min.js'); 
 		$this->template->add_js(base_url().APPPATH.'views/common/resizable-columns/jquery.resizableColumns.js'); 
 		$this->template->add_js(base_url().APPPATH.'views/common/ba-resize/jquery.ba-resize.js'); 
+		$this->template->add_js(base_url().APPPATH.'views/common/linkify/linkify.js'); 
 		$this->template->add_js(base_url().APPPATH.'views/common/spreadsheet/jquery.spreadsheet_model.js'); 
 		$this->template->add_js(base_url().APPPATH.'views/common/spreadsheet/jquery.spreadsheet_view.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/spreadsheet/jquery.spreadsheet_events.js'); 
@@ -53,6 +54,7 @@ class Workbench extends CI_Controller {
 		$this->template->add_js(base_url().APPPATH.'views/common/bootstrap/js/bootstrap.min.js'); 
 		$this->template->add_js(base_url().APPPATH.'views/common/resizable-columns/jquery.resizableColumns.js'); 
 		$this->template->add_js(base_url().APPPATH.'views/common/ba-resize/jquery.ba-resize.js'); 
+		$this->template->add_js(base_url().APPPATH.'views/common/linkify/linkify.js'); 
 		$this->template->add_js(base_url().APPPATH.'views/workbench/js/spreadsheet.js'); 
 		$this->template->render("workbench/manage", $this->data);
 		
