@@ -17,7 +17,7 @@ tr.active td > div {border-color:#dff0d8;}
 .metadata {background-color:#eeeeee; text-align:center;}
 .metadata .container {position:relative;}
 .metadata div {border-left:0px;}
-.archives {border-right:solid 1px #bbbbbb; background-color:white;}
+.archives {border-right:solid 1px #bbbbbb; background-color:white; min-width:280px;}
 .archives-content {margin-top:50px;}
 .archives-content-center {text-align:center;}
 .collections {border-left:solid 1px #bbbbbb; background-color:white;}

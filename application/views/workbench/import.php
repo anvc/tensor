@@ -16,8 +16,11 @@
 </div>
 </form>
 <div class="archives-content">
-<form id="search" action="" onsubmit="do_search();return false;">
-<input type="text" placeholder="Search" /> <button class="btn btn-xs btn-default" type="submit">Search</button>
+<form id="search" action="" onsubmit="do_search();return false;" class="form-horizontal">
+<div class="form-group">
+<div class="col-sm-9"><input type="text" placeholder="Search" class="form-control input-sm" /></div>
+<button class="btn btn-sm btn-primary" type="submit">Search</button>
+</div>
 </form>
 <p>Select places to search:</p>
 <div class="input-group" style="width:100%;">
@@ -67,8 +70,8 @@
 
 <div id="footer" class="footer-center">
 <div class="btn-group view-buttons view-buttons">
-  <button type="button" class="btn btn-xs btn-primary" id="list"><img src="<?php echo base_url().APPPATH ?>views/common/views/images/list_icon.jpg" />List view</button>
-  <button type="button" class="btn btn-xs btn-default" id="tile"><img src="<?php echo base_url().APPPATH ?>views/common/views/images/tile_icon.jpg" />Tile view</button>
+  <button type="button" class="btn btn-xs btn-default" id="list"><img src="<?php echo base_url().APPPATH ?>views/common/views/images/list_icon.jpg" />List view</button>
+  <button type="button" class="btn btn-xs btn-primary" id="tile"><img src="<?php echo base_url().APPPATH ?>views/common/views/images/tile_icon.jpg" />Tile view</button>
 </div>
 <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#imported">Import Selected Items</button>
 </div>

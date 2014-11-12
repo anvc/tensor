@@ -15,8 +15,8 @@ function set_add_another() {
 function set_view_buttons() {
 	$('.view-buttons').find('button').click(function() {
 		var $clicked = $(this);
-		$clicked.siblings().removeClass('btn-primary').addClass('btn-default');
-		$clicked.removeClass('btn-default').addClass('btn-primary');
+		$clicked.siblings().removeClass('btn-default').addClass('btn-primary');
+		$clicked.removeClass('btn-primary').addClass('btn-default');
 		spreadsheet_ui($clicked.attr('id'));
 	});
 }
@@ -125,7 +125,7 @@ function store_complete_callback(_results) {
 function spreadsheet_ui(view) {
 
 	if ('undefined'==typeof(results)) return;
-	if ('undefined'==typeof(view)) view = $('.view-buttons').find('button[class*="btn-primary"]').attr('id');
+	if ('undefined'==typeof(view)) view = $('.view-buttons').find('button[class*="btn-default"]').attr('id');
 	results = sort_rdfjson_by_prop(results, 'http://purl.org/dc/terms/title');
 
 	var view_path = $('link#base_url').attr('href')+'application/views/common/views/jquery.'+view+'.js';
