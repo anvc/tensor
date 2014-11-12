@@ -31,6 +31,7 @@
         do_create_table();
         do_create_header();
         do_create_cells();
+        do_events();
         return $self;
     };
     
@@ -71,6 +72,21 @@
     			$('<td><div>'+value+'</div></td>').appendTo($row);
     		}
     	}
+    }
+    
+    function do_events() {
+    	$self.find('table').resizableColumns();
+    	$self.find('tr').on('click', 'td:not(:first):not(:has(a))', function() {
+    		var $this = $(this);
+    		if ($this.hasClass('metadata')) return;
+    		var $tr = $this.closest('tr');
+    		$tr.metadataPanel();
+    	});
+    	$self.find('table').on('change', '#checkall', function() {
+    		var is_checked = (this.checked) ? true : false;
+    		$view.find('table').find('input[type="checkbox"]').prop('checked', is_checked);
+    		this.blur();
+    	});	    	
     }
     
     function predicates_to_display(arr) {

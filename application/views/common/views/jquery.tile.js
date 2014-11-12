@@ -41,22 +41,29 @@
     
     function do_create_tiles() {
     	$self.empty();
-    	$('<div>Craig was here</div>').appendTo($self);
-    }
-    
-    function do_create_cells() {
-    	var $table = $self.find('table');
-    	var $body = $('<tbody></tbody>').appendTo($table);
-    	var to_display = predicates_to_display();
+		var predicates = [
+		                  'http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail',
+		                  'http://purl.org/dc/terms/title',
+		                  'http://purl.org/dc/terms/description'
+		                 ];
     	for (var j in opts.rows) {
-    		var $row = $('<tr></tr>').appendTo($body);
-    		$('<td><div><input type="checkbox" /><a target="_blank" href="'+j+'" title="'+j+'">'+basename(j)+'</a></div></td>').appendTo($row);
-    		for (var k in to_display) {
-    			var value = ('undefined'!=typeof(opts.rows[j][to_display[k]])) ? opts.rows[j][to_display[k]][0].value : '';
-    			value = value.linkify();
-    			$('<td><div>'+value+'</div></td>').appendTo($row);
+    		var $row = $('<div class="tile"></div>').appendTo($self);
+    		var img = opts.rows[j][predicates[0]][0].value;
+    		var title = opts.rows[j][predicates[1]][0].value;
+    		$img = $('<img src="'+img+'" />').appendTo($row);
+    		$title = $('<h6>'+title+'</h6>').appendTo($row);
+    		$checkbox = $('<input type="checkbox" value="'+j+'" />').appendTo($row);
+    	}    	
+    	$self.find('.tile').matchHeight(true);
+    	$self.find('.tile').click(function() {
+    		var is_checked = ($(this).find('input:checked').length) ? true : false;
+    		$(this).find('input[type="checkbox"]').prop('checked',((is_checked)?false:true));
+    		if (is_checked) {
+    			$(this).removeClass('tile_checked');
+    		} else {
+    			$(this).addClass('tile_checked');
     		}
-    	}
+    	});
     }
     
     function pnode(str) {

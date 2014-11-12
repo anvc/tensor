@@ -8,7 +8,7 @@
 </div>
 
 <div class="row">
-<div class="archives col-max-height col-md-3 col-xs-3">
+<div class="archives col-max-height col-md-3 col-sm-3 col-xs-3">
 <form action="/workbench/workbench/manage">
 <div class="btn-group btn-group-justified">
 <button type="button" class="btn btn-two btn-sm">Import</button>
@@ -18,8 +18,8 @@
 <div class="archives-content">
 <form id="search" action="" onsubmit="do_search();return false;" class="form-horizontal">
 <div class="form-group">
-<div class="col-sm-9"><input type="text" placeholder="Search" class="form-control input-sm" /></div>
-<button class="btn btn-sm btn-primary" type="submit">Search</button>
+<div class="col-md-9 col-sm-9 col-xs-9"><input type="text" placeholder="Search" class="form-control input-xs" /></div>
+<button class="btn btn-xs btn-primary" type="submit">Search</button>
 </div>
 </form>
 <p>Select places to search:</p>
@@ -63,7 +63,7 @@
 </div>
 </div>
 </div>
-<div id="spreadsheet" class="spreadsheet col-md-9 col-xs-9"></div>
+<div id="spreadsheet" class="spreadsheet col-md-9 col-sm-9 col-xs-9"></div>
 </div>
 
 </div>
