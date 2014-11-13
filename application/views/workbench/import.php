@@ -12,27 +12,25 @@
 <form action="/workbench/workbench/manage">
 <div class="btn-group btn-group-justified">
 <button type="button" class="btn btn-two btn-sm">Import</button>
-<button type="submit" class="btn btn-two btn-sm btn-default">Manage</button>
+<button type="button" class="btn btn-two btn-sm btn-default">Manage</button>
 </div>
 </form>
 <div class="archives-content">
-<form id="search" action="" onsubmit="do_search();return false;" class="form-horizontal">
-<div class="form-group">
-<div class="col-md-9 col-sm-9 col-xs-9"><input type="text" placeholder="Search" class="form-control input-xs" /></div>
+<form id="search" action="" onsubmit="do_search();return false;">
+<input type="text" placeholder="Search" class="form-control input-xs" /> 
 <button class="btn btn-xs btn-primary" type="submit">Search</button>
-</div>
+<br clear="both" />
 </form>
-<p>Select places to search:</p>
-<div class="input-group" style="width:100%;">
-<div>
+<hr />
+<div class="archives-multi-select">
 <input type="checkbox" data-parser="scalar" 
 	data-source-uri-from="next-input" 
 	data-source-append="/rdf/instancesof/media?format=json&sq=%1" 
-	/><label> Scalar book URL </label> <input name="scalar_book_url" type="text" placeholder="http://" />
+	/><label class="label_for"> Scalar book URL</label>
+<input class="form-control input-xs" name="scalar_book_url" type="text" placeholder="http://" />
 </div>
-<a class="add_another" href="javascript:void(null);">add another</a> 
-</div>
-<hr style="height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px 0px 15px 0px;border:0;" />
+<a class="add_another" href="javascript:void(null);">add another</a>
+<hr />
 <div class="input-group" style="width:100%;">
 <input type="checkbox" id="r1" data-parser="rdf" 
 	data-graph-uri="http://fusion-sqid.isi.edu:8890/scalar" 
@@ -47,7 +45,7 @@
 <input type="checkbox" id="r5" /><label for="r5" data-unsupported="1"> Internet Archive</label><br />
 <input type="checkbox" id="r6" /><label for="r6" data-unsupported="1"> PLAY!</label><br />
 <input type="checkbox" id="r7" /><label for="r7" data-unsupported="1"> Shoah Foundation VHA Online</label><br />
-<hr style="height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px 0px 15px 0px;border:0;" />
+<hr />
 <input type="checkbox" id="r8" /><label for="r8" data-unsupported="1"> Getty Museum Collection</label><br />
 <input type="checkbox" id="r9" /><label for="r9" data-unsupported="1"> Prezi</label><br />
 <input type="checkbox" id="r10" /><label for="r10" data-unsupported="1"> Soundcloud</label><br />
@@ -70,8 +68,8 @@
 
 <div id="footer" class="footer-center">
 <div class="btn-group view-buttons view-buttons">
-  <button type="button" class="btn btn-xs btn-default" id="list"><img src="<?php echo base_url().APPPATH ?>views/common/views/images/list_icon.jpg" />List view</button>
-  <button type="button" class="btn btn-xs btn-primary" id="tile"><img src="<?php echo base_url().APPPATH ?>views/common/views/images/tile_icon.jpg" />Tile view</button>
+  <button type="button" class="btn btn-xs btn-default" id="list"><img src="<?php echo base_url().APPPATH ?>views/common/views/images/list_icon.jpg" />Spreadsheet view</button>
+  <button type="button" class="btn btn-xs btn-primary" id="tile"><img src="<?php echo base_url().APPPATH ?>views/common/views/images/tile_icon.jpg" />Thumbnail view</button>
 </div>
 <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#imported">Import Selected Items</button>
 </div>
@@ -104,13 +102,14 @@
       </div>
       <div class="modal-body">
 		<p>Items have been imported into your workbench.</p>
-		<p>(List of items here with links)</p>
+		<p>(TODO: List of items here)</p>
 	  </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <form action="/workbench/workbench/manage" style="display:inline;">
+        <!-- <form action="/workbench/workbench/manage" style="display:inline;">
         	<button type="submit" class="btn btn-primary">Manage</button>
-        </form>
+        </form> -->
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Manage</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

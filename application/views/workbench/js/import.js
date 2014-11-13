@@ -1,7 +1,16 @@
 $(document).ready(function() {
+	set_label_for();
 	set_add_another();
 	set_view_buttons();
 });
+
+function set_label_for() {
+	$('.archives').on('click', '.label_for', function() {
+		var $this = $(this);
+		var is_checked = ($this.prev().is(':checked')) ? true : false;
+		$this.prev().prop('checked', ((is_checked)?false:true));
+	});
+}
 
 function set_add_another() {
 	$('.add_another').click(function() {
@@ -45,7 +54,7 @@ function do_search() {
 	checked = $('.archives-content input:checked');  // Global
 	results = {};  // Global
 	index = 0;  // Global
-
+	
 	do_search_query();
 	
 };
@@ -81,8 +90,8 @@ function do_search_query() {
 	}
 	// Search query
 	source_uri = source_uri.replace('%1',sq);
-	loading(true);
 	// Get parser and parse
+	loading(true);
 	var parser_path = $('link#base_url').attr('href')+'application/views/common/parsers/jquery.'+parser+'.js';
 	$.getScript(parser_path, function() {
 		$.fn.parse({

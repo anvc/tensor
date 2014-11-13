@@ -44,12 +44,13 @@ class Proxy_model extends CI_Model {
 			$content = curl_exec($ch);
 			curl_close($ch);
 			// Convert from TTL to RDF-JSON
-			$parser = ARC2::getTurtleParser();
-			$parser->parse('http://example.com/', $content);
-			$triples = $parser->getTriples();
-			$ser = ARC2::getRDFJSONSerializer();
-			$content = $ser->getSerializedTriples($triples);
-			
+			if (!empty($content)) {
+				$parser = ARC2::getTurtleParser();
+				$parser->parse('http://example.com/', $content);
+				$triples = $parser->getTriples();
+				$ser = ARC2::getRDFJSONSerializer();
+				$content = $ser->getSerializedTriples($triples);
+			}
 		// Direct request
 		} else {
 			$content = file_get_contents($source_uri);
