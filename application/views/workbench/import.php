@@ -8,7 +8,7 @@
 </div>
 
 <div class="row">
-<div class="archives col-max-height col-md-3 col-sm-3 col-xs-3">
+<div class="archives col-max-height col-lg-3 col-md-3 col-sm-3 col-xs-3">
 <form action="/workbench/workbench/manage">
 <div class="btn-group btn-group-justified">
 <button type="button" class="btn btn-two btn-sm">Import</button>
@@ -63,7 +63,7 @@
 </div>
 </div>
 </div>
-<div id="spreadsheet" class="spreadsheet col-md-9 col-sm-9 col-xs-9"></div>
+<div id="spreadsheet" class="spreadsheet col-lg-9 col-md-9 col-sm-9 col-xs-9"></div>
 </div>
 
 </div>

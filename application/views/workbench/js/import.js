@@ -128,6 +128,7 @@ function spreadsheet_ui(view) {
 	if ('undefined'==typeof(view)) view = $('.view-buttons').find('button[class*="btn-default"]').attr('id');
 	results = sort_rdfjson_by_prop(results, 'http://purl.org/dc/terms/title');
 
+	if ('undefined'!=typeof($.fn.spreadsheet_view)) $.fn.spreadsheet_view.remove();
 	var view_path = $('link#base_url').attr('href')+'application/views/common/views/jquery.'+view+'.js';
 	$.getScript(view_path, function() {
 		$('#spreadsheet').spreadsheet_view({rows:results});

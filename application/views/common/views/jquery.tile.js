@@ -22,6 +22,7 @@
 	};  	
 	var opts = {};
 	var predicates = [];
+	var num_rows = 0;
 	var $self = null;
 	
     $.fn.spreadsheet_view = function(options) {
@@ -32,6 +33,8 @@
         return $self;
     };
     
+    $.fn.spreadsheet_view.remove = function() {}    
+    
     function namespaces_reversed() {
     	opts.namespaces_reversed = {};
     	$.each(opts.namespaces, function(key, value) {
@@ -41,20 +44,24 @@
     
     function do_create_tiles() {
     	$self.empty();
-		var predicates = [
+		predicates = [
 		                  'http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail',
 		                  'http://purl.org/dc/terms/title',
 		                  'http://purl.org/dc/terms/description'
 		                 ];
+		num_rows = obj_length(opts.rows);
     	for (var j in opts.rows) {
     		var $row = $('<div class="tile"></div>').appendTo($self);
-    		var img = opts.rows[j][predicates[0]][0].value;
+    		var img = ('undefined'!=typeof(opts.rows[j][predicates[0]])) ? opts.rows[j][predicates[0]][0].value : $('link#base_url').attr('href')+'application/views/common/views/images/missing_thumb.jpg';
     		var title = opts.rows[j][predicates[1]][0].value;
     		$img = $('<img src="'+img+'" />').appendTo($row);
     		$title = $('<h6>'+title+'</h6>').appendTo($row);
     		$checkbox = $('<input type="checkbox" value="'+j+'" />').appendTo($row);
+    		$img.load(function() {
+    			num_rows--;
+    			if (num_rows <= 0) do_match_height();
+    		});
     	}    	
-    	$self.find('.tile').matchHeight(true);
     	$self.find('.tile').click(function() {
     		var is_checked = ($(this).find('input:checked').length) ? true : false;
     		$(this).find('input[type="checkbox"]').prop('checked',((is_checked)?false:true));
@@ -64,6 +71,18 @@
     			$(this).addClass('tile_checked');
     		}
     	});
+    }
+    
+    function do_match_height() {
+    	$self.find('.tile').matchHeight(true);
+    }
+    
+    function obj_length(obj) {
+    	var size = 0, key;
+    	for (key in obj) {
+    		if (obj.hasOwnProperty(key)) size++;
+    	}
+    	return size;	
     }
     
     function pnode(str) {

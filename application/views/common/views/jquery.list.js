@@ -35,6 +35,10 @@
         return $self;
     };
     
+    $.fn.spreadsheet_view.remove = function() {
+    	$(window).off('.rc');
+    }
+    
     function namespaces_reversed() {
     	opts.namespaces_reversed = {};
     	$.each(opts.namespaces, function(key, value) {
@@ -76,6 +80,7 @@
     
     function do_events() {
     	$self.find('table').resizableColumns();
+    	/*
     	$self.find('tr').on('click', 'td:not(:first):not(:has(a))', function() {
     		var $this = $(this);
     		if ($this.hasClass('metadata')) return;
@@ -86,7 +91,8 @@
     		var is_checked = (this.checked) ? true : false;
     		$view.find('table').find('input[type="checkbox"]').prop('checked', is_checked);
     		this.blur();
-    	});	    	
+    	});
+    	*/	    	
     }
     
     function predicates_to_display(arr) {
