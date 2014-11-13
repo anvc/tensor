@@ -69,18 +69,18 @@
     	var to_display = predicates_to_display();
     	for (var j in opts.rows) {
     		var $row = $('<tr></tr>').appendTo($body);
-    		$('<td><div><input type="checkbox" /><a target="_blank" href="'+j+'" title="'+j+'">'+basename(j)+'</a></div></td>').appendTo($row);
+    		$('<td><div><input type="checkbox" /><a target="_blank" href="'+j+'" title="'+j+'">'+basename(j)+'</a></div><br clear="both" /></td>').appendTo($row);
     		for (var k in to_display) {
     			var value = ('undefined'!=typeof(opts.rows[j][to_display[k]])) ? opts.rows[j][to_display[k]][0].value : '';
     			value = value.linkify();
-    			$('<td><div>'+value+'</div></td>').appendTo($row);
+    			$('<td><div>'+value+'</div><br clear="both" /></td>').appendTo($row);
     		}
+    		$('<td><div></div><br clear="both" /></td>').appendTo($row);
     	}
     }
     
     function do_events() {
     	$self.find('table').resizableColumns();
-    	/*
     	$self.find('tr').on('click', 'td:not(:first):not(:has(a))', function() {
     		var $this = $(this);
     		if ($this.hasClass('metadata')) return;
@@ -91,8 +91,7 @@
     		var is_checked = (this.checked) ? true : false;
     		$view.find('table').find('input[type="checkbox"]').prop('checked', is_checked);
     		this.blur();
-    	});
-    	*/	    	
+    	});   	
     }
     
     function predicates_to_display(arr) {

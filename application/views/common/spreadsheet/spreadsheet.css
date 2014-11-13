@@ -1,14 +1,9 @@
 html, body, .container-fluid, .row-fluid, .row, .col-max-height {height:100%;}
 body {font-size:12px; overflow-x:hidden;}
-input[type=checkbox] {margin-top:2px; margin-right:12px; float:left;}
 small {font-weight:normal;}
-.input-xs {
-    height: 22px;
-    padding: 5px 5px;
-    font-size: 12px;
-    line-height: 1.5;
-    border-radius: 3px;
-}
+label {cursor:pointer;}
+hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px 0px 15px 0px;border:0;}
+.input-xs {height: 22px; padding: 5px 5px; font-size: 12px; line-height: 1.5; border-radius: 3px;}
 #loading {position:absolute;left:0;top:2px;right:0;z-index:9;text-align:center;display:none;}
 #loading > div {width:100px; margin:0px auto 0px auto; text-align:center; background-color:#fff8af; padding:3px 0px 3px 0px; color:#000000; border:solid 1px #c3b94c; font-weight:bold;}
 .spreadsheet {padding-right:0px; padding-left:0px; padding-bottom:25px;}
@@ -17,9 +12,11 @@ thead tr th:last-child {text-align:center;}
 tbody tr td:not(.metadata) {text-align:center; cursor:pointer;}
 th {border-left:solid 1px #bbbbbb; background-color:#eeeeee;}
 th:first-of-type {border-left:inherit;}
-td {position:relative; background-color:white; overflow:hidden; height:26px;}
+td {position:relative; background-color:white; overflow:hidden;}
+td, th {background-clip: padding-box; /* <-- So borders display in FF */ border-top:0 !important; border-bottom:solid 1px #ddd !important;}  /* Overwrite Bootstrap defaults */
 tr.active td > div {border-color:#dff0d8;}
 td > div:not(.container) {white-space:nowrap; overflow:hidden; position:absolute; top:5px; left:5px; right:5px; text-align:left;}
+table input[type=checkbox] {margin-top:2px; margin-right:12px; float:left;}
 /* Tiles */
 .tile {width:150px; padding:0px; margin:10px 10px 0px 10px; float:left; position:relative; cursor:pointer;}
 .tile_checked {background-color:#dddddd;}
@@ -28,23 +25,27 @@ td > div:not(.container) {white-space:nowrap; overflow:hidden; position:absolute
 .tile > input[type="checkbox"] {position:absolute; top:3px; left:4px;}
 /* Search area */
 .header {height:50px; background-color:#444444; padding:0px 15px 0px 15px;}
-#search {margin-bottom:12px;}
+#search {margin-bottom:16px;}
+#search > input {float:left; width:70%;}
+#search > button {float:right;}
 .metadata {background-color:#eeeeee; text-align:center;}
 .metadata .container {position:relative;}
 .metadata div {border-left:0px;}
 .archives {border-right:solid 1px #bbbbbb; background-color:white;}
+.archives input[type=checkbox] {margin-top:1px; margin-right:8px; float:left;}
 .archives-content {margin-top:50px;}
 .archives-content-center {text-align:center;}
+.archives-multi-select {margin-bottom:5px;}
 .collections {border-left:solid 1px #bbbbbb; background-color:white;}
-.btn-group-justified > .btn-sm {padding-top:8px; border-radius:0}
+.btn-group-justified > .btn-sm {padding-top:7px; border-radius:0}
 .btn-group-justified > .btn-two {width:50%;} /* not sure why this is needed to stretch the buttons */
+label[data-unsupported="1"] {color:#aaaaaa;}
 /* Footer */
 #footer {position:fixed; width:100%; bottom:0; background-color:#dddddd; padding:8px 16px 8px 16px; border-top:solid 1px #bbbbbb;}
 .footer-center {text-align:center;}
 .view-buttons {margin-right:50px;}
 .view-buttons button {padding-right:10px;}
 .view-buttons img {float:left; margin-top:1px; margin-right:8px;}
-label[data-unsupported="1"] {color:#aaaaaa;}
 /* Modals */
 #error .modal-body {background-color:#ffdbdb;}
 #error .modal-header, #error .modal-footer {border-color:#ff4b4b;}
