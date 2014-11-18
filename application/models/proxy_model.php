@@ -20,7 +20,7 @@ class Proxy_model extends CI_Model {
 		// Route through Karma Triples Store
 		if (!empty($store_uri) && !empty($mapping_uri)) {
 			require_once(FCPATH."/application/views/common/arc2/ARC2.php");
-			$url = 'http://fusion-sqid.isi.edu:8080/publishrdf/rdf/r2rml/rdf';
+			$url = 'http://karmarestserver.watproj.org:8080/publishrdf/rdf/r2rml/rdf';
 			$arr = array(
 				'SparqlEndPoint'=>urlencode($store_uri),
 				'GraphURI'=>urlencode($graph_uri),

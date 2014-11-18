@@ -33,8 +33,8 @@
 <hr />
 <div class="input-group" style="width:100%;">
 <input type="checkbox" id="r1" data-parser="rdf" 
-	data-graph-uri="http://fusion-sqid.isi.edu:8890/scalar" 
-	data-store-uri="http://fusion-sqid.isi.edu:8890/sparql-graph-crud-auth/" 
+	data-graph-uri="http://karmarestserver.watproj.org:8080/scalar" 
+	data-store-uri="http://karmarestserver.watproj.org:8080/sparql-graph-crud-auth/" 
 	data-mapping-uri="http://scalar.usc.edu/static/R2RML/WSP1WS2-CriticalCommons-auto-model.ttl" 
 	data-source-uri="http://criticalcommons.org/cc/playlist?SearchableText=%1" 
 	data-content-type="xml"
@@ -52,8 +52,8 @@
 <input type="checkbox" id="r11" /><label for="r11" data-unsupported="1"> Metropolitan Museum of Art</label><br />
 <input type="checkbox" id="r12" /><label for="r12" data-unsupported="1"> Vimeo</label><br />
 <input type="checkbox" id="r13" data-parser="rdf" 
-	data-graph-uri="http://fusion-sqid.isi.edu:8890/scalar" 
-	data-store-uri="http://fusion-sqid.isi.edu:8890/sparql-graph-crud-auth/" 
+	data-graph-uri="http://karmarestserver.watproj.org:8080/scalar" 
+	data-store-uri="http://karmarestserver.watproj.org:8080/sparql-graph-crud-auth/" 
 	data-mapping-uri="http://scalar.usc.edu/static/R2RML/WSP1WS2-YouTube3-auto-model.ttl" 
 	data-source-uri="https://www.googleapis.com/youtube/v3/search?part=snippet&q=%1&maxResults=50&type=video&key=AIzaSyAI9koLGtnZpygU7nMuHVT7xJbwUU-sQBw"
 	data-content-type="json"
