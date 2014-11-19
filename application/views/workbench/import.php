@@ -67,9 +67,10 @@
 </div>
 
 <div id="footer" class="footer-center">
-<div class="btn-group view-buttons view-buttons">
+<div class="btn-group view-buttons view-buttons" role="group">
   <button type="button" class="btn btn-xs btn-default" id="list"><img src="<?php echo base_url().APPPATH ?>views/common/views/images/list_icon.jpg" />Spreadsheet view</button>
   <button type="button" class="btn btn-xs btn-primary" id="tile"><img src="<?php echo base_url().APPPATH ?>views/common/views/images/tile_icon.jpg" />Thumbnail view</button>
+  <button type="button" class="btn btn-xs btn-primary" id="detail"><img src="<?php echo base_url().APPPATH ?>views/common/views/images/detail_icon.jpg" />Metadata view</button>
 </div>
 <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#imported">Import Selected Items</button>
 </div>
@@ -101,8 +102,7 @@
         <h4 class="modal-title">Items Imported</h4>
       </div>
       <div class="modal-body">
-		<p>Items have been imported into your workbench.</p>
-		<p>(TODO: List of items here)</p>
+		<p>TODO: List of items here</p>
 	  </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
