@@ -23,6 +23,13 @@ table input[type=checkbox] {margin-top:2px; margin-right:12px; float:left;}
 .tile > img {width:100%;}
 .tile > h6 {padding:0px 0px 0px 0px;}
 .tile > input[type="checkbox"] {position:absolute; top:3px; left:4px;}
+/* Details */
+.details {padding-bottom:40px;}
+.details > .row {padding-top:20px; border-bottom:solid 1px #bbbbbb; padding-bottom:16px;}
+.details_row_checked {background-color:#dddddd;}
+.details .thumb {cursor:pointer;}
+.details .thumb img {width:100%;}
+.details input[type="checkbox"] {position:absolute; top:3px; left:19px;}
 /* Search area */
 .header {height:50px; background-color:#444444; padding:0px 15px 0px 15px;}
 #search {margin-bottom:16px;}
