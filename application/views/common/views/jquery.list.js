@@ -18,7 +18,8 @@
 					'shoah':'http://tempuri.org/'
 			},
 			rows: null,
-			default_num_predicates: 4
+			default_num_predicates: 4,
+			check: []
 	};  	
 	var opts = {};
 	var predicates = [];
@@ -37,7 +38,15 @@
     
     $.fn.spreadsheet_view.remove = function() {
     	$(window).off('.rc');
-    }
+    };
+    
+    $.fn.spreadsheet_view.checked = function() {
+	    var checked = [];
+	    $self.find('tbody input:checked').each(function() {
+	    	checked.push($(this).attr('value'));
+	    });
+	    return checked;
+    };
     
     function namespaces_reversed() {
     	opts.namespaces_reversed = {};
@@ -69,13 +78,16 @@
     	var to_display = predicates_to_display();
     	for (var j in opts.rows) {
     		var $row = $('<tr></tr>').appendTo($body);
-    		$('<td><div><input type="checkbox" /><a target="_blank" href="'+j+'" title="'+j+'">'+basename(j)+'</a></div><br clear="both" /></td>').appendTo($row);
+    		$('<td><div><input type="checkbox" value="'+j+'" /><a target="_blank" href="'+j+'" title="'+j+'">'+basename(j)+'</a></div><br clear="both" /></td>').appendTo($row);
     		for (var k in to_display) {
     			var value = ('undefined'!=typeof(opts.rows[j][to_display[k]])) ? opts.rows[j][to_display[k]][0].value : '';
     			value = value.linkify();
     			$('<td><div>'+value+'</div><br clear="both" /></td>').appendTo($row);
     		}
     		$('<td><div></div><br clear="both" /></td>').appendTo($row);
+    		if (-1!=opts.check.indexOf(j)) {
+    			$row.find('input[type="checkbox"]').prop('checked', true);
+    		}
     	}
     }
     

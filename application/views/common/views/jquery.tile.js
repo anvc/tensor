@@ -18,12 +18,13 @@
 					'shoah':'http://tempuri.org/'
 			},
 			rows: null,
-			default_num_predicates: 4
+			default_num_predicates: 4,
+			check: []
 	};  	
 	var opts = {};
 	var predicates = [];
-	var num_rows = 0;
 	var $self = null;
+	var num_rows = 0;
 	
     $.fn.spreadsheet_view = function(options) {
     	opts = $.extend( {}, defaults, options );
@@ -34,6 +35,14 @@
     };
     
     $.fn.spreadsheet_view.remove = function() {}    
+    
+    $.fn.spreadsheet_view.checked = function() {
+	    var checked = [];
+	    $self.find('input:checked').each(function() {
+	    	checked.push($(this).attr('value'));
+	    });
+	    return checked;
+    };    
     
     function namespaces_reversed() {
     	opts.namespaces_reversed = {};
@@ -57,6 +66,9 @@
     		$img = $('<img src="'+img+'" />').appendTo($row);
     		$title = $('<h6>'+title+'</h6>').appendTo($row);
     		$checkbox = $('<input type="checkbox" value="'+j+'" />').appendTo($row);
+    		if (-1!=opts.check.indexOf(j)) {
+    			$checkbox.prop('checked', true).parent().addClass('tile_checked');
+    		}
     		$img.load(function() {
     			num_rows--;
     			if (num_rows <= 0) do_match_height();
