@@ -91,10 +91,10 @@
     function check(input, bool) {
     	$input = $(input);
 		if (bool) {
-			$input.closest('.row').addClass('tile_checked');
+			$input.closest('.row').addClass('details_row_checked');
 			$input.prop('checked', true);
 		} else {
-			$input.closest('.row').removeClass('tile_checked');
+			$input.closest('.row').removeClass('details_row_checked');
 			$input.prop('checked', false);
 		}   	
     }    
