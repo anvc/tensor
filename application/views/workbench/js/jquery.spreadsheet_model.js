@@ -19,7 +19,7 @@
     	opts = $.extend( {}, defaults, options );
     	this.fetch = fetch;
     	this.opts = opts;
-    	this.parse = function() {alert('Override spreadsheet_model\'s parse() method!')}; 
+    	this.parse = function() {alert('You need to override spreadsheet_model\'s parse() method!')}; 
         return $self;
     };
     
@@ -43,7 +43,8 @@
     		store_uri:(opts.store_uri)?opts.store_uri:'',
     		mapping_uri:(opts.mapping_uri)?opts.mapping_uri:'',
     		source_uri:(opts.source_uri)?opts.source_uri:'',
-    		content_type:(opts.content_type)?opts.content_type:''
+    		content_type:(opts.content_type)?opts.content_type:'',
+    		parser:(opts.parser)?opts.parser:''
     	};
     };
     

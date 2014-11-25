@@ -55,7 +55,7 @@
     	var $wrapper = $('<div class="container-fluid details"></div>').appendTo($self);
     	for (var j in opts.rows) {
     		var row = opts.rows[j];
-    		var thumb = ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'])) ? row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value : $('link#base_url').attr('href')+'application/views/common/views/images/missing_thumb.jpg';
+    		var thumb = ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'])) ? row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value : $('link#base_url').attr('href')+'application/views/ui/templates/images/missing_thumb.jpg';
     		var $row = $('<div class="row"></div>').appendTo($wrapper);
     		var $thumb = $('<div class="thumb col-lg-3 col-md-3 col-sm-3 col-xs-3"><img src="'+thumb+'" /></div>').appendTo($row);
     		$checkbox = $('<input type="checkbox" value="'+j+'" />').appendTo($thumb);
@@ -71,8 +71,9 @@
     			for (k = 0; k < row[p].length; k++) {
     				o.push(row[p][k].value.linkify());
     			}
-    			$uri = $('<div class="row"></div>').appendTo($p);
-    			$('<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><b>'+pnode(p)+'</b></div>').appendTo($uri);
+    			var pp = pnode(p);
+    			$uri = $('<div class="row '+pp.replace(/:/g, "-")+'"></div>').appendTo($p);
+    			$('<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><b>'+pp+'</b></div>').appendTo($uri);
     			$('<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">'+o.join('<br />')+'</div>').appendTo($uri);
     		}
     	}

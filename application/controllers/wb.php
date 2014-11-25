@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Workbench extends CI_Controller {
+class Wb extends CI_Controller {
 
 	public function __construct() {
 		
@@ -17,7 +17,8 @@ class Workbench extends CI_Controller {
 	
 	public function index() {
 		
-		$this->template->render('workbench/index');
+		header('Location: '.base_url().'wb/import');
+		exit;
 		
 	}
 	
@@ -28,14 +29,14 @@ class Workbench extends CI_Controller {
 		
 		$this->template->add_css(APPPATH.'views/common/bootstrap/css/bootstrap.min.css');
 		$this->template->add_css(APPPATH.'views/common/resizable-columns/jquery.resizableColumns.css');
-		$this->template->add_css(APPPATH.'views/common/spreadsheet/spreadsheet.css');
-		$this->template->add_js('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'); // TODO: make local
+		$this->template->add_css(APPPATH.'views/ui/spreadsheet.css');
+		$this->template->add_js('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'); 
 		$this->template->add_js(base_url().APPPATH.'views/common/bootstrap/js/bootstrap.min.js'); 
 		$this->template->add_js(base_url().APPPATH.'views/common/resizable-columns/jquery.resizableColumns.js'); 
 		$this->template->add_js(base_url().APPPATH.'views/common/match-height/jquery.matchHeight.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/linkify/linkify.js'); 
-		$this->template->add_js(base_url().APPPATH.'views/common/spreadsheet/jquery.spreadsheet_model.js'); 
-		$this->template->add_js(base_url().APPPATH.'views/common/spreadsheet/jquery.spreadsheet_events.js'); 
+		$this->template->add_js(base_url().APPPATH.'views/workbench/js/jquery.spreadsheet_model.js'); 
+		$this->template->add_js(base_url().APPPATH.'views/workbench/js/jquery.spreadsheet_events.js'); 
 		$this->template->add_js(base_url().APPPATH.'views/workbench/js/import.js'); 
 		$this->template->render("workbench/import", $this->data);
 		
@@ -45,15 +46,7 @@ class Workbench extends CI_Controller {
 		
 		$this->data['title'] = 'Workbench: Manage';
 		
-		$this->template->add_css(APPPATH.'views/common/bootstrap/css/bootstrap.min.css');
-		$this->template->add_css(APPPATH.'views/common/resizable-columns/jquery.resizableColumns.css');
-		$this->template->add_css(APPPATH.'views/workbench/css/spreadsheet.css');
-		$this->template->add_js('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'); // TODO: make local
-		$this->template->add_js(base_url().APPPATH.'views/common/bootstrap/js/bootstrap.min.js'); 
-		$this->template->add_js(base_url().APPPATH.'views/common/resizable-columns/jquery.resizableColumns.js'); 
-		$this->template->add_js(base_url().APPPATH.'views/common/linkify/linkify.js'); 
-		$this->template->add_js(base_url().APPPATH.'views/workbench/js/spreadsheet.js'); 
-		$this->template->render("workbench/manage", $this->data);
+		echo 'Coming soon...';
 		
 	}
 	

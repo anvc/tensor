@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "workbench";
+$route['default_controller'] = "wb";
 $route['404_override'] = '';
 
 

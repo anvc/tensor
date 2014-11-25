@@ -92,7 +92,7 @@ function do_search_query() {
 	source_uri = source_uri.replace('%1',sq);
 	// Get parser and parse
 	loading(true);
-	var parser_path = $('link#base_url').attr('href')+'application/views/common/parsers/jquery.'+parser+'.js';
+	var parser_path = $('link#base_url').attr('href')+'application/views/ui/parsers/jquery.'+parser+'.js';
 	$.getScript(parser_path, function() {
 		$.fn.parse({
 			graph_uri: ('undefined'!=typeof(graph_uri))?graph_uri:null,
@@ -100,6 +100,7 @@ function do_search_query() {
 			mapping_uri: ('undefined'!=typeof(mapping_uri))?mapping_uri:null,
 			source_uri: ('undefined'!=typeof(source_uri))?source_uri:null,
 			content_type: ('undefined'!=typeof(content_type))?content_type:null,
+			parser: parser,
 			proxy:true,
 			proxy_uri:$('link#proxy_uri').attr('href'),
 			error_callback:store_error_callback,
@@ -141,7 +142,7 @@ function spreadsheet_ui(view) {
 		var checked = $.fn.spreadsheet_view.checked();
 		$.fn.spreadsheet_view.remove();
 	}
-	var view_path = $('link#base_url').attr('href')+'application/views/common/views/jquery.'+view+'.js';
+	var view_path = $('link#base_url').attr('href')+'application/views/ui/templates/jquery.'+view+'.js';
 	$.getScript(view_path, function() {
 		$('#spreadsheet').spreadsheet_view({rows:results,check:checked});
 	});
