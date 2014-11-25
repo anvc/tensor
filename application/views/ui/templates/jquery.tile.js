@@ -78,15 +78,26 @@
     			if (num_rows <= 0) do_match_height();
     		});
     	}    	
+    	$self.find('input[type="checkbox"]').click(function(event) {
+    		event.stopPropagation();
+    		var is_checked = ($(this).is(':checked')) ? true : false;
+    		check(this, is_checked);
+    	});
     	$self.find('.tile').click(function() {
     		var is_checked = ($(this).find('input:checked').length) ? true : false;
-    		$(this).find('input[type="checkbox"]').prop('checked',((is_checked)?false:true));
-    		if (is_checked) {
-    			$(this).removeClass('tile_checked');
-    		} else {
-    			$(this).addClass('tile_checked');
-    		}
+    		check($(this).find('input[type="checkbox"]'),((is_checked)?false:true));
     	});
+    }
+    
+    function check(input, bool) {
+    	$input = $(input);
+		if (bool) {
+			$input.parent().addClass('tile_checked');
+			$input.prop('checked', true);
+		} else {
+			$input.parent().removeClass('tile_checked');
+			$input.prop('checked', false);
+		}   	
     }
     
     function do_match_height() {

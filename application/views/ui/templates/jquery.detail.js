@@ -77,16 +77,27 @@
     			$('<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">'+o.join('<br />')+'</div>').appendTo($uri);
     		}
     	}
+    	$self.find('.details .thumb input[type="checkbox"]').click(function(event) {
+    		event.stopPropagation();
+    		var is_checked = ($(this).is(':checked')) ? true : false;
+    		check(this, is_checked);
+    	});    	
     	$self.find('.details .thumb').click(function() {
     		var is_checked = ($(this).find('input:checked').length) ? true : false;
-    		$(this).find('input[type="checkbox"]').prop('checked',((is_checked)?false:true));
-    		if (is_checked) {
-    			$(this).closest('.row').removeClass('details_row_checked');
-    		} else {
-    			$(this).closest('.row').addClass('details_row_checked');
-    		}
+    		check($(this).find('input[type="checkbox"]'),((is_checked)?false:true));
     	});    	
     }
+    
+    function check(input, bool) {
+    	$input = $(input);
+		if (bool) {
+			$input.closest('.row').addClass('tile_checked');
+			$input.prop('checked', true);
+		} else {
+			$input.closest('.row').removeClass('tile_checked');
+			$input.prop('checked', false);
+		}   	
+    }    
     
     function pnode(str) {
     	for (var j in opts.namespaces_reversed) {
