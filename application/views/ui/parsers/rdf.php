@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once(FCPATH."/application/views/common/arc2/ARC2.php");
 
 $url = 'http://karmarestserver.watproj.org:8080/publishrdf/rdf/r2rml/rdf';
@@ -25,6 +25,7 @@ curl_setopt($ch,CURLOPT_POST, count($arr));
 curl_setopt($ch,CURLOPT_POSTFIELDS, $arr_string);
 curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
 $content = curl_exec($ch);
+$curlinfo = curl_getinfo($ch);
 curl_close($ch);
 
 // Convert from TTL to RDF-JSON
