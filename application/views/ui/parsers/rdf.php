@@ -3,14 +3,14 @@ require_once(FCPATH."/application/views/common/arc2/ARC2.php");
 
 $url = 'http://karmarestserver.watproj.org:8080/publishrdf/rdf/r2rml/rdf';
 $arr = array(
-			'SparqlEndPoint'=>urlencode($store_uri),
-			'GraphURI'=>urlencode($graph_uri),
-			'TripleStore'=>'Virtuoso',
-			'Overwrite'=>'true',
-			'DataURL'=>rawurlencode(str_replace(' ','+',$source_uri)),
-			'R2rmlURI'=>urlencode($mapping_uri),
-			'ContentType'=>strtoupper($content_type),
-			'RefreshModel'=>'true'
+	'SparqlEndPoint'=>urlencode($store_uri),
+	'GraphURI'=>urlencode($graph_uri),
+	'TripleStore'=>'Virtuoso',
+	'Overwrite'=>'true',
+	'DataURL'=>rawurlencode(str_replace(' ','+',$source_uri)),
+	'R2rmlURI'=>urlencode($mapping_uri),
+	'ContentType'=>strtoupper($content_type),
+	'RefreshModel'=>'true'
 );
 
 // url-ify the data for the POST
