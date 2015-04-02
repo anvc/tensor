@@ -1,7 +1,7 @@
 <?php
 require_once(FCPATH."/application/views/common/arc2/ARC2.php");
 
-$url = 'http://karmarestserver.watproj.org:8080/publishrdf/rdf/r2rml/rdf';
+$url = 'http://karmarestserver.dig.isi.edu:8080/publishrdf/rdf/r2rml/rdf';
 $arr = array(
 	'SparqlEndPoint'=>urlencode($store_uri),
 	'GraphURI'=>urlencode($graph_uri),
@@ -12,6 +12,13 @@ $arr = array(
 	'ContentType'=>strtoupper($content_type),
 	'RefreshModel'=>'true'
 );
+
+/*
+echo 'URL '.$url."\n";
+echo 'DataURL: '.$source_uri."\n";
+echo 'R2rmlURI: '.$mapping_uri."\n";
+print_r($arr);
+*/
 
 // url-ify the data for the POST
 $arr_string = '';

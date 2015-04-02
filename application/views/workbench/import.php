@@ -33,8 +33,8 @@
 <hr />
 <div class="input-group" style="width:100%;">
 <input type="checkbox" id="r1" data-parser="rdf" 
-	data-graph-uri="http://karmarestserver.watproj.org:8080/scalar" 
-	data-store-uri="http://karmarestserver.watproj.org:8080/sparql-graph-crud-auth/" 
+	data-graph-uri="http://karmarestserver.dig.isi.edu:8080/scalar" 
+	data-store-uri="http://karmarestserver.dig.isi.edu:8080/sparql-graph-crud-auth/" 
 	data-mapping-uri="http://scalar.usc.edu/static/R2RML/WSP1WS2-CriticalCommons-auto-model.ttl" 
 	data-source-uri="http://criticalcommons.org/cc/playlist?SearchableText=%1" 
 	data-content-type="xml"
