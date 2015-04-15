@@ -30,7 +30,8 @@ table input[type=checkbox] {margin-top:2px; margin-right:12px; float:left;}
 .details {padding-bottom:40px;}
 .details > .row {padding-top:20px; border-bottom:solid 1px #bbbbbb; padding-bottom:16px;}
 .details_row_checked {background-color:#dddddd;}
-.details .dcterms-title {border:solid 2px #f5ff89;}
+.details .dcterms-title {margin-bottom:4px;}
+.details .dcterms-title .value {font-weight: bold;text-decoration: underline;}
 .details .thumb {cursor:pointer;}
 .details .thumb img {width:100%;}
 .details input[type="checkbox"] {position:absolute; top:3px; left:19px;}
@@ -51,12 +52,14 @@ table input[type=checkbox] {margin-top:2px; margin-right:12px; float:left;}
 .btn-group-justified > .btn-sm {padding-top:7px; border-radius:0}
 .btn-group-justified > .btn-two {width:50%;} /* not sure why this is needed to stretch the buttons */
 label[data-unsupported="1"] {color:#aaaaaa;}
+#archive-filter {margin-bottom:10px;}
 /* Footer */
 #footer {position:fixed; width:100%; bottom:0; background-color:#dddddd; padding:8px 16px 8px 16px; border-top:solid 1px #bbbbbb;}
 .footer-center {text-align:center;}
 .view-buttons {margin-right:50px;}
 .view-buttons button {padding-right:10px;}
 .view-buttons img {float:left; margin-top:1px; margin-right:8px;}
+.manage-button {float:right;}
 /* Modals */
 #error .modal-body {background-color:#ffdbdb;}
 #error .modal-header, #error .modal-footer {border-color:#ff4b4b;}

@@ -76,6 +76,7 @@ function do_search_query() {
 	store_uri = $this.data('store-uri');
 	mapping_uri = $this.data('mapping-uri');
 	content_type = $this.data('content-type');
+
 	switch (source_uri_from) {  // Get source URI
 		case "next-input":
 			source_uri = $.trim($this.nextAll('input:first').val());
@@ -84,12 +85,15 @@ function do_search_query() {
 			source_uri = $this.data('source-uri');
 	};
 	if (!source_uri.length) return;
+
 	// Source append (if applicable)
 	if ($this.data('source-append')&&$this.data('source-append').length) {
 		source_uri += $this.data('source-append');
 	}
+	
 	// Search query
 	source_uri = source_uri.replace('%1',sq);
+	
 	// Get parser and parse
 	loading(true);
 	var parser_path = $('link#base_url').attr('href')+'application/views/ui/parsers/jquery.'+parser+'.js';
@@ -108,6 +112,24 @@ function do_search_query() {
 		});
 	});	
 	
+}
+
+function filter_archives() {
+	var filter_text = $('#archive-filter').val();
+	var $archives = $('#archive-wrap div');
+	if(filter_text == '') {
+		$archives.show();
+		$("#archive-wrap hr").show();
+	} else {
+		$archives.hide();
+		$("#archive-wrap hr").hide();
+		$archives.each(function(i,e) {
+			var text = (e.textContent || e.innerText || '')
+			if(text.toUpperCase().indexOf(filter_text.toUpperCase())> -1) {
+				$(e).show();
+			}
+		});
+	}
 }
 
 function store_error_callback(error) {

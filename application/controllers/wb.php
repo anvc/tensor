@@ -26,6 +26,9 @@ class Wb extends CI_Controller {
 		
 		$this->data['title'] = 'Workbench: Import';
 		$this->data['proxy_uri'] = base_url().strtolower(get_class()).'/proxy';
+
+		$this->config->load('archives');
+		$this->data['archives'] = $this->config->item('archives');
 		
 		$this->template->add_css(APPPATH.'views/common/bootstrap/css/bootstrap.min.css');
 		$this->template->add_css(APPPATH.'views/common/resizable-columns/jquery.resizableColumns.css');
