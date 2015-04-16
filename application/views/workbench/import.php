@@ -32,19 +32,20 @@
 <a class="add_another" href="javascript:void(null);">add another</a>
 <hr />
 <input class="form-control input-sm" id="archive-filter" type="text" placeholder="Filter Archives" onkeyup="filter_archives();return false;" />
-<div class="input-group" id="archive-wrap" style="width:100%;">
+<div id="selected-archives"></div>
+<div class="input-group" id="archive-list" style="width:100%;">
 <?foreach($archives as $key => $archive_set):?>
   <?foreach($archive_set as $index => $archive):?>
     <?if(isset($archive['parser'])):?>
-      <div><input type="checkbox" id="r<?=$index?>" data-parser="<?=$archive['parser']?>" 
+      <div for="<?=$key.$index?>"><div><input onchange="select_archive.call(this);return false;" type="checkbox" id="<?=$key.$index?>" data-parser="<?=$archive['parser']?>" 
       	data-graph-uri="<?=$archive['graph']?>"
       	data-store-uri="<?=$archive['store']?>"
       	data-mapping-uri="<?=$archive['mapping']?>"
       	data-source-uri="<?=$archive['source']?>"
       	data-content-type="<?=$archive['content']?>"
-      	/><label for="r<?=$index?>"><?=$archive['title']?></label></div>
+      	/><label for="r<?=$index?>"><?=$archive['title']?></label></div></div>
     <?else:?>
-      <div><input type="checkbox" id="r<?=$index?>" /><label for="r<?=$index?>" data-unsupported="1"><?=$archive['title']?></label></div>
+      <div for="<?=$key.$index?>"><div><input type="checkbox" id="r<?=$index?>" /><label for="<?=$key.$index?>" data-unsupported="1"><?=$archive['title']?></label></div></div>
     <?endif;?>
   <?endforeach;?>
   <hr />

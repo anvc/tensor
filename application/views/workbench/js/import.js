@@ -113,16 +113,33 @@ function do_search_query() {
 	});	
 	
 }
+function select_archive() {
+	var $parent = $(this).parent();
+	if(this.checked) {
+		$(this).hide();
+		$parent.appendTo('#selected-archives');
+		$('<button type="button" class="btn btn-link" onclick="clear_archive.call(this)">clear</button>').appendTo($parent);
+	}
+}
+
+function clear_archive() {
+	$parent = $(this).parent();
+	$input = $parent.children('input');
+	$input.show();
+	$parent.appendTo('#archive-list div[for="'+$input[0].id+'"]')
+	$input[0].checked = 0;
+	$(this).remove();
+}
 
 function filter_archives() {
 	var filter_text = $('#archive-filter').val();
-	var $archives = $('#archive-wrap div');
+	var $archives = $('#archive-list div');
 	if(filter_text == '') {
 		$archives.show();
-		$("#archive-wrap hr").show();
+		$("#archive-list hr").show();
 	} else {
 		$archives.hide();
-		$("#archive-wrap hr").hide();
+		$("#archive-list hr").hide();
 		$archives.each(function(i,e) {
 			var text = (e.textContent || e.innerText || '')
 			if(text.toUpperCase().indexOf(filter_text.toUpperCase())> -1) {
