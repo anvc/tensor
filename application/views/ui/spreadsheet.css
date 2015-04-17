@@ -1,4 +1,4 @@
-html, body, .container-fluid, .row-fluid, .row, .col-max-height {height:100%;}
+html, body, .container-fluid, .col-max-height {height:100%;}
 body {font-size:12px; overflow-x:hidden;}
 small {font-weight:normal;}
 label {cursor:pointer;}
@@ -6,6 +6,27 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 .input-xs {height: 22px; padding: 5px 5px; font-size: 12px; line-height: 1.5; border-radius: 3px;}
 #loading {position:absolute;left:0;top:2px;right:0;z-index:9;text-align:center;display:none;}
 #loading > div {width:100px; margin:0px auto 0px auto; text-align:center; background-color:#fff8af; padding:3px 0px 3px 0px; color:#000000; border:solid 1px #c3b94c; font-weight:bold;}
+/* Icons */
+.critical-commons-icon {display:inline-block; width:150px; height:32px; background-color:white; padding:0px 4px 0px 4px; background-image:url(images/criticalcommons.logo.png); background-repeat:no-repeat; background-size:100%;}
+.internet-archive-icon {display:inline-block; width:57px; height:32px; background-color:white; padding:0px 4px 0px 4px; background-image:url(images/internetarchive.logo.png); background-repeat:no-repeat; background-size:100%;}
+.youtube-icon {display:inline-block; width:75px; height:32px; background-color:white; padding:0px 4px 0px 4px; background-image:url(images/youtube.logo.png); background-repeat:no-repeat; background-size:100%;}
+/* Teaser */
+.teaser {height:200px; overflow:hidden;}
+.teaser > div {padding-left:0px; padding-right:0px; background-color:#eeeeee;}
+.teaser .carousel-inner .item {height:200px; background-size:100%; background-repeat:no-repeat; background-position:center 35%;}
+.teaser .carousel-caption {
+	white-space:nowrap; overflow:hidden; bottom:5px; left:0px; right:0px; text-align:left; padding-bottom:0; padding-top:0px; 
+	text-shadow: 1px 2px 1px rgba(0, 0, 0, 1); background:rgba(0,0,0,0.25); padding-left:5%; padding-right:5%;
+}
+.teaser .carousel-caption h4 {margin-top:0px; margin-bottom:0px; margin-top:10px; font-family:Helvetica;}
+.teaser .carousel-caption h4 > span {padding-left:8px; color:#bbbbbb;}
+.teaser .carousel-caption .icon {float:left; margin:4px 10px 4px 0px;}
+.teaser .carousel-inner {z-index:1;}
+.teaser .carousel-control {z-index:8;}
+.teaser .carousel-control .glyphicon-chevron-right {right:40%;}
+.teaser .carousel-control .glyphicon-chevron-left {left:40%;}
+/* Sheet */
+.sheet {}
 .spreadsheet {padding-right:0px; padding-left:0px; padding-bottom:25px;}
 /* Table */
 thead tr th:last-child {text-align:center;}
@@ -45,7 +66,7 @@ table input[type=checkbox] {margin-top:2px; margin-right:12px; float:left;}
 .metadata div {border-left:0px;}
 .archives {border-right:solid 1px #bbbbbb; background-color:white;}
 .archives input[type=checkbox] {margin-top:1px; margin-right:8px; float:left;}
-.archives-content {margin-top:50px;}
+.archives-content {margin-top:20px;}
 .archives-content-center {text-align:center;}
 .archives-multi-select {margin-bottom:5px;}
 .collections {border-left:solid 1px #bbbbbb; background-color:white;}
@@ -58,10 +79,10 @@ label[data-unsupported="1"] {color:#aaaaaa;}
 /* Footer */
 #footer {position:fixed; width:100%; bottom:0; background-color:#dddddd; padding:8px 16px 8px 16px; border-top:solid 1px #bbbbbb;}
 .footer-center {text-align:center;}
-.view-buttons {margin-right:50px;}
-.view-buttons button {padding-right:10px;}
+.view-buttons {}
+.view-buttons button {padding-left:5px; padding-right:5px;}
 .view-buttons img {float:left; margin-top:1px; margin-right:8px;}
-.manage-button {float:right;}
+.toggle-buttons {float:right;}
 /* Modals */
 #error .modal-body {background-color:#ffdbdb;}
 #error .modal-header, #error .modal-footer {border-color:#ff4b4b;}
