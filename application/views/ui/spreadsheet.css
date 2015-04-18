@@ -42,7 +42,7 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 }
 #searchable_form.hl, #findable_form.hl {border:solid 1px yellow;}
 #find_archives_form {padding-top:10px;}
-.search .notice {text-align:center; color:#555555; padding-top:8px;}
+.search .notice {text-align:center; color:#555555; padding-top:8px; height:42px;}
 .spreadsheet {padding-right:0px; padding-left:0px; padding-bottom:25px;}
 /* Footer */
 #footer {position:fixed; width:100%; bottom:0; background-color:#dddddd; padding:8px 16px 8px 16px; border-top:solid 1px #bbbbbb;}
