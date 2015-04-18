@@ -9,7 +9,7 @@
 
 <div class="teaser row">
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
- <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="6000">
+ <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="5000">
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
     <div class="item active" style="background-image:url(http://www.criticalcommons.org/Members/craigdietrich/clips/space-shuttle-endeavour-arrives-at-los-angeles/thumbnailImage);">
@@ -39,53 +39,54 @@
   </a>
  </div>
 </div>
-</div>
+</div><!-- /teaser -->
 
 <div class="sheet row">
 
-<div class="archives col-max-height col-lg-3 col-md-3 col-sm-3 col-xs-3">
-<div class="archives-content">
-<form id="search" action="" onsubmit="do_search();return false;">
-<input type="text" placeholder="Search" class="form-control input-xs" />
-<button class="btn btn-xs btn-primary" type="submit">Search</button>
-<br clear="both" />
-</form>
-<hr />
-<div class="archives-multi-select">
-<input type="checkbox" data-parser="scalar"
-	data-source-uri-from="next-input"
-	data-source-append="/rdf/instancesof/media?format=json&sq=%1"
-	/><label class="label_for"> Scalar book URL</label>
-<input class="form-control input-xs" name="scalar_book_url" type="text" placeholder="http://" />
+<div class="search col-max-height col-lg-3 col-md-3 col-sm-3 col-xs-3">
+<div>
+  <form id="search_form">
+    <div class="right-inner-addon">
+      <input id="search" type="search" class="form-control" placeholder="Search" />
+      <a href="javascript:void(null);" class="glyphicon glyphicon-search"></a>
+    </div>
+  </form>
+  <div class="advanced">Search archives:<a href="javascript:void(null);" id="advanced_search_link">Advanced Search</a></div>
+  <form id="searchable_form">
+	<div class="archive archive-critical-commons" title="Critical Commons: For Fair &amp; Critical Participation in Media Culture">
+      <h5>Critical Commons</h5>
+      For Fair &amp; Critical Participation in Media Culture
+	</div>
+  </form>
+  <form id="find_archives_form">
+    <div class="right-inner-addon">
+      <input name="search" class="form-control" placeholder="Filter Archives" />
+      <a href="javascript:void(null);" class="glyphicon glyphicon-search"></a>
+    </div>
+  </form>
+  <div class="advanced">Additional archives:<a href="javascript:void(null);" id="advanced_find_archives_link">Manage Archives</a></div>
+  <form id="findable_form">
+	<div class="archive archive-internet-archive" title="Internet Archive: Digital Library of Free Books, Movies, Music &amp; Wayback Machine">
+      <h5>Internet Archive</h5>
+      Digital Library of Free Books, Movies, Music &amp; Wayback Machine
+	</div>
+	<div class="archive archive-vimeo" title="Vimeo: High-quality home for ad-free HD videos">
+      <h5>Vimeo</h5>
+      High-quality home for ad-free HD videos
+	</div>
+	<div class="archive archive-youtube" title="YouTube: Hosts user-generated videos">
+      <h5>YouTube</h5>
+      Hosts user-generated videos
+	</div>
+  </form>
 </div>
-<a class="add_another" href="javascript:void(null);">add another</a>
-<hr />
-<input class="form-control input-sm" id="archive-filter" type="text" placeholder="Filter Archives" onkeyup="filter_archives();return false;" />
-<div id="selected-archives"></div>
-<div class="input-group" id="archive-list" style="width:100%;">
-<?foreach($archives as $key => $archive_set):?>
-  <?foreach($archive_set as $index => $archive):?>
-    <?if(isset($archive['parser'])):?>
-      <div for="<?=$key.$index?>"><div><input onchange="select_archive.call(this);return false;" type="checkbox" id="<?=$key.$index?>" data-parser="<?=$archive['parser']?>"
-      	data-graph-uri="<?=$archive['graph']?>"
-      	data-store-uri="<?=$archive['store']?>"
-      	data-mapping-uri="<?=$archive['mapping']?>"
-      	data-source-uri="<?=$archive['source']?>"
-      	data-content-type="<?=$archive['content']?>"
-      	/><label for="r<?=$index?>"><?=$archive['title']?></label></div></div>
-    <?else:?>
-      <div for="<?=$key.$index?>"><div><input type="checkbox" id="r<?=$index?>" /><label for="<?=$key.$index?>" data-unsupported="1"><?=$archive['title']?></label></div></div>
-    <?endif;?>
-  <?endforeach;?>
-  <hr />
-<?endforeach;?>
+</div><!-- /archives -->
+<div id="spreadsheet" class="spreadsheet col-lg-9 col-md-9 col-sm-9 col-xs-9">
+<div id="welcome_msg">Search for media in the panel to the left<br />Click archives to change those that are searched</div>
 </div>
-</div>
-</div>
-<div id="spreadsheet" class="spreadsheet col-lg-9 col-md-9 col-sm-9 col-xs-9"></div>
 </div>
 
-</div>
+</div><!-- /sheet -->
 
 <div id="footer" class="footer-center">
 <div class="btn-group view-buttons" role="group">
@@ -95,8 +96,8 @@
 </div>
 <div class="toggle-buttons">
 	<!-- <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#imported">Import Selected Items</button>-->
-	<button type="button" class="btn btn-xs toggle-teaser" data-toggle="modal"><span class="glyphicon glyphicon-sound-stereo" aria-hidden="true"></span></button>
-	<button type="button" class="btn btn-xs" data-toggle="modal" onclick="alert('TODO');"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+	<button type="button" class="btn btn-xs toggle-teaser" data-toggle="modal"><span class="glyphicon glyphicon-sound-stereo" aria-hidden="true"></span>&nbsp; Gallery </button>
+	<button type="button" class="btn btn-xs toggle-search" data-toggle="modal"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp; Search</button>
 </div>
 </div>
 
