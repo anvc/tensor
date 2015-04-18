@@ -50,7 +50,7 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 .view-buttons {}
 .view-buttons button {padding-left:5px; padding-right:5px;}
 .view-buttons img {float:left; margin-top:1px; margin-right:8px;}
-.toggle-buttons {float:right;}
+.toggle-buttons {position:absolute; right:10px; bottom:8px;}
 /* Archive element */
 .archive {
 	min-height:32px; padding-left:40px; white-space:nowrap; overflow:hidden; padding-top:1px; cursor:pointer; margin-bottom:8px; 
