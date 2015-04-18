@@ -53,10 +53,7 @@
   </form>
   <div class="advanced">Search archives:<a href="javascript:void(null);" id="advanced_search_link">Advanced Search</a></div>
   <form id="searchable_form">
-	<div class="archive archive-critical-commons" title="Critical Commons: For Fair &amp; Critical Participation in Media Culture">
-      <h5>Critical Commons</h5>
-      For Fair &amp; Critical Participation in Media Culture
-	</div>
+  	<div class="notice">Add archives from the list below</div>
   </form>
   <form id="find_archives_form">
     <div class="right-inner-addon">
@@ -66,6 +63,10 @@
   </form>
   <div class="advanced">Additional archives:<a href="javascript:void(null);" id="advanced_find_archives_link">Manage Archives</a></div>
   <form id="findable_form">
+	<div class="archive archive-critical-commons" title="Critical Commons: For Fair &amp; Critical Participation in Media Culture">
+      <h5>Critical Commons</h5>
+      For Fair &amp; Critical Participation in Media Culture
+	</div>
 	<div class="archive archive-internet-archive" title="Internet Archive: Digital Library of Free Books, Movies, Music &amp; Wayback Machine">
       <h5>Internet Archive</h5>
       Digital Library of Free Books, Movies, Music &amp; Wayback Machine

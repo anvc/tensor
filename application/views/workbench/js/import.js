@@ -22,7 +22,9 @@ function set_search() {
 		alert('TODO: this will bring up the advance search form in the space to the right');
 	});
 	$searchable_form.children().click(function() {
+		$searchable_form.find('.notice').remove();
 		place( this, (('searchable_form'==$(this).closest('form').attr('id'))?$findable_form:$searchable_form) );
+		if (!$searchable_form.children().length) $searchable_form.append('<div class="notice">Add archives from the list below</div>');
 	});
 	// Find archives 
 	$find_archives_form.submit(function() {  // Submit find archives
@@ -47,7 +49,9 @@ function set_search() {
 		alert('TODO: this will bring up all of the archives in a nice display in the space to the right');
 	});
 	$findable_form.children().click(function() {
+		$searchable_form.find('.notice').remove();
 		place( this, (('searchable_form'==$(this).closest('form').attr('id'))?$findable_form:$searchable_form) );
+		if (!$searchable_form.children().length) $searchable_form.append('<div class="notice">Add archives from the list below</div>');
 	});
 }
 
