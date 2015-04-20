@@ -51,7 +51,7 @@
       <a href="javascript:void(null);" class="glyphicon glyphicon-search"></a>
     </div>
   </form>
-  <div class="advanced">Search archives:<a href="javascript:void(null);" id="advanced_search_link">Advanced Search</a></div>
+  <div class="advanced">Search archives<a href="javascript:void(null);" id="advanced_search_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Advanced Search</a></div>
   <form id="searchable_form">
   	<div class="notice">Add archives from the list below</div>
   </form>
@@ -61,7 +61,7 @@
       <a href="javascript:void(null);" class="glyphicon glyphicon-search"></a>
     </div>
   </form>
-  <div class="advanced">Additional archives:<a href="javascript:void(null);" id="advanced_find_archives_link">Manage Archives</a></div>
+  <div class="advanced">Additional archives<a href="javascript:void(null);" id="advanced_find_archives_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Manage Archives</a></div>
   <form id="findable_form">
 	<div class="archive archive-critical-commons" title="Critical Commons: For Fair &amp; Critical Participation in Media Culture">
       <h5>Critical Commons</h5>
@@ -84,6 +84,19 @@
 </div><!-- /archives -->
 <div id="spreadsheet" class="spreadsheet col-lg-9 col-md-9 col-sm-9 col-xs-9">
 <div id="welcome_msg">Search for media in the panel to the left<br />Click archives to change those that are searched</div>
+<div id="manage_archives">
+  <a href="javascript:void(null);" class="close_btn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+  <div class="btn-group btn-group-sm" role="group">
+	  <button type="button" class="btn btn-primary">All</button>
+	  <button type="button" class="btn btn-default">Affiliated</button>
+	  <button type="button" class="btn btn-default">Non-affiliated</button>
+	  <button type="button" class="btn btn-default">Themed</button>
+	  <button type="button" class="btn btn-default">Image</button>
+	  <button type="button" class="btn btn-default">Audio</button>
+	  <button type="button" class="btn btn-default">Video</button>
+  </div>
+  <form id="managable_form"></form>
+</div><!-- /manage_archive -->
 </div>
 </div>
 

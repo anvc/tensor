@@ -45,9 +45,6 @@ function set_search() {
 	$find_archives_form.find('input[name="search"]').on('keyup focusout', function() {
 		$(this).closest('form').submit();
 	});
-	$('#advanced_find_archives_link').click(function() {  // Open advanced find archives panel
-		alert('TODO: this will bring up all of the archives in a nice display in the space to the right');
-	});
 	$findable_form.children().click(function() {
 		$searchable_form.find('.notice').remove();
 		place( this, (('searchable_form'==$(this).closest('form').attr('id'))?$findable_form:$searchable_form) );
@@ -113,15 +110,48 @@ function set_sheet() {
 		$clicked.removeClass('btn-primary').addClass('btn-default');
 		spreadsheet_ui($clicked.attr('id'));
 	});
+	// Manage archives
+	$('#advanced_find_archives_link').click(function() {
+		var $manage_archives = $('#manage_archives');
+		$manage_archives.show();
+		$manage_archives.css('min-height', $manage_archives.parent().innerHeight());
+		$('#advanced_find_archives_link').blur();
+		set_manage_archives();
+		$manage_archives.find('.close_btn').click(function() {
+			$manage_archives.hide();
+		});
+	});
 }
 
 function set_sheet_height() {
 	var $header = $('.header:first');
 	var $teaser = $('.teaser:first');
 	var $search = $('.search:first');
+	var $spreadsheet = $('#spreadsheet');
+	var $manage_archives = $('#manage_archives');
 	var $footer = $('#footer');
 	var teaser_height = ($teaser.is(':hidden')) ? 0 : parseInt($teaser.outerHeight());
-	$search.css( 'min-height', parseInt($(window).height())-(parseInt($header.outerHeight())+teaser_height+parseInt($footer.outerHeight())) );
+	var h = parseInt($(window).height())-(parseInt($header.outerHeight())+teaser_height+parseInt($footer.outerHeight()));
+	$search.css('min-height',h);
+	$spreadsheet.css('min-height',h);
+	$manage_archives.css('min-height',h);
+}
+
+function set_manage_archives() {
+	var $manage_archives = $('#manage_archives');
+	var $managable_form = $('#managable_form');
+	$managable_form.empty();
+	var archives = [];
+	$('#searchable_form, #findable_form').children('.archive').each(function() {
+		var $cloned = $(this).clone();
+		if ($(this).closest('#searchable_form').length) $cloned.addClass('active');
+		$managable_form.append($cloned);
+	});
+	var $divs = $managable_form.children();
+    var alphabeticallyOrderedDivs = $divs.sort(function(a,b){
+        return $(a).attr('title') > $(b).attr('title');
+    });
+    $managable_form.html(alphabeticallyOrderedDivs);	
 }
 
 function loading(bool) {

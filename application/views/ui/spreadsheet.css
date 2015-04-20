@@ -44,6 +44,14 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 #find_archives_form {padding-top:10px;}
 .search .notice {text-align:center; color:#555555; padding-top:8px; height:42px;}
 .spreadsheet {padding-right:0px; padding-left:0px; padding-bottom:25px;}
+#manage_archives {background-color:#eeeeee; position:absolute; top:0px; left:0px; right:0px; display:none; padding:21px;}
+#manage_archives .close_btn {float:right; top:0px; right:15px; font-size:16px; cursor:pointer;}
+#managable_form {margin:20px 0px 20px 0px;}
+#managable_form .archive {
+	width:400px; float:left; margin:0px 20px 20px 0px; padding-top:5px; padding-bottom:5px; 
+	background-position:left 5px; height:initial; border:solid 1px #eeeeee;
+}
+#managable_form .active {background-color:#dddddd; border:solid 1px #cccccc;}
 /* Footer */
 #footer {position:fixed; width:100%; bottom:0; background-color:#dddddd; padding:8px 16px 8px 16px; border-top:solid 1px #bbbbbb;}
 .footer-center {text-align:center;}
