@@ -145,6 +145,7 @@ function set_manage_archives() {
 	$('#searchable_form, #findable_form').children('.archive').each(function() {
 		var $cloned = $(this).clone();
 		if ($(this).closest('#searchable_form').length) $cloned.addClass('active');
+		$cloned.unbind('click');
 		$managable_form.append($cloned);
 	});
 	var $divs = $managable_form.children();
@@ -152,6 +153,16 @@ function set_manage_archives() {
         return $(a).attr('title') > $(b).attr('title');
     });
     $managable_form.html(alphabeticallyOrderedDivs);	
+    $managable_form.children().click(function() {
+    	var $this = $(this);
+    	var title = $this.attr('title');
+    	$('.search').find('.archive[title="'+title+'"]').trigger('click');
+    	if ($this.hasClass('active')) {
+    		$this.removeClass('active');
+    	} else {
+    		$this.addClass('active');
+    	}
+    });
 }
 
 function loading(bool) {

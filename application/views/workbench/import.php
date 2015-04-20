@@ -81,7 +81,7 @@
 	</div>
   </form>
 </div>
-</div><!-- /archives -->
+</div><!-- /search -->
 <div id="spreadsheet" class="spreadsheet col-lg-9 col-md-9 col-sm-9 col-xs-9">
 <div id="welcome_msg">Search for media in the panel to the left<br />Click archives to change those that are searched</div>
 <div id="manage_archives">
