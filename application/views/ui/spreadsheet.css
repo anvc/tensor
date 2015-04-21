@@ -44,8 +44,14 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 #find_archives_form {padding-top:10px;}
 .search .notice {text-align:center; color:#555555; padding-top:8px; height:42px;}
 .spreadsheet {padding-right:0px; padding-left:0px; padding-bottom:25px;}
-#manage_archives {background-color:#eeeeee; position:absolute; top:0px; left:0px; right:0px; display:none; padding:21px;}
-#manage_archives .close_btn {float:right; top:0px; right:15px; font-size:16px; cursor:pointer;}
+#manage_archives, #advanced_search {background-color:#eeeeee; position:absolute; top:0px; left:0px; right:0px; display:none;}
+#advanced_search {padding:20px 20px 20px 20px; width:100%;}
+#manage_archives .close_btn, #advanced_search .close_btn {float:right; top:0px; right:15px; font-size:16px; cursor:pointer;}
+#advanced_form .tr {display:table-row; font-size:14px;}
+#advanced_form .field, #advanced_form .value {padding:0px 8px 8px 8px; vertical-align:middle;}
+#advanced_form .field {display:table-cell; white-space:nowrap;}
+#advanced_form .value {display:table-cell; width:80%;}
+#manage_archives {padding:22px 20px 20px 20px;}
 #managable_form {margin:20px 0px 20px 0px;}
 #managable_form .archive {
 	width:400px; float:left; margin:0px 20px 20px 0px; padding-top:5px; padding-bottom:5px; 

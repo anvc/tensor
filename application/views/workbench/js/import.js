@@ -18,9 +18,6 @@ function set_search() {
 	$search_form.find('a').click(function() {
 		$(this).closest('form').submit();
 	});
-	$('#advanced_search_link').click(function() {  // Open advanced search panel
-		alert('TODO: this will bring up the advance search form in the space to the right');
-	});
 	$searchable_form.children().click(function() {
 		$searchable_form.find('.notice').remove();
 		place( this, (('searchable_form'==$(this).closest('form').attr('id'))?$findable_form:$searchable_form) );
@@ -110,9 +107,22 @@ function set_sheet() {
 		$clicked.removeClass('btn-primary').addClass('btn-default');
 		spreadsheet_ui($clicked.attr('id'));
 	});
+	// Advanced search
+	$('#advanced_search_link').click(function() {
+		var $advanced_search = $('#advanced_search');
+		$('.spreadsheet_panel').hide();
+		$advanced_search.show();
+		$advanced_search.css('min-height', $advanced_search.parent().innerHeight());
+		$('#advanced_search_link').blur();
+		set_advanced_search();
+		$advanced_search.find('.close_btn').click(function() {
+			$advanced_search.hide();
+		});
+	});	
 	// Manage archives
 	$('#advanced_find_archives_link').click(function() {
 		var $manage_archives = $('#manage_archives');
+		$('.spreadsheet_panel').hide();
 		$manage_archives.show();
 		$manage_archives.css('min-height', $manage_archives.parent().innerHeight());
 		$('#advanced_find_archives_link').blur();
@@ -129,12 +139,18 @@ function set_sheet_height() {
 	var $search = $('.search:first');
 	var $spreadsheet = $('#spreadsheet');
 	var $manage_archives = $('#manage_archives');
+	var $advanced_search = $('#advanced_search');
 	var $footer = $('#footer');
 	var teaser_height = ($teaser.is(':hidden')) ? 0 : parseInt($teaser.outerHeight());
 	var h = parseInt($(window).height())-(parseInt($header.outerHeight())+teaser_height+parseInt($footer.outerHeight()));
 	$search.css('min-height',h);
 	$spreadsheet.css('min-height',h);
 	$manage_archives.css('min-height',h);
+	$advanced_search.css('min-height',h)
+}
+
+function set_advanced_search() {
+	
 }
 
 function set_manage_archives() {
