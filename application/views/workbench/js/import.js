@@ -12,7 +12,10 @@ function set_search() {
 	$findable_form = $('#findable_form');
 	// Search
 	$search_form.submit(function() {  // Submit search
-		alert('TODO: run search');
+		var sq = $(this).find('input:first').val();
+		var arr = $.fn.parse_search(sq);
+		console.log(arr);
+		alert(sq);
 		return false;
 	});
 	$search_form.find('a').click(function() {
@@ -152,7 +155,9 @@ function set_sheet_height() {
 }
 
 function set_advanced_search() {
-	
+	$('#search').advanced_search({form:$('#advanced_form'),callback:function() {
+		$('#search_form').submit();
+	}});
 }
 
 function set_manage_archives() {

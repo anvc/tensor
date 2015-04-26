@@ -85,11 +85,7 @@
 <div id="advanced_search" class="spreadsheet_panel">
   <a href="javascript:void(null);" class="close_btn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
   <form id="advanced_form">
-	<div class="tr"><div class="field">Advanced Field 1</div><div class="value"><input name="advanced_field_1" class="form-control" placeholder="" /></div></div>
-	<div class="tr"><div class="field">Advanced Field 2</div><div class="value"><input name="advanced_field_2" class="form-control" placeholder="" /></div></div>
-	<div class="tr"><div class="field">Advanced Field 3</div><div class="value"><input name="advanced_field_3" class="form-control" placeholder="" /></div></div>
-	<div class="tr"><div class="field">Advanced Field 4</div><div class="value"><input name="advanced_field_4" class="form-control" placeholder="" /></div></div>
-	<div class="tr"><div class="field">Advanced Field 5</div><div class="value"><input name="advanced_field_5" class="form-control" placeholder="" /></div></div>
+ 	<div class="tr"><div class="field"><a href="javascript:void(null);" class="add glyphicon glyphicon-plus" aria-hidden="true"></a></div><div class="value"><button type="submit" class="btn btn-sm btn-primary">Search</button></div></div>
   </form>
 </div><!-- /manage_archive -->
 <div id="manage_archives" class="spreadsheet_panel">
