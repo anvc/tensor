@@ -18,10 +18,11 @@ function set_search() {
 	$search_form.find('a').click(function() {
 		$(this).closest('form').submit();
 	});
-	$searchable_form.children().click(function() {
+	$searchable_form.children().click(function(event, dont_trigger_click) {
 		$searchable_form.find('.notice').remove();
 		place( this, (('searchable_form'==$(this).closest('form').attr('id'))?$findable_form:$searchable_form) );
 		if (!$searchable_form.children().length) $searchable_form.append('<div class="notice">Add archives from the list below</div>');
+		if (!dont_trigger_click) $('#managable_form').find('.archive[title="'+$(this).attr('title')+'"]').trigger('click', [true]);
 	});
 	// Find archives 
 	$find_archives_form.submit(function() {  // Submit find archives
@@ -42,10 +43,11 @@ function set_search() {
 	$find_archives_form.find('input[name="search"]').on('keyup focusout', function() {
 		$(this).closest('form').submit();
 	});
-	$findable_form.children().click(function() {
+	$findable_form.children().click(function(event, dont_trigger_click) {
 		$searchable_form.find('.notice').remove();
 		place( this, (('searchable_form'==$(this).closest('form').attr('id'))?$findable_form:$searchable_form) );
 		if (!$searchable_form.children().length) $searchable_form.append('<div class="notice">Add archives from the list below</div>');
+		if (!dont_trigger_click) $('#managable_form').find('.archive[title="'+$(this).attr('title')+'"]').trigger('click', [true]);
 	});
 }
 
@@ -157,6 +159,7 @@ function set_manage_archives() {
 	var $manage_archives = $('#manage_archives');
 	var $managable_form = $('#managable_form');
 	$managable_form.empty();
+	// Set archives
 	var archives = [];
 	$('#searchable_form, #findable_form').children('.archive').each(function() {
 		var $cloned = $(this).clone();
@@ -169,16 +172,37 @@ function set_manage_archives() {
         return $(a).attr('title') > $(b).attr('title');
     });
     $managable_form.html(alphabeticallyOrderedDivs);	
-    $managable_form.children().click(function() {
+    $managable_form.children().click(function(event, dont_trigger_click) {
     	var $this = $(this);
     	var title = $this.attr('title');
-    	$('.search').find('.archive[title="'+title+'"]').trigger('click');
     	if ($this.hasClass('active')) {
     		$this.removeClass('active');
     	} else {
     		$this.addClass('active');
     	}
+    	if (!dont_trigger_click) $('.search').find('.archive[title="'+title+'"]').trigger('click', [true]);
     });
+    // Set buttons
+    $manage_archives.find('button').click(function() {
+    	var $this = $(this);
+    	var selected = $this.val();
+        $manage_archives.find('button').removeClass('btn-primary').addClass('btn-default');
+        $this.addClass('btn-primary');  // All   	
+        $manage_archives.find('.archive').each(function() {
+        	var $archive = $(this);
+        	if (!selected.length) {
+        		$archive.show();
+        		return;
+        	}
+        	var arr = $archive.data('categories').split(',');
+        	if (arr.indexOf(selected)!=-1) {
+        		$archive.show();
+        		return;
+        	}
+        	$archive.hide();
+        });
+    });
+    $manage_archives.find('button:first').trigger('click');  // All
 }
 
 function loading(bool) {

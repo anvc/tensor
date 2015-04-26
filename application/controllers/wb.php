@@ -24,11 +24,14 @@ class Wb extends CI_Controller {
 
 	public function import() {
 
+		$this->load->helper('array');
+
 		$this->data['title'] = 'Workbench: Import';
 		$this->data['proxy_uri'] = base_url().strtolower(get_class()).'/proxy';
 
 		$this->config->load('archives');
 		$this->data['archives'] = $this->config->item('archives');
+		usort($this->data['archives'], "cmp_archives");
 
 		$this->template->add_css(APPPATH.'views/common/jquery-ui-1.11.4.custom/jquery-ui.min.css');
 		$this->template->add_css(APPPATH.'views/common/bootstrap/css/bootstrap.min.css');

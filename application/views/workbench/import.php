@@ -63,22 +63,20 @@
   </form>
   <div class="advanced">Additional archives<a href="javascript:void(null);" id="advanced_find_archives_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Manage Archives</a></div>
   <form id="findable_form">
-	<div class="archive archive-critical-commons" title="Critical Commons: For Fair &amp; Critical Participation in Media Culture">
-      <h5>Critical Commons</h5>
-      For Fair &amp; Critical Participation in Media Culture
-	</div>
-	<div class="archive archive-internet-archive" title="Internet Archive: Digital Library of Free Books, Movies, Music &amp; Wayback Machine">
-      <h5>Internet Archive</h5>
-      Digital Library of Free Books, Movies, Music &amp; Wayback Machine
-	</div>
-	<div class="archive archive-vimeo" title="Vimeo: High-quality home for ad-free HD videos">
-      <h5>Vimeo</h5>
-      High-quality home for ad-free HD videos
-	</div>
-	<div class="archive archive-youtube" title="YouTube: Hosts user-generated videos">
-      <h5>YouTube</h5>
-      Hosts user-generated videos
-	</div>
+<!-- Archives -->
+<?
+	foreach ($archives as $archive) {
+		echo '<div ';
+		echo 'class="archive" ';
+		echo 'style="background-image:url('.base_url().APPPATH.$archive['thumbnail'].');" ';
+		echo 'title="'.$archive['title'].': '.$archive['subtitle'].'" ';
+		echo 'data-categories="'.implode(',',$archive['categories']).'" ';
+		echo '>'."\n";
+		echo '<h5>'.$archive['title'].'</h5>'."\n";
+		echo $archive['subtitle']."\n";
+		echo "</div>\n";
+	}
+?>
   </form>
 </div>
 </div><!-- /search -->
@@ -97,13 +95,13 @@
 <div id="manage_archives" class="spreadsheet_panel">
   <a href="javascript:void(null);" class="close_btn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
   <div class="btn-group btn-group-sm" role="group">
-	  <button type="button" class="btn btn-primary">All</button>
-	  <button type="button" class="btn btn-default">Affiliated</button>
-	  <button type="button" class="btn btn-default">Non-affiliated</button>
-	  <button type="button" class="btn btn-default">Themed</button>
-	  <button type="button" class="btn btn-default">Image</button>
-	  <button type="button" class="btn btn-default">Audio</button>
-	  <button type="button" class="btn btn-default">Video</button>
+	  <button type="button" value="" class="btn btn-primary">All</button>
+	  <button type="button" value="affiliated" class="btn btn-default">Affiliated</button>
+	  <button type="button" value="other" class="btn btn-default">Non-affiliated</button>
+	  <button type="button" value="theme" class="btn btn-default">Themed</button>
+	  <button type="button" value="image" class="btn btn-default">Image</button>
+	  <button type="button" value="audio" class="btn btn-default">Audio</button>
+	  <button type="button" value="video" class="btn btn-default">Video</button>
   </div>
   <form id="managable_form"></form>
 </div><!-- /manage_archive -->
