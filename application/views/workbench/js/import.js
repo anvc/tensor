@@ -225,8 +225,8 @@ function loading(bool, archive_title) {
 		if ('undefined'!=typeof(archive_title)) $loading.children(':first').append('<div class="a" title="'+archive_title+'">'+archive_title+'</div>');
 		$loading.show();
 	} else {
-		if ('undefined'!=typeof(archive_title)) $loading.find('[title="'+archive_title+'"]').remove();
-		$loading.hide();
+		if ('undefined'!=typeof(archive_title)) $loading.find('.a[title="'+archive_title+'"]').remove();
+		if (!$loading.find('.a').length) $loading.hide();
 	}
 }
 

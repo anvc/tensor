@@ -1,7 +1,7 @@
 (function( $ ) {
 	
     $.fn.parse = function(options) {
-    	var model = $.fn.spreadsheet_model(options);
+    	var model = new $.fn.spreadsheet_model(options);
     	model.parse = parse;
     	model.fetch();
     };
