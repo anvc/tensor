@@ -56,7 +56,8 @@
     }
     
     function do_create_table() {
-    	$self.empty();
+    	$self.children(':not(.spreadsheet_panel)').remove();
+    	$self.children('.spreadsheet_panel').hide();
     	$('<table class="table table-hover table-condensed"></table>').appendTo($self);
     }
     

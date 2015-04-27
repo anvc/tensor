@@ -29,9 +29,7 @@
     		alert('Non-proxy ajax requests not supported');
     		return;
     	};
-    	if (window['loading']) loading(true);
     	$.getJSON(opts.proxy_url, proxy_data(), function( data ) {
-    		if (window['loading']) loading(false);
     		parse_store_results(data);
     	}).fail(function(jqXHR) {
     		error_callback(jqXHR);
@@ -50,7 +48,7 @@
     };
     
     function error_callback(jqXHR) {
-    	opts.error_callback(jqXHR.status+' '+jqXHR.statusText);  	
+    	opts.error_callback(jqXHR.status+' '+jqXHR.statusText, opts);  	
     };
     
     function parse_store_results(data) {
@@ -58,7 +56,7 @@
     		error_callback({status:'Proxy error:',statusText:data.error});
     		return;
     	};
-    	$self.parse(data);
+    	$self.parse(data, opts);
     }
     
 }( jQuery ));

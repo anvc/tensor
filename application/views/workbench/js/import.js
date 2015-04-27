@@ -115,6 +115,10 @@ function set_sheet() {
 	// Advanced search
 	$('#advanced_search_link').click(function() {
 		var $advanced_search = $('#advanced_search');
+		if (!$advanced_search.is(':hidden')) {
+			$('.spreadsheet_panel').hide();
+			return;
+		}
 		$('.spreadsheet_panel').hide();
 		$advanced_search.show();
 		$advanced_search.css('min-height', $advanced_search.parent().innerHeight());
@@ -127,7 +131,12 @@ function set_sheet() {
 	// Manage archives
 	$('#advanced_find_archives_link').click(function() {
 		var $manage_archives = $('#manage_archives');
+		if (!$manage_archives.is(':hidden')) {
+			$('.spreadsheet_panel').hide();
+			return;
+		}		
 		$('.spreadsheet_panel').hide();
+		if (!$manage_archives.is(':hidden')) return;
 		$manage_archives.show();
 		$manage_archives.css('min-height', $manage_archives.parent().innerHeight());
 		$('#advanced_find_archives_link').blur();
@@ -210,17 +219,20 @@ function set_manage_archives() {
     $manage_archives.find('button:first').trigger('click');  // All
 }
 
-function loading(bool) {
+function loading(bool, archive_title) {
+	var $loading = $('#loading');
 	if (bool) {
-		$('#loading').show();
+		if ('undefined'!=typeof(archive_title)) $loading.children(':first').append('<div class="a" title="'+archive_title+'">'+archive_title+'</div>');
+		$loading.show();
 	} else {
-		$('#loading').hide();
+		if ('undefined'!=typeof(archive_title)) $loading.find('[title="'+archive_title+'"]').remove();
+		$loading.hide();
 	}
 }
 
 function search() {
 
-	var $form = $('#search');
+	var $search = $('#search');
 	var $searchable = $('#searchable_form');
 	
 	if (!$searchable.children('.archive').length) {
@@ -228,38 +240,47 @@ function search() {
 		return;
 	}
 	
-	var sq = $form.val();
+	var sq = $search.val();
 	if (!sq.length) {
 		alert('Please enter one or more search terms');
 		return;
 	}
+
+	var obj = $.fn.parse_search(sq);
+	if (!obj.terms.length) {
+		alert('Please enter one or more search terms (in addition to advanced search fields)');
+		return;
+	}
 	
-	do_search.results = {}; 
-	do_search.index = 0; 
-	
-	do_search($.fn.parse_search(sq), $searchable.children('.archive'));
+	do_search(obj, $searchable.children('.archive'));
 	
 };
 
 function do_search(obj, $archives) {
 	
+	do_search.results = {}; 
+	do_search.total = $archives.length;
+	do_search.returned = 0;
+	
 	$archives.each(function() {
 		var $archive = $(this);
-		var archive = $archive.data('request-1');
+		var archive = $.extend({}, $archive.data('request-1'));
 		var proxy_url = $('link#proxy_url').attr('href');
 		var parser_path = $('link#base_url').attr('href')+'application/views/ui/parsers/jquery.'+archive.parser+'.js';	
 		archive.source = archive.source.replace('%1',obj.terms.join(' '));
 		$.extend(archive, {proxy_url:proxy_url,error_callback:store_error_callback,complete_callback:store_complete_callback});
 		$.getScript(parser_path, function() {
+			loading(true, archive.title);
 			$.fn.parse(archive);
 		});			
 	});
 	
 }
 
-function store_error_callback(error) {
+function store_error_callback(error, archive) {
 	
-	loading(false);
+	loading(false, archive.title);
+	do_search.returned++;
 	var $error = $('#error');
 	if ('200 OK'==error) error = error+', but the request returned empty';
 	var html = '<p>There was an error attempting to gather results from the triples store:</p>';
@@ -267,32 +288,41 @@ function store_error_callback(error) {
 	html += '<p>Please try again</p>';
 	$error.find('[class="modal-body"]').html(html);
 	$error.modal();
+	if (do_search.returned==do_search.total) spreadsheet_ui();
 	
 }
 
-function store_complete_callback(_results) {
-	
-	loading(false);
-	return; // temp
-	jQuery.extend(results, _results);
-	index++;
-	do_search_query();
+function store_complete_callback(_results, archive) {
+
+	loading(false, archive.title);
+	do_search.returned++;
+	jQuery.extend(do_search.results, _results); 
+	if (do_search.returned==do_search.total) spreadsheet_ui();
 	
 }
 
 function spreadsheet_ui(view) {
 
-	if ('undefined'==typeof(results)) return;
+	// Presets
+	if (jQuery.isEmptyObject(do_search.results)) {
+		var $error = $('#error');
+		var html = '<p>The search returned zero results!</p>';
+		$error.find('[class="modal-body"]').html(html);
+		$error.modal();
+	};
 	if ('undefined'==typeof(view)) view = $('.view-buttons').find('button[class*="btn-default"]').attr('id');
-	results = sort_rdfjson_by_prop(results, 'http://purl.org/dc/terms/title');
-
 	if ('undefined'!=typeof($.fn.spreadsheet_view)) {
 		var checked = $.fn.spreadsheet_view.checked();
 		$.fn.spreadsheet_view.remove();
 	}
+	// Hide gallery
+	if (!jQuery.isEmptyObject(do_search.results) && !$('.teaser').is(':hidden')) $('.toggle-teaser').trigger('click');
+	// Sort results
+	do_search.results = sort_rdfjson_by_prop(do_search.results, 'http://purl.org/dc/terms/title');
+	// Load current view
 	var view_path = $('link#base_url').attr('href')+'application/views/ui/templates/jquery.'+view+'.js';
 	$.getScript(view_path, function() {
-		$('#spreadsheet').spreadsheet_view({rows:results,check:checked});
+		$('#spreadsheet').spreadsheet_view({rows:do_search.results,check:checked});
 	});
 	
 }

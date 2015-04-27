@@ -52,7 +52,8 @@
     }
     
     function do_create_tiles() {
-    	$self.empty();
+    	$self.children(':not(.spreadsheet_panel)').remove();
+    	$self.children('.spreadsheet_panel').hide();
 		predicates = [
 		                  'http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail',
 		                  'http://purl.org/dc/terms/title',

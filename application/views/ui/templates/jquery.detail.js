@@ -51,7 +51,8 @@
     }
     
     function do_create_details() {
-    	$self.empty();
+    	$self.children(':not(.spreadsheet_panel)').remove();
+    	$self.children('.spreadsheet_panel').hide();
     	var $wrapper = $('<div class="container-fluid details"></div>').appendTo($self);
     	for (var j in opts.rows) {
     		var row = opts.rows[j];
