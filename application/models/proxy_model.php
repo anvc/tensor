@@ -9,10 +9,10 @@ class Proxy_model extends CI_Model {
 
     public function get() {
 
-		$graph_uri =@ $_REQUEST['graph_uri'];
-		$store_uri =@ $_REQUEST['store_uri'];
-		$mapping_uri =@ $_REQUEST['mapping_uri'];
-		$source_uri =@ $_REQUEST['source_uri'];
+		$graph_uri =@ $_REQUEST['graph'];
+		$store_uri =@ $_REQUEST['store'];
+		$mapping_uri =@ $_REQUEST['mapping'];
+		$source_uri =@ $_REQUEST['source'];
 		$content_type = (isset($_REQUEST['content_type']) && !empty($_REQUEST['content_type'])) ? $_REQUEST['content_type'] : 'xml';
 		$parser =@ $_REQUEST['parser'];
 

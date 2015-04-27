@@ -27,7 +27,7 @@ class Wb extends CI_Controller {
 		$this->load->helper('array');
 
 		$this->data['title'] = 'Workbench: Import';
-		$this->data['proxy_uri'] = base_url().strtolower(get_class()).'/proxy';
+		$this->data['proxy_url'] = base_url().strtolower(get_class()).'/proxy';
 
 		$this->config->load('archives');
 		$this->data['archives'] = $this->config->item('archives');

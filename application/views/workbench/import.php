@@ -71,6 +71,7 @@
 		echo 'style="background-image:url('.base_url().APPPATH.$archive['thumbnail'].');" ';
 		echo 'title="'.$archive['title'].': '.$archive['subtitle'].'" ';
 		echo 'data-categories="'.implode(',',$archive['categories']).'" ';
+		echo 'data-request-1="'.htmlspecialchars(json_encode($archive['request-1']), ENT_QUOTES, 'UTF-8').'"';
 		echo '>'."\n";
 		echo '<h5>'.$archive['title'].'</h5>'."\n";
 		echo $archive['subtitle']."\n";

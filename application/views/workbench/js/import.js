@@ -15,7 +15,7 @@ function set_search() {
 		var sq = $(this).find('input:first').val();
 		var arr = $.fn.parse_search(sq);
 		console.log(arr);
-		alert(sq);
+		search();
 		return false;
 	});
 	$search_form.find('a').click(function() {
@@ -218,115 +218,43 @@ function loading(bool) {
 	}
 }
 
-function do_search() {
+function search() {
 
 	var $form = $('#search');
-	var sq = $form.find('input:first').val();
+	var $searchable = $('#searchable_form');
+	
+	if (!$searchable.children('.archive').length) {
+		alert('Please select one or more archives to search');
+		return;
+	}
+	
+	var sq = $form.val();
 	if (!sq.length) {
-		alert('Please enter a search phrase');
-		return;
-	}
-	if (!$('input:checked').length) {
-		alert('Please select one or more places to search');
+		alert('Please enter one or more search terms');
 		return;
 	}
 	
-	checked = $('.archives-content input:checked');  // Global
-	results = {};  // Global
-	index = 0;  // Global
+	do_search.results = {}; 
+	do_search.index = 0; 
 	
-	do_search_query();
+	do_search($.fn.parse_search(sq), $searchable.children('.archive'));
 	
 };
 
-function do_search_query() {
-
-	var sq = $('#search').find('input:first').val();
-	// No more queries to run
-	if ('undefined'==typeof(checked[index])) {
-		spreadsheet_ui();
-		return;
-	}
-	// Params
-	var $this = $(checked[index]);
-	var parser = $this.data('parser');
-	var source_uri_from = $this.data('source-uri-from');
-	var graph_uri = store_uri = mapping_uri = source_uri = content_type = '';
-	graph_uri = $this.data('graph-uri');
-	store_uri = $this.data('store-uri');
-	mapping_uri = $this.data('mapping-uri');
-	content_type = $this.data('content-type');
-
-	switch (source_uri_from) {  // Get source URI
-		case "next-input":
-			source_uri = $.trim($this.nextAll('input:first').val());
-			break;
-		default:
-			source_uri = $this.data('source-uri');
-	};
-	if (!source_uri.length) return;
-
-	// Source append (if applicable)
-	if ($this.data('source-append')&&$this.data('source-append').length) {
-		source_uri += $this.data('source-append');
-	}
+function do_search(obj, $archives) {
 	
-	// Search query
-	source_uri = source_uri.replace('%1',sq);
+	$archives.each(function() {
+		var $archive = $(this);
+		var archive = $archive.data('request-1');
+		var proxy_url = $('link#proxy_url').attr('href');
+		var parser_path = $('link#base_url').attr('href')+'application/views/ui/parsers/jquery.'+archive.parser+'.js';	
+		archive.source = archive.source.replace('%1',obj.terms.join(' '));
+		$.extend(archive, {proxy_url:proxy_url,error_callback:store_error_callback,complete_callback:store_complete_callback});
+		$.getScript(parser_path, function() {
+			$.fn.parse(archive);
+		});			
+	});
 	
-	// Get parser and parse
-	loading(true);
-	var parser_path = $('link#base_url').attr('href')+'application/views/ui/parsers/jquery.'+parser+'.js';
-	$.getScript(parser_path, function() {
-		$.fn.parse({
-			graph_uri: ('undefined'!=typeof(graph_uri))?graph_uri:null,
-			store_uri: ('undefined'!=typeof(store_uri))?store_uri:null,
-			mapping_uri: ('undefined'!=typeof(mapping_uri))?mapping_uri:null,
-			source_uri: ('undefined'!=typeof(source_uri))?source_uri:null,
-			content_type: ('undefined'!=typeof(content_type))?content_type:null,
-			parser: parser,
-			proxy:true,
-			proxy_uri:$('link#proxy_uri').attr('href'),
-			error_callback:store_error_callback,
-			complete_callback:store_complete_callback
-		});
-	});	
-	
-}
-function select_archive() {
-	var $parent = $(this).parent();
-	if(this.checked) {
-		$(this).hide();
-		$parent.appendTo('#selected-archives');
-		$('<button type="button" class="btn btn-link" onclick="clear_archive.call(this)">clear</button>').appendTo($parent);
-	}
-}
-
-function clear_archive() {
-	$parent = $(this).parent();
-	$input = $parent.children('input');
-	$input.show();
-	$parent.appendTo('#archive-list div[for="'+$input[0].id+'"]')
-	$input[0].checked = 0;
-	$(this).remove();
-}
-
-function filter_archives() {
-	var filter_text = $('#archive-filter').val();
-	var $archives = $('#archive-list div');
-	if(filter_text == '') {
-		$archives.show();
-		$("#archive-list hr").show();
-	} else {
-		$archives.hide();
-		$("#archive-list hr").hide();
-		$archives.each(function(i,e) {
-			var text = (e.textContent || e.innerText || '')
-			if(text.toUpperCase().indexOf(filter_text.toUpperCase())> -1) {
-				$(e).show();
-			}
-		});
-	}
 }
 
 function store_error_callback(error) {
@@ -345,6 +273,7 @@ function store_error_callback(error) {
 function store_complete_callback(_results) {
 	
 	loading(false);
+	return; // temp
 	jQuery.extend(results, _results);
 	index++;
 	do_search_query();

@@ -1,12 +1,13 @@
 (function( $ ) {
 	
 	var defaults = {
-			store_uri: null,
-    		mapping_uri: null,
-    		source_uri: null,
+			store: null,
+    		mapping: null,
+    		source: null,
+    		graph: null,
     		content_type: null,
     		proxy: true,
-    		proxy_uri: null,
+    		proxy_url: null,
     		error_callback: null,
     		complete_callback: null
 	};  	
@@ -29,7 +30,7 @@
     		return;
     	};
     	if (window['loading']) loading(true);
-    	$.getJSON(opts.proxy_uri, proxy_data(), function( data ) {
+    	$.getJSON(opts.proxy_url, proxy_data(), function( data ) {
     		if (window['loading']) loading(false);
     		parse_store_results(data);
     	}).fail(function(jqXHR) {
@@ -39,10 +40,10 @@
     
     function proxy_data() {
     	return {
-    		graph_uri:(opts.graph_uri)?opts.graph_uri:'',
-    		store_uri:(opts.store_uri)?opts.store_uri:'',
-    		mapping_uri:(opts.mapping_uri)?opts.mapping_uri:'',
-    		source_uri:(opts.source_uri)?opts.source_uri:'',
+    		graph:(opts.graph)?opts.graph:'',
+    		store:(opts.store)?opts.store:'',
+    		mapping:(opts.mapping)?opts.mapping:'',
+    		source:(opts.source)?opts.source:'',
     		content_type:(opts.content_type)?opts.content_type:'',
     		parser:(opts.parser)?opts.parser:''
     	};
