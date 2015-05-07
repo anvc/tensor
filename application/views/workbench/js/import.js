@@ -78,17 +78,19 @@ function set_sheet() {
 	var $search = $('.search:first');
 	var $closeteaser = $('.toggle-teaser');
 	var $closesearch = $('.toggle-search');
+	var $spreadsheet = $('#spreadsheet');
+
 	// Set sheet height
 	set_sheet_height();
 	// Toggle teaser
 	$closeteaser.click(function() {
 		if ($teaser.is(':hidden')) {
 			$teaser.show();
-			$closeteaser.removeClass('btn-primary').blur();
+			$closeteaser.addClass('btn-primary').blur();
 			$teaser.find('.carousel').carousel();
 		} else {
 			$teaser.hide();
-			$closeteaser.addClass('btn-primary').blur();
+			$closeteaser.removeClass('btn-primary').blur();
 			$teaser.find('.carousel').carousel('pause');
 		}	
 		set_sheet_height();
@@ -97,20 +99,39 @@ function set_sheet() {
 	$closesearch.click(function() {
 		if ($search.is(':hidden')) {
 			$search.show();
-			$closesearch.removeClass('btn-primary').blur();
-			// TODO: need to set the spreadsheet's bootstrap cols to 9
+			$closesearch.addClass('btn-primary').blur();
+
+			$spreadsheet.removeClass('col-xs-12');
+			$spreadsheet.removeClass('col-sm-12');
+			$spreadsheet.removeClass('col-md-12');
+			$spreadsheet.removeClass('col-lg-12');
+			$spreadsheet.addClass('col-xs-9');
+			$spreadsheet.addClass('col-sm-9');
+			$spreadsheet.addClass('col-md-9');
+			$spreadsheet.addClass('col-lg-9');
+
 		} else {
 			$search.hide();
-			$closesearch.addClass('btn-primary').blur();
-			// TODO: need to set the spreadsheet's bootstrap cols to 12
+			$closesearch.removeClass('btn-primary').blur();
+
+			$spreadsheet.addClass('col-xs-12');
+			$spreadsheet.addClass('col-sm-12');
+			$spreadsheet.addClass('col-md-12');
+			$spreadsheet.addClass('col-lg-12');
+			$spreadsheet.removeClass('col-xs-9');
+			$spreadsheet.removeClass('col-sm-9');
+			$spreadsheet.removeClass('col-md-9');
+			$spreadsheet.removeClass('col-lg-9');
 		}	
 	});
 	// View buttons
 	$('.view-buttons').find('button').click(function() {
 		var $clicked = $(this);
-		$clicked.siblings().removeClass('btn-default').addClass('btn-primary');
-		$clicked.removeClass('btn-primary').addClass('btn-default');
-		spreadsheet_ui($clicked.attr('id'));
+		$clicked.siblings().addClass('btn-default').removeClass('btn-primary');
+		$clicked.addClass('btn-primary').removeClass('btn-default');
+		if (!jQuery.isEmptyObject(do_search.results)) {
+			spreadsheet_ui($clicked.attr('id'));
+		}
 	});
 	// Advanced search
 	$('#advanced_search_link').click(function() {
@@ -310,7 +331,7 @@ function spreadsheet_ui(view) {
 		$error.find('[class="modal-body"]').html(html);
 		$error.modal();
 	};
-	if ('undefined'==typeof(view)) view = $('.view-buttons').find('button[class*="btn-default"]').attr('id');
+	if ('undefined'==typeof(view)) view = $('.view-buttons').find('button[class*="btn-primary"]').attr('id');
 	if ('undefined'!=typeof($.fn.spreadsheet_view)) {
 		var checked = $.fn.spreadsheet_view.checked();
 		$.fn.spreadsheet_view.remove();
