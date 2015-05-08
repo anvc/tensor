@@ -56,8 +56,8 @@
     }
     
     function do_create_table() {
-    	$self.children(':not(.spreadsheet_panel)').remove();
-    	$self.children('.spreadsheet_panel').hide();
+        $self.children(':not(.spreadsheet_panel)').remove();
+        $self.children('.spreadsheet_panel').hide();
     	$('<table class="table table-hover table-condensed"></table>').appendTo($self);
     }
     
@@ -78,12 +78,12 @@
     	var $body = $('<tbody></tbody>').appendTo($table);
     	var to_display = predicates_to_display();
     	for (var j in opts.rows) {
-    		var $row = $('<tr></tr>').appendTo($body);
+    		var $row = $('<tr class="list-item"></tr>').appendTo($body);
     		$('<td><div><input type="checkbox" value="'+j+'" /><a target="_blank" href="'+j+'" title="'+j+'">'+basename(j)+'</a></div><br clear="both" /></td>').appendTo($row);
     		for (var k in to_display) {
     			var value = ('undefined'!=typeof(opts.rows[j][to_display[k]])) ? opts.rows[j][to_display[k]][0].value : '';
     			value = value.linkify();
-    			$('<td><div>'+value+'</div><br clear="both" /></td>').appendTo($row);
+    			$('<td><div class="'+k+'">'+value+'</div><br clear="both" /></td>').appendTo($row);
     		}
     		$('<td><div></div><br clear="both" /></td>').appendTo($row);
     		if (-1!=opts.check.indexOf(j)) {
@@ -108,12 +108,12 @@
     }
     
     function predicates_to_display(arr) {
-    	return [
-   		     'http://purl.org/dc/terms/title',
-		     'http://purl.org/dc/terms/description',
-		     'http://purl.org/dc/terms/contributor',
-		     'http://purl.org/dc/terms/source'
-    	       ];
+    	return {
+   		     'title':'http://purl.org/dc/terms/title',
+		     'description':'http://purl.org/dc/terms/description',
+		     'contributor':'http://purl.org/dc/terms/contributor',
+		     'source':'http://purl.org/dc/terms/source'
+    	       };
     }
     
     function _predicates_to_display(arr) {

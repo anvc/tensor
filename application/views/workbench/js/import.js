@@ -14,7 +14,6 @@ function set_search() {
 	$search_form.submit(function() {  // Submit search
 		var sq = $(this).find('input:first').val();
 		var arr = $.fn.parse_search(sq);
-		console.log(arr);
 		search();
 		return false;
 	});

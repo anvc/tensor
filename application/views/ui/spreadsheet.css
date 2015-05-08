@@ -87,6 +87,7 @@ th {border-left:solid 1px #bbbbbb; background-color:#eeeeee;}
 th:first-of-type {border-left:inherit;}
 td {position:relative; background-color:white; overflow:hidden;}
 td, th {background-clip: padding-box; /* <-- So borders display in FF */ border-top:0 !important; border-bottom:solid 1px #ddd !important;}  /* Overwrite Bootstrap defaults */
+tr .title {font-weight:bold;}
 tr.active td > div {border-color:#dff0d8;}
 td > div:not(.container) {white-space:nowrap; overflow:hidden; position:absolute; top:5px; left:5px; right:5px; text-align:left;}
 table input[type=checkbox] {margin-top:2px; margin-right:12px; float:left;}
