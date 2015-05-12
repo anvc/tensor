@@ -107,10 +107,8 @@
     
     function do_match_height(bool) {
     	if (bool) {
-    		console.log('match height start');
     		$self.find('.tile').matchHeight(true);
     	} else {
-    		console.log('match height');
     		$.fn.matchHeight._update();
     	}
     }

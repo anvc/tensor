@@ -40,8 +40,8 @@ $config['archives'][] = array(
 	)
 );
 $config['archives'][] = array(
-	'title'   		=> 'UVic Digital Collections',
-	'subtitle'		=> 'University of Victoria Digital Collections',
+	'title'   		=> 'University of Victoria Digital Collections',
+	'subtitle'		=> 'The University of Victoria Libraries support a variety of digital initiatives to promote wider access to our unique UVic collections.',
 	'categories' 	=> array('audio', 'video', 'image'),
 	'logo'			=> '',
 	'thumbnail'		=> 'views/ui/images/uvicdigitalcollections.thumb.png',
