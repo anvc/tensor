@@ -20,16 +20,23 @@
     	
     	this.parse = function() {alert('You need to override spreadsheet_model\'s parse() method!')}; 
     	
-        this.fetch = function() {
+        this.fetch = function(data_type) {
         	if (!opts.proxy) {
         		alert('Non-proxy ajax requests not supported');
         		return;
-        	};
-        	$.getJSON(opts.proxy_url, proxy_data(), function( data ) {
-        		parse_store_results(data);
-        	}).fail(function(jqXHR) {
-        		error_callback(jqXHR);
-        	});
+        	};	
+            $.ajax({
+                url: opts.proxy_url,
+                data: proxy_data(),
+                dataType: data_type,
+                type: 'GET',
+                success: function (data) {
+            		parse_store_results(data);
+                },
+                error: function (jqXHR) {
+                	error_callback(jqXHR);
+                }
+            });        	
         };
         
         var proxy_data = function() {
@@ -39,7 +46,8 @@
         		mapping:(opts.mapping)?opts.mapping:'',
         		source:(opts.source)?opts.source:'',
         		content_type:(opts.content_type)?opts.content_type:'',
-        		parser:(opts.parser)?opts.parser:''
+        		parser:(opts.parser)?opts.parser:'',
+        		handler:(opts.handler)?opts.handler:''
         	};
         };
         

@@ -3,7 +3,7 @@
     $.fn.parse = function(options) {
     	var model = new $.fn.spreadsheet_model(options);
     	model.parse = parse;
-    	model.fetch();
+    	model.fetch('json');
     };
     
 	function parse(data, archive) {

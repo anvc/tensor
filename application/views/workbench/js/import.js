@@ -286,7 +286,7 @@ function do_search(obj, $archives) {
 		var $archive = $(this);
 		var archive = $.extend({}, $archive.data('request-1'));
 		var proxy_url = $('link#proxy_url').attr('href');
-		var parser_path = $('link#base_url').attr('href')+'application/views/ui/parsers/jquery.'+archive.parser+'.js';	
+		var parser_path = $('link#base_url').attr('href')+'application/views/ui/parsers/'+archive.parser+'.js';	
 		archive.source = archive.source.replace('%1',obj.terms.join(' '));
 		$.extend(archive, {proxy_url:proxy_url,error_callback:store_error_callback,complete_callback:store_complete_callback});
 		$.getScript(parser_path, function() {
