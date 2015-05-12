@@ -23,6 +23,10 @@
         	};
         });
         this.opts.complete_callback(results, archive);
+        for (var uri in results) {
+        	var obj = {'http://purl.org/dc/terms/description':'This is a description.'};
+        	
+        }
 	}    
     
 }( jQuery ));

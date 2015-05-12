@@ -23,6 +23,23 @@ $config['archives'][] = array(
 	)
 );
 $config['archives'][] = array(
+	'title'   		=> 'Iowa Digital Library',
+	'subtitle'		=> 'The Iowa Digital Library features more than a million digital objects created from the holdings of the University of Iowa Libraries and its campus partners. Included are illuminated manuscripts, historic maps, fine art, historic newspapers, scholarly works, and more. Digital collections are coordinated by Digital Research & Publishing.',
+	'categories' 	=> array('audio', 'video', 'image'),
+	'logo'			=> '',
+	'thumbnail'		=> 'views/ui/images/iowadigitallibrary.thumb.png',
+	'teaser'		=> '',
+	'request-1'		=> array(
+		'handler'		=> 'contentdm',
+		'parser'  		=> "contentdm",
+		'store'   		=> "",
+		'source'  		=> "http://digital.lib.uiowa.edu/cdm/search/mode/all/?searchterm=%1",
+		'content_type'	=> "xml",
+		'mapping' 		=> "",
+		'graph'   		=> ""
+	)
+);
+$config['archives'][] = array(
 	'title'   		=> 'Critical Commons',
 	'subtitle'		=> 'For Fair &amp; Critical Participation in Media Culture',
 	'categories' 	=> array('affiliated', 'video', 'image'),
