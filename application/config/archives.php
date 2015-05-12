@@ -40,6 +40,23 @@ $config['archives'][] = array(
 	)
 );
 $config['archives'][] = array(
+	'title'   		=> 'UVic Digital Collections',
+	'subtitle'		=> 'University of Victoria Digital Collections',
+	'categories' 	=> array('audio', 'video', 'image'),
+	'logo'			=> '',
+	'thumbnail'		=> 'views/ui/images/uvicdigitalcollections.thumb.png',
+	'teaser'		=> '',
+	'request-1'		=> array(
+		'handler'		=> 'contentdm',
+		'parser'  		=> "contentdm",
+		'store'   		=> "",
+		'source'  		=> "http://contentdm.library.uvic.ca/cdm/search/searchterm/%1/order/nosort",
+		'content_type'	=> "xml",
+		'mapping' 		=> "",
+		'graph'   		=> ""
+	)
+);
+$config['archives'][] = array(
 	'title'   		=> 'Critical Commons',
 	'subtitle'		=> 'For Fair &amp; Critical Participation in Media Culture',
 	'categories' 	=> array('affiliated', 'video', 'image'),

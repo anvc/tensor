@@ -76,9 +76,13 @@
     		}
     		$img.load(function() {
     			num_rows--;
-    			if (num_rows <= 0) do_match_height();
+    			if (num_rows%5==0 || num_rows <= 0) do_match_height();
     		});
-    	}    	
+    	}    
+    	do_match_height(true);
+    	$('body').on('sheet_layout_change', function() {
+    		do_match_height();
+    	});
     	$self.find('input[type="checkbox"]').click(function(event) {
     		event.stopPropagation();
     		var is_checked = ($(this).is(':checked')) ? true : false;
@@ -101,8 +105,14 @@
 		}   	
     }
     
-    function do_match_height() {
-    	$self.find('.tile').matchHeight(true);
+    function do_match_height(bool) {
+    	if (bool) {
+    		console.log('match height start');
+    		$self.find('.tile').matchHeight(true);
+    	} else {
+    		console.log('match height');
+    		$.fn.matchHeight._update();
+    	}
     }
     
     function obj_length(obj) {

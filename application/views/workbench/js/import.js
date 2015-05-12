@@ -87,10 +87,12 @@ function set_sheet() {
 			$teaser.show();
 			$closeteaser.addClass('btn-primary').blur();
 			$teaser.find('.carousel').carousel();
+			$('body').trigger('sheet_layout_change');
 		} else {
 			$teaser.hide();
 			$closeteaser.removeClass('btn-primary').blur();
 			$teaser.find('.carousel').carousel('pause');
+			$('body').trigger('sheet_layout_change');
 		}	
 		set_sheet_height();
 	});
@@ -99,7 +101,6 @@ function set_sheet() {
 		if ($search.is(':hidden')) {
 			$search.show();
 			$closesearch.addClass('btn-primary').blur();
-
 			$spreadsheet.removeClass('col-xs-12');
 			$spreadsheet.removeClass('col-sm-12');
 			$spreadsheet.removeClass('col-md-12');
@@ -108,11 +109,10 @@ function set_sheet() {
 			$spreadsheet.addClass('col-sm-9');
 			$spreadsheet.addClass('col-md-9');
 			$spreadsheet.addClass('col-lg-9');
-
+			$('body').trigger('sheet_layout_change');
 		} else {
 			$search.hide();
 			$closesearch.removeClass('btn-primary').blur();
-
 			$spreadsheet.addClass('col-xs-12');
 			$spreadsheet.addClass('col-sm-12');
 			$spreadsheet.addClass('col-md-12');
@@ -121,6 +121,7 @@ function set_sheet() {
 			$spreadsheet.removeClass('col-sm-9');
 			$spreadsheet.removeClass('col-md-9');
 			$spreadsheet.removeClass('col-lg-9');
+			$('body').trigger('sheet_layout_change');
 		}	
 	});
 	// View buttons
