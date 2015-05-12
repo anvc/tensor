@@ -292,6 +292,10 @@ function do_search(obj, $archives) {
 		$.getScript(parser_path, function() {
 			loading(true, archive.title);
 			$.fn.parse(archive);
+		}).fail(function() {
+			var $error = $('#error');
+			$error.find('[class="modal-body"]').html('<p>Could not find parser</p>');
+			$error.modal();
 		});			
 	});
 	
@@ -324,11 +328,11 @@ function store_complete_callback(_results, archive) {
 function spreadsheet_ui(view) {
 
 	// Presets
-	if (jQuery.isEmptyObject(do_search.results)) {
-		var $error = $('#error');
-		var html = '<p>The search returned zero results!</p>';
-		$error.find('[class="modal-body"]').html(html);
-		$error.modal();
+	var $error = $('#error');
+	if (jQuery.isEmptyObject(do_search.results) && $error.is(':hidden')) {
+		//var html = '<p>The search returned zero results!</p>';
+		//$error.find('[class="modal-body"]').html(html);
+		//$error.modal();
 	};
 	if ('undefined'==typeof(view)) view = $('.view-buttons').find('button[class*="btn-primary"]').attr('id');
 	if ('undefined'!=typeof($.fn.spreadsheet_view)) {

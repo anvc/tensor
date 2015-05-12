@@ -20,7 +20,7 @@ class Proxy_model extends CI_Model {
 		if (empty($handler)) return self::error('Missing handler');
 
 		$parser_path = FCPATH."/application/models/handlers/$handler.php";
-		if (!file_exists($parser_path)) return self::error('Could not find parser PHP file');
+		if (!file_exists($parser_path)) return self::error('Could not find models/handlers PHP file');
 		require_once($parser_path);
 		if (empty($content)) {
 			$curlinfo['error'] = 'Could not resolve content';

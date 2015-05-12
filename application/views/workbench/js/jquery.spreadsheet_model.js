@@ -56,10 +56,13 @@
         };
         
         var parse_store_results = function(data) {
-        	if ('undefined'!=typeof(data.error) && data.error.length) {
-        		error_callback({status:'Proxy error:',statusText:data.error});
-        		return;
-        	};
+        	try {
+        		var obj = $.parseJSON(data);
+            	if ('undefined'!=typeof(obj.error) && obj.error.length) {
+            		error_callback({status:'Proxy error:',statusText:obj.error});
+            		return;
+            	};        		
+        	} catch(e) {};
         	self.parse(data, opts);
         }    	
 
