@@ -31,8 +31,8 @@
 			$('<div class="row"><div class="col-md-12 col-xs-12">All metadata for this item</div></div>').appendTo($container);
 			// The following will be replaced by a crawl through the actual RDF-JSON node for the row ... for now, fill in placeholders
 			var predicates = [];
-			var $values = $('.spreadsheet tbody td:not(:last)');
-			$('.spreadsheet thead th:not(:last)').each(function() {
+			var $values = $('#spreadsheet-table tbody td:not(:last)');
+			$('#spreadsheet-table thead th:not(:last)').each(function() {
 				predicates.push($.trim($(this).text()));
 			});
 			for (var k = 0; k < predicates.length; k++) {

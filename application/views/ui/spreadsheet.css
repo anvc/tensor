@@ -85,7 +85,8 @@ thead tr th:last-child {text-align:center;}
 tbody tr td:not(.metadata) {text-align:center; cursor:pointer;}
 th {border-left:solid 1px #bbbbbb; background-color:#eeeeee;}
 th:first-of-type {border-left:inherit;}
-td {position:relative; background-color:white; overflow:hidden;}
+td {position:relative; background-color:white;}
+td div {width:100%; overflow:hidden;white-space: nowrap;text-overflow: ellipsis;}
 td, th {background-clip: padding-box; /* <-- So borders display in FF */ border-top:0 !important; border-bottom:solid 1px #ddd !important;}  /* Overwrite Bootstrap defaults */
 tr .title {font-weight:bold;}
 tr.active td > div {border-color:#dff0d8;}

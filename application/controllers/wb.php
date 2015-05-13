@@ -35,12 +35,13 @@ class Wb extends CI_Controller {
 
 		$this->template->add_css(APPPATH.'views/common/jquery-ui-1.11.4.custom/jquery-ui.min.css');
 		$this->template->add_css(APPPATH.'views/common/bootstrap/css/bootstrap.min.css');
-		$this->template->add_css(APPPATH.'views/common/resizable-columns/jquery.resizableColumns.css');
+		$this->template->add_css(APPPATH.'views/common/tablesorter/theme.default.css');
 		$this->template->add_css(APPPATH.'views/ui/spreadsheet.css');
 		$this->template->add_js('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/jquery-ui-1.11.4.custom/jquery-ui.min.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/bootstrap/js/bootstrap.min.js');
-		$this->template->add_js(base_url().APPPATH.'views/common/resizable-columns/jquery.resizableColumns.js');
+		$this->template->add_js(base_url().APPPATH.'views/common/tablesorter/jquery.tablesorter.min.js');
+		$this->template->add_js(base_url().APPPATH.'views/common/tablesorter/jquery.tablesorter.widgets.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/match-height/jquery.matchHeight.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/linkify/linkify.js');
 		$this->template->add_js(base_url().APPPATH.'views/workbench/js/jquery.spreadsheet_model.js');

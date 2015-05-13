@@ -58,7 +58,7 @@
     function do_create_table() {
         $self.children(':not(.spreadsheet_panel)').remove();
         $self.children('.spreadsheet_panel').hide();
-    	$('<table class="table table-hover table-condensed"></table>').appendTo($self);
+    	$('<table id="spreadsheet-table"></table>').appendTo($self);
     }
     
     function do_create_header() {
@@ -70,7 +70,7 @@
     	for (var j in to_display) {
     		var $cell = $('<th>'+pnode(to_display[j])+'</th>').appendTo($row);
     	}
-    	$('<th><big><a href="javascript:void(null)" data-toggle="modal" data-target="#column_select">+/-</a></big></th>').appendTo($row);
+    	$('<th class="resizable-false"><big><a href="javascript:void(null)" data-toggle="modal" data-target="#column_select">+/-</a></big></th>').appendTo($row);
     }
     
     function do_create_cells() {
@@ -93,16 +93,35 @@
     }
     
     function do_events() {
-    	$self.find('table').resizableColumns();
-    	$self.find('tr').on('click', 'td:not(:first):not(:has(a))', function() {
+    	// $self.find('table').resizableColumns();
+        $('#spreadsheet-table').tablesorter({
+            theme:'default',
+            widgets:["zebra","resizable","stickyHeaders"],
+            widgetOptions: {
+                resizable:true,
+                resizable_widths:['15%','30%','35%','10%','5%','5%'],
+            },
+            headers:{
+                5:{
+                    sorter:false
+                }
+            }
+        });
+    	$self.find('tr').on('click','td', function() {
     		var $this = $(this);
     		if ($this.hasClass('metadata')) return;
     		var $tr = $this.closest('tr');
     		$tr.metadataPanel();
     	});
-    	$self.find('table').on('change', '#checkall', function() {
+        $self.find('td a').on('click', function(e) {
+            e.stopPropagation();
+        })
+        $self.find('td input[type="checkbox"]').on('click', function(e) {
+            e.stopPropagation();
+        })
+    	$('#checkall').change(function() {
     		var is_checked = (this.checked) ? true : false;
-    		$view.find('table').find('input[type="checkbox"]').prop('checked', is_checked);
+    		$self.find('table').find('input[type="checkbox"]').prop('checked', is_checked);
     		this.blur();
     	});   	
     }
