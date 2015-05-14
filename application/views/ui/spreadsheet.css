@@ -87,6 +87,7 @@ th {border-left:solid 1px #bbbbbb; background-color:#eeeeee;}
 th:first-of-type {border-left:inherit;}
 td {position:relative; background-color:white;}
 td div {width:100%; overflow:hidden;white-space: nowrap;text-overflow: ellipsis;}
+td.metadata div {white-space: normal;}
 td, th {background-clip: padding-box; /* <-- So borders display in FF */ border-top:0 !important; border-bottom:solid 1px #ddd !important;}  /* Overwrite Bootstrap defaults */
 tr .title {font-weight:bold;}
 tr.active td > div {border-color:#dff0d8;}

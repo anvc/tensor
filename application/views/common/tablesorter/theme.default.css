@@ -75,7 +75,7 @@ Default Theme
 .tablesorter-default tbody > tr.active > td,
 .tablesorter-default tbody > tr.even:hover > td,
 .tablesorter-default tbody > tr.odd:hover > td {
-	background-color: #fff;
+	background-color: #dfdfdf;
 	color: #000;
 }
 
@@ -89,10 +89,10 @@ Default Theme
 
 /* Zebra Widget - row alternating colors */
 .tablesorter-default tr.odd > td {
-	background-color: #dfdfdf;
+	background-color: #efefef;
 }
 .tablesorter-default tr.even > td {
-	background-color: #efefef;
+	background-color: #fff;
 }
 
 /* Column Widget - column sort colors */

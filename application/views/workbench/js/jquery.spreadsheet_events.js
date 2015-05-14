@@ -29,20 +29,23 @@
 			var $metadata = $('<tr style="display:none;"><td colspan="20" class="metadata"><div class="container" style="width:100%;"></div><br clear="both" /></td></tr>');
 			var $container = $metadata.find('.container');
 			$('<div class="row"><div class="col-md-12 col-xs-12">All metadata for this item</div></div>').appendTo($container);
+			var $wrapper = $('<div class="row"><div class="col-md-6 col-xs-6"><div class="container-fluid"></div></div><div class="col-md-3 col-xs-3"><div class="teaser"></div></div></div>');
+			var $subcontainer = $wrapper.find('.container-fluid');
+			$wrapper.appendTo($container);
 			// The following will be replaced by a crawl through the actual RDF-JSON node for the row ... for now, fill in placeholders
 			var predicates = [];
-			var $values = $('#spreadsheet-table tbody td:not(:last)');
+			var $values = $(this).find('td:not(:last)');
 			$('#spreadsheet-table thead th:not(:last)').each(function() {
 				predicates.push($.trim($(this).text()));
 			});
 			for (var k = 0; k < predicates.length; k++) {
 				var value = $.trim($('<div>'+$values.eq(k).children(':first').html()+'</div>').find(disallowed_tags.join(',')).remove().end().html());
-				var $row = $('<div class="row"><div class="col-md-3 col-xs-3" style="text-align:left;font-weight:bold;">'+predicates[k]+'</div><div class="col-md-9 col-xs-9" style="text-align:left;">'+value+'</div></div>');
-				$container.append($row);
+				var $row = $('<div class="row"><div class="col-md-6 col-xs-6" style="text-align:left;font-weight:bold;">'+predicates[k]+'</div><div class="col-md-6 col-xs-6" style="text-align:left;">'+value+'</div></div>');
+				$subcontainer.append($row);
 			}
-			$('<div class="row"><div class="col-md-3 col-xs-3" style="text-align:left;font-weight:bold;">dcterms:source</div><div class="col-md-9 col-xs-9" style="text-align:left;">YouTube</div></div>').appendTo($container);
-			$('<div class="row"><div class="col-md-3 col-xs-3" style="text-align:left;font-weight:bold;">dcterms:publisher</div><div class="col-md-9 col-xs-9" style="text-align:left;">Internet Movie Database</div></div>').appendTo($container);
-			$('<div class="row"><div class="col-md-3 col-xs-3" style="text-align:left;font-weight:bold;">dcterms:identifier</div><div class="col-md-9 col-xs-9" style="text-align:left;">'+(Math.floor(Math.random()*90000) + 10000)+'</div></div>').appendTo($container);
+			// $('<div class="row"><div class="col-md-3 col-xs-3" style="text-align:left;font-weight:bold;">dcterms:source</div><div class="col-md-9 col-xs-9" style="text-align:left;">YouTube</div></div>').appendTo($container);
+			// $('<div class="row"><div class="col-md-3 col-xs-3" style="text-align:left;font-weight:bold;">dcterms:publisher</div><div class="col-md-9 col-xs-9" style="text-align:left;">Internet Movie Database</div></div>').appendTo($container);
+			// $('<div class="row"><div class="col-md-3 col-xs-3" style="text-align:left;font-weight:bold;">dcterms:identifier</div><div class="col-md-9 col-xs-9" style="text-align:left;">'+(Math.floor(Math.random()*90000) + 10000)+'</div></div>').appendTo($container);
 			$parent.after($metadata);
 			$metadata.fadeIn();
 		}
