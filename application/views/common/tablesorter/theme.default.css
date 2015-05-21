@@ -70,11 +70,11 @@ Default Theme
 }
 
 /* hovered row colors */
-.tablesorter-default tbody > tr.hover > td,
-.tablesorter-default tbody > tr:hover > td,
-.tablesorter-default tbody > tr.active > td,
-.tablesorter-default tbody > tr.even:hover > td,
-.tablesorter-default tbody > tr.odd:hover > td {
+.tablesorter-default tbody > tr.hover > td:not(.metadata),
+.tablesorter-default tbody > tr:hover > td:not(.metadata),
+.tablesorter-default tbody > tr.active > td:not(.metadata),
+.tablesorter-default tbody > tr.even:hover > td:not(.metadata),
+.tablesorter-default tbody > tr.odd:hover > td:not(.metadata) {
 	background-color: #dfdfdf;
 	color: #000;
 }

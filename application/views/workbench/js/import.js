@@ -46,6 +46,7 @@ function set_search() {
 		$(this).closest('form').submit();
 	});
 	$findable_form.children().click(function(event, dont_trigger_click) {
+		$searchable_form.removeClass('bg-danger');
 		$searchable_form.find('.notice').remove();
 		place( this, (('searchable_form'==$(this).closest('form').attr('id'))?$findable_form:$searchable_form) );
 		if (!$searchable_form.children().length) $searchable_form.append('<div class="notice">Add archives from the list below</div>');
@@ -254,16 +255,23 @@ function loading(bool, archive_title) {
 function search() {
 
 	var $search = $('#search');
+	var $search_form = $('#search_form');
 	var $searchable = $('#searchable_form');
 	
+	$search_form.removeClass('bg-danger');
+	$search_form.find('.glyphicon').removeClass('bg-danger');
+
 	if (!$searchable.children('.archive').length) {
-		alert('Please select one or more archives to search');
+		$searchable.addClass('bg-danger');
+		// alert('Please select one or more archives to search');
 		return;
 	}
 	
 	var sq = $search.val();
 	if (!sq.length) {
-		alert('Please enter one or more search terms');
+		$search_form.addClass('bg-danger');
+		$search_form.find('.glyphicon').addClass('bg-danger');
+		// alert('Please enter one or more search terms');
 		return;
 	}
 
@@ -322,8 +330,9 @@ function store_complete_callback(_results, archive) {
 	loading(false, archive.title);
 	do_search.returned++;
 	jQuery.extend(do_search.results, _results); 
-	if (do_search.returned==do_search.total) spreadsheet_ui();
-	
+	if (do_search.returned==do_search.total) {
+		spreadsheet_ui();
+	}
 }
 
 function spreadsheet_ui(view) {

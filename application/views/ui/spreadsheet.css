@@ -16,7 +16,7 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 .internet-archive-icon {display:inline-block; width:57px; height:32px; background-color:white; padding:0px 4px 0px 4px; background-image:url(images/internetarchive.logo.png); background-repeat:no-repeat; background-size:100%;}
 .youtube-icon {display:inline-block; width:75px; height:32px; background-color:white; padding:0px 4px 0px 4px; background-image:url(images/youtube.logo.png); background-repeat:no-repeat; background-size:100%;}
 /* Teaser */
-.teaser {height:200px; overflow:hidden;}
+.teaser {height:200px; overflow:hidden;text-align:center;}
 .teaser > div {padding-left:0px; padding-right:0px; background-color:#eeeeee;}
 .teaser .carousel-inner .item {height:200px; background-size:100%; background-repeat:no-repeat; background-position:center 35%;}
 .teaser .carousel-caption {
@@ -44,6 +44,7 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 #searchable_form.hl, #findable_form.hl {border:solid 1px yellow;}
 #find_archives_form {padding-top:10px;}
 .search .notice {text-align:center; color:#555555; padding-top:8px; height:42px;}
+form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 .spreadsheet {padding-right:0px; padding-left:0px; padding-bottom:25px;}
 #manage_archives, #advanced_search {background-color:#eeeeee; position:absolute; top:0px; left:0px; right:0px; display:none; z-index:9;}
 #advanced_search {padding:20px 20px 20px 20px; width:100%;}

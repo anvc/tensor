@@ -66,6 +66,8 @@
     	var $head = $('<thead><tr></tr></thead>').prependTo($table);
     	var $row = $head.find('tr');
     	var to_display = predicates_to_display();
+        $table.data('namespaces_reversed',opts.namespaces_reversed);
+
     	$('<th><input type="checkbox" id="checkall" />rdf:resource</th>').appendTo($row);
     	for (var j in to_display) {
     		var $cell = $('<th>'+pnode(to_display[j])+'</th>').appendTo($row);
@@ -111,6 +113,15 @@
     		var $this = $(this);
     		if ($this.hasClass('metadata')) return;
     		var $tr = $this.closest('tr');
+
+            if($tr.data("results") == undefined) {
+                var index_get_meta = $tr.find('input[type="checkbox"]').val();
+                var row_results = {};
+                for(var key in opts.rows[index_get_meta]) {
+                    row_results[pnode(key)] = opts.rows[index_get_meta][key][0].value;
+                }
+                $tr.data("results",row_results);
+            }
     		$tr.metadataPanel();
     	});
         $self.find('td a').on('click', function(e) {
@@ -166,6 +177,7 @@
     		str = str.replace(j, opts.namespaces_reversed[j]+':');
     		return str;
     	}
+        return str;
     }
     
     // http://phpjs.org/functions/basename/
