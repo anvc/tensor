@@ -15,21 +15,23 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 .critical-commons-icon {display:inline-block; width:150px; height:32px; background-color:white; padding:0px 4px 0px 4px; background-image:url(images/criticalcommons.logo.png); background-repeat:no-repeat; background-size:100%;}
 .internet-archive-icon {display:inline-block; width:57px; height:32px; background-color:white; padding:0px 4px 0px 4px; background-image:url(images/internetarchive.logo.png); background-repeat:no-repeat; background-size:100%;}
 .youtube-icon {display:inline-block; width:75px; height:32px; background-color:white; padding:0px 4px 0px 4px; background-image:url(images/youtube.logo.png); background-repeat:no-repeat; background-size:100%;}
+.icon {position:absolute;top:0;left:0;}
 /* Teaser */
 .teaser {height:200px; overflow:hidden;text-align:center;}
 .teaser > div {padding-left:0px; padding-right:0px; background-color:#eeeeee;}
 .teaser .carousel-inner .item {height:200px; background-size:100%; background-repeat:no-repeat; background-position:center 35%;}
-.teaser .carousel-caption {
-	white-space:nowrap; overflow:hidden; bottom:5px; left:0px; right:0px; text-align:left; padding-bottom:0; padding-top:0px; 
-	text-shadow: 1px 2px 1px rgba(0, 0, 0, 1); background:rgba(0,0,0,0.25); padding-left:5%; padding-right:5%;
+.teaser .slide-caption {
+	white-space:normal; overflow:hidden; text-align:left; padding-bottom:10px; padding-top:5px; 
+	text-shadow: 1px 2px 1px rgba(0, 0, 0, 1); background:rgba(0,0,0,0.25);position:absolute;bottom:0;left:0;width:100%;
 }
-.teaser .carousel-caption h4 {margin-top:0px; margin-bottom:0px; margin-top:10px; font-family:Helvetica;}
-.teaser .carousel-caption h4 > span {padding-left:8px; color:#bbbbbb;}
-.teaser .carousel-caption .icon {float:left; margin:4px 10px 4px 0px;}
+.teaser .slide-caption h4 {margin-top:0px; margin-bottom:0px; font-family:Helvetica;padding: 0 5%;color:white;}
+.teaser .slide-caption h4 > span {padding-left:8px; color:#eee;float:right;}
+/*.teaser .slide-caption .icon {float:left; margin:4px 10px 4px 0px;}*/
 .teaser .carousel-inner {z-index:1;}
 .teaser .carousel-control {z-index:8;}
 .teaser .carousel-control .glyphicon-chevron-right {right:40%;}
 .teaser .carousel-control .glyphicon-chevron-left {left:40%;}
+.slide-item {width:400px;height:200px;position:relative;display:inline-block;vertical-align:top;background-size:cover;}
 /* Sheet */
 .sheet {border-top:solid 1px #bbbbbb;}
 #welcome_msg {text-align:center; font-weight:normal; font-size:14px; color:#666666; line-height:150%; padding-top:55px;}

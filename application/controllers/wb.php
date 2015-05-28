@@ -42,6 +42,7 @@ class Wb extends CI_Controller {
 		$this->template->add_js(base_url().APPPATH.'views/common/bootstrap/js/bootstrap.min.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/tablesorter/jquery.tablesorter.min.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/tablesorter/jquery.tablesorter.widgets.js');
+		$this->template->add_js(base_url().APPPATH.'views/common/endless_scroll/endless_scroll.min.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/match-height/jquery.matchHeight.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/linkify/linkify.js');
 		$this->template->add_js(base_url().APPPATH.'views/workbench/js/jquery.spreadsheet_model.js');

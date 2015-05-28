@@ -80,6 +80,8 @@ function set_sheet() {
 	var $closesearch = $('.toggle-search');
 	var $spreadsheet = $('#spreadsheet');
 
+	$("#carousel-example-generic").endlessScroll({width:'100%',height:'200px',steps:-2,speed:40,mousestop:true})
+
 	// Set sheet height
 	set_sheet_height();
 	// Toggle teaser
@@ -87,12 +89,12 @@ function set_sheet() {
 		if ($teaser.is(':hidden')) {
 			$teaser.show();
 			$closeteaser.addClass('btn-primary').blur();
-			$teaser.find('.carousel').carousel();
+			// $teaser.find('.carousel').carousel();
 			$('body').trigger('sheet_layout_change');
 		} else {
 			$teaser.hide();
 			$closeteaser.removeClass('btn-primary').blur();
-			$teaser.find('.carousel').carousel('pause');
+			// $teaser.find('.carousel').carousel('pause');
 			$('body').trigger('sheet_layout_change');
 		}	
 		set_sheet_height();
