@@ -152,7 +152,7 @@
 	<!-- <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#imported">Import Selected Items</button>-->
 	<button type="button" class="btn btn-xs btn-primary toggle-teaser" data-toggle="modal"><span class="glyphicon glyphicon-sound-stereo" aria-hidden="true"></span>&nbsp; Gallery </button>
   <button type="button" class="btn btn-xs btn-primary toggle-search" data-toggle="modal"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp; Search</button>
-  <button type="button" class="btn btn-xs btn-primary toggle-manage" data-toggle="modal"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>&nbsp; Sidebar</button>
+  <button type="button" class="btn btn-xs btn-primary toggle-manage" data-toggle="modal"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>&nbsp; Manage</button>
 </div>
 </div>
 
