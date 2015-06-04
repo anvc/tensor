@@ -37,10 +37,23 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 /* Switch */
 /*.switch-manage{position:fixed;right:0;height:100%;}*/
 /*.switch-import{position:fixed;left:0;height:100%;}*/
-.switch-manage button {position:fixed;right:0;top:50%;z-index: 5}
-.switch-import button {position:fixed;left:0;top:50%;z-index: 5}
+#switch-manage-wrap form {position:fixed;right:5px;top:50%;z-index: 5}
+.switch-manage-highlight,.switch-import-highlight {visibility:hidden;text-align: center;color:#aaa;display:inline-block;padding:0 5px;vertical-align: middle}
+.switch-manage-highlight h3,.switch-import-highlight h3 {margin:0;}
+#switch-import {display:none;}
+#switch-import-wrap form {position:fixed;left:5px;top:50%;z-index: 5}
 .toggle-manage {display:none;}
 .pad-left {padding-left:50px !important;}
+.right-edge-shadow {
+	-webkit-box-shadow: inset -100px 0 100px -100px #999;
+	   -moz-box-shadow: inset -100px 0 100px -100px #999;
+	        box-shadow: inset -100px 0 100px -100px #999;
+}
+.left-edge-shadow {
+	-webkit-box-shadow: inset 100px 0 100px -100px #999;
+	   -moz-box-shadow: inset 100px 0 100px -100px #999;
+	        box-shadow: inset 100px 0 100px -100px #999;
+}
 /* Sheet */
 .sheet {border-top:solid 1px #bbbbbb;}
 #welcome_msg {text-align:center; font-weight:normal; font-size:14px; color:#666666; line-height:150%; padding-top:55px;}

@@ -80,10 +80,10 @@ function set_transition() {
 
 	var $manage = $('.manage:first');
 	var $closemanage = $('.toggle-manage');
-	var $switchmanage = $('.switch-manage');
+	var $switchmanage = $('#switch-manage');
+	var $switchimport = $('#switch-import');
 	var $spreadsheet = $('#spreadsheet');
 
-	var $switchimport = $('.switch-import');
 	$switchmanage.click(function() {
 
 		if(!$search.is(':hidden')) {
@@ -97,6 +97,14 @@ function set_transition() {
 			$closemanage.click();
 			$switchimport.show();
 		},500);
+	});
+
+	$switchmanage.hover(function() {
+		$('.switch-manage-highlight').css('visibility','visible');
+		$spreadsheet.addClass('right-edge-shadow');
+	},function() {
+		$('.switch-manage-highlight').css('visibility','hidden');
+		$spreadsheet.removeClass('right-edge-shadow');
 	});
 
 	$closemanage.click(function() {
@@ -123,8 +131,8 @@ function set_sheet() {
 	var $closesearch = $('.toggle-search');
 	var $closemanage = $('.toggle-manage');
 	var $spreadsheet = $('#spreadsheet');
-	var $switchimport = $('.switch-import');
-	var $switchmanage = $('.switch-manage');
+	var $switchimport = $('#switch-import');
+	var $switchmanage = $('#switch-manage');
 
 	$("#carousel-example-generic").endlessScroll({width:'100%',height:'200px',steps:-2,speed:40,mousestop:true})
 
@@ -177,6 +185,14 @@ function set_sheet() {
 			$switchmanage.show();
 		},500);
 	});
+	$switchimport.hover(function() {
+		$('.switch-import-highlight').css('visibility','visible');
+		$spreadsheet.addClass('left-edge-shadow');
+	},function() {
+		$('.switch-import-highlight').css('visibility','hidden');
+		$spreadsheet.removeClass('left-edge-shadow');
+	});
+
 	// View buttons
 	$('.view-buttons').find('button').click(function() {
 		var $clicked = $(this);

@@ -48,18 +48,20 @@
   </div>
 </div><!-- /teaser -->
 
-<div class="switch-manage">
+<div id="switch-manage-wrap">
   <form>
-    <button type="button" class="btn btn-default btn-lg">
-      <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+    <div class="switch-manage-highlight"><h3>Manage<br />Selection</h3></div>
+    <button id="switch-manage" type="button" class="btn btn-default btn-lg">
+      <div class="glyphicon glyphicon-triangle-right" aria-hidden="true"></div>
     </button>
   </form>
 </div>
-<div class="switch-import">
+<div id="switch-import-wrap">
   <form>
-    <button type="button" class="btn btn-default btn-lg">
+    <button id="switch-import" type="button" class="btn btn-default btn-lg">
       <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
     </button>
+    <div class="switch-import-highlight"><h3>Import<br />Media</h3></div>
   </form>
 </div>
 <div class="sheet row">
