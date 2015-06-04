@@ -16,6 +16,7 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 .internet-archive-icon {display:inline-block; width:57px; height:32px; background-color:white; padding:0px 4px 0px 4px; background-image:url(images/internetarchive.logo.png); background-repeat:no-repeat; background-size:100%;}
 .youtube-icon {display:inline-block; width:75px; height:32px; background-color:white; padding:0px 4px 0px 4px; background-image:url(images/youtube.logo.png); background-repeat:no-repeat; background-size:100%;}
 .icon {position:absolute;top:0;left:0;}
+
 /* Teaser */
 .teaser {height:200px; overflow:hidden;text-align:center;}
 .teaser > div {padding-left:0px; padding-right:0px; background-color:#eeeeee;}
@@ -32,6 +33,14 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 .teaser .carousel-control .glyphicon-chevron-right {right:40%;}
 .teaser .carousel-control .glyphicon-chevron-left {left:40%;}
 .slide-item {width:400px;height:200px;position:relative;display:inline-block;vertical-align:top;background-size:cover;}
+
+/* Switch */
+/*.switch-manage{position:fixed;right:0;height:100%;}*/
+/*.switch-import{position:fixed;left:0;height:100%;}*/
+.switch-manage button {position:fixed;right:0;top:50%;z-index: 5}
+.switch-import button {position:fixed;left:0;top:50%;z-index: 5}
+.toggle-manage {display:none;}
+.pad-left {padding-left:50px !important;}
 /* Sheet */
 .sheet {border-top:solid 1px #bbbbbb;}
 #welcome_msg {text-align:center; font-weight:normal; font-size:14px; color:#666666; line-height:150%; padding-top:55px;}
@@ -58,6 +67,7 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 #advanced_form .value {display:table-cell; width:70%;}
 #advanced_form .btn-primary {float:right; margin:10px 0px 0px 0px;}
 #advanced_form .add {margin-top:10px;}
+.manage{display:none;border-left:solid 1px #bbbbbb; background-color:white;}
 #manage_archives {padding:22px 20px 20px 20px;}
 #managable_form {margin:20px 0px 20px 0px;}
 #managable_form .archive {

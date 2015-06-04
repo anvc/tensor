@@ -17,16 +17,16 @@ class Wb extends CI_Controller {
 
 	public function index() {
 
-		header('Location: '.base_url().'wb/import');
+		header('Location: '.base_url().'wb/pegboard');
 		exit;
 
 	}
 
-	public function import() {
+	public function pegboard() {
 
 		$this->load->helper('array');
 
-		$this->data['title'] = 'Workbench: Import';
+		$this->data['title'] = 'Workbench';
 		$this->data['proxy_url'] = base_url().strtolower(get_class()).'/proxy';
 
 		$this->config->load('archives');
@@ -49,15 +49,7 @@ class Wb extends CI_Controller {
 		$this->template->add_js(base_url().APPPATH.'views/workbench/js/jquery.spreadsheet_events.js');
 		$this->template->add_js(base_url().APPPATH.'views/workbench/js/jquery.advanced_search.js');
 		$this->template->add_js(base_url().APPPATH.'views/workbench/js/import.js');
-		$this->template->render("workbench/import", $this->data);
-
-	}
-
-	public function manage() {
-
-		$this->data['title'] = 'Workbench: Manage';
-
-		echo 'Coming soon...';
+		$this->template->render("workbench/pegboard", $this->data);
 
 	}
 

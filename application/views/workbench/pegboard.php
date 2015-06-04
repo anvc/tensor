@@ -48,8 +48,21 @@
   </div>
 </div><!-- /teaser -->
 
+<div class="switch-manage">
+  <form>
+    <button type="button" class="btn btn-default btn-lg">
+      <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+    </button>
+  </form>
+</div>
+<div class="switch-import">
+  <form>
+    <button type="button" class="btn btn-default btn-lg">
+      <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
+    </button>
+  </form>
+</div>
 <div class="sheet row">
-
 <div class="search col-max-height col-lg-3 col-md-3 col-sm-3 col-xs-3">
 <div>
   <form id="search_form">
@@ -60,7 +73,7 @@
   </form>
   <div class="advanced">Search archives<a href="javascript:void(null);" id="advanced_search_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Advanced Search</a></div>
   <form id="searchable_form">
-  	<div class="notice">Add archives from the list below</div>
+    <div class="notice">Add archives from the list below</div>
   </form>
   <form id="find_archives_form">
     <div class="right-inner-addon">
@@ -72,18 +85,18 @@
   <form id="findable_form">
 <!-- Archives -->
 <?
-	foreach ($archives as $archive) {
-		echo '<div ';
-		echo 'class="archive" ';
-		echo 'style="background-image:url('.base_url().APPPATH.$archive['thumbnail'].');" ';
-		echo 'title="'.$archive['title'].': '.$archive['subtitle'].'" ';
-		echo 'data-categories="'.implode(',',$archive['categories']).'" ';
-		echo 'data-request-1="'.htmlspecialchars(json_encode(array_merge($archive['request-1'],array('title'=>$archive['title']))), ENT_QUOTES, 'UTF-8' ).'"';
-		echo '>'."\n";
-		echo '<h5>'.$archive['title'].'</h5>'."\n";
-		echo $archive['subtitle']."\n";
-		echo "</div>\n";
-	}
+  foreach ($archives as $archive) {
+    echo '<div ';
+    echo 'class="archive" ';
+    echo 'style="background-image:url('.base_url().APPPATH.$archive['thumbnail'].');" ';
+    echo 'title="'.$archive['title'].': '.$archive['subtitle'].'" ';
+    echo 'data-categories="'.implode(',',$archive['categories']).'" ';
+    echo 'data-request-1="'.htmlspecialchars(json_encode(array_merge($archive['request-1'],array('title'=>$archive['title']))), ENT_QUOTES, 'UTF-8' ).'"';
+    echo '>'."\n";
+    echo '<h5>'.$archive['title'].'</h5>'."\n";
+    echo $archive['subtitle']."\n";
+    echo "</div>\n";
+  }
 ?>
   </form>
 </div>
@@ -110,6 +123,21 @@
   <form id="managable_form"></form>
 </div><!-- /manage_archive -->
 </div>
+<div class="manage col-max-height col-lg-3 col-md-3 col-sm-3 col-xs-3">
+<div>
+  <form id="manage_form">
+    <div class="right-inner-addon">
+      <input id="search" type="search" class="form-control" placeholder="Search" />
+      <a href="javascript:void(null);" class="glyphicon glyphicon-search"></a>
+    </div>
+  </form>
+  <div class="advanced">Collections<a href="javascript:void(null);" id="collections_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> View Collections</a></div>
+  <form id="searchable_form">
+    <div class="notice">Add archives from the list below</div>
+  </form>
+  <div class="advanced">Scalar Books<a href="javascript:void(null);" id="scalar_book_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Send to Scalar Book</a></div>
+</div>
+</div><!-- /manage -->
 </div>
 
 </div><!-- /sheet -->
@@ -123,7 +151,8 @@
 <div class="toggle-buttons">
 	<!-- <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#imported">Import Selected Items</button>-->
 	<button type="button" class="btn btn-xs btn-primary toggle-teaser" data-toggle="modal"><span class="glyphicon glyphicon-sound-stereo" aria-hidden="true"></span>&nbsp; Gallery </button>
-	<button type="button" class="btn btn-xs btn-primary toggle-search" data-toggle="modal"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp; Search</button>
+  <button type="button" class="btn btn-xs btn-primary toggle-search" data-toggle="modal"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp; Search</button>
+  <button type="button" class="btn btn-xs btn-primary toggle-manage" data-toggle="modal"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>&nbsp; Sidebar</button>
 </div>
 </div>
 
