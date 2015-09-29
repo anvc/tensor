@@ -7,6 +7,7 @@
     };
     
 	function parse(data, archive) {
+		console.log('page: '+archive.page);
 		var origin = $('<a>').prop('href', archive.source).prop('origin');
         var matched = data.match(/<body[^>]*>([\w|\W]*)<\/body>/im);
         $body = $('<div>'+matched[1]+'</div>');
@@ -23,6 +24,7 @@
         		'http://simile.mit.edu/2003/10/ontologies/artstor#sourceLocation':[{type:'uri',value:uri}],
         	};
         });
+        console.log(results);
         this.opts.complete_callback(results, archive);
 	}    
     

@@ -68,7 +68,7 @@
     		var source = ('undefined'!=typeof(opts.rows[j][predicates[3]])) ? opts.rows[j][predicates[3]][0].value : '';
     		var contrib = ('undefined'!=typeof(opts.rows[j][predicates[4]])) ? opts.rows[j][predicates[4]][0].value : '';
     		var title = opts.rows[j][predicates[1]][0].value;
-    		$img = $('<img src="'+img+'" />').appendTo($row);
+    		$img = $('<div class="img_wrapper"><img src="'+img+'" /></div>').appendTo($row);
     		$title = $('<h6><div class="title">'+title+'</div><div class="resource"><a href="'+j+'" target="_blank">'+basename(j)+'</a></a><br /><span class="source">'+source+'</span><br /><span class="contrib">'+contrib+'</span></h6>').appendTo($row);
     		$checkbox = $('<input type="checkbox" value="'+j+'" />').appendTo($row);
     		if (-1!=opts.check.indexOf(j)) {

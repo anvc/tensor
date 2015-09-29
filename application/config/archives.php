@@ -12,8 +12,8 @@ $config['archives'][] = array(
 	'logo'			=> '',
 	'thumbnail'		=> 'views/ui/images/uscdigitallibrary.thumb.png',
 	'teaser'		=> '',
-	'request-1'		=> array(
-		'handler'		=> 'contentdm',
+	'request'		=> array(
+		'handler'		=> 'default',
 		'parser'  		=> "contentdm",
 		'store'   		=> "",
 		'source'  		=> "http://digitallibrary.usc.edu/cdm/search/searchterm/%1/order/nosort",
@@ -29,14 +29,11 @@ $config['archives'][] = array(
 	'logo'			=> '',
 	'thumbnail'		=> 'views/ui/images/iowadigitallibrary.thumb.png',
 	'teaser'		=> '',
-	'request-1'		=> array(
-		'handler'		=> 'contentdm',
+	'request'		=> array(
+		'handler'		=> 'default',
 		'parser'  		=> "contentdm",
-		'store'   		=> "",
-		'source'  		=> "http://digital.lib.uiowa.edu/cdm/search/mode/all/?searchterm=%1",
-		'content_type'	=> "xml",
-		'mapping' 		=> "",
-		'graph'   		=> ""
+		'source'        => "http://digital.lib.uiowa.edu/cdm/search/searchterm/%1/mode/all/page/%2",
+		'content_type'	=> "xml"
 	)
 );
 $config['archives'][] = array(
@@ -46,14 +43,11 @@ $config['archives'][] = array(
 	'logo'			=> '',
 	'thumbnail'		=> 'views/ui/images/uvicdigitalcollections.thumb.png',
 	'teaser'		=> '',
-	'request-1'		=> array(
-		'handler'		=> 'contentdm',
+	'request'		=> array(
+		'handler'		=> 'default',
 		'parser'  		=> "contentdm",
-		'store'   		=> "",
 		'source'  		=> "http://contentdm.library.uvic.ca/cdm/search/searchterm/%1/order/nosort",
-		'content_type'	=> "xml",
-		'mapping' 		=> "",
-		'graph'   		=> ""
+		'content_type'	=> "xml"
 	)
 );
 $config['archives'][] = array(
@@ -63,14 +57,11 @@ $config['archives'][] = array(
 	'logo'			=> 'views/ui/images/criticalcommons.logo.png',
 	'thumbnail'		=> 'views/ui/images/criticalcommons.thumb.png',
 	'teaser'		=> '',
-	'request-1'		=> array(
+	'request'		=> array(
 		'handler'		=> 'rdf',
 		'parser'  		=> "rdf",
-		'store'   		=> "http://karmarestserver.dig.isi.edu:8080/sparql-graph-crud-auth/",
 		'source'  		=> "http://criticalcommons.org/cc/playlist?SearchableText=%1",
-		'content_type'	=> "xml",
-		'mapping' 		=> "http://scalar.usc.edu/static/R2RML/WSP1WS2-CriticalCommons-auto-model.ttl",
-		'graph'   		=> "http://karmarestserver.dig.isi.edu:8080/scalar"
+		'content_type'	=> "xml"
 	)
 );
 $config['archives'][] = array(
@@ -80,13 +71,10 @@ $config['archives'][] = array(
 	'logo'			=> 'views/ui/images/youtube.logo.png',
 	'thumbnail'		=> 'views/ui/images/youtube.thumb.png',
 	'teaser'		=> array('art:thumbnail'=>'','dcterms:title'=>'','dcterms:creator'=>''),
-	'request-1'		=> array(
+	'request'		=> array(
 		'handler'		=> 'rdf',
 		'parser'  		=> "rdf",
-		'store'   		=> "http://karmarestserver.dig.isi.edu:8080/sparql-graph-crud-auth/",
 		'source'  		=> "https://www.googleapis.com/youtube/v3/search?part=snippet&q=%1&maxResults=50&type=video&key=AIzaSyAI9koLGtnZpygU7nMuHVT7xJbwUU-sQBw",
-		'content_type' 	=> "json",
-		'mapping' 		=> "http://scalar.usc.edu/static/R2RML/WSP1WS2-YouTube3-auto-model.ttl",
-		'graph'   		=> "http://karmarestserver.dig.isi.edu:8080/scalar"
+		'content_type' 	=> "json"
 	)
 );

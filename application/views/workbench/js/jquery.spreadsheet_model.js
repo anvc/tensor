@@ -1,11 +1,9 @@
 (function( $ ) {
 	
 	var defaults = {
-			store: null,
-    		mapping: null,
     		source: null,
-    		graph: null,
     		content_type: null,
+    		page: null,
     		proxy: true,
     		proxy_url: null,
     		error_callback: null,
@@ -41,13 +39,11 @@
         
         var proxy_data = function() {
         	return {
-        		graph:(opts.graph)?opts.graph:'',
-        		store:(opts.store)?opts.store:'',
-        		mapping:(opts.mapping)?opts.mapping:'',
+        		handler:(opts.handler)?opts.handler:'',
         		source:(opts.source)?opts.source:'',
         		content_type:(opts.content_type)?opts.content_type:'',
         		parser:(opts.parser)?opts.parser:'',
-        		handler:(opts.handler)?opts.handler:''
+        		page:(opts.page)?opts.page:''
         	};
         };
         
