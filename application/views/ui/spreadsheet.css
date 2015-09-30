@@ -76,8 +76,8 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 .page.prev-page {float:left; margin-right:16px;}
 .page.next-page {margin-left:16px;}
 .view-buttons {}
-.view-buttons button {padding-left:5px; padding-right:5px;}
-.view-buttons img {float:left; margin-top:1px; margin-right:8px;}
+.view-buttons button {padding-left:5px; padding-right:6px;}
+.view-buttons img {float:left; margin-top:1px; margin-right:6px;}
 .left-buttons {position:absolute; left:10px; bottom:8px;}
 .right-buttons {position:absolute; right:10px; bottom:8px;}
 
@@ -108,7 +108,8 @@ td > div:not(.container) {white-space:nowrap; overflow:hidden; position:absolute
 table input[type=checkbox] {margin-top:2px; margin-right:12px; float:left;}
 
 /* Tiles */
-.tile {width:200px; padding:4px; margin:10px 10px 0px 10px; float:left; position:relative; cursor:pointer;}
+.tiles {margin-top:10px; margin-bottom:20px;}
+.tile {width:200px; padding:4px; margin:0px 10px 0px 10px; float:left; position:relative; cursor:pointer;}
 .tile_checked {background-color:#dddddd;}
 .tile > .img_wrapper {width:192px; height:130px;}
 .tile > .img_wrapper > img {
@@ -132,6 +133,18 @@ table input[type=checkbox] {margin-top:2px; margin-right:12px; float:left;}
 .details .thumb {cursor:pointer;}
 .details .thumb img {width:100%;}
 .details input[type="checkbox"] {position:absolute; top:3px; left:19px;}
+
+/* Icons */
+.icons {padding-bottom:40px;}
+.icons > .row {width:85px; margin:20px 10px 0px 10px; float:left; position:relative;}
+.icons_row_checked {background-color:#dddddd;}
+.icons .title {font-size:10px;}
+.icons .icon_cell {cursor:pointer; width:85px; height:66px;}
+.icons .icon_cell img {
+    width:85px; height:63px;
+	position: absolute; /* absolute or fixed positioning required for clip */
+    clip: rect(0px, 85px, 63px, 0px);
+}
 
 /* Modals */
 #error .modal-body {background-color:#ffdbdb;}

@@ -282,7 +282,8 @@ function set_sheet() {
 	// View buttons
 	$('.view-buttons').find('button').click(function() {
 		var $clicked = $(this);
-		$clicked.siblings().addClass('btn-default').removeClass('btn-primary');
+		$clicked.blur();
+		$clicked.siblings(':not(.page)').addClass('btn-default').removeClass('btn-primary');
 		$clicked.addClass('btn-primary').removeClass('btn-default');
 		if (!jQuery.isEmptyObject(do_search.results)) {
 			search_results_ui($clicked.attr('id'));

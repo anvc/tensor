@@ -61,9 +61,10 @@
 		                  'http://purl.org/dc/terms/source',
 		                  'http://purl.org/dc/terms/contributor',
 		                 ];
+		var $wrapper = $('<div class="tiles"></div>').appendTo($self);
 		num_rows = obj_length(opts.rows);
     	for (var j in opts.rows) {
-    		var $row = $('<div class="tile"></div>').appendTo($self);
+    		var $row = $('<div class="tile"></div>').appendTo($wrapper);
     		var img = ('undefined'!=typeof(opts.rows[j][predicates[0]])) ? opts.rows[j][predicates[0]][0].value : $('link#base_url').attr('href')+'application/views/ui/templates/images/missing_thumb.jpg';
     		var source = ('undefined'!=typeof(opts.rows[j][predicates[3]])) ? opts.rows[j][predicates[3]][0].value : '';
     		var contrib = ('undefined'!=typeof(opts.rows[j][predicates[4]])) ? opts.rows[j][predicates[4]][0].value : '';
@@ -74,11 +75,12 @@
     		if (-1!=opts.check.indexOf(j)) {
     			$checkbox.prop('checked', true).parent().addClass('tile_checked');
     		}
-    		$img.load(function() {
+    		$img.find('img').load(function() {
     			num_rows--;
     			if (num_rows%5==0 || num_rows <= 0) do_match_height();
     		});
     	}    
+    	$wrapper.append('<br clear="both" />');
     	do_match_height(true);
     	$('body').on('sheet_layout_change', function() {
     		do_match_height();
