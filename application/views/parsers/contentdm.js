@@ -3,11 +3,10 @@
     $.fn.parse = function(options) {
     	var model = new $.fn.spreadsheet_model(options);
     	model.parse = parse;
-    	model.fetch('text');
+    	model.fetch('html');
     };
     
 	function parse(data, archive) {
-		console.log('page: '+archive.page);
 		var origin = $('<a>').prop('href', archive.source).prop('origin');
         var matched = data.match(/<body[^>]*>([\w|\W]*)<\/body>/im);
         $body = $('<div>'+matched[1]+'</div>');
