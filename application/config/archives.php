@@ -8,7 +8,7 @@ $config['archives'] = array();
 $config['archives'][] = array(
 	'title'   		=> 'USC Digital Library',
 	'subtitle'		=> 'USC Libraries Digital Collections',
-	'categories' 	=> array('audio', 'video', 'image'),
+	'categories' 	=> array('audio', 'video', 'image','contentdm'),
 	'logo'			=> '',
 	'thumbnail'		=> 'views/ui/images/uscdigitallibrary.thumb.png',
 	'teaser'		=> '',
@@ -22,7 +22,7 @@ $config['archives'][] = array(
 $config['archives'][] = array(
 	'title'   		=> 'Iowa Digital Library',
 	'subtitle'		=> 'The Iowa Digital Library features more than a million digital objects created from the holdings of the University of Iowa Libraries and its campus partners. Included are illuminated manuscripts, historic maps, fine art, historic newspapers, scholarly works, and more. Digital collections are coordinated by Digital Research & Publishing.',
-	'categories' 	=> array('audio', 'video', 'image'),
+	'categories' 	=> array('audio', 'video', 'image','contentdm'),
 	'logo'			=> '',
 	'thumbnail'		=> 'views/ui/images/iowadigitallibrary.thumb.png',
 	'teaser'		=> '',
@@ -36,7 +36,7 @@ $config['archives'][] = array(
 $config['archives'][] = array(
 	'title'   		=> 'University of Victoria Digital Collections',
 	'subtitle'		=> 'The University of Victoria Libraries support a variety of digital initiatives to promote wider access to our unique UVic collections.',
-	'categories' 	=> array('audio', 'video', 'image'),
+	'categories' 	=> array('audio', 'video', 'image','contentdm'),
 	'logo'			=> '',
 	'thumbnail'		=> 'views/ui/images/uvicdigitalcollections.thumb.png',
 	'teaser'		=> '',
@@ -50,7 +50,7 @@ $config['archives'][] = array(
 $config['archives'][] = array(
 	'title'   		=> 'University of Washington Digital Collections',
 	'subtitle'		=> 'This site features materials such as photographs, maps, newspapers, posters, reports and other media from the University of Washington Libraries, University of Washington Faculty and Departments, and organizations that have participated in partner projects with the UW Libraries. The collections emphasize rare and unique materials.',
-	'categories' 	=> array('audio', 'video', 'image'),
+	'categories' 	=> array('audio', 'video', 'image','contentdm'),
 	'logo'			=> '',
 	'thumbnail'		=> 'views/ui/images/default.thumb.png',
 	'teaser'		=> '',
@@ -61,6 +61,22 @@ $config['archives'][] = array(
 		'content_type'	=> "xml"
 	)
 );
+/*
+$config['archives'][] = array(
+	'title'   		=> 'Claremont Colleges Digital Library',
+	'subtitle'		=> 'The Claremont Colleges Digital Library (CCDL) provides access to historical and visual resources collections created both by and for The Claremont Colleges community.',
+	'categories' 	=> array('audio', 'video', 'image','contentdm'),
+	'logo'			=> '',
+	'thumbnail'		=> 'views/ui/images/default.thumb.png',
+	'teaser'		=> '',
+	'request'		=> array(
+		'handler'		=> 'http',
+		'parser'  		=> "contentdm",
+		'source'		=> "http://digitalcollections.lib.washington.edu/cdm/search/searchterm/%1/mode/all/order/title/page/%2",
+		'content_type'	=> "xml"
+	)
+);
+*/
 $config['archives'][] = array(
 	'title'   		=> 'Critical Commons',
 	'subtitle'		=> 'For Fair &amp; Critical Participation in Media Culture',

@@ -15,13 +15,14 @@
         	var $this = $(this);
         	var $link = $this.find('a:first');
         	if (!$link.length) return;
-        	var uri =  origin+$link.attr('href');
+        	var uri =  origin+$link.attr('href');  // TODO: get the URL to the actual file
         	results[uri] = {
         		'http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail':[{type:'uri',value:origin+$link.find('img:first').attr('src')}],
         		'http://purl.org/dc/terms/title':[{type:'literal',value:jQuery.trim($this.find('a:last').text())}],
         		'http://purl.org/dc/terms/source':[{type:'literal',value:archive.title}],
         		'http://simile.mit.edu/2003/10/ontologies/artstor#sourceLocation':[{type:'uri',value:uri}],
         	};
+        	// TODO: for each row, activiate bt-wrapper
         });
         console.log(results);
         this.opts.complete_callback(results, archive);

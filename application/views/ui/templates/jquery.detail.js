@@ -58,11 +58,7 @@
     		var row = opts.rows[j];
     		var thumb = ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'])) ? row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value : $('link#base_url').attr('href')+'application/views/ui/templates/images/missing_thumb.jpg';
     		var $row = $('<div class="row"></div>').appendTo($wrapper);
-    		var $thumb = $('<div class="thumb col-lg-3 col-md-3 col-sm-3 col-xs-3"><img src="'+thumb+'" /></div>').appendTo($row);
-    		$checkbox = $('<input type="checkbox" value="'+j+'" />').appendTo($thumb);
-    		if (-1!=opts.check.indexOf(j)) {
-    			$checkbox.prop('checked', true).closest('.row').addClass('details_row_checked');
-    		}    		
+    		var $thumb = $('<div class="thumb col-lg-3 col-md-3 col-sm-3 col-xs-3"><img src="'+thumb+'" /></div>').appendTo($row);  		
     		var $content = $('<div class="content col-lg-9 col-md-9 col-sm-9 col-xs-9"><div class="container-fluid"></div></div>').appendTo($row);
     		$('<br clear="both" />').appendTo($row);
     		var $p = $content.find('.container-fluid');
@@ -74,25 +70,19 @@
     			}
     			var pp = pnode(p);
                 if(pp.indexOf('dcterms:title') > -1) {
+                    $uri = $('<div class="row"></div>').prependTo($p);
+                    $('<div class="urn col-lg-3 col-md-3 col-sm-3 col-xs-3"><b>rdf:resource</b></div>').appendTo($uri);
+                    $('<div class="value col-lg-9 col-md-9 col-sm-9 col-xs-9"><a href="'+j+'" target="_blank">'+j+'</a></div>').appendTo($uri);
                     $uri = $('<div class="row '+pp.replace(/:/g, "-")+'"></div>').prependTo($p);
                     $('<div class="urn col-lg-3 col-md-3 col-sm-3 col-xs-3"><b>'+pp+'</b></div>').appendTo($uri);
-                    $('<div class="value col-lg-9 col-md-9 col-sm-9 col-xs-9">'+o.join('<br />')+'</div>').appendTo($uri);
+                    $('<div class="value col-lg-9 col-md-9 col-sm-9 col-xs-9">'+o.join('<br />')+'</div>').appendTo($uri);                    
                 } else {
                     $uri = $('<div class="row '+pp.replace(/:/g, "-")+'"></div>').appendTo($p);
                     $('<div class="urn col-lg-3 col-md-3 col-sm-3 col-xs-3"><b>'+pp+'</b></div>').appendTo($uri);
                     $('<div class="value col-lg-9 col-md-9 col-sm-9 col-xs-9">'+o.join('<br />')+'</div>').appendTo($uri);
                 }
     		}
-    	}
-    	$self.find('.details .thumb input[type="checkbox"]').click(function(event) {
-    		event.stopPropagation();
-    		var is_checked = ($(this).is(':checked')) ? true : false;
-    		check(this, is_checked);
-    	});    	
-    	$self.find('.details .thumb').click(function() {
-    		var is_checked = ($(this).find('input:checked').length) ? true : false;
-    		check($(this).find('input[type="checkbox"]'),((is_checked)?false:true));
-    	});    	
+    	}   	
     }
     
     function check(input, bool) {

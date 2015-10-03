@@ -17,17 +17,17 @@
 			var format = data.items[j].id.kind;
 			var identifier = data.items[j].id.videoId;
 			var date = data.items[j].snippet.publishedAt;
-			var creator = data.items[j].snippet.channel;
+			var creator = data.items[j].snippet.channelTitle;
         	results[uri] = {
             		'http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail':[{type:'uri',value:thumb}],
             		'http://purl.org/dc/terms/title':[{type:'literal',value:title}],
             		'http://purl.org/dc/terms/description':[{type:'literal',value:desc}],
             		'http://purl.org/dc/terms/source':[{type:'literal',value:archive.title}],
             		'http://simile.mit.edu/2003/10/ontologies/artstor#sourceLocation':[{type:'uri',value:sourceLocation}],
-            		'http://purl.org/dc/terms/source/format':[{type:'uri',value:format}],
-            		'http://purl.org/dc/terms/source/identifier':[{type:'uri',value:identifier}],
-            		'http://purl.org/dc/terms/source/date':[{type:'uri',value:date}],
-            		'http://purl.org/dc/terms/source/creator':[{type:'uri',value:creator}],
+            		'http://purl.org/dc/terms/format':[{type:'uri',value:format}],
+            		'http://purl.org/dc/terms/identifier':[{type:'uri',value:identifier}],
+            		'http://purl.org/dc/terms/date':[{type:'uri',value:date}],
+            		'http://purl.org/dc/terms/creator':[{type:'uri',value:creator}],
             	};			
 		}
 		console.log(results);
