@@ -18,8 +18,8 @@
 					'shoah':'http://tempuri.org/'
 			},
 			rows: null,
-			default_num_predicates: 4,
-			check: []
+			check: [],
+			num_archives: 0
 	};  	
 	var opts = {};
 	var predicates = [];
@@ -54,46 +54,44 @@
     function do_create_tiles() {
     	$self.children(':not(.spreadsheet_panel)').remove();
     	$self.children('.spreadsheet_panel').hide();
-		predicates = [
-		                  'http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail',
-		                  'http://purl.org/dc/terms/title',
-		                  'http://purl.org/dc/terms/description',
-		                  'http://purl.org/dc/terms/source',
-		                  'http://purl.org/dc/terms/contributor',
-		                 ];
 		var $wrapper = $('<div class="tiles"></div>').appendTo($self);
-		num_rows = obj_length(opts.rows);
     	for (var j in opts.rows) {
+    		var row = opts.rows[j];
     		var $row = $('<div class="tile"></div>').appendTo($wrapper);
-    		var img = ('undefined'!=typeof(opts.rows[j][predicates[0]])) ? opts.rows[j][predicates[0]][0].value : $('link#base_url').attr('href')+'application/views/ui/templates/images/missing_thumb.jpg';
-    		var source = ('undefined'!=typeof(opts.rows[j][predicates[3]])) ? opts.rows[j][predicates[3]][0].value : '';
-    		var contrib = ('undefined'!=typeof(opts.rows[j][predicates[4]])) ? opts.rows[j][predicates[4]][0].value : '';
-    		var title = opts.rows[j][predicates[1]][0].value;
-    		$img = $('<div class="img_wrapper"><img src="'+img+'" /></div>').appendTo($row);
-    		$title = $('<h6><div class="title">'+title+'</div><div class="resource"><a href="'+j+'" target="_blank">'+basename(j)+'</a></a><br /><span class="source">'+source+'</span><br /><span class="contrib">'+contrib+'</span></h6>').appendTo($row);
-    		$checkbox = $('<input type="checkbox" value="'+j+'" />').appendTo($row);
-    		if (-1!=opts.check.indexOf(j)) {
-    			$checkbox.prop('checked', true).parent().addClass('tile_checked');
-    		}
-    		$img.find('img').load(function() {
-    			num_rows--;
-    			if (num_rows%5==0 || num_rows <= 0) do_match_height();
-    		});
+    		var thumb = ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'])) ? row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value : $('link#base_url').attr('href')+'application/views/ui/templates/images/missing_thumb.jpg';
+    		$img = $('<div class="img_wrapper"><img src="'+thumb+'" /></div>').appendTo($row);
+    		$source = $('<div class="source"></div>').appendTo($row);
+    		$url = $('<div class="url"></div>').appendTo($row);
+    		$title = $('<div class="title"></div>').appendTo($row);
+    		$desc = $('<div class="desc"></div>').appendTo($row);
+    		for (var p in row) {
+    			var pp = pnode(p);
+    			if ('art:sourceLocation'==pp && 'undefined'!=typeof(row[p][0])) {
+    				url = row[p][0].value;
+    			} else if (opts.num_archives > 1 && 'dcterms:source'==pp && 'undefined'!=typeof(row[p][0])) {
+    				$source.append(row[p][0].value);
+    				$source.show();
+    			} else if ('dcterms:description'==pp) {
+	    			var o = [];
+	    			for (k = 0; k < row[p].length; k++) {
+	    				o.push(row[p][k].value.linkify());
+	    			}
+	    			if ('undefined'==typeof(o[0])) o[0] = '';
+	                $desc.append(o[0]);   				
+    			} else if ('dcterms:title'==pp) {
+	    			var o = [];
+	    			for (k = 0; k < row[p].length; k++) {
+	    				o.push(row[p][k].value.linkify());
+	    			}
+	    			if ('undefined'==typeof(o[0])) o[0] = '[No title]';
+	                $title.append(o[0]);
+    			}
+    		} 		
+    		$url.append('<a href="'+url+'" target="_blank">'+url+'</a>');
     	}    
     	$wrapper.append('<br clear="both" />');
     	do_match_height(true);
-    	$('body').on('sheet_layout_change', function() {
-    		do_match_height();
-    	});
-    	$self.find('input[type="checkbox"]').click(function(event) {
-    		event.stopPropagation();
-    		var is_checked = ($(this).is(':checked')) ? true : false;
-    		check(this, is_checked);
-    	});
-    	$self.find('.tile').click(function() {
-    		var is_checked = ($(this).find('input:checked').length) ? true : false;
-    		check($(this).find('input[type="checkbox"]'),((is_checked)?false:true));
-    	});
+    	$('body').on('sheet_layout_change', function() { do_match_height(); });
     }
     
     function check(input, bool) {
@@ -113,14 +111,6 @@
     	} else {
     		$.fn.matchHeight._update();
     	}
-    }
-    
-    function obj_length(obj) {
-    	var size = 0, key;
-    	for (key in obj) {
-    		if (obj.hasOwnProperty(key)) size++;
-    	}
-    	return size;	
     }
     
     function pnode(str) {

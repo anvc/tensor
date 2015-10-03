@@ -109,20 +109,18 @@ table input[type=checkbox] {margin-top:2px; margin-right:12px; float:left;}
 
 /* Tiles */
 .tiles {margin-top:10px; margin-bottom:20px;}
-.tile {width:200px; padding:4px; margin:0px 10px 0px 10px; float:left; position:relative; cursor:pointer;}
+.tile {width:200px; padding:4px; margin:5px 10px 10px 10px; float:left; position:relative; cursor:pointer;}
 .tile_checked {background-color:#dddddd;}
-.tile > .img_wrapper {width:192px; height:130px;}
+.tile > .img_wrapper {width:192px; height:130px; margin-bottom:8px;}
 .tile > .img_wrapper > img {
 	width:100%; 
 	position: absolute; /* absolute or fixed positioning required for clip */
     clip: rect(0px, 192px, 130px, 0px);
 }
-.tile > h6 {padding:0px 0px 0px 0px;}
-.tile > h6 .title {margin-bottom:5px;font-weight:bold;max-height: 40px;
-	text-overflow: ellipsis;display: -webkit-box;ellipsis;overflow: hidden;-webkit-line-clamp: 3;-webkit-box-orient: vertical;}
-.tile > h6 .source, .tile > h6 .contrib {}
-.tile > h6 > .resource {width:100%; overflow:hidden;white-space: nowrap;text-overflow: ellipsis;}
-.tile > input[type="checkbox"] {position:absolute; top:3px; left:9px;}
+.tile > .title {width:192px; overflow:hidden; font-size:12px; margin-bottom:5px; font-weight:bold;}
+.tile > .source {display:none; font-size:12px; margin-bottom:1px; font-weight:normal;}
+.tile > .url {font-size:12px; margin-bottom:5px; height:15px; width:200px; overflow:hidden;}
+.tile > .desc {font-size:12px;}
 
 /* Details */
 .details {padding-bottom:40px;}
@@ -138,7 +136,9 @@ table input[type=checkbox] {margin-top:2px; margin-right:12px; float:left;}
 .icons {padding-bottom:40px;}
 .icons > .row {width:85px; margin:20px 10px 0px 10px; float:left; position:relative;}
 .icons_row_checked {background-color:#dddddd;}
-.icons .title {font-size:10px;}
+.icons .source {display:none; font-size:9px; margin-bottom:2px;}
+.icons .url {font-size:10px; margin-bottom:2px; width:85px; overflow:hidden; height:11px;}
+.icons .title {font-size:10px; width:85px; overflow:hidden;}
 .icons .icon_cell {cursor:pointer; width:85px; height:66px;}
 .icons .icon_cell img {
     width:85px; height:63px;

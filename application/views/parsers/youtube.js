@@ -24,10 +24,10 @@
             		'http://purl.org/dc/terms/description':[{type:'literal',value:desc}],
             		'http://purl.org/dc/terms/source':[{type:'literal',value:archive.title}],
             		'http://simile.mit.edu/2003/10/ontologies/artstor#sourceLocation':[{type:'uri',value:sourceLocation}],
-            		'http://simile.mit.edu/2003/10/ontologies/artstor#format':[{type:'uri',value:sourceLocation}],
-            		'http://simile.mit.edu/2003/10/ontologies/artstor#identifier':[{type:'uri',value:sourceLocation}],
-            		'http://simile.mit.edu/2003/10/ontologies/artstor#date':[{type:'uri',value:sourceLocation}],
-            		'http://simile.mit.edu/2003/10/ontologies/artstor#creator':[{type:'uri',value:sourceLocation}],
+            		'http://purl.org/dc/terms/source/format':[{type:'uri',value:format}],
+            		'http://purl.org/dc/terms/source/identifier':[{type:'uri',value:identifier}],
+            		'http://purl.org/dc/terms/source/date':[{type:'uri',value:date}],
+            		'http://purl.org/dc/terms/source/creator':[{type:'uri',value:creator}],
             	};			
 		}
 		console.log(results);

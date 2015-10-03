@@ -193,15 +193,16 @@ function store_complete_callback(_results, archive) {
 
 }
 
+/**
+ * Set the UI for search results in one of many possible views
+ * @view str optional view to set 
+ * @return null
+ */
 function search_results_ui(view) {
 
 	// Presets
 	var $error = $('#error');
-	if (jQuery.isEmptyObject(do_search.results) && $error.is(':hidden')) {
-		//var html = '<p>The search returned zero results!</p>';
-		//$error.find('[class="modal-body"]').html(html);
-		//$error.modal();
-	};
+	if (jQuery.isEmptyObject(do_search.results) && $error.is(':hidden')) {};
 	if ('undefined'==typeof(view)) view = $('.view-buttons').find('button[class*="btn-primary"]').attr('id');
 	if ('undefined'!=typeof($.fn.spreadsheet_view)) {
 		var checked = $.fn.spreadsheet_view.checked();
@@ -220,7 +221,7 @@ function search_results_ui(view) {
 	// Load current view
 	var view_path = $('link#base_url').attr('href')+'application/views/ui/templates/jquery.'+view+'.js';
 	$.getScript(view_path, function() {
-		$('#spreadsheet').spreadsheet_view({rows:do_search.results,check:checked});
+		$('#spreadsheet').spreadsheet_view({rows:do_search.results,check:checked,num_archives:do_search.total});
 	});
 	
 }

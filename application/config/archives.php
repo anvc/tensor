@@ -43,7 +43,7 @@ $config['archives'][] = array(
 	'request'		=> array(
 		'handler'		=> 'http',
 		'parser'  		=> "contentdm",
-		'source'  		=> "http://contentdm.library.uvic.ca/cdm/search/searchterm/%1/order/nosort",
+		'source'		=> "http://contentdm.library.uvic.ca/cdm/search/searchterm/%1/mode/all/order/nosort/page/%2",
 		'content_type'	=> "xml"
 	)
 );

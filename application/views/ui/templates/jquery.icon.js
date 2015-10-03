@@ -18,7 +18,8 @@
 					'shoah':'http://tempuri.org/'
 			},
 			rows: null,
-			check: []
+			check: [],
+			num_archives: 0
 	};  	
 	var opts = {};
 	var predicates = [];
@@ -53,41 +54,36 @@
     	$self.children(':not(.spreadsheet_panel)').remove();
     	$self.children('.spreadsheet_panel').hide();
     	var $wrapper = $('<div class="container-fluid icons"></div>').appendTo($self);
-    	num_rows = obj_length(opts.rows);
     	for (var j in opts.rows) {
     		var row = opts.rows[j];
     		var thumb = ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'])) ? row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value : $('link#base_url').attr('href')+'application/views/ui/templates/images/missing_thumb.jpg';
     		var $row = $('<div class="row"></div>').appendTo($wrapper);
     		var $thumb = $('<div class="icon_cell"><img src="'+thumb+'" /></div>').appendTo($row);
+    		var $source = $('<div class="source"></div>').appendTo($row);
+    		var $url = $('<div class="url"></div>').appendTo($row);
     		var $title = $('<div class="title"></div>').appendTo($row);
+    		var url = j;
     		for (var p in row) {
     			var pp = pnode(p);
-    			if (pp.indexOf('dcterms:title') == -1) continue;
-    			var o = [];
-    			for (k = 0; k < row[p].length; k++) {
-    				o.push(row[p][k].value.linkify());
+    			if ('art:sourceLocation'==pp && 'undefined'!=typeof(row[p][0])) {
+    				url = row[p][0].value;
+    			} else if (opts.num_archives > 1 && 'dcterms:source'==pp && 'undefined'!=typeof(row[p][0])) {
+    				$source.append(row[p][0].value);
+    				$source.show();
+    			} else if ('dcterms:title'==pp) {
+	    			var o = [];
+	    			for (k = 0; k < row[p].length; k++) {
+	    				o.push(row[p][k].value.linkify());
+	    			}
+	    			if ('undefined'==typeof(o[0])) o[0] = '[No title]';
+	                $title.append(o[0]);
     			}
-    			if ('undefined'==typeof(o[0])) o[0] = '[No title]';
-                $title.append(o[0]);
-    		}
-    		$thumb.find('img').load(function() {
-    			num_rows--;
-    			if (num_rows%5==0 || num_rows <= 0) do_match_height();
-    		});    		
+    		} 		
+    		$url.append('<a href="'+url+'" target="_blank">'+url+'</a>');
     	}   
     	do_match_height(true);
-    	$('body').on('sheet_layout_change', function() {
-    		do_match_height();
-    	});    	
-    }
-    
-    function obj_length(obj) {
-    	var size = 0, key;
-    	for (key in obj) {
-    		if (obj.hasOwnProperty(key)) size++;
-    	}
-    	return size;	
-    }  
+    	$('body').on('sheet_layout_change', function() { do_match_height(); });    	
+    } 
     
     function do_match_height(bool) {
     	if (bool) {
