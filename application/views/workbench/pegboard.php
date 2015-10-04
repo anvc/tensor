@@ -105,6 +105,7 @@
 				  <button type="button" value="image" class="btn btn-default">Image</button>
 				  <button type="button" value="audio" class="btn btn-default">Audio</button>
 				  <button type="button" value="video" class="btn btn-default">Video</button>
+				  <button type="button" value="contentdm" class="btn btn-default">CONTENTdm</button>
 			  </div>
 			  <form id="managable_form"></form>
 			</div><!-- /manage_archive -->
