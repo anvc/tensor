@@ -156,7 +156,7 @@ function do_search(obj, $archives, page) {
 		var parser_path = $('link#base_url').attr('href')+'application/views/parsers/'+archive.parser+'.js';	
 		archive.source = archive.source.replace('%2',page);
 		archive.source = archive.source.replace('%1',obj.terms.join('%20'));
-		$.extend(archive, {page:page,proxy_url:proxy_url,error_callback:store_error_callback,complete_callback:store_complete_callback});
+		$.extend(archive, {page:page,query:obj.terms.join(' '),proxy_url:proxy_url,error_callback:store_error_callback,complete_callback:store_complete_callback});
 		$.getScript(parser_path, function() {
 			loading(true, archive.title);
 			$.fn.parse(archive);
@@ -210,8 +210,8 @@ function search_results_ui(view) {
 	}
 	// Hide gallery
 	if (!jQuery.isEmptyObject(do_search.results) && !$('.teaser').is(':hidden')) $('.toggle-teaser').trigger('click');
-	// Sort results
-	do_search.results = sort_rdfjson_by_prop(do_search.results, 'http://purl.org/dc/terms/title');
+	// Sort results, but only if there's more than one archive being search
+	if (do_search.total > 1) do_search.results = sort_rdfjson_by_prop(do_search.results, 'http://purl.org/dc/terms/title');
 	// Set num results
 	$('.num_results').html( $.map(do_search.results, function(n, i) { return i; }).length );
 	// Pagination

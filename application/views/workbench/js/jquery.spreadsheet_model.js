@@ -43,7 +43,8 @@
         		source:(opts.source)?opts.source:'',
         		content_type:(opts.content_type)?opts.content_type:'',
         		parser:(opts.parser)?opts.parser:'',
-        		page:(opts.page)?opts.page:''
+        		page:(opts.page)?opts.page:'',
+        		query:(opts.query)?opts.query:''
         	};
         };
         

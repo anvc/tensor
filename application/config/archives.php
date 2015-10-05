@@ -132,6 +132,20 @@ $config['archives'][] = array(
 	)
 );
 $config['archives'][] = array(
+	'title'   		=> 'Vimeo',
+	'subtitle'		=> 'Upload, store, share and manage HD videos. ',
+	'categories' 	=> array('video','other'),
+	'logo'			=> '',
+	'thumbnail'		=> 'views/ui/images/vimeo.thumb.png',
+	'teaser'		=> '',
+	'request'		=> array(
+		'handler'		=> 'vimeo',
+		'parser'  		=> "vimeo",
+		'source'  		=> "http://vimeo.com",
+		'content_type' 	=> "json"
+	)
+);
+$config['archives'][] = array(
 	'title'   		=> 'Internet Archive',
 	'subtitle'		=> 'The Internet Archive is a non-profit digital library with the stated mission: "universal access to all knowledge." It offers permanent storage and access to collections of digitized materials, including websites, music, moving images, and books. The Internet Archive was founded by Brewster Kahle in 1996. (Wikipedia)',
 	'categories' 	=> array('video','image','audio','affiliated'),

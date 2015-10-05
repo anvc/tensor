@@ -12,6 +12,8 @@ class Proxy_model extends CI_Model {
     	$handler =@ $_REQUEST['handler'];
 		$source_uri =@ $_REQUEST['source'];
 		$content_type = (isset($_REQUEST['content_type']) && !empty($_REQUEST['content_type'])) ? $_REQUEST['content_type'] : 'xml';
+		$query =@ $_REQUEST['query'];
+		$page =@ (int) $_REQUEST['page'];
 
 		if (empty($handler)) return self::error('Missing handler');
 		if (empty($source_uri)) return self::error('Missing source URI');
