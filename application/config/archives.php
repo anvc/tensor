@@ -131,3 +131,17 @@ $config['archives'][] = array(
 		'content_type' 	=> "json"
 	)
 );
+$config['archives'][] = array(
+	'title'   		=> 'Internet Archive',
+	'subtitle'		=> 'The Internet Archive is a non-profit digital library with the stated mission: "universal access to all knowledge." It offers permanent storage and access to collections of digitized materials, including websites, music, moving images, and books. The Internet Archive was founded by Brewster Kahle in 1996. (Wikipedia)',
+	'categories' 	=> array('video','image','audio','affiliated'),
+	'logo'			=> '',
+	'thumbnail'		=> 'views/ui/images/internetarchive.thumb.png',
+	'teaser'		=> '',
+	'request'		=> array(
+		'handler'		=> 'http',
+		'parser'  		=> "internetarchive",
+		'source'  		=> "http://archive.org/advancedsearch.php?q=%1&fl[]=avg_rating&fl[]=call_number&fl[]=collection&fl[]=contributor&fl[]=coverage&fl[]=creator&fl[]=date&fl[]=description&fl[]=downloads&fl[]=foldoutcount&fl[]=format&fl[]=headerImage&fl[]=identifier&fl[]=imagecount&fl[]=language&fl[]=licenseurl&fl[]=mediatype&fl[]=month&fl[]=num_reviews&fl[]=oai_updatedate&fl[]=publicdate&fl[]=publisher&fl[]=rights&fl[]=scanningcentre&fl[]=source&fl[]=subject&fl[]=title&fl[]=type&fl[]=volume&fl[]=week&fl[]=year&sort[]=&sort[]=&sort[]=&rows=50&page=%2&callback=callback&output=xml#raw",
+		'content_type' 	=> "xml"
+	)
+);

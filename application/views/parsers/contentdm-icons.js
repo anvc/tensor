@@ -15,12 +15,19 @@
         	var $this = $(this);
         	var $link = $this.find('a:first');
         	if (!$link.length) return;
-        	var uri =  origin+$link.attr('href');  // TODO: get the URL to the actual file
+        	var sourceLocation = origin+$link.attr('href');  // TODO: get the URL to the actual file
+        	// URI GET values
+        	var collection = $link.attr('itemcoll');
+        	var id = $link.attr('item_id');
+        	var scale = 30;
+        	var width = 10000;  // some large amount ... the incoming image will be whatever size it comes in as
+        	var height = 10000;  // some large amount ... the incoming image will be whatever size it comes in as
+        	var uri = origin+"/utils/ajaxhelper/?CISOROOT="+collection+"&CISOPTR="+id+"&action=2&DMSCALE="+scale+"&DMWIDTH="+width+"&DMHEIGHT="+height+"&DMX=0&DMY=0&DMROTATE=0";
         	results[uri] = {
         		'http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail':[{type:'uri',value:origin+$link.find('img:first').attr('src')}],
         		'http://purl.org/dc/terms/title':[{type:'literal',value:jQuery.trim($this.find('a:last').text())}],
         		'http://purl.org/dc/terms/source':[{type:'literal',value:archive.title}],
-        		'http://simile.mit.edu/2003/10/ontologies/artstor#sourceLocation':[{type:'uri',value:uri}],
+        		'http://simile.mit.edu/2003/10/ontologies/artstor#sourceLocation':[{type:'uri',value:sourceLocation}],
         	};
         	// TODO: for each row, activiate bt-wrapper
         });

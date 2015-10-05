@@ -2,49 +2,8 @@
 
 <div class="container-fluid">
 
-	<div class="teaser row">
-	  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	     <!-- <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="5000"> -->
-	     <div id="carousel-example-generic">
-	          <!-- <img src="http://www.criticalcommons.org/Members/craigdietrich/clips/space-shuttle-endeavour-arrives-at-los-angeles/thumbnailImage" /> -->
-	          <!-- <img src="https://ia802304.us.archive.org/6/items/flickr-ows-OccupyWallStreetMLKprotestattheFederalRe-6716514913/6716514913_b779516562_o.jpg" /> -->
-	          <!-- <img src="http://img.youtube.com/vi/Av8AmiZnz9U/hqdefault.jpg" /> -->
-	      <!-- Wrapper for slides -->
-	        <div class="slide-item" style="background-image:url(http://www.criticalcommons.org/Members/craigdietrich/clips/space-shuttle-endeavour-arrives-at-los-angeles/thumbnailImage);">
-	          <div class="slide-caption">
-	            <h4>Space Shuttle Endeavour arrives at Los Angeles Exposition Park<span>Craig Dietrich</span></h4>
-	          </div>
-	          <span class="icon critical-commons-icon"></span>
-	        </div>
-	        <div class="slide-item" style="background-image:url(https://ia802304.us.archive.org/6/items/flickr-ows-OccupyWallStreetMLKprotestattheFederalRe-6716514913/6716514913_b779516562_o.jpg);">
-	          <div class="slide-caption">
-	            <h4>Occupy Wall Street MLK protest at the Federal Reserve Bank of New York<span>Craig Dietrich</span></h4>
-	          </div>
-	          <span class="icon internet-archive-icon"></span>
-	        </div>
-	        <div class="slide-item" style="background-image:url(http://img.youtube.com/vi/Av8AmiZnz9U/hqdefault.jpg);">
-	          <div class="slide-caption">
-	            <h4>Trinity: Nuclear Wind<span>Craig Dietrich</span></h4>
-	          </div>
-	          <span class="icon youtube-icon"></span>
-	        </div>
-	      <!-- Controls -->
-	      <!-- <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev"> -->
-	      <!-- <a class="left carousel-control" href="#carousel-example-generic" role="button"> -->
-	        <!-- <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> -->
-	        <!-- <span class="sr-only">Previous</span> -->
-	      <!-- </a> -->
-	      <!-- <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next"> -->
-	      <!-- <a class="right carousel-control" href="#carousel-example-generic" role="button"> -->
-	        <!-- <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> -->
-	        <!-- <span class="sr-only">Next</span> -->
-	      <!-- </a> -->
-	    </div>
-	  </div>
-	</div><!-- /teaser -->
-
 	<div class="sheet row">
-		<div class="search col-max-height col-lg-3 col-md-3 col-sm-3 col-xs-3">
+		<div class="search col-lg-3 col-md-3 col-sm-3 col-xs-3">
 			<div>
 			  <form id="search_form">
 			    <div class="right-inner-addon">
@@ -101,7 +60,6 @@
 				  <button type="button" value="" class="btn btn-primary">All</button>
 				  <button type="button" value="affiliated" class="btn btn-default">Affiliated</button>
 				  <button type="button" value="other" class="btn btn-default">Non-affiliated</button>
-				  <button type="button" value="theme" class="btn btn-default">Themed</button>
 				  <button type="button" value="image" class="btn btn-default">Image</button>
 				  <button type="button" value="audio" class="btn btn-default">Audio</button>
 				  <button type="button" value="video" class="btn btn-default">Video</button>
