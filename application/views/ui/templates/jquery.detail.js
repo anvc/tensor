@@ -72,7 +72,8 @@
     		for (var p in row) {
     			var o = [];
     			for (k = 0; k < row[p].length; k++) {
-    				o.push(row[p][k].value.linkify());
+    				var value = ('undefined'==typeof(row[p][k]) || 'undefined'==typeof(row[p][k].value)) ? '' : row[p][k].value.linkify();
+    				o.push(value);
     			}
     			var pp = pnode(p);
                 if(pp.indexOf('dcterms:title') > -1) {

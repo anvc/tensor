@@ -3,7 +3,7 @@
     $.fn.parse = function(options) {
     	var model = new $.fn.spreadsheet_model(options);
     	model.parse = parse;
-    	model.fetch('xml');
+    	model.fetch('html');  // Removes Safari erros below
     };
     
 	function parse(data, archive) {

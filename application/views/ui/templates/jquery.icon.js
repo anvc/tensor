@@ -78,12 +78,8 @@
     				$source.append(row[p][0].value);
     				$source.show();
     			} else if ('dcterms:title'==pp) {
-	    			var o = [];
-	    			for (k = 0; k < row[p].length; k++) {
-	    				o.push(row[p][k].value.linkify());
-	    			}
-	    			if ('undefined'==typeof(o[0])) o[0] = '[No title]';
-	                $title.append(o[0]);
+    				var value = ('undefined'==typeof(row[p][0]) || 'undefined'==typeof(row[p][0].value)) ? '[No title]' : row[p][0].value.linkify();
+	                $title.append(value);
     			}
     		} 		
     		$url.append('<a href="'+url+'" target="_blank">'+url+'</a>');
