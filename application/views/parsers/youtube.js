@@ -9,13 +9,13 @@
 	function parse(data, archive) {
 		var results = {};
 		for (var j in data.items) {
-			var uri = 'http://www.youtube.com/v/m3RUnLEAHd8'+identifier;
+			var identifier = data.items[j].id.videoId;
+			var uri = 'http://www.youtube.com/v/'+identifier;
 			var thumb = data.items[j].snippet.thumbnails.high.url;
 			var title = data.items[j].snippet.title;
 			var desc = data.items[j].snippet.description;	
 			var sourceLocation = 'https://www.youtube.com/watch?v='+identifier;
 			var format = data.items[j].id.kind;
-			var identifier = data.items[j].id.videoId;
 			var date = data.items[j].snippet.publishedAt;
 			var creator = data.items[j].snippet.channelTitle;
         	results[uri] = {

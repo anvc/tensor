@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	set_search();
+	set_events();
 });
 $(window).load(function() {
 	set_sheet();
@@ -204,10 +205,7 @@ function search_results_ui(view) {
 	var $error = $('#error');
 	if (jQuery.isEmptyObject(do_search.results) && $error.is(':hidden')) {};
 	if ('undefined'==typeof(view)) view = $('.view-buttons').find('button[class*="btn-primary"]').attr('id');
-	if ('undefined'!=typeof($.fn.spreadsheet_view)) {
-		var checked = $.fn.spreadsheet_view.checked();
-		$.fn.spreadsheet_view.remove();
-	}
+	if ('undefined'!=typeof($.fn.spreadsheet_view)) $.fn.spreadsheet_view.remove();
 	// Hide gallery
 	if (!jQuery.isEmptyObject(do_search.results) && !$('.teaser').is(':hidden')) $('.toggle-teaser').trigger('click');
 	// Sort results, but only if there's more than one archive being search
@@ -221,12 +219,51 @@ function search_results_ui(view) {
 	// Load current view
 	var view_path = $('link#base_url').attr('href')+'application/views/ui/templates/jquery.'+view+'.js';
 	$.getScript(view_path, function() {
-		$('#spreadsheet').spreadsheet_view({rows:do_search.results,check:checked,num_archives:do_search.total});
+		$('#spreadsheet').spreadsheet_view({rows:do_search.results,check:imported(),num_archives:do_search.total});
 	});
 	
 }
 
+/**
+ * Set event handlers for import 
+ * @return null
+ */
+function set_events() {
+	
+	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global
+	
+	var imported = ('undefined'!=typeof(storage.get('imported'))) ? storage.get('imported') : {};
+	$('.num_imported').html( $.map(imported, function(n, i) { return i; }).length );
+	
+	$("body").on( "import_add_node", function( event, uri, values ) {
+		var imported = storage.get('imported');
+		if ('undefined'==typeof(imported)) imported = {};
+		imported[uri] = values;
+		storage.set('imported', imported);
+		$('.num_imported').html( $.map(storage.get('imported'), function(n, i) { return i; }).length );
+	});	
+	$("body").on( "import_remove_node", function( event, uri, values ) {
+		var imported = storage.get('imported');
+		if ('undefined'==typeof(imported)) imported = {};
+		if ('undefined'!=typeof(imported[uri])) delete imported[uri];
+		storage.set('imported', imported);	
+		$('.num_imported').html( $.map(storage.get('imported'), function(n, i) { return i; }).length );
+	});		
+	
+}
 
+/**
+ * Get the imported object from localStorage
+ * @return obj imported items
+ */
+function imported() {
+	
+	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global
+	return storage.get('imported');
+	
+}
 
 function set_sheet() {
 	var $teaser = $('.teaser:first');
@@ -238,8 +275,6 @@ function set_sheet() {
 	var $spreadsheet = $('#spreadsheet');
 	var $switchimport = $('#switch-import');
 	var $switchmanage = $('#switch-manage');
-
-	// $("#carousel-example-generic").endlessScroll({width:'100%',height:'200px',steps:-2,speed:40,mousestop:true})
 
 	// Set sheet height
 	set_sheet_height();

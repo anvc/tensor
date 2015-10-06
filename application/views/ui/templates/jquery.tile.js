@@ -24,7 +24,6 @@
 	var opts = {};
 	var predicates = [];
 	var $self = null;
-	var num_rows = 0;
 	
     $.fn.spreadsheet_view = function(options) {
     	opts = $.extend( {}, defaults, options );
@@ -34,15 +33,7 @@
         return $self;
     };
     
-    $.fn.spreadsheet_view.remove = function() {}    
-    
-    $.fn.spreadsheet_view.checked = function() {
-	    var checked = [];
-	    $self.find('input:checked').each(function() {
-	    	checked.push($(this).attr('value'));
-	    });
-	    return checked;
-    };    
+    $.fn.spreadsheet_view.remove = function() {}     
     
     function namespaces_reversed() {
     	opts.namespaces_reversed = {};
@@ -55,9 +46,24 @@
     	$self.children(':not(.spreadsheet_panel)').remove();
     	$self.children('.spreadsheet_panel').hide();
 		var $wrapper = $('<div class="tiles"></div>').appendTo($self);
+    	$wrapper.on( "click", ".tile", function() {
+    		var $this = $(this);
+    		var is_clicked = ($this.hasClass('clicked')) ? true : false;
+    		if (is_clicked) {
+    			$this.removeClass('clicked');
+    			$this.find('.clicked_layer').remove();
+    			$("body").trigger( "import_remove_node", [$this.data('uri'), $this.data('values')] );
+    		} else {
+    			$this.addClass('clicked');
+    			$this.prepend('<div class="clicked_layer"></div>');
+    			$("body").trigger( "import_add_node", [$this.data('uri'), $this.data('values')] );
+    		}   		
+    	});	
     	for (var j in opts.rows) {
     		var row = opts.rows[j];
     		var $row = $('<div class="tile"></div>').appendTo($wrapper);
+    		$row.data('uri', j);
+    		$row.data('values', opts.rows[j]);    		
     		var thumb = ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'])) ? row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value : $('link#base_url').attr('href')+'application/views/ui/templates/images/missing_thumb.jpg';
     		$img = $('<div class="img_wrapper"><img src="'+thumb+'" /></div>').appendTo($row);
     		$source = $('<div class="source"></div>').appendTo($row);
@@ -88,21 +94,14 @@
     			}
     		} 		
     		$url.append('<a href="'+url+'" target="_blank">'+url+'</a>');
+    		if ('undefined'!=typeof(opts.check[j])) $row.click();
     	}    
     	$wrapper.append('<br clear="both" />');
     	do_match_height(true);
     	$('body').on('sheet_layout_change', function() { do_match_height(); });
-    }
-    
-    function check(input, bool) {
-    	$input = $(input);
-		if (bool) {
-			$input.parent().addClass('tile_checked');
-			$input.prop('checked', true);
-		} else {
-			$input.parent().removeClass('tile_checked');
-			$input.prop('checked', false);
-		}   	
+        $wrapper.find('a').on('click', function(e) {
+            e.stopPropagation();
+        });     	
     }
     
     function do_match_height(bool) {
@@ -119,20 +118,6 @@
     		str = str.replace(j, opts.namespaces_reversed[j]+':');
     		return str;
     	}
-    }
-    
-    // http://phpjs.org/functions/basename/
-    function basename(path, suffix) {
-    	var b = path;
-    	var lastChar = b.charAt(b.length - 1);
-    	if (lastChar === '/' || lastChar === '\\') {
-    		b = b.slice(0, -1);
-    	}
-    	b = b.replace(/^.*[\/\\]/g, '');
-    	if (typeof suffix === 'string' && b.substr(b.length - suffix.length) == suffix) {
-    		b = b.substr(0, b.length - suffix.length);
-    	}
-    	return b;
     }
     
 }( jQuery ));

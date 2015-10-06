@@ -33,15 +33,7 @@
         return $self;
     };
     
-    $.fn.spreadsheet_view.remove = function() {}    
-    
-    $.fn.spreadsheet_view.checked = function() {
-	    var checked = [];
-	    $self.find('input:checked').each(function() {
-	    	checked.push($(this).attr('value'));
-	    });
-	    return checked;
-    };    
+    $.fn.spreadsheet_view.remove = function() {}     
     
     function namespaces_reversed() {
     	opts.namespaces_reversed = {};
@@ -54,10 +46,25 @@
     	$self.children(':not(.spreadsheet_panel)').remove();
     	$self.children('.spreadsheet_panel').hide();
     	var $wrapper = $('<div class="container-fluid icons"></div>').appendTo($self);
+    	$wrapper.on( "click", ".row", function() {
+    		var $this = $(this);
+    		var is_clicked = ($this.hasClass('clicked')) ? true : false;
+    		if (is_clicked) {
+    			$this.removeClass('clicked');
+    			$this.find('.clicked_layer').remove();
+    			$("body").trigger( "import_remove_node", [$this.data('uri'), $this.data('values')] );
+    		} else {
+    			$this.addClass('clicked');
+    			$this.prepend('<div class="clicked_layer"></div>');
+    			$("body").trigger( "import_add_node", [$this.data('uri'), $this.data('values')] );
+    		}   		
+    	});
     	for (var j in opts.rows) {
     		var row = opts.rows[j];
     		var thumb = ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'])) ? row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value : $('link#base_url').attr('href')+'application/views/ui/templates/images/missing_thumb.jpg';
     		var $row = $('<div class="row"></div>').appendTo($wrapper);
+    		$row.data('uri', j);
+    		$row.data('values', opts.rows[j]);
     		var $thumb = $('<div class="icon_cell"><img src="'+thumb+'" /></div>').appendTo($row);
     		var $source = $('<div class="source"></div>').appendTo($row);
     		var $url = $('<div class="url"></div>').appendTo($row);
@@ -80,9 +87,13 @@
     			}
     		} 		
     		$url.append('<a href="'+url+'" target="_blank">'+url+'</a>');
+    		if ('undefined'!=typeof(opts.check[j])) $row.click();
     	}   
     	do_match_height(true);
-    	$('body').on('sheet_layout_change', function() { do_match_height(); });    	
+    	$('body').on('sheet_layout_change', function() { do_match_height(); });    
+        $wrapper.find('a').on('click', function(e) {
+            e.stopPropagation();
+        }); 	
     } 
     
     function do_match_height(bool) {

@@ -44,9 +44,9 @@ class Wb extends CI_Controller {
 		$this->template->add_js(base_url().APPPATH.'views/common/tablesorter/jquery.tablesorter.widgets.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/endless_scroll/endless_scroll.min.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/match-height/jquery.matchHeight.js');
+		$this->template->add_js(base_url().APPPATH.'views/common/jquery.storageapi.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/linkify/linkify.js');
 		$this->template->add_js(base_url().APPPATH.'views/workbench/js/jquery.spreadsheet_model.js');
-		$this->template->add_js(base_url().APPPATH.'views/workbench/js/jquery.spreadsheet_events.js');
 		$this->template->add_js(base_url().APPPATH.'views/workbench/js/jquery.advanced_search.js');
 		$this->template->add_js(base_url().APPPATH.'views/workbench/js/import.js');
 		$this->template->render("workbench/pegboard", $this->data);

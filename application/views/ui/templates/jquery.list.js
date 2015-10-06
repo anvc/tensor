@@ -19,7 +19,8 @@
 			},
 			rows: null,
 			default_num_predicates: 4,
-			check: []
+			check: [],
+			num_archives: 1
 	};  	
 	var opts = {};
 	var predicates = [];
@@ -32,20 +33,11 @@
         do_create_table();
         do_create_header();
         do_create_cells();
-        do_events();
         return $self;
     };
     
     $.fn.spreadsheet_view.remove = function() {
     	$(window).off('.rc');
-    };
-    
-    $.fn.spreadsheet_view.checked = function() {
-	    var checked = [];
-	    $self.find('tbody input:checked').each(function() {
-	    	checked.push($(this).attr('value'));
-	    });
-	    return checked;
     };
     
     function namespaces_reversed() {
@@ -67,108 +59,76 @@
     	var $row = $head.find('tr');
     	var to_display = predicates_to_display();
         $table.data('namespaces_reversed',opts.namespaces_reversed);
-
-    	$('<th><input type="checkbox" id="checkall" />rdf:resource</th>').appendTo($row);
+    	$('<th style="white-space:nowrap;">rdf:resource</th>').appendTo($row);
     	for (var j in to_display) {
     		var $cell = $('<th>'+pnode(to_display[j])+'</th>').appendTo($row);
     	}
-    	$('<th class="resizable-false"><big><a href="javascript:void(null)" data-toggle="modal" data-target="#column_select">+/-</a></big></th>').appendTo($row);
     }
     
     function do_create_cells() {
     	var $table = $self.find('table');
     	var $body = $('<tbody></tbody>').appendTo($table);
     	var to_display = predicates_to_display();
+    	$table.on('click','td', function() {
+    		var $this = $(this);
+    		var $parent = $this.closest('tr');
+    		var is_clicked = ($parent.hasClass('clicked')) ? true : false;
+    		if (is_clicked) {
+    			$parent.removeClass('clicked');
+    			$parent.find('input[type="checkbox"]').prop('checked', false);
+    			$("body").trigger( "import_remove_node", [$parent.data('uri'), $parent.data('values')] );
+    		} else {
+    			$parent.addClass('clicked');
+    			$parent.find('input[type="checkbox"]').prop('checked', true);
+    			$("body").trigger( "import_add_node", [$parent.data('uri'), $parent.data('values')] );
+    		}   	    		
+    	});
     	for (var j in opts.rows) {
-    		var $row = $('<tr class="list-item"></tr>').appendTo($body);
+    		var $row = $('<tr></tr>').appendTo($body);
+    		$row.data('uri', j);
+    		$row.data('values', opts.rows[j]);    		
     		$('<td><div><input type="checkbox" value="'+j+'" /><a target="_blank" href="'+j+'" title="'+j+'">'+basename(j)+'</a></div><br clear="both" /></td>').appendTo($row);
     		for (var k in to_display) {
     			var value = ('undefined'!=typeof(opts.rows[j][to_display[k]])) ? opts.rows[j][to_display[k]][0].value : '';
     			value = value.linkify();
-    			$('<td><div class="'+k+'">'+value+'</div><br clear="both" /></td>').appendTo($row);
+    			$('<td><div class="'+basename(to_display[k])+'">'+value+'</div><br clear="both" /></td>').appendTo($row);
     		}
-    		$('<td><div></div><br clear="both" /></td>').appendTo($row);
-    		if (-1!=opts.check.indexOf(j)) {
-    			$row.find('input[type="checkbox"]').prop('checked', true);
+    		if ('undefined'!=typeof(opts.check[j])) {
+    			$row.addClass('clicked');
+    			$row.find('input[type="checkbox"]').prop('checked',true);
     		}
     	}
-    }
-    
-    function do_events() {
-    	// $self.find('table').resizableColumns();
-        $('#spreadsheet-table').tablesorter({
-            theme:'default',
-            widgets:["zebra","resizable","stickyHeaders"],
-            widgetOptions: {
-                resizable:true,
-                resizable_widths:['15%','30%','35%','10%','5%','5%'],
-            },
-            headers:{
-                5:{
-                    sorter:false
-                }
-            }
-        });
-    	$self.find('tr').on('click','td', function() {
-    		var $this = $(this);
-    		if ($this.hasClass('metadata')) return;
-    		var $tr = $this.closest('tr');
-
-            if($tr.data("results") == undefined) {
-                var index_get_meta = $tr.find('input[type="checkbox"]').val();
-                var row_results = {};
-                for(var key in opts.rows[index_get_meta]) {
-                    row_results[pnode(key)] = opts.rows[index_get_meta][key][0].value;
-                }
-                $tr.data("results",row_results);
-            }
-    		$tr.metadataPanel();
-    	});
         $self.find('td a').on('click', function(e) {
             e.stopPropagation();
         })
         $self.find('td input[type="checkbox"]').on('click', function(e) {
             e.stopPropagation();
         })
-    	$('#checkall').change(function() {
-    		var is_checked = (this.checked) ? true : false;
-    		$self.find('table').find('input[type="checkbox"]').prop('checked', is_checked);
-    		this.blur();
-    	});   	
+        var widths = ['15%','30%'];
+        $('#spreadsheet-table').tablesorter({
+            theme:'default',
+            widgets:["zebra","resizable","stickyHeaders"],
+            widgetOptions: {
+                resizable:true,
+                resizable_widths:widths,
+            }
+        });      
     }
     
-    function predicates_to_display(arr) {
-    	return {
-   		     'title':'http://purl.org/dc/terms/title',
-		     'description':'http://purl.org/dc/terms/description',
-		     'contributor':'http://purl.org/dc/terms/contributor',
-		     'source':'http://purl.org/dc/terms/source'
-    	       };
-    }
-    
-    function _predicates_to_display(arr) {
-    	var privileged_predicates = [
-    	                		     'http://purl.org/dc/terms/title',
-    	                		     'http://purl.org/dc/terms/description',
-    	                		     'http://purl.org/dc/terms/contributor',
-    	                		     'http://purl.org/dc/terms/source'
-    	                		    ];    
-    	predicates = [];
-    	for (var j in opts.rows) {
-    		for (var k in opts.rows[j]) {
-    			if (-1==predicates.indexOf(k)) predicates.push(k);
-    		}
-    	}  
-    	var arr = [];
-    	for (var j in privileged_predicates) {
-    		if (-1!=predicates.indexOf(privileged_predicates[j])) arr.push(privileged_predicates[j]);
+    function predicates_to_display() {
+    	var arr = [
+   		     'http://purl.org/dc/terms/title',
+		     'http://purl.org/dc/terms/description',
+		     'http://purl.org/dc/terms/contributor',
+		     'http://purl.org/dc/terms/creator'
+    	       ];
+    	if (opts.num_archives > 1) arr.push('http://purl.org/dc/terms/source');
+    	var _arr = [];
+    	for (var uri in opts.rows) break;
+    	for (var j in arr) {
+    		if ('undefined'!=typeof(opts.rows[uri][arr[j]])) _arr.push(arr[j]);
     	}
-    	arr = arr.slice(0,5);
-    	var to_add = opts.default_num_predicates - arr.length;
-    	if (to_add < 0) to_add = 0;
-    	var diff = $(predicates).not(arr).get();
-    	arr = arr.concat(diff.slice(0,to_add));
-    	return arr;
+    	return _arr;
     }
     
     function pnode(str) {
