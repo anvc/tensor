@@ -1,6 +1,4 @@
-workbench
+Tensor
 =========
 
-Scalar-Karma Scholar's Workbench
-
-This application will provide metadata, sorting, and publishing services for Scalar books based on Karma's Semantic Web store.
+All of the benefits of Scalar's import system, spun out into its own media-management application.
