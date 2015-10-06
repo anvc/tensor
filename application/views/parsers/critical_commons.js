@@ -13,6 +13,7 @@
         	var $this = $(this);
         	var uri = $this.find('link').text();
         	// TODO: URI is None/None
+        	// TODO: namespaces not working in Edge
         	var date = $this.find('dcterms\\:created, created').text();
         	var creator = $this.find('dcterms\\:creator, creator').text();
         	var publisher = $this.find('dcterms\\:publisher, publisher').text();

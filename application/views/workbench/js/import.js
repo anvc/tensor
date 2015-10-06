@@ -154,7 +154,7 @@ function do_search(obj, $archives, page) {
 		var $archive = $(this);
 		var archive = $.extend({}, $archive.data('request'));
 		var proxy_url = $('link#proxy_url').attr('href');
-		var parser_path = $('link#base_url').attr('href')+'application/views/parsers/'+archive.parser+'.js';	
+		var parser_path = $('link#base_url').attr('href')+'application/views/parsers/'+archive.parser+'.js';
 		archive.source = archive.source.replace('%2',page);
 		archive.source = archive.source.replace('%1',obj.terms.join('%20'));
 		$.extend(archive, {page:page,query:obj.terms.join(' '),proxy_url:proxy_url,error_callback:store_error_callback,complete_callback:store_complete_callback});
