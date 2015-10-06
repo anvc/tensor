@@ -64,7 +64,7 @@
     		var $row = $('<div class="tile"></div>').appendTo($wrapper);
     		$row.data('uri', j);
     		$row.data('values', opts.rows[j]);    		
-    		var thumb = ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'])) ? row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value : $('link#base_url').attr('href')+'application/views/ui/templates/images/missing_thumb.jpg';
+    		var thumb = ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'])) ? row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value : $('link#base_url').attr('href')+'application/views/images/missing_thumb.jpg';
     		$img = $('<div class="img_wrapper"><img src="'+thumb+'" /></div>').appendTo($row);
     		$source = $('<div class="source"></div>').appendTo($row);
     		$url = $('<div class="url"></div>').appendTo($row);

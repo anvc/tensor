@@ -59,7 +59,7 @@
     	});    	
     	for (var j in opts.rows) {
     		var row = opts.rows[j];
-    		var thumb = ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'])) ? row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value : $('link#base_url').attr('href')+'application/views/ui/templates/images/missing_thumb.jpg';
+    		var thumb = ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'])) ? row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value : $('link#base_url').attr('href')+'application/views/images/missing_thumb.jpg';
     		var $row = $('<div class="detail"></div>').appendTo($wrapper);
     		$row.data('uri', j);
     		$row.data('values', opts.rows[j]);

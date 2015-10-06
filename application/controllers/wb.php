@@ -11,7 +11,7 @@ class Wb extends CI_Controller {
 		$this->load->helper('url');
 
 		$this->load->library("template");
-		$this->template->set_layout('workbench/wrapper.php');
+		$this->template->set_layout('wrapper.php');
 
 	}
 
@@ -36,7 +36,7 @@ class Wb extends CI_Controller {
 		$this->template->add_css(APPPATH.'views/common/jquery-ui-1.11.4.custom/jquery-ui.min.css');
 		$this->template->add_css(APPPATH.'views/common/bootstrap/css/bootstrap.min.css');
 		$this->template->add_css(APPPATH.'views/common/tablesorter/theme.default.css');
-		$this->template->add_css(APPPATH.'views/ui/spreadsheet.css');
+		$this->template->add_css(APPPATH.'views/wb.css');
 		$this->template->add_js('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/jquery-ui-1.11.4.custom/jquery-ui.min.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/bootstrap/js/bootstrap.min.js');
@@ -46,10 +46,10 @@ class Wb extends CI_Controller {
 		$this->template->add_js(base_url().APPPATH.'views/common/match-height/jquery.matchHeight.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/jquery.storageapi.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/linkify/linkify.js');
-		$this->template->add_js(base_url().APPPATH.'views/workbench/js/jquery.spreadsheet_model.js');
-		$this->template->add_js(base_url().APPPATH.'views/workbench/js/jquery.advanced_search.js');
-		$this->template->add_js(base_url().APPPATH.'views/workbench/js/import.js');
-		$this->template->render("workbench/pegboard", $this->data);
+		$this->template->add_js(base_url().APPPATH.'views/common/jquery.spreadsheet_model.js');
+		$this->template->add_js(base_url().APPPATH.'views/common/jquery.advanced_search.js');
+		$this->template->add_js(base_url().APPPATH.'views/pegboard.js');
+		$this->template->render("pegboard", $this->data);
 
 	}
 
@@ -57,11 +57,9 @@ class Wb extends CI_Controller {
 
 		$this->load->model('proxy_model');
 		$this->data['results'] = $this->proxy_model->get();
-		$this->load->view('workbench/proxy', $this->data);
+		$this->load->view('proxy', $this->data);
 
 	}
 
 }
-
-/* End of file welcome.php */
-/* Location: ./application/controllers/welcome.php */
+?>

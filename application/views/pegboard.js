@@ -217,7 +217,7 @@ function search_results_ui(view) {
 	if (do_search.page > 1) $('.prev-page').css('visibility','visible').find('.num').html(do_search.page-1);
 	$('.next-page').css('visibility','visible').find('.num').html(do_search.page+1);
 	// Load current view
-	var view_path = $('link#base_url').attr('href')+'application/views/ui/templates/jquery.'+view+'.js';
+	var view_path = $('link#base_url').attr('href')+'application/views/templates/jquery.'+view+'.js';
 	$.getScript(view_path, function() {
 		$('#spreadsheet').spreadsheet_view({rows:do_search.results,check:imported(),num_archives:do_search.total});
 	});
