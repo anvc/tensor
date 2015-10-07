@@ -82,12 +82,12 @@
 	  	<a class="page next-page">Page <span class="num"></span> <span class="glyphicon glyphicon-chevron-right"></span></a>
 	</div>
 	<div class="left-buttons">
-	  	<button type="button" class="btn btn-xs btn-primary" data-toggle="modal"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp; Search archives</button>
+	  	<button id="pegboard_link" type="button" class="btn btn-xs btn-primary" data-toggle="modal"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp; Search archives</button>
 	  	&nbsp; &nbsp;<b class="num_results">0</b> results
 	</div>
 	<div class="right-buttons">
 	    <b class="num_imported">0</b> imported&nbsp; &nbsp;
-		<button type="button" class="btn btn-xs btn-default" data-toggle="modal"><span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp; Manage content</button>
+		<button id="manage_link" type="button" class="btn btn-xs btn-default" data-toggle="modal"><span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp; Manage content</button>
 	</div>
 </div>
 

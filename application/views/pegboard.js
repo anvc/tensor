@@ -276,6 +276,10 @@ function set_sheet() {
 	var $switchimport = $('#switch-import');
 	var $switchmanage = $('#switch-manage');
 
+	// Buttons
+	$('#manage_link').click(function() {
+		document.location.href = 'manage';
+	});
 	// Set sheet height
 	set_sheet_height();
 	// Toggle teaser

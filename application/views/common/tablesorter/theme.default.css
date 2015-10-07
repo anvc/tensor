@@ -6,7 +6,7 @@ Default Theme
 	width: 100%;
 	font: 13px/18px Arial, Sans-serif;
 	color: #333;
-	background-color: #fff;
+	/* background-color: #fff; */
 	border-spacing: 0;
 	margin: 10px 0 15px;
 	text-align: left;
@@ -17,7 +17,7 @@ Default Theme
 .tablesorter-default thead td {
 	font-weight: bold;
 	color: #000;
-	background-color: #fff;
+	/* background-color: #fff; */
 	border-collapse: collapse;
 	border-bottom: #ccc 2px solid;
 	padding: 0;
@@ -63,7 +63,7 @@ Default Theme
 
 /* tbody */
 .tablesorter-default td {
-	background-color: #fff;
+	/* background-color: #fff; */
 	border-bottom: #ccc 1px solid;
 	padding: 4px;
 	vertical-align: top;
