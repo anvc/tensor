@@ -59,6 +59,7 @@ function set_collections() {
 			$('body').trigger("collection_remove_node", [ ui.collection ] );
 		}
 	});
+	$('#collections_form').children('.all').click(function() { ui(); });
 	
 	ui();
 	
@@ -87,7 +88,7 @@ function ui(collection, view, col_view) {
 	$collection_view.find('button[value="'+col_view+'"]').removeClass('btn-default').addClass('btn-primary');
 	
 	// Collections
-	$collections_form.children('.all').removeClass('clicked').click(function() { ui(); });
+	$collections_form.children('.all').removeClass('clicked');
 	$collections_form.children(':not(.notice, .all)').remove();
 	for (var j in collections) {
 		var $collection = $('<div class="collection'+((j==collection)?' clicked':'')+'"></div>');
@@ -101,13 +102,14 @@ function ui(collection, view, col_view) {
 	    	ui(index);
 	    });
 	}
-	
+
 	// Current collection
 	var results = {};
 	var check = {};
 	if (null==collection) {
 		if ('edit'==col_view) {
-			results = check = get_imported();
+			results = get_imported();
+			check = get_imported();
 		} else {
 			results = get_imported();
 		}
@@ -127,7 +129,7 @@ function ui(collection, view, col_view) {
 			results = collections[collection].items;
 		}
 		$collection_bar.find('.m').html(collections[collection].title);
-		$('#spreadsheet_gradient').css('background', 'linear-gradient(to bottom, '+convertHex(collections[collection].color,50)+', white)' );
+		$('#spreadsheet_gradient').css('background', 'linear-gradient(to bottom, '+convertHex(collections[collection].color,40)+', white)' );
 		$('#delete_collection_link').show();
 	}
 
