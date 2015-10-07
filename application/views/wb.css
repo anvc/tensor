@@ -82,6 +82,7 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 #collection_bar .m {text-align:left; font-weight:bold; overflow:hidden; padding-top:1px;}
 #collection_bar .r {float:right; text-align:right;}
 #collection_bar .select-sm {font-size:12px; height:27px; padding-top:4px; margin-top:-3px;}
+#edit_collection_link:hover {background-color:#cccccc;}
 #delete_collection_link:hover {background-color:#ffaaaa;}
 .collection {
 	min-height:32px; white-space:nowrap; overflow:hidden; padding:5px 0px 4px 2px; cursor:pointer; margin-bottom:4px; 

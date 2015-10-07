@@ -32,6 +32,39 @@ function set_collections() {
 	$('input[name="color"]').spectrum({
 	    color: "#9999ff"
 	});
+	$('#edit_collection').on('show.bs.modal', function (event) {
+		var $modal = $(this);
+		var collections = get_collections();
+		var collection = collections[ui.collection];
+		$modal.data('collection', ui.collection);
+		$modal.find('[name="title"]').val(collection.title);
+		$modal.find('[name="description"]').val(collection.description);
+		$modal.find('input[name="color"]').spectrum("set", collection.color);
+	});
+	$('#edit_collection').find('button:last').click(function() {
+		$('#edit_collection').submit();
+	});	
+	$('#edit_collection').submit(function() {
+		var $this = $(this);
+		var obj = {};
+		var collection = $this.data('collection');
+		if ('undefined'==typeof(collection)) {
+			alert('Problem determining the collection ID');
+			return false;
+		}
+		obj.title = $this.find('[name="title"]').val();
+		obj.description = $this.find('[name="description"]').val();
+		obj.color = '#'+$this.find('input[name="color"]').spectrum("get").toHex();
+		if (!obj.title.length) {
+			alert('Please enter a title for the collection');
+		} else {
+			$('body').trigger("collection_edit_node", [ collection, obj ] );
+			$this.find('[name="title"]').val('');
+			$this.find('[name="description"]').val('');
+			$this.modal('hide');
+		}
+		return false;
+	});	
 	$('#create_collection').find('button:last').click(function() {
 		$('#create_collection').submit();
 	});
@@ -53,13 +86,34 @@ function set_collections() {
 	});
 	$('#collection_view').find('button').click(function() {
 		ui(ui.collection, null, $(this).val());
-	});
+	});	
 	$('#delete_collection_link').click(function() {
 		if (confirm('Are you sure you wish to delete this collection?')) {
 			$('body').trigger("collection_remove_node", [ ui.collection ] );
 		}
 	});
 	$('#collections_form').children('.all').click(function() { ui(); });
+	var $filter_collections_form = $('#filter_collections_form');
+	$filter_collections_form.submit(function() {  // Submit find archives
+		var $this = $(this);
+		var $collections_form = $('#collections_form');
+		var val = $this.find('input[name="search"]').val().toLowerCase();
+		if (!val.length) {
+			$collections_form.children().show();
+		} else {
+			$collections_form.children(':not(.all)').hide();
+			$collections_form.children(':not(.all)').each(function() {
+				if (-1!=$(this).text().toLowerCase().indexOf(val)) $(this).show();
+			});
+		}
+		return false;
+	});	
+	$filter_collections_form.find('a').click(function() {
+		$(this).closest('form').submit();
+	});
+	$filter_collections_form.find('input[name="search"]').on('keyup focusout', function() {
+		$(this).closest('form').submit();
+	});
 	
 	ui();
 	
@@ -78,7 +132,9 @@ function ui(collection, view, col_view) {
 	if ('undefined'==typeof(view) || null==view) view = $('.view-buttons').find('button[class*="btn-primary"]').attr('id');
 	var $collection_bar = $('#collection_bar');
 	var $collection_view = $('#collection_view');
+	var $filter_collections_form = $('#filter_collections_form');
 	var $collections_form = $('#collections_form');
+	var $edit_collection_link = $('#edit_collection_link');
 	var $delete_collection_link = $('#delete_collection_link');
 
 	// Collection view
@@ -88,9 +144,10 @@ function ui(collection, view, col_view) {
 	$collection_view.find('button[value="'+col_view+'"]').removeClass('btn-default').addClass('btn-primary');
 	
 	// Collections
+	$filter_collections_form.find('input[name="search"]').val('');
 	$collections_form.children('.all').removeClass('clicked');
 	$collections_form.children(':not(.notice, .all)').remove();
-	for (var j in collections) {
+	for (var j = (collections.length-1); j >= 0; j--) {
 		var $collection = $('<div class="collection'+((j==collection)?' clicked':'')+'"></div>');
 		$collection.append('<div class="color" style="background-color:'+collections[j].color+';"></div>');
 		$collection.append('<h5>'+collections[j].title+'</h5>');
@@ -116,6 +173,7 @@ function ui(collection, view, col_view) {
 		$collection_bar.find('.m').html('All imported media');
 		$('#spreadsheet_gradient').css('background', '');
 		$collections_form.find('.all').addClass('clicked');
+		$edit_collection_link.hide();
 		$delete_collection_link.hide();
 	} else {
 		if ('undefined'==typeof(collections[collection])) {
@@ -130,7 +188,8 @@ function ui(collection, view, col_view) {
 		}
 		$collection_bar.find('.m').html(collections[collection].title);
 		$('#spreadsheet_gradient').css('background', 'linear-gradient(to bottom, '+convertHex(collections[collection].color,40)+', white)' );
-		$('#delete_collection_link').show();
+		$edit_collection_link.show();
+		$delete_collection_link.show();
 	}
 
 	// Load current view
@@ -181,6 +240,15 @@ function set_events() {
 		storage.set('collections', collections);
 		ui((collections.length-1));
 	});	
+	$("body").on( "collection_edit_node", function( event, collection, obj ) {
+		var collections = storage.get('collections');
+		if ('undefined'==typeof(collections[collection])) return;
+		collections[collection].title = obj.title;
+		collections[collection].description = obj.description;
+		collections[collection].color = obj.color;
+		storage.set('collections', collections);
+		ui(collection);
+	});		
 	$("body").on( "collection_remove_node", function( event, index ) {
 		var collections = storage.get('collections');
 		if ('undefined'==typeof(collections)) collections = [];

@@ -13,7 +13,8 @@
 					</div>
 				</div>
 				<div class="r">
-					<button class="btn btn-xs" id="delete_collection_link">Delete collection</button>
+					<button class="btn btn-xs" id="edit_collection_link" data-toggle="modal" data-target="#edit_collection">Edit</button>
+					<button class="btn btn-xs" id="delete_collection_link">Delete</button>
 				</div>
 				<div class="m"></div>
 			</div>
@@ -87,6 +88,37 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Create collection</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="edit_collection">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Edit Collection</h4>
+      </div>
+      <div class="modal-body">
+        <form id="create_collection_form">
+		  <div class="form-group">
+		    <label>Title</label>
+		    <input type="text" class="form-control" name="title" placeholder="My new collection">
+		  </div>
+		  <div class="form-group">
+		    <label>Description</label>
+		    <input type="text" class="form-control" name="description" placeholder="A collection of imported media">
+		  </div>
+		  <div class="form-group">
+		  	<label>Color</label><br />
+		  	<input type="text" name="color">
+		  </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save collection</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
