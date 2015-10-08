@@ -28,7 +28,7 @@
 			      <a href="javascript:void(null);" class="glyphicon glyphicon-search"></a>
 			    </div>
 			  </form>
-			  <div class="advanced">Collections<a href="javascript:void(null);" id="advanced_search_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Manage Collections</a></div>
+			  <div class="advanced">Collections<a href="javascript:void(null);" id="advanced_collections_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Manage Collections</a></div>
 			  <form id="collections_form">
 			    <div class="notice"><a href="javascript:void(null);" data-toggle="modal" data-target="#create_collection"><span class="glyphicon glyphicon-plus"></span> Create a New Collection</a></div>
 				<div class="collection all">

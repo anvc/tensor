@@ -24,7 +24,7 @@ function loading(bool, archive_title) {
 }
 
 /**
- * Set UI for the left-side search area
+ * Set UI for the right-side collections area
  * @return null
  */
 function set_collections() {
@@ -114,13 +114,16 @@ function set_collections() {
 	$filter_collections_form.find('input[name="search"]').on('keyup focusout', function() {
 		$(this).closest('form').submit();
 	});
+	$('#advanced_collections_link').click(function() {
+		// TODO
+	});
 	
 	ui();
 	
 }
 
 /**
- * Set the UI for search results in one of many possible views
+ * Set the UI for for the current collection in one of many possible views
  * @view str optional view to set 
  * @return null
  */
@@ -163,10 +166,12 @@ function ui(collection, view, col_view) {
 	// Current collection
 	var results = {};
 	var check = {};
+	var checkable = false;
 	if (null==collection) {
 		if ('edit'==col_view) {
 			results = get_imported();
 			check = get_imported();
+			checkable = true;
 		} else {
 			results = get_imported();
 		}
@@ -182,7 +187,8 @@ function ui(collection, view, col_view) {
 		}
 		if ('edit'==col_view) {
 			results = get_imported();
-			check = collections[collection];			
+			check = collections[collection].items;	
+			checkable = true;
 		} else {
 			results = collections[collection].items;
 		}
@@ -194,19 +200,19 @@ function ui(collection, view, col_view) {
 
 	// Load current view
 	if (view == ui.view) {
-		$('#spreadsheet_content').spreadsheet_view({rows:results,check:check,num_archives:2});
+		$('#spreadsheet_content').attr('class',view+'_view').spreadsheet_view({rows:results,check:check,num_archives:2,checkable:checkable});
 	} else {
 		var view_path = $('link#base_url').attr('href')+'application/views/templates/jquery.'+view+'.js';
 		$.getScript(view_path, function() {
 			ui.view = view;
-			$('#spreadsheet_content').spreadsheet_view({rows:results,check:check,num_archives:2});
+			$('#spreadsheet_content').attr('class',view+'_view').spreadsheet_view({rows:results,check:check,num_archives:2,checkable:checkable});
 		});
 	}
 	
 }
 
 /**
- * Set event handlers for import 
+ * Set event handlers for managing imported and collection items 
  * @return null
  */
 function set_events() {
@@ -218,18 +224,41 @@ function set_events() {
 	$('.num_imported').html( $.map(imported, function(n, i) { return i; }).length );
 	
 	$("body").on( "import_add_node", function( event, uri, values ) {
-		var imported = storage.get('imported');
-		if ('undefined'==typeof(imported)) imported = {};
-		imported[uri] = values;
-		storage.set('imported', imported);
-		$('.num_imported').html( $.map(storage.get('imported'), function(n, i) { return i; }).length );
+		var collection = ui.collection;
+		if (null==collection) {
+			var imported = storage.get('imported');
+			if ('undefined'==typeof(imported)) imported = {};
+			imported[uri] = values;
+			storage.set('imported', imported);
+			$('.num_imported').html( $.map(storage.get('imported'), function(n, i) { return i; }).length );
+		} else {
+			var collections = storage.get('collections');
+			collections[collection].items[uri] = values;
+			storage.set('collections', collections);
+		}
 	});	
-	$("body").on( "import_remove_node", function( event, uri, values ) {
-		var imported = storage.get('imported');
-		if ('undefined'==typeof(imported)) imported = {};
-		if ('undefined'!=typeof(imported[uri])) delete imported[uri];
-		storage.set('imported', imported);	
-		$('.num_imported').html( $.map(storage.get('imported'), function(n, i) { return i; }).length );
+	$("body").on( "import_remove_node", function( event, uri ) {
+		var collection = ui.collection;
+		if (null==collection) {		
+			var imported = storage.get('imported');
+			if ('undefined'==typeof(imported)) imported = {};
+			if ('undefined'!=typeof(imported[uri])) delete imported[uri];
+			storage.set('imported', imported);	
+			$('.num_imported').html( $.map(storage.get('imported'), function(n, i) { return i; }).length );
+			// Remove from collection items
+			var collections = storage.get('collections');
+			if ('undefined'==typeof(collections)) collections = [];
+			for (var j in collections) {
+				if ('undefined'!=collections[j].items[uri]) {
+					delete collections[j].items[uri];
+				}
+			}
+			storage.set('collections', collections);
+		} else {
+			var collections = storage.get('collections');
+			delete collections[collection].items[uri];
+			storage.set('collections', collections);
+		}
 	});		
 	
 	$("body").on( "collection_add_node", function( event, obj ) {
@@ -287,6 +316,10 @@ function get_collections() {
 	
 }
 
+/**
+ * Set the spreadsheet interface
+ * @return null
+ */
 function set_sheet() {
 
 	var $spreadsheet = $('#spreadsheet');

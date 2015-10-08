@@ -20,7 +20,8 @@
 			rows: null,
 			default_num_predicates: 4,
 			check: [],
-			num_archives: 1
+			num_archives: 1,
+			checkable: true
 	};  	
 	var opts = {};
 	var predicates = [];
@@ -69,20 +70,22 @@
     	var $table = $self.find('table');
     	var $body = $('<tbody></tbody>').appendTo($table);
     	var to_display = predicates_to_display();
-    	$table.on('click','td', function() {
-    		var $this = $(this);
-    		var $parent = $this.closest('tr');
-    		var is_clicked = ($parent.hasClass('clicked')) ? true : false;
-    		if (is_clicked) {
-    			$parent.removeClass('clicked');
-    			$parent.find('input[type="checkbox"]').prop('checked', false);
-    			$("body").trigger( "import_remove_node", [$parent.data('uri'), $parent.data('values')] );
-    		} else {
-    			$parent.addClass('clicked');
-    			$parent.find('input[type="checkbox"]').prop('checked', true);
-    			$("body").trigger( "import_add_node", [$parent.data('uri'), $parent.data('values')] );
-    		}   	    		
-    	});
+    	if (opts.checkable) {
+	    	$table.on('click','td', function() {
+	    		var $this = $(this);
+	    		var $parent = $this.closest('tr');
+	    		var is_clicked = ($parent.hasClass('clicked')) ? true : false;
+	    		if (is_clicked) {
+	    			$parent.removeClass('clicked');
+	    			$parent.find('input[type="checkbox"]').prop('checked', false);
+	    			$("body").trigger( "import_remove_node", [$parent.data('uri'), $parent.data('values')] );
+	    		} else {
+	    			$parent.addClass('clicked');
+	    			$parent.find('input[type="checkbox"]').prop('checked', true);
+	    			$("body").trigger( "import_add_node", [$parent.data('uri'), $parent.data('values')] );
+	    		}   	    		
+	    	});
+    	};
     	for (var j in opts.rows) {
     		var $row = $('<tr></tr>').appendTo($body);
     		$row.data('uri', j);
@@ -113,6 +116,9 @@
                 resizable_widths:widths,
             }
         });      
+        if (!opts.checkable) {
+        	$self.find('tr').addClass('static');
+        }
     }
     
     function predicates_to_display() {

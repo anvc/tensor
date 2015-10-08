@@ -19,7 +19,8 @@
 			},
 			rows: null,
 			default_num_predicates: 4,
-			check: []
+			check: [],
+			checkable: true
 	};  	
 	var opts = {};
 	var predicates = [];
@@ -46,17 +47,19 @@
     	$self.children(':not(.spreadsheet_panel)').remove();
     	$self.children('.spreadsheet_panel').hide();
     	var $wrapper = $('<div class="container-fluid details"></div>').appendTo($self);
-    	$wrapper.on( "click", ".detail", function() {
-    		var $this = $(this);
-    		var is_clicked = ($this.hasClass('clicked')) ? true : false;
-    		if (is_clicked) {
-    			$this.removeClass('clicked');
-    			$("body").trigger( "import_remove_node", [$this.data('uri'), $this.data('values')] );
-    		} else {
-    			$this.addClass('clicked');
-    			$("body").trigger( "import_add_node", [$this.data('uri'), $this.data('values')] );
-    		}   		
-    	});    	
+    	if (opts.checkable) {
+	    	$wrapper.on( "click", ".detail", function() {
+	    		var $this = $(this);
+	    		var is_clicked = ($this.hasClass('clicked')) ? true : false;
+	    		if (is_clicked) {
+	    			$this.removeClass('clicked');
+	    			$("body").trigger( "import_remove_node", [$this.data('uri'), $this.data('values')] );
+	    		} else {
+	    			$this.addClass('clicked');
+	    			$("body").trigger( "import_add_node", [$this.data('uri'), $this.data('values')] );
+	    		}   		
+	    	});  
+    	};
     	for (var j in opts.rows) {
     		var row = opts.rows[j];
     		var thumb = ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'])) ? row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value : $('link#base_url').attr('href')+'application/views/images/missing_thumb.jpg';

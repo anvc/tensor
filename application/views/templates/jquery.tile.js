@@ -19,7 +19,8 @@
 			},
 			rows: null,
 			check: [],
-			num_archives: 0
+			num_archives: 0,
+			checkable: true
 	};  	
 	var opts = {};
 	var predicates = [];
@@ -46,19 +47,21 @@
     	$self.children(':not(.spreadsheet_panel)').remove();
     	$self.children('.spreadsheet_panel').hide();
 		var $wrapper = $('<div class="tiles"></div>').appendTo($self);
-    	$wrapper.on( "click", ".tile", function() {
-    		var $this = $(this);
-    		var is_clicked = ($this.hasClass('clicked')) ? true : false;
-    		if (is_clicked) {
-    			$this.removeClass('clicked');
-    			$this.find('.clicked_layer').remove();
-    			$("body").trigger( "import_remove_node", [$this.data('uri'), $this.data('values')] );
-    		} else {
-    			$this.addClass('clicked');
-    			$this.prepend('<div class="clicked_layer"></div>');
-    			$("body").trigger( "import_add_node", [$this.data('uri'), $this.data('values')] );
-    		}   		
-    	});	
+		if (opts.checkable) {
+	    	$wrapper.on( "click", ".tile", function() {
+	    		var $this = $(this);
+	    		var is_clicked = ($this.hasClass('clicked')) ? true : false;
+	    		if (is_clicked) {
+	    			$this.removeClass('clicked');
+	    			$this.find('.clicked_layer').remove();
+	    			$("body").trigger( "import_remove_node", [$this.data('uri'), $this.data('values')] );
+	    		} else {
+	    			$this.addClass('clicked');
+	    			$this.prepend('<div class="clicked_layer"></div>');
+	    			$("body").trigger( "import_add_node", [$this.data('uri'), $this.data('values')] );
+	    		}   		
+	    	});	
+		};
     	for (var j in opts.rows) {
     		var row = opts.rows[j];
     		var $row = $('<div class="tile"></div>').appendTo($wrapper);

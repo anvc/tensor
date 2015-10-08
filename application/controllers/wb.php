@@ -34,7 +34,7 @@ class Wb extends CI_Controller {
 
 		$this->load->helper('array');
 
-		$this->data['title'] = 'Tensor';
+		$this->data['title'] = 'Tensor: Search archives';
 		$this->data['proxy_url'] = base_url().strtolower(get_class()).'/proxy';
 
 		$this->config->load('archives');
@@ -45,7 +45,7 @@ class Wb extends CI_Controller {
 		$this->template->add_css(APPPATH.'views/common/bootstrap/css/bootstrap.min.css');
 		$this->template->add_css(APPPATH.'views/common/tablesorter/theme.default.css');
 		$this->template->add_css(APPPATH.'views/wb.css');
-		$this->template->add_js('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js');
+		$this->template->add_js(base_url().APPPATH.'views/common/jquery-1.11.3.min.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/jquery-ui-1.11.4.custom/jquery-ui.min.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/bootstrap/js/bootstrap.min.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/tablesorter/jquery.tablesorter.min.js');
@@ -73,7 +73,7 @@ class Wb extends CI_Controller {
 		$this->template->add_css(APPPATH.'views/common/tablesorter/theme.default.css');
 		$this->template->add_css(APPPATH.'views/common/spectrum/spectrum.css');
 		$this->template->add_css(APPPATH.'views/wb.css');
-		$this->template->add_js('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js');
+		$this->template->add_js(base_url().APPPATH.'views/common/jquery-1.11.3.min.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/jquery-ui-1.11.4.custom/jquery-ui.min.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/bootstrap/js/bootstrap.min.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/tablesorter/jquery.tablesorter.min.js');

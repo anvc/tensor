@@ -123,6 +123,7 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 .archive-vimeo {background-image:url(images/vimeo.thumb.png);}
 
 /* Table */
+.list_view {margin-left:16px; margin-right:16px;}
 thead tr th:last-child {text-align:center;}
 tbody tr td:not(.metadata) {text-align:center; cursor:pointer;}
 th {border-left:solid 1px #bbbbbb; background-color:#eeeeee; font-weight:normal !important;}
@@ -135,6 +136,7 @@ tr .title {font-weight:bold;}
 tr.clicked td {background-color:#decccc !important;}
 td > div:not(.container) {white-space:nowrap; overflow:hidden; position:absolute; top:5px; left:5px; right:5px; text-align:left;}
 table input[type=checkbox] {margin-top:2px; margin-right:12px; float:left;}
+tr.static:hover td {background-color:initial !important; color:#333 !important;}
 
 /* Tiles */
 .tiles {margin-top:10px; margin-bottom:20px;}
