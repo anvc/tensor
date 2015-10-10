@@ -22,6 +22,7 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 /* Archives */
 #search_spreadsheet {display:none;}
 #welcome_msg, .welcome_msg {text-align:center; font-weight:normal; font-size:14px; color:#666666; line-height:150%; padding-top:80px;}
+#welcome_msg .glyphicon, .welcome_msg .glyphicon {font-size:smaller;} 
 .search {background-color:white;}
 .search > div {margin:20px 0px 20px 0px;}
 .search .advanced {color:#555555; font-weight:bold; margin:10px 0px 0px 0px;}

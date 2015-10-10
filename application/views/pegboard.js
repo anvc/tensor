@@ -254,6 +254,7 @@ function collections_ui(col_id, view, col_view) {
 	if (!$('#welcome_msg').is(':hidden')) return;
 	if ($collections_spreadsheet.is(':hidden')) $collections_spreadsheet.show();
 	var welcome_msg = '<div class="welcome_msg">There are no items in this collection<br />You can add some by clicking <a href="javascript:void(null);"><span class="glyphicon glyphicon-plus"></span> Add / remove</a> above</div>';
+	if (null==col_id) var welcome_msg = '<div class="welcome_msg">No items have been imported<br />You can begin importing by selecting an archive to search</div>';
 	
 	// Current collection
 	var results = {};
@@ -380,7 +381,7 @@ function set_events() {
 			};		
 			set_collections_numbers();
 			return;
-		}
+		};
 		// Event is from archive search > import into
 		col_id = $('#select_archive').find('button:first a').data('index');
 		// Collection
@@ -488,10 +489,12 @@ function switch_to(type) {
 		$('#findable_form').find('.archive').removeClass('clicked');
 		$('#collection_view').find('button').removeClass('btn-primary').addClass('btn-default');
 		$('#collection_view').find('button[value="view"]').removeClass('btn-default').addClass('btn-primary');	
+		$('#select_archive').find('button:first').html('Import into collection');
 	} else if ('archives'==type) {
 		$('#welcome_msg').hide();
 		$('#collections_spreadsheet').hide();
 		$('#collections_form').find('.collection').removeClass('clicked');
+		$('#select_archive').find('button:first').html('Import into collection');
 		collections_ui.col_id = null;			
 	}
 	
