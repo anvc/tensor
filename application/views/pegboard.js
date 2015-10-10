@@ -34,9 +34,7 @@ function set_collections() {
 	    color: "#9999ff"
 	});
 	$('#collections_form').children('.all').click(function() {
-		$('#welcome_msg').hide();
-		$('#search_spreadsheet').hide();
-		$('#findable_form').find('.archive').removeClass('clicked');
+		switch_to('collections');
 		collections_ui(); 
 	});
 	$('#collections_spreadsheet').find('.view-buttons').find('button').click(function() {
@@ -95,7 +93,7 @@ function set_collections() {
 			$this.find('[name="title"]').val('');
 			$this.find('[name="description"]').val('');
 			$this.modal('hide');
-		}
+		}	
 		return false;
 	});
 	$('#collection_view').find('button').click(function() {
@@ -144,10 +142,7 @@ function set_search() {
 	$find_archives_form = $('#find_archives_form');
 	$findable_form = $('#findable_form');
 	$findable_form.children('.archive').click(function() {
-		$('#welcome_msg').hide();
-		$('#collections_spreadsheet').hide();
-		$('#collections_form').find('.collection').removeClass('clicked');
-		collections_ui.col_id = null;		
+		switch_to('archives');
 		var $this = $(this);
 		$this.parent().find('.archive').removeClass('clicked');
 		$this.addClass('clicked');
@@ -237,9 +232,9 @@ function collections_ui(col_id, view, col_view) {
 	$filter_collections_form.find('input[name="search"]').val('');
 	$collections_form.children('.all').removeClass('clicked');
 	$collections_form.children(':not(.notice, .all)').remove();
-	for (var j = (collections.length-1); j >= 0; j--) {
+	for (var j = 0; j < collections.length; j++) {
 		var $collection = $('<div class="collection'+((j==col_id)?' clicked':'')+'"></div>');
-		$collection.append('<div class="color" style="background-color:'+collections[j].color+';"></div>');
+		$collection.append('<div class="color" style="background-color:'+collections[j].color+';"><span class="num_items">0</span></div>');
 		$collection.append('<h5>'+collections[j].title+'</h5>');
 	    $collection.append('<div class="desc">'+collections[j].description+'</div>');
 	    $collections_form.append($collection);
@@ -248,13 +243,17 @@ function collections_ui(col_id, view, col_view) {
 			$('#welcome_msg').hide();
 			$('#search_spreadsheet').hide();
 			$('#findable_form').find('.archive').removeClass('clicked');
+			$collection_view.find('button').removeClass('btn-primary').addClass('btn-default');
+			$collection_view.find('button[value="view"]').removeClass('btn-default').addClass('btn-primary');
 	    	var index = $(this).data('collections_index');
 	    	collections_ui(index);
 	    });
 	}
 
+	set_collections_numbers();
 	if (!$('#welcome_msg').is(':hidden')) return;
 	if ($collections_spreadsheet.is(':hidden')) $collections_spreadsheet.show();
+	var welcome_msg = '<div class="welcome_msg">There are no items in this collection<br />You can add some by clicking <a href="javascript:void(null);"><span class="glyphicon glyphicon-plus"></span> Add / remove</a> above</div>';
 	
 	// Current collection
 	var results = {};
@@ -291,12 +290,12 @@ function collections_ui(col_id, view, col_view) {
 
 	// Load current view
 	if (view == collections_ui.view) {
-		$('#collections_spreadsheet_content').attr('class',view+'_view').spreadsheet_view({rows:results,check:check,num_archives:2,checkable:checkable});
+		$('#collections_spreadsheet_content').attr('class',view+'_view').spreadsheet_view({rows:results,check:check,num_archives:2,checkable:checkable,msg:welcome_msg});
 	} else {
 		var view_path = $('link#base_url').attr('href')+'application/views/templates/jquery.'+view+'.js';
 		$.getScript(view_path, function() {
 			collections_ui.view = view;
-			$('#collections_spreadsheet_content').attr('class',view+'_view').spreadsheet_view({rows:results,check:check,num_archives:2,checkable:checkable});
+			$('#collections_spreadsheet_content').attr('class',view+'_view').spreadsheet_view({rows:results,check:check,num_archives:2,checkable:checkable,msg:welcome_msg});
 		});
 	}
 	
@@ -315,7 +314,20 @@ function search_ui(index) {
 	var $archive = $('#findable_form').children('.archive').eq(index);
 	$search_spreadsheet.find('[name="search"]').val('').attr('placeholder', $archive.find('h5').text()).focus();
 	$search_spreadsheet.find('.page').css('visibility','hidden');
-	$('#search_spreadsheet_content').empty();
+	$('#search_spreadsheet_content').html('<div class="welcome_msg"><br />You can search the archive by entering terms<br />in the <a href="javascript:void(null);"><span class="glyphicon glyphicon-search"></span> search field</a> above<br /><br />You can choose to have imported content populate a specific<br />collection by selecting it in the adjacent pulldown</div>');
+	
+	$('#select_archive').find('button:first').html('Import into collection');
+	var $into_collection = $('#into_collection');
+	$into_collection.empty();
+	$into_collection.append('<li><a data-index="" href="javascript:void(null);">(None)</a></li>');
+	var collections = get_collections();
+	for (var j in collections) {
+		$into_collection.append('<li><a data-index="'+j+'" href="javascript:void(null);"><span class="color" style="background-color:'+collections[j].color+'"></span>'+collections[j].title+'</a></li>');
+	};
+	$into_collection.find('a').click(function() {
+		var $this = $(this);
+		$('#select_archive').find('button:first').html($this.parent().html());
+	});
 	
 }
 
@@ -358,27 +370,42 @@ function set_events() {
 	$('.num_imported').html( $.map(imported, function(n, i) { return i; }).length );
 	
 	$("body").on( "import_add_node", function( event, uri, values ) {
-		var collection = collections_ui.collection;
-		if (null==collection) {
-			var imported = storage.get('imported');
-			if ('undefined'==typeof(imported)) imported = {};
-			imported[uri] = values;
-			storage.set('imported', imported);
-			$('.num_imported').html( $.map(storage.get('imported'), function(n, i) { return i; }).length );
-		} else {
+		// Event is from inside a collection
+		var col_id = collections_ui.col_id;
+		if (null!=col_id) {
 			var collections = storage.get('collections');
-			collections[collection].items[uri] = values;
-			storage.set('collections', collections);
+			if ('undefined'!=typeof(collections[col_id])) {
+				collections[col_id].items[uri] = values;
+				storage.set('collections', collections);
+			};		
+			set_collections_numbers();
+			return;
 		}
+		// Event is from archive search > import into
+		col_id = $('#select_archive').find('button:first a').data('index');
+		// Collection
+		if (null!=col_id) {
+			var collections = storage.get('collections');
+			if ('undefined'!=typeof(collections[col_id])) {
+				collections[col_id].items[uri] = values;
+				storage.set('collections', collections);
+			};
+		};
+		// All
+		var imported = storage.get('imported');
+		if ('undefined'==typeof(imported)) imported = {};
+		imported[uri] = values;
+		storage.set('imported', imported);
+		// UI
+		set_collections_numbers();
 	});	
 	$("body").on( "import_remove_node", function( event, uri ) {
-		var collection = collections_ui.collection;
-		if (null==collection) {		
+		var col_id = collections_ui.col_id;
+		if (null==col_id) {		
 			var imported = storage.get('imported');
 			if ('undefined'==typeof(imported)) imported = {};
 			if ('undefined'!=typeof(imported[uri])) delete imported[uri];
 			storage.set('imported', imported);	
-			$('.num_imported').html( $.map(storage.get('imported'), function(n, i) { return i; }).length );
 			// Remove from collection items
 			var collections = storage.get('collections');
 			if ('undefined'==typeof(collections)) collections = [];
@@ -390,9 +417,10 @@ function set_events() {
 			storage.set('collections', collections);
 		} else {
 			var collections = storage.get('collections');
-			delete collections[collection].items[uri];
+			delete collections[col_id].items[uri];
 			storage.set('collections', collections);
 		}
+		set_collections_numbers();
 	});		
 	
 	$("body").on( "collection_add_node", function( event, obj ) {
@@ -401,7 +429,8 @@ function set_events() {
 		obj.items = {};
 		collections.push(obj);
 		storage.set('collections', collections);
-		collections_ui((collections.length-1));
+		switch_to('collections');
+		collections_ui(collections.length-1);
 	});	
 	$("body").on( "collection_edit_node", function( event, col_id, obj ) {
 		var collections = storage.get('collections');
@@ -418,6 +447,7 @@ function set_events() {
 		if ('undefined'!=typeof(collections[index])) collections.splice(index, 1);
 		storage.set('collections', collections);
 		collections_ui();
+		$('#collections_form').find('.all').click();
 	});		
 	
 }
@@ -450,12 +480,42 @@ function get_collections() {
 	
 }
 
+function switch_to(type) {
+	
+	if ('collections'==type) {
+		$('#welcome_msg').hide();
+		$('#search_spreadsheet').hide();
+		$('#findable_form').find('.archive').removeClass('clicked');
+		$('#collection_view').find('button').removeClass('btn-primary').addClass('btn-default');
+		$('#collection_view').find('button[value="view"]').removeClass('btn-default').addClass('btn-primary');	
+	} else if ('archives'==type) {
+		$('#welcome_msg').hide();
+		$('#collections_spreadsheet').hide();
+		$('#collections_form').find('.collection').removeClass('clicked');
+		collections_ui.col_id = null;			
+	}
+	
+}
+
+function set_collections_numbers() {
+
+	var collections = get_collections();
+	for (var j in collections) {
+		var num = $.map(collections[j].items, function(n, i) { return i; }).length;
+		$('#collections_form').find('.collection:not(.all)').eq(j).find('.num_items').text(num);
+	}
+	var imported = get_imported();
+	var num = $.map(imported, function(n, i) { return i; }).length;
+	$('#collections_form').find('.all').find('.num_items').text(num);
+	
+}
+
 function set_sheet() {
 	var $search = $('.search:first');
 	var $manage = $('.collections:first');
 
 	// Set sheet height
-	set_sheet_height();
+	//set_sheet_height();
 	
 	// Advanced search
 	$('#advanced_search_link').click(function() {

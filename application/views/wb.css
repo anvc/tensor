@@ -21,7 +21,7 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 
 /* Archives */
 #search_spreadsheet {display:none;}
-#welcome_msg {text-align:center; font-weight:normal; font-size:14px; color:#666666; line-height:150%; padding-top:80px;}
+#welcome_msg, .welcome_msg {text-align:center; font-weight:normal; font-size:14px; color:#666666; line-height:150%; padding-top:80px;}
 .search {background-color:white;}
 .search > div {margin:20px 0px 20px 0px;}
 .search .advanced {color:#555555; font-weight:bold; margin:10px 0px 0px 0px;}
@@ -64,6 +64,19 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 #search_bar .l {position:relative; top:-3px;}
 #search_spreadsheet .text-xs {height:28px; width:250px; padding-bottom:0px; padding-top:0px; font-size:16px;}
 #search_spreadsheet .glyphicon-xs {padding-top:6px; padding-bottom:6px; right:1px; border-radius: 4px;}
+#search_spreadsheet #search_form {float:left; margin-right:12px;}
+#search_spreadsheet #select_archive button {
+	height:28px; padding-top:4px; text-align:left; color:#555555; background-color:#ffffff; overflow:hidden;
+	border:solid 1px #cccccc; margin-top:0px;
+}
+#search_spreadsheet #select_archive .dropdown-name {width:150px; border-right:0;}
+#search_spreadsheet #select_archive .dropdown-toggle {padding-top:6px; border-left:0;}
+#search_spreadsheet #select_archive .caret {color:#337ab7; padding-top:6px !important;}
+#search_spreadsheet #into_collection a {color:#337ab7;}
+#search_spreadsheet #into_collection .color, #search_spreadsheet #select_archive .color {
+	width:11px; height:11px; display:inline-block; margin-right:8px; border:solid 1px #cccccc;
+}
+#search_spreadsheet #select_archive a {color:#555555;}
 
 /* Collections */
 #collections_spreadsheet {display:none;}
@@ -75,7 +88,7 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 #collections_form .notice {text-align:center; color:#555555; padding-top:8px; height:34px;}
 .bar {
 	height:34px; padding:5px 6px 6px 6px; background-color:#dddddd; margin:20px 16px 6px 16px;
-	border-radius: 4px; border:solid 1px #cccccc; font-size:14px; color:#555555;
+	border-radius: 4px; border:solid 1px #cccccc; font-size:14px; color:#555555; white-space:nowrap;
 }
 .bar .l {float:left; text-align:left; padding-right:12px; }
 .bar .m {text-align:left; font-weight:bold; overflow:hidden; padding-top:1px;}
@@ -83,9 +96,9 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 .bar .select-sm {font-size:12px; height:27px; padding-top:4px; margin-top:-3px;}
 .page {color:#1e4d74; cursor:pointer; font-weight:normal;}
 .page {display:inline-block; margin-top:1px; visibility:hidden;}
-.page.prev-page {float:left; margin-right:16px;}
-.page.next-page {margin-left:16px;}
-.view-buttons {}
+.page.prev-page {float:left; margin-right:8px;}
+.page.next-page {margin-left:8px;}
+.view-buttons {white-space:nowrap;}
 .view-buttons button {padding-left:5px; padding-right:6px;}
 .view-buttons img {float:left; margin-top:1px; margin-right:6px;}
 .left-buttons {position:absolute; left:10px; bottom:8px;}
@@ -99,8 +112,10 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 }
 .collection.clicked {background-color:#decccc;}
 .collection .color {
-	width:32px; height:32px; display:inline-block; margin-right:8px; border:solid 1px #cccccc; float:left;
+	width:32px; height:32px; display:inline-block; margin-right:8px; border:solid 1px #cccccc; float:left; 
+	text-align:center; padding-top:5px;
 }
+.collection .num_items {color:#555555; font-weight:normal; font-size:14px;}
 .collection:hover {opacity:0.75;}
 .collection h5 {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden}
 .collection .desc {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden;}

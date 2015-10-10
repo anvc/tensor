@@ -17,7 +17,7 @@
 				  <form id="collections_form">
 				    <div class="notice"><a href="javascript:void(null);" data-toggle="modal" data-target="#create_collection"><span class="glyphicon glyphicon-plus"></span> Create a New Collection</a></div>
 					<div class="collection all">
-						<div class="color" style="background-color:#ffffff;"></div>
+						<div class="color" style="background-color:#ffffff;"><span class="num_items">0</span></div>
 						<h5>All imported media</h5>
 					    <div class="desc">All media imported from the archives</div>
 					</div>
@@ -59,8 +59,8 @@
 
 
 		<div id="welcome_msg">
-			  To begin <a href="javascript:void(null);"><span class="glyphicon glyphicon-plus"></span> Create a New Collection</a> in the sidebar<br />
-			  Then, select an archive to search for content<br /><br />
+			  To begin searching archives, you can <a href="javascript:void(null);"><span class="glyphicon glyphicon-search"></span> select one</a> from<br />the archive list in the sidebar<br /><br />
+			  Imported items can be placed into collections<br /><a href="javascript:void(null);"><span class="glyphicon glyphicon-plus"></span> Create a New Collection</a> to keep your media organized<br /><br />
 			  After content has been imported, you can<br />
 			  <a href="javascript:void(null);"><span class="glyphicon glyphicon-cloud"></span> Sync</a> them
 			  to your Scalar books
@@ -100,6 +100,14 @@
 					      <a href="javascript:void(null);" class="glyphicon glyphicon-search glyphicon-xs"></a>
 					    </div>
 				    </form>
+					<div id="select_archive" class="btn-group">
+					  <button type="button" class="btn dropdown-name" data-toggle="dropdown" >Import into collection</button>
+					  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					    <span class="caret"></span>
+					    <span class="sr-only">Toggle Dropdown</span>
+					  </button>
+					  <ul id="into_collection" class="dropdown-menu"></ul>
+					</div>
 				</div>
 				<div class="m">
 					<div class="btn-group view-buttons" role="group">
