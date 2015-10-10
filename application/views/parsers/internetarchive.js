@@ -27,7 +27,6 @@
                     	'Text+PDF'    
                     ];
         var thumbtypes = ['Thumbnail','JPEG+Thumb'];
-        console.log(data);
         $(data).find('doc').each(function() {
         	var $this = $(this);
         	// Identifier is in the URI and thumbnail
