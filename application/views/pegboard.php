@@ -24,6 +24,7 @@
 					    <div class="desc">All media imported from the archives</div>
 					</div>
 				  </form>
+				  <div class="sync"><a href="javascript:void(null);" data-toggle="modal" data-target="#sync"><span class="glyphicon glyphicon-cloud" style="position:relative;top:2px;"></span>&nbsp; Sync Collections to Scalar</a></div>
 				</div>
 			</div><!-- /collections -->
 			<!-- Archives -->
@@ -61,10 +62,6 @@
 				</div><!-- /div -->
 			</div><!-- /search -->
 		</div><!-- /sidebar -->
-
-		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 sync">
-			<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-cloud" style="position:relative;top:2px;"></span>&nbsp; Sync to Scalar Books</button>
-		</div><!-- /sync -->
 
 		<div id="welcome_msg">
 			  To begin searching archives, you can <a href="javascript:void(null);"><span class="glyphicon glyphicon-search"></span> select one</a> from<br />the archive list in the sidebar<br /><br />
@@ -111,7 +108,7 @@
 				    </form>
 				    <span id="search_into_msg">into</span>
 					<div id="select_archive" class="btn-group">
-					  <button type="button" class="btn dropdown-name" data-toggle="dropdown" >Import into collection</button>
+					  <button type="button" class="btn dropdown-name" data-toggle="dropdown">No collection</button>
 					  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					    <span class="caret"></span>
 					    <span class="sr-only">Toggle Dropdown</span>
@@ -211,6 +208,25 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save collection</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="sync">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Sync Collections</h4>
+      </div>
+      <div class="modal-body">
+        <form id="sync_form">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Synchronize</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

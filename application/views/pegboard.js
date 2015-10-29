@@ -319,7 +319,7 @@ function search_ui(index) {
 	$search_spreadsheet.find('.page').css('visibility','hidden');
 	$('#search_spreadsheet_content').html('<div class="welcome_msg"><br />You can search the archive by entering terms<br />in the <a href="javascript:void(null);"><span class="glyphicon glyphicon-search"></span> search field</a> above<br /><br />You can choose to have imported content populate a specific<br />collection by selecting it in the adjacent pulldown</div>');
 	
-	$('#select_archive').find('button:first').html('no collection');
+	$('#select_archive').find('button:first').html('No collection');
 	var $into_collection = $('#into_collection');
 	$into_collection.empty();
 	$into_collection.append('<li><a data-index="" href="javascript:void(null);">no collection</a></li>');
