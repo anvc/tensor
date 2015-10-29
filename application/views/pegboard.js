@@ -272,6 +272,7 @@ function collections_ui(col_id, view, col_view) {
 		$collections_form.find('.all').addClass('clicked');
 		$edit_collection_link.hide();
 		$delete_collection_link.hide();
+		$collection_bar.find('#title').html('All imported media');
 	} else {
 		if ('undefined'==typeof(collections[col_id])) {
 			alert('There was a problem trying to find the collection.  Please try again.');
@@ -287,6 +288,7 @@ function collections_ui(col_id, view, col_view) {
 		//$('#spreadsheet_gradient').css('background', 'linear-gradient(to bottom, '+convertHex(collections[col_id].color,40)+', white)' );
 		$edit_collection_link.show();
 		$delete_collection_link.show();
+		$collection_bar.find('#title').html('<span class="color" style="background-color:'+collections[col_id].color+';"></span>' + collections[col_id].title);
 	}
 
 	// Load current view

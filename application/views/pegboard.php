@@ -70,8 +70,9 @@
 			<div id="spreadsheet_gradient"></div>
 			<div id="collection_bar" class="bar">
 				<div class="l">
+					<div id="title"></div>
 					<div class="btn-group" role="group" id="collection_view">
-					  <button type="button" class="btn btn-primary btn-xs" value="view"><span class="glyphicon glyphicon-list"></span> Collection</button>
+					  <button type="button" class="btn btn-primary btn-xs" value="view"><span class="glyphicon glyphicon-list"></span> Contents</button>
 					  <button type="button" class="btn btn-default btn-xs" value="edit"><span class="glyphicon glyphicon-plus"></span> Add / remove</button>
 					</div>
 				</div>

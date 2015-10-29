@@ -88,13 +88,19 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 #collections_form {padding-top:10px;}
 #collections_form .notice {text-align:center; color:#555555; padding-top:8px; height:34px;}
 .bar {
-	height:34px; padding:5px 6px 6px 6px; background-color:#dddddd; margin:20px 16px 6px 16px;
+	height:34px; padding:5px 6px 6px 6px; background-color:#eeeeee; margin:20px 16px 6px 16px;
 	border-radius: 4px; border:solid 1px #cccccc; font-size:14px; color:#555555; white-space:nowrap;
 }
 .bar .l {float:left; text-align:left; padding-right:12px; }
 .bar .m {text-align:left; font-weight:bold; overflow:hidden; padding-top:1px;}
 .bar .r {float:right; text-align:right;}
 .bar .select-sm {font-size:12px; height:27px; padding-top:4px; margin-top:-3px;}
+.bar #title {
+	display:inline-block; width:250px; margin-right:12px; font-weight:bold; overflow:hidden; float:left; padding-top:1px;
+}
+.bar #title .color {
+	width:11px; height:11px; display:inline-block; margin-right:8px; border:solid 1px #cccccc;
+}
 .page {color:#1e4d74; cursor:pointer; font-weight:normal;}
 .page {display:inline-block; margin-top:1px; visibility:hidden;}
 .page.prev-page {float:left; margin-right:8px;}
@@ -105,6 +111,7 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 .left-buttons {position:absolute; left:10px; bottom:8px;}
 .right-buttons {position:absolute; right:10px; bottom:8px;}
 #collection_view button {padding-top:2px; padding-bottom:2px;}
+#edit_collection_link, #delete_collection_link {background-color:#ffffff;}
 #edit_collection_link:hover {background-color:#cccccc;}
 #delete_collection_link:hover {background-color:#ffaaaa;}
 .collection {
