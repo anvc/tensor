@@ -13,9 +13,11 @@
 				      <a href="javascript:void(null);" class="glyphicon glyphicon-search"></a>
 				    </div>
 				  </form>
-				  <div class="advanced">Collections<a href="javascript:void(null);" id="advanced_collections_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Manage Collections</a></div>
+				  <div class="advanced">
+				    <a href="javascript:void(null);" class="l" data-toggle="modal" data-target="#create_collection"><span class="glyphicon glyphicon-plus"></span> Create New Collection</a>
+				  	<a href="javascript:void(null);" id="advanced_collections_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Manage</a>
+				  </div>
 				  <form id="collections_form">
-				    <div class="notice"><a href="javascript:void(null);" data-toggle="modal" data-target="#create_collection"><span class="glyphicon glyphicon-plus"></span> Create a New Collection</a></div>
 					<div class="collection all">
 						<div class="color" style="background-color:#ffffff;"><span class="num_items">0</span></div>
 						<h5>All imported media</h5>
@@ -33,7 +35,10 @@
 				      <a href="javascript:void(null);" class="glyphicon glyphicon-search"></a>
 				    </div>
 				  </form>
-				  <div class="advanced">Archives<a href="javascript:void(null);" id="advanced_find_archives_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Manage Archives</a></div>
+				  <div class="advanced">
+				    <a href="javascript:void(null);" class="l"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Something here to balance</a>
+				  	<a href="javascript:void(null);" id="advanced_find_archives_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Manage</a>
+				  </div>
 				  <form id="findable_form">
 <?
 					  $index = 0;
@@ -55,8 +60,11 @@
 					</form>
 				</div><!-- /div -->
 			</div><!-- /search -->
-		</div><!-- /sheet -->
+		</div><!-- /sidebar -->
 
+		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 sync">
+			<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-cloud" style="position:relative;top:2px;"></span>&nbsp; Sync to Scalar Books</button>
+		</div><!-- /sync -->
 
 		<div id="welcome_msg">
 			  To begin searching archives, you can <a href="javascript:void(null);"><span class="glyphicon glyphicon-search"></span> select one</a> from<br />the archive list in the sidebar<br /><br />
@@ -82,10 +90,10 @@
 				</div>
 				<div class="m">
 					<div class="btn-group view-buttons" role="group">
-						<button type="button" class="btn btn-xs btn-primary" id="icon"><img src="<?php echo base_url().APPPATH ?>views/images/icon_icon.jpg" />Icon</button>
-					  	<button type="button" class="btn btn-xs btn-default" id="tile"><img src="<?php echo base_url().APPPATH ?>views/images/tile_icon.jpg" />Tile</button>
-					  	<button type="button" class="btn btn-xs btn-default" id="list"><img src="<?php echo base_url().APPPATH ?>views/images/list_icon.jpg" />List</button>
-					  	<button type="button" class="btn btn-xs btn-default" id="detail"><img src="<?php echo base_url().APPPATH ?>views/images/detail_icon.jpg" />Detail</button>
+						<button type="button" class="btn btn-xs btn-primary" id="icon"><img src="<?php echo base_url().APPPATH ?>views/images/icon_icon.png" />Icon</button>
+					  	<button type="button" class="btn btn-xs btn-default" id="tile"><img src="<?php echo base_url().APPPATH ?>views/images/tile_icon.png" />Tile</button>
+					  	<button type="button" class="btn btn-xs btn-default" id="list"><img src="<?php echo base_url().APPPATH ?>views/images/list_icon.png" />List</button>
+					  	<button type="button" class="btn btn-xs btn-default" id="detail"><img src="<?php echo base_url().APPPATH ?>views/images/detail_icon.png" />Detail</button>
 				  	</div>
 				</div>
 			</div>
@@ -101,6 +109,7 @@
 					      <a href="javascript:void(null);" class="glyphicon glyphicon-search glyphicon-xs"></a>
 					    </div>
 				    </form>
+				    <span id="search_into_msg">into</span>
 					<div id="select_archive" class="btn-group">
 					  <button type="button" class="btn dropdown-name" data-toggle="dropdown" >Import into collection</button>
 					  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -113,10 +122,10 @@
 				<div class="m">
 					<div class="btn-group view-buttons" role="group">
 						<a class="page prev-page"><span class="glyphicon glyphicon-chevron-left"></span> Page <span class="num"></span></a>
-						<button type="button" class="btn btn-xs btn-primary" id="icon"><img src="<?php echo base_url().APPPATH ?>views/images/icon_icon.jpg" />Icon</button>
-					  	<button type="button" class="btn btn-xs btn-default" id="tile"><img src="<?php echo base_url().APPPATH ?>views/images/tile_icon.jpg" />Tile</button>
-					  	<button type="button" class="btn btn-xs btn-default" id="list"><img src="<?php echo base_url().APPPATH ?>views/images/list_icon.jpg" />List</button>
-					  	<button type="button" class="btn btn-xs btn-default" id="detail"><img src="<?php echo base_url().APPPATH ?>views/images/detail_icon.jpg" />Detail</button>
+						<button type="button" class="btn btn-xs btn-primary" id="icon"><img src="<?php echo base_url().APPPATH ?>views/images/icon_icon.png" />Icon</button>
+					  	<button type="button" class="btn btn-xs btn-default" id="tile"><img src="<?php echo base_url().APPPATH ?>views/images/tile_icon.png" />Tile</button>
+					  	<button type="button" class="btn btn-xs btn-default" id="list"><img src="<?php echo base_url().APPPATH ?>views/images/list_icon.png" />List</button>
+					  	<button type="button" class="btn btn-xs btn-default" id="detail"><img src="<?php echo base_url().APPPATH ?>views/images/detail_icon.png" />Detail</button>
 					  	<a class="page next-page">Page <span class="num"></span> <span class="glyphicon glyphicon-chevron-right"></span></a>
 					</div>
 				</div>

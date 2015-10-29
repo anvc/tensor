@@ -112,7 +112,7 @@ function set_collections() {
 		if (!val.length) {
 			$collections_form.children().show();
 		} else {
-			$collections_form.children().hide();
+			$collections_form.children(':not(.notice,.all)').hide();
 			$collections_form.children().each(function() {
 				if (-1!=$(this).text().toLowerCase().indexOf(val)) $(this).show();
 			});
@@ -319,10 +319,10 @@ function search_ui(index) {
 	$search_spreadsheet.find('.page').css('visibility','hidden');
 	$('#search_spreadsheet_content').html('<div class="welcome_msg"><br />You can search the archive by entering terms<br />in the <a href="javascript:void(null);"><span class="glyphicon glyphicon-search"></span> search field</a> above<br /><br />You can choose to have imported content populate a specific<br />collection by selecting it in the adjacent pulldown</div>');
 	
-	$('#select_archive').find('button:first').html('Import into collection');
+	$('#select_archive').find('button:first').html('no collection');
 	var $into_collection = $('#into_collection');
 	$into_collection.empty();
-	$into_collection.append('<li><a data-index="" href="javascript:void(null);">(None)</a></li>');
+	$into_collection.append('<li><a data-index="" href="javascript:void(null);">no collection</a></li>');
 	var collections = get_collections();
 	for (var j in collections) {
 		$into_collection.append('<li><a data-index="'+j+'" href="javascript:void(null);"><span class="color" style="background-color:'+collections[j].color+'"></span>'+collections[j].title+'</a></li>');
@@ -330,7 +330,15 @@ function search_ui(index) {
 	$into_collection.find('a').click(function() {
 		var $this = $(this);
 		$('#select_archive').find('button:first').html($this.parent().html());
+		var $collections_form = $('#collections_form');
+		$collections_form.find('.collection').removeClass('clicked');
+		var index = parseInt($this.data('index'));
+		if (!isNaN(index)) $collections_form.find('.collection:not(.all)').eq(index).addClass('clicked');
+		collections_ui.col_id = (isNaN(index)) ? null : index;
 	});
+	if (null!=collections_ui.col_id) {
+		$into_collection.find('a').eq(collections_ui.col_id+1).click();
+	}
 	
 }
 
@@ -373,7 +381,12 @@ function set_events() {
 	$('.num_imported').html( $.map(imported, function(n, i) { return i; }).length );
 	
 	$("body").on( "import_add_node", function( event, uri, values ) {
-		// Event is from inside a collection
+		// All
+		var imported = storage.get('imported');
+		if ('undefined'==typeof(imported)) imported = {};
+		imported[uri] = values;
+		storage.set('imported', imported);		
+		// Collection
 		var col_id = collections_ui.col_id;
 		if (null!=col_id) {
 			var collections = storage.get('collections');
@@ -381,24 +394,7 @@ function set_events() {
 				collections[col_id].items[uri] = values;
 				storage.set('collections', collections);
 			};		
-			set_collections_numbers();
-			return;
 		};
-		// Event is from archive search > import into
-		col_id = $('#select_archive').find('button:first a').data('index');
-		// Collection
-		if (null!=col_id) {
-			var collections = storage.get('collections');
-			if ('undefined'!=typeof(collections[col_id])) {
-				collections[col_id].items[uri] = values;
-				storage.set('collections', collections);
-			};
-		};
-		// All
-		var imported = storage.get('imported');
-		if ('undefined'==typeof(imported)) imported = {};
-		imported[uri] = values;
-		storage.set('imported', imported);
 		// UI
 		set_collections_numbers();
 	});	
@@ -495,9 +491,10 @@ function switch_to(type) {
 	} else if ('archives'==type) {
 		$('#welcome_msg').hide();
 		$('#collections_spreadsheet').hide();
-		$('#collections_form').find('.collection').removeClass('clicked');
-		$('#select_archive').find('button:first').html('Import into collection');
-		collections_ui.col_id = null;			
+		$('#select_archive').find('button:first').html('Import into collection');		
+		if (null==collections_ui.col_id) {
+			$('#collections_form').find('.collection').removeClass('clicked');
+		}
 	}
 	
 }

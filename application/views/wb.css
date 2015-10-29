@@ -2,6 +2,7 @@ html, body, .container-fluid, .col-max-height {height:100%;}
 body {font-size:12px; overflow-x:hidden;}
 small {font-weight:normal;}
 label {cursor:pointer;}
+.btn-default {color:#337ab7 !important;}
 hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px 0px 15px 0px;border:0;}
 .input-xs {height: 22px; padding: 5px 5px; font-size: 12px; line-height: 1.5; border-radius: 3px;}
 #loading {position:absolute;left:0;top:2px;right:0;z-index:99;text-align:center;display:none;}
@@ -24,8 +25,9 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 #welcome_msg, .welcome_msg {text-align:center; font-weight:normal; font-size:14px; color:#666666; line-height:150%; padding-top:80px;}
 #welcome_msg .glyphicon, .welcome_msg .glyphicon {font-size:smaller;} 
 .search {background-color:white;}
-.search > div {margin:20px 0px 20px 0px;}
+.search > div {margin:0px 0px 20px 0px; padding-bottom:30px;}
 .search .advanced {color:#555555; font-weight:bold; margin:10px 0px 0px 0px;}
+.search .advanced a.l {float:left;}
 .search .advanced a {float:right; font-weight:normal;}
 #searchable_form, #findable_form {
 	text-align:left; margin:0px 0px 0px 0px; padding:8px 0px 20px 0px; border:solid 1px white;
@@ -65,7 +67,9 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 #search_bar .l {position:relative; top:-3px;}
 #search_spreadsheet .text-xs {height:28px; width:250px; padding-bottom:0px; padding-top:0px; font-size:16px;}
 #search_spreadsheet .glyphicon-xs {padding-top:6px; padding-bottom:6px; right:1px; border-radius: 4px;}
-#search_spreadsheet #search_form {float:left; margin-right:12px;}
+#search_spreadsheet #search_form {float:left; margin-right:6px;}
+#search_spreadsheet #search_into_msg {float:left; padding-top:5px;}
+#search_spreadsheet #select_archive {margin-left:6px;}
 #search_spreadsheet #select_archive button {
 	height:28px; padding-top:4px; text-align:left; color:#555555; background-color:#ffffff; overflow:hidden;
 	border:solid 1px #cccccc; margin-top:0px;
@@ -82,10 +86,11 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 /* Collections */
 #collections_spreadsheet {display:none;}
 .collections {background-color:white;}
-.collections > div {margin:20px 0px 20px 0px;}
+.collections > div {margin:20px 0px 0px 0px;}
 .collections .advanced {color:#555555; font-weight:bold; margin:10px 0px 0px 0px;}
+.collections .advanced a.l {float:left;}
 .collections .advanced a {float:right; font-weight:normal;}
-#collections_form {padding-top:10px;}
+#collections_form {padding-top:10px; clear:both;}
 #collections_form .notice {text-align:center; color:#555555; padding-top:8px; height:34px;}
 .bar {
 	height:34px; padding:5px 6px 6px 6px; background-color:#eeeeee; margin:20px 16px 6px 16px;
@@ -107,7 +112,7 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 .page.next-page {margin-left:8px;}
 .view-buttons {white-space:nowrap;}
 .view-buttons button {padding-left:5px; padding-right:6px;}
-.view-buttons img {float:left; margin-top:1px; margin-right:6px;}
+.view-buttons img {float:left; margin-top:1px; margin-right:4px;}
 .left-buttons {position:absolute; left:10px; bottom:8px;}
 .right-buttons {position:absolute; right:10px; bottom:8px;}
 #collection_view button {padding-top:2px; padding-bottom:2px;}
@@ -128,6 +133,19 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 .collection h5 {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden}
 .collection .desc {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden;}
 #spreadsheet_gradient {position:absolute; left:0; top:0; z-index:-1; width:100%; height:100px;}
+
+/* Sync */
+.sync {
+	position:fixed; bottom:0px; left:0px; background-color:#ffffff; padding-top:20px; padding-bottom:20px;
+	text-align:center; border-right:solid 1px #bbbbbb;
+}
+.sync button {
+	width:100%; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset; color:#337ab7;
+}
+.sync .scalar_logo {
+	width:13px; height:12px; display:inline-block; margin-right:8px; position:relative; top:1px;
+    background: url(images/scalar_logo.png); background-size: 13px 12px; background-repeat: no-repeat;
+}
 
 /* Table */
 .list_view {margin-left:16px; margin-right:16px;}
