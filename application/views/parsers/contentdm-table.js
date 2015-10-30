@@ -26,8 +26,10 @@
         	var $link = $this.find('a:first');
         	if (!$link.length) return;
         	var uri =  origin+$link.attr('href');  // TODO: get the URL to the actual file
+        	uri = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SMPTE_Color_Bars.svg/2000px-SMPTE_Color_Bars.svg.png';
         	results[uri] = {};
         	results[uri]['http://simile.mit.edu/2003/10/ontologies/artstor#sourceLocation'] = [{type:'uri',value:uri}];
+        	results[uri]['http://simile.mit.edu/2003/10/ontologies/artstor#url'] = [{type:'uri',value:uri}];
         	results[uri]['http://purl.org/dc/terms/source'] = [{type:'uri',value:archive.title}];  
         	var thumb = origin+$link.find('img:first').attr('src');
         	results[uri]['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'] = [{type:'uri',value:thumb}];      	

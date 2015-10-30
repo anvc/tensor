@@ -23,8 +23,10 @@
         	var width = 10000;  // some large amount ... the incoming image will be whatever size it comes in as
         	var height = 10000;  // some large amount ... the incoming image will be whatever size it comes in as
         	var uri = origin+"/utils/ajaxhelper/?CISOROOT="+collection+"&CISOPTR="+id+"&action=2&DMSCALE="+scale+"&DMWIDTH="+width+"&DMHEIGHT="+height+"&DMX=0&DMY=0&DMROTATE=0";
+        	uri = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SMPTE_Color_Bars.svg/2000px-SMPTE_Color_Bars.svg.png';
         	results[uri] = {
         		'http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail':[{type:'uri',value:origin+$link.find('img:first').attr('src')}],
+        		'http://simile.mit.edu/2003/10/ontologies/artstor#url':[{type:'uri',value:uri}],
         		'http://purl.org/dc/terms/title':[{type:'literal',value:jQuery.trim($this.find('a:last').text())}],
         		'http://purl.org/dc/terms/source':[{type:'literal',value:archive.title}],
         		'http://simile.mit.edu/2003/10/ontologies/artstor#sourceLocation':[{type:'uri',value:sourceLocation}],

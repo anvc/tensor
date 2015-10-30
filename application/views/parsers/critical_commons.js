@@ -41,6 +41,7 @@
         		'http://purl.org/dc/terms/publisher':[{type:'literal',value:publisher}],
         		'http://purl.org/dc/terms/rights':[{type:'literal',value:rights}],
         		'http://purl.org/dc/terms/type':[{type:'literal',value:type}],
+        		'http://simile.mit.edu/2003/10/ontologies/artstor#url':[{type:'uri',value:uri}],
         		'http://simile.mit.edu/2003/10/ontologies/artstor#sourceLocation':[{type:'uri',value:sourceLocation}],
         	};
         });

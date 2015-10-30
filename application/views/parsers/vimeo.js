@@ -34,6 +34,7 @@
         	}
         	results[uri] = {};
         	results[uri]['http://simile.mit.edu/2003/10/ontologies/artstor#sourceLocation'] = [{type:'uri',value:sourceLocation}];
+        	results[uri]['http://simile.mit.edu/2003/10/ontologies/artstor#url'] = [{type:'uri',value:uri}];
         	results[uri]['http://purl.org/dc/terms/title'] = [{type:'literal',value:title}];
         	if ('undefined'!=typeof(description) && description) results[uri]['http://purl.org/dc/terms/description'] = [{type:'literal',value:description}];
         	results[uri]['http://purl.org/dc/terms/source'] = [{type:'literal',value:archive.title}];     

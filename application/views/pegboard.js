@@ -212,42 +212,15 @@ function set_sync() {
 	
 	var $sync = $('#sync');
 	$sync.find('button:last').click(function() {
-		var items = {};
-		var destinations = [];
-		var collections = get_collections();
-		var $sync_collections = $('#sync_collections');
-		var $sync_destinations = $('#sync_destinations');
-		// Items
-		if ($sync_collections.find('.all').hasClass('clicked')) {
-			items = get_imported();
-		} else {
-			$sync_collections.find('.collection:not(.all)').each(function(index) {
-				var $this = $(this);
-				if (!$this.hasClass('clicked')) return;
-				$.extend(items, collections[index].items);
-			});
-		};
-		if ($.isEmptyObject(items)) {
-			alert('There are no items to import.  Please select one or more collections that contain items.');
-			return;
-		}
-		// Destinations
-		$sync_destinations.find('.collection').each(function(index) {
-			var $this = $(this);
-			if (!$this.hasClass('clicked')) return;
-			destinations.push(rtrim($this.data('uri'),'/'));
-		});
-		if (!destinations.length) {
-			alert('Please select one or more destination Scalar books.');
-			return;
-		}
-		// Run sync
-		console.log(items);
-		console.log(destinations);
+		sync();
 	});
 	
 	$sync.on('show.bs.modal', function (event) {
-		$('.sync_details').empty();
+		$sync.find('#sync_complete_btn').remove();
+		$sync.find('.modal-footer button').show();
+		$sync.find('.sync_details').empty();
+		$sync.find('#content_progress').width('0%');
+		$sync.find('#content_progress span').html('Content 0 of 0');
 		var $modal = $(this);
 		var $collections = $modal.find('#sync_collections');
 		var $destinations = $modal.find('#sync_destinations');
@@ -292,10 +265,11 @@ function set_sync() {
 			$destinations.empty();
 			for (var j in data) {
 				var uri = base+data[j].slug+'/';
+				var id = data[j].book_id;
 				var thumb = (data[j].thumbnail.length) ? uri+data[j].thumbnail : '';
-				
 				var $node = $('<div class="collection"><div style="background-image:url('+thumb+');" class="thumb"></div><h5>'+data[j].title+'</h5><div class="desc">'+data[j].description+'</div></div>');
 				$node.data('uri',uri);
+				$node.data('id',id);
 				$destinations.append($node);
 			}
 			$destinations.find('.collection').click(function() {
@@ -704,6 +678,79 @@ function set_sheet_height() {
 	var $spreadsheets = $('.spreadsheet');
 	var h = parseInt($(window).height());
 	$spreadsheets.css('min-height',h);
+}
+
+/** 
+ * Setup sync between imported items and destinations
+ * $return null
+ */
+function sync() {
+	
+	var items = {};
+	var destinations = [];
+	var collections = get_collections();
+	var $sync_collections = $('#sync_collections');
+	var $sync_destinations = $('#sync_destinations');
+	// Items
+	if ($sync_collections.find('.all').hasClass('clicked')) {
+		items = get_imported();
+	} else {
+		$sync_collections.find('.collection:not(.all)').each(function(index) {
+			var $this = $(this);
+			if (!$this.hasClass('clicked')) return;
+			$.extend(items, collections[index].items);
+		});
+	};
+	if ($.isEmptyObject(items)) {
+		alert('There are no items to import.  Please select one or more collections that contain items.');
+		return;
+	}
+	// Destinations
+	$sync_destinations.find('.collection').each(function(index) {
+		var $this = $(this);
+		if (!$this.hasClass('clicked')) return;
+		destinations.push({'uri':rtrim($this.data('uri'),'/'),'id':$this.data('id')});
+	});
+	if (!destinations.length) {
+		alert('Please select one or more destination Scalar books.');
+		return;
+	}
+	// Run sync
+	do_sync(items, destinations);
+	
+}
+
+/** 
+ * Run sync
+ * @return null
+ */
+function do_sync(items, destinations) {
+	
+	var $sync = $('#sync');
+	$sync.find('button').attr('disabled','disabled');
+	
+	for (var j in items) {
+		items[j]['http://scalar.usc.edu/2012/01/scalar-ns#slug'] = [{type:'uri',value:'media/'+items[j]['http://purl.org/dc/terms/title'][0].value}];
+	}
+	
+	for (var j in destinations) {
+		$sync.rdfimporter({
+			rdf:items,
+			source_url:'',
+			dest_urn:'urn:scalar:book:'+destinations[j].id,
+			dest_id:'craigdietrich@gmail.com',
+			dest_url:destinations[j].uri
+		}, function() {
+			$sync.find('button').removeAttr('disabled');
+			var $parent = $sync.find('.modal-footer');
+			$parent.find('button').hide();
+			$parent.append('<button id="sync_complete_btn" type="button" class="btn btn-success">Return to collections and archives</button>');
+			$parent.find('button:last').click(function() {
+				$sync.modal('hide');
+			});
+		});
+	};
+	
 }
 
 /**

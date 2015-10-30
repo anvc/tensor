@@ -20,6 +20,7 @@
 			var creator = data.items[j].snippet.channelTitle;
         	results[uri] = {
             		'http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail':[{type:'uri',value:thumb}],
+            		'http://simile.mit.edu/2003/10/ontologies/artstor#url':[{type:'uri',value:uri}],
             		'http://purl.org/dc/terms/title':[{type:'literal',value:title}],
             		'http://purl.org/dc/terms/description':[{type:'literal',value:desc}],
             		'http://purl.org/dc/terms/source':[{type:'literal',value:archive.title}],

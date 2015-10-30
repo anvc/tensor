@@ -57,6 +57,7 @@ class Wb extends CI_Controller {
 		$this->template->add_js(base_url().APPPATH.'views/common/jquery.storageapi.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/linkify/linkify.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/jquery.spreadsheet_model.js');
+		$this->template->add_js(base_url().APPPATH.'views/common/jquery.importrdf.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/jquery.advanced_search.js');
 		$this->template->add_js(base_url().APPPATH.'views/pegboard.js');
 		$this->template->render("pegboard", $this->data);

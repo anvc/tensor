@@ -63,6 +63,7 @@
         	results[uri]['http://purl.org/dc/terms/identifier'] = [{type:'uri',value:identifier}];
         	results[uri]['http://simile.mit.edu/2003/10/ontologies/artstor#sourceLocation'] = [{type:'uri',value:resource_base+identifier}];
         	if (thumb.length) results[uri]['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'] = [{type:'uri',value:thumb}];
+        	results[uri]['http://simile.mit.edu/2003/10/ontologies/artstor#url'] = [{type:'uri',value:uri}];
         	if ('undefined'!=typeof(coverage) && coverage.length) results[uri]['http://purl.org/dc/terms/coverage'] = [{type:'uri',value:coverage}];
         	if ('undefined'!=typeof(title) && title.length) results[uri]['http://purl.org/dc/terms/title'] = [{type:'uri',value:title}];
         	if ('undefined'!=typeof(desc) && desc.length) results[uri]['http://purl.org/dc/terms/description'] = [{type:'uri',value:desc}];
