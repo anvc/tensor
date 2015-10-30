@@ -738,7 +738,7 @@ function do_sync(items, destinations) {
 			rdf:items,
 			source_url:'',
 			dest_urn:'urn:scalar:book:'+destinations[j].id,
-			dest_id:'craigdietrich@gmail.com',
+			dest_id:'foo',
 			dest_url:destinations[j].uri
 		}, function() {
 			$sync.find('button').removeAttr('disabled');
