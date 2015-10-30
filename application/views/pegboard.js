@@ -210,35 +210,43 @@ function set_search() {
  */
 function set_sync() {
 	
-	var sync_ui = function() {
+	var $sync = $('#sync');
+	$sync.find('button:last').click(function() {
 		var items = {};
-		var num_collections = 0;
-		var num_destinations = 0;
-		var $sync_details = $('.sync_details');
-		if ($('#sync_collections').find('.all').hasClass('clicked')) {
+		var destinations = [];
+		var collections = get_collections();
+		var $sync_collections = $('#sync_collections');
+		var $sync_destinations = $('#sync_destinations');
+		// Items
+		if ($sync_collections.find('.all').hasClass('clicked')) {
 			items = get_imported();
-			num_collections = 1;
 		} else {
-			var collections = get_collections();
-			$('#sync_collections').find('.collection:not(.all)').each(function(index) {
+			$sync_collections.find('.collection:not(.all)').each(function(index) {
 				var $this = $(this);
 				if (!$this.hasClass('clicked')) return;
-				num_collections++;
 				$.extend(items, collections[index].items);
 			});
 		};
-		$('#sync_destinations').children().each(function(index) {
+		if ($.isEmptyObject(items)) {
+			alert('There are no items to import.  Please select one or more collections that contain items.');
+			return;
+		}
+		// Destinations
+		$sync_destinations.find('.collection').each(function(index) {
 			var $this = $(this);
 			if (!$this.hasClass('clicked')) return;
-			num_destinations++;
+			destinations.push(rtrim($this.data('uri'),'/'));
 		});
-		$sync_details.empty();
-		var num_items = $.map(items, function(n, i) { return i; }).length;
-		if (num_collections > 0) $sync_details.html('Sync <b>'+num_items+'</b> item'+((num_items>1)?'s':'')+' from <b>'+num_collections+'</b> collection'+((num_collections>1)?'s':''));
-		if (num_destinations > 0) $sync_details.append('<span>&nbsp; <span class="glyphicon glyphicon-arrow-right"></span> &nbsp;</span> <b>'+num_destinations+'</b> Scalar book'+((num_destinations>1)?'s':''));
-	};
+		if (!destinations.length) {
+			alert('Please select one or more destination Scalar books.');
+			return;
+		}
+		// Run sync
+		console.log(items);
+		console.log(destinations);
+	});
 	
-	$('#sync').on('show.bs.modal', function (event) {
+	$sync.on('show.bs.modal', function (event) {
 		$('.sync_details').empty();
 		var $modal = $(this);
 		var $collections = $modal.find('#sync_collections');
@@ -469,6 +477,40 @@ function search_results_ui(view) {
 	$.getScript(view_path, function() {
 		$('#search_spreadsheet_content').attr('class',view+'_view').spreadsheet_view({rows:do_search.results,check:get_imported(),num_archives:do_search.total});
 	});	
+	
+}
+
+/** 
+ * Interactions inside the sync modal
+ * @return null
+ */
+function sync_ui() {
+	
+	var items = {};
+	var num_collections = 0;
+	var num_destinations = 0;
+	var $sync_details = $('.sync_details');
+	if ($('#sync_collections').find('.all').hasClass('clicked')) {
+		items = get_imported();
+		num_collections = 1;
+	} else {
+		var collections = get_collections();
+		$('#sync_collections').find('.collection:not(.all)').each(function(index) {
+			var $this = $(this);
+			if (!$this.hasClass('clicked')) return;
+			num_collections++;
+			$.extend(items, collections[index].items);
+		});
+	};
+	$('#sync_destinations').children().each(function(index) {
+		var $this = $(this);
+		if (!$this.hasClass('clicked')) return;
+		num_destinations++;
+	});
+	$sync_details.empty();
+	var num_items = $.map(items, function(n, i) { return i; }).length;
+	if (num_collections > 0) $sync_details.html('Sync <b>'+num_items+'</b> item'+((num_items>1)?'s':'')+' from <b>'+num_collections+'</b> collection'+((num_collections>1)?'s':''));
+	if (num_destinations > 0) $sync_details.append('<span>&nbsp; <span class="glyphicon glyphicon-arrow-right"></span> &nbsp;</span> <b>'+num_destinations+'</b> Scalar book'+((num_destinations>1)?'s':''));	
 	
 }
 
@@ -847,4 +889,13 @@ function getParameterByName(name) {
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
         results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+// http://phpjs.org/functions/rtrim/
+function rtrim(str, charlist) {
+	  charlist = !charlist ? ' \\s\u00A0' : (charlist + '')
+	    .replace(/([\[\]\(\)\.\?\/\*\{\}\+\$\^\:])/g, '\\$1');
+	  var re = new RegExp('[' + charlist + ']+$', 'g');
+	  return (str + '')
+	    .replace(re, '');
 }
