@@ -15,6 +15,11 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 .internet-archive-icon {display:inline-block; width:57px; height:32px; background-color:white; padding:0px 4px 0px 4px; background-image:url(images/internetarchive.logo.png); background-repeat:no-repeat; background-size:100%;}
 .youtube-icon {display:inline-block; width:75px; height:32px; background-color:white; padding:0px 4px 0px 4px; background-image:url(images/youtube.logo.png); background-repeat:no-repeat; background-size:100%;}
 .icon {position:absolute;top:0;left:0;}
+/* Progress bar */
+.progress {margin-top:0px; margin-bottom:16px;}
+#progress_log {display:none; width:100%; height:50px; background-color:white; color:red; font-size:smaller; overflow:auto;}
+.progress-bar {text-align:left;}
+.progress-bar span {padding-left:5px;}
 
 /* Sidebar */
 .sidebar {border-right:solid 1px #bbbbbb;}
@@ -127,6 +132,10 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 	width:32px; height:32px; display:inline-block; margin-right:8px; border:solid 1px #cccccc; float:left; 
 	text-align:center; padding-top:5px;
 }
+.collection .thumb {
+	width:32px; height:32px; display:inline-block; margin-right:8px; border:solid 1px #eeeeee; float:left; 
+	padding-top:5px; background-size:32px 32px; background-color:#eeeeee;
+}
 .collection .num_items {color:#555555; font-weight:normal; font-size:14px;}
 .collection:hover {opacity:0.75;}
 .collection h5 {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden}
@@ -135,6 +144,11 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 
 /* Sync */
 .sync {text-align:center; padding:6px 0px 6px 0px;}
+#sync .modal-dialog {width:90%;}
+#sync .modal-body h4 {margin-top:0px; padding-top:0px;}
+#sync_collections .collection, #sync_destinations .collection {
+	width:250px; float:left; overflow:hidden; margin-left:10px; margin-right:10px;
+}
 
 /* Table */
 .list_view {margin-left:16px; margin-right:16px;}

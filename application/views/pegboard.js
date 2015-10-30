@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	set_collections();
 	set_search();
+	set_sync();
 	set_events();
 });
 $(window).load(function() {
@@ -204,6 +205,50 @@ function set_search() {
 }
 
 /**
+ * Set the sync modal
+ * @return null
+ */
+function set_sync() {
+	
+	$('#sync').on('show.bs.modal', function (event) {
+		var $modal = $(this);
+		var $collections = $modal.find('#sync_collections');
+		var $destinations = $modal.find('#sync_destinations');
+		$collections.empty();
+		$destinations.html('Loading Scalar books ....');
+		var all = get_imported();
+		var collections = get_collections();
+		// Collections
+		$('#collections_form').find('.collection:not(.notice)').clone().removeClass('clicked').appendTo($collections);
+		// Scalar books
+		var base = getParameterByName('base');
+		if (!base.length) {
+			$destinations.html('<div class="alert alert-danger" role="alert">Could not find a Scalar install to search for books.</div>');
+			return;
+		}
+		var url = base+'system/api/get_user_books';
+		$.getJSON(url, function(data) {
+			if (jQuery.isEmptyObject(data)) {
+				$destinations.html('<div class="alert alert-warning" role="alert">You are not the author of any books in the Scalar install you are logged in to.</div>');
+				return;
+			}
+			$destinations.empty();
+			for (var j in data) {
+				var uri = base+data[j].slug+'/';
+				var thumb = (data[j].thumbnail.length) ? uri+data[j].thumbnail : '';
+				
+				var $node = $('<div class="collection"><div style="background-image:url('+thumb+');" class="thumb"></div><h5>'+data[j].title+'</h5><div class="desc">'+data[j].description+'</div></div>');
+				$node.data('uri',uri);
+				$destinations.append($node);
+			}
+		}).fail(function() {
+			$destinations.html('<div class="alert alert-danger" role="alert">You don\'t appear to be logged in to the Scalar install at <b>'+base+'</b>.  Please log in to the install and try again.</div>');
+		});
+	});	
+	
+}
+
+/**
  * Set the UI for for the current collection in one of many possible views
  * @view str optional view to set 
  * @return null
@@ -322,7 +367,7 @@ function search_ui(index) {
 	$('#select_archive').find('button:first').html('No collection');
 	var $into_collection = $('#into_collection');
 	$into_collection.empty();
-	$into_collection.append('<li><a data-index="" href="javascript:void(null);">no collection</a></li>');
+	$into_collection.append('<li><a data-index="" href="javascript:void(null);">No collection</a></li>');
 	var collections = get_collections();
 	for (var j in collections) {
 		$into_collection.append('<li><a data-index="'+j+'" href="javascript:void(null);"><span class="color" style="background-color:'+collections[j].color+'"></span>'+collections[j].title+'</a></li>');
@@ -735,4 +780,12 @@ function convertHex(hex,opacity){
 
     result = 'rgba('+r+','+g+','+b+','+opacity/100+')';
     return result;
+}
+
+// http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }

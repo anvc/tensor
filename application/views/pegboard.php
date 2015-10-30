@@ -221,10 +221,19 @@
         <h4 class="modal-title">Sync Collections</h4>
       </div>
       <div class="modal-body">
-        <form id="sync_form">
-        </form>
+        <h4>Select one or more source collection</h4>
+      	<div id="sync_collections"></div>
+      	<br clear="both" /><br />
+        <h4>Select one or more destination Scalar book</h4>
+      	<div id="sync_destinations"></div>
+      	<br clear="both" />
       </div>
       <div class="modal-footer">
+		<div class="progress">
+			<div id="content_progress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+				<span>Content 0 of 0</span>
+			</div>
+		</div>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Synchronize</button>
       </div>
