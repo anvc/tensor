@@ -210,7 +210,36 @@ function set_search() {
  */
 function set_sync() {
 	
+	var sync_ui = function() {
+		var items = {};
+		var num_collections = 0;
+		var num_destinations = 0;
+		var $sync_details = $('.sync_details');
+		if ($('#sync_collections').find('.all').hasClass('clicked')) {
+			items = get_imported();
+			num_collections = 1;
+		} else {
+			var collections = get_collections();
+			$('#sync_collections').find('.collection:not(.all)').each(function(index) {
+				var $this = $(this);
+				if (!$this.hasClass('clicked')) return;
+				num_collections++;
+				$.extend(items, collections[index].items);
+			});
+		};
+		$('#sync_destinations').children().each(function(index) {
+			var $this = $(this);
+			if (!$this.hasClass('clicked')) return;
+			num_destinations++;
+		});
+		$sync_details.empty();
+		var num_items = $.map(items, function(n, i) { return i; }).length;
+		if (num_collections > 0) $sync_details.html('Sync <b>'+num_items+'</b> item'+((num_items>1)?'s':'')+' from <b>'+num_collections+'</b> collection'+((num_collections>1)?'s':''));
+		if (num_destinations > 0) $sync_details.append('<span>&nbsp; <span class="glyphicon glyphicon-arrow-right"></span> &nbsp;</span> <b>'+num_destinations+'</b> Scalar book'+((num_destinations>1)?'s':''));
+	};
+	
 	$('#sync').on('show.bs.modal', function (event) {
+		$('.sync_details').empty();
 		var $modal = $(this);
 		var $collections = $modal.find('#sync_collections');
 		var $destinations = $modal.find('#sync_destinations');
@@ -220,6 +249,26 @@ function set_sync() {
 		var collections = get_collections();
 		// Collections
 		$('#collections_form').find('.collection:not(.notice)').clone().removeClass('clicked').appendTo($collections);
+		$collections.find('.collection').click(function() {
+			var $this = $(this);
+			var is_clicked = $this.hasClass('clicked') ? true : false;
+			if ($this.hasClass('all')) {
+				$this.parent().children().removeClass('clicked');
+				if (is_clicked) {
+					$this.removeClass('clicked');
+				} else {
+					$this.addClass('clicked');
+				}
+			} else {
+				$this.parent().find('.all').removeClass('clicked');
+				if (is_clicked) {
+					$this.removeClass('clicked');
+				} else {
+					$this.addClass('clicked');
+				}				
+			};
+			sync_ui();
+		});
 		// Scalar books
 		var base = getParameterByName('base');
 		if (!base.length) {
@@ -229,7 +278,7 @@ function set_sync() {
 		var url = base+'system/api/get_user_books';
 		$.getJSON(url, function(data) {
 			if (jQuery.isEmptyObject(data)) {
-				$destinations.html('<div class="alert alert-warning" role="alert">You are not the author of any books in the Scalar install you are logged in to.</div>');
+				$destinations.html('<div class="alert alert-warning" role="alert">You are not the author of any books in the Scalar install at <b><a href="'+base+'" target="_blank">'+base+'</a></b>.</div>');
 				return;
 			}
 			$destinations.empty();
@@ -241,8 +290,18 @@ function set_sync() {
 				$node.data('uri',uri);
 				$destinations.append($node);
 			}
+			$destinations.find('.collection').click(function() {
+				var $this = $(this);
+				var is_clicked = $this.hasClass('clicked') ? true : false;
+				if (is_clicked) {
+					$this.removeClass('clicked');
+				} else {
+					$this.addClass('clicked');
+				};
+				sync_ui();
+			});
 		}).fail(function() {
-			$destinations.html('<div class="alert alert-danger" role="alert">You don\'t appear to be logged in to the Scalar install at <b>'+base+'</b>.  Please log in to the install and try again.</div>');
+			$destinations.html('<div class="alert alert-danger" role="alert">You don\'t appear to be logged in to the Scalar install at <b><a href="'+base+'" target="_blank">'+base+'</a></b>.  Please log in to the install and try again.</div>');
 		});
 	});	
 	

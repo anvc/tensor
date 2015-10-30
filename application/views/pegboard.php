@@ -234,6 +234,7 @@
 				<span>Content 0 of 0</span>
 			</div>
 		</div>
+		<div style="float:left;" class="sync_details"></div>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Synchronize</button>
       </div>
