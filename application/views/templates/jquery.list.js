@@ -68,7 +68,9 @@
     
     function do_create_cells() {
     	var $table = $self.find('table');
-    	var $body = $('<tbody></tbody>').appendTo($table);
+    	var $body = $('<tbody></tbody>').appendTo($table);   
+    	var num_rows = $.map(opts.rows, function(n, i) { return i; }).length;
+    	if (!num_rows) $self.html(opts.msg);     	
     	var to_display = predicates_to_display();
     	if (opts.checkable) {
 	    	$table.on('click','td', function() {
@@ -131,6 +133,9 @@
     	if (opts.num_archives > 1) arr.push('http://purl.org/dc/terms/source');
     	var _arr = [];
     	for (var uri in opts.rows) break;
+    	if ('undefined'==typeof(uri)) {
+    		return arr;
+    	};
     	for (var j in arr) {
     		if ('undefined'!=typeof(opts.rows[uri][arr[j]])) _arr.push(arr[j]);
     	}

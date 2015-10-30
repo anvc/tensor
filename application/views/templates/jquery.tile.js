@@ -47,6 +47,8 @@
     	$self.children(':not(.spreadsheet_panel)').remove();
     	$self.children('.spreadsheet_panel').hide();
 		var $wrapper = $('<div class="tiles"></div>').appendTo($self);
+    	var num_rows = $.map(opts.rows, function(n, i) { return i; }).length;
+    	if (!num_rows) $self.html(opts.msg);  		
 		if (opts.checkable) {
 	    	$wrapper.on( "click", ".tile", function() {
 	    		var $this = $(this);

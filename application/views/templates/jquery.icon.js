@@ -20,7 +20,8 @@
 			rows: null,
 			check: [],
 			num_archives: 0,
-			checkable: true
+			checkable: true,
+			msg:''
 	};  	
 	var opts = {};
 	var predicates = [];
@@ -47,6 +48,8 @@
     	$self.children(':not(.spreadsheet_panel)').remove();
     	$self.children('.spreadsheet_panel').hide();
     	var $wrapper = $('<div class="container-fluid icons"></div>').appendTo($self);
+    	var num_rows = $.map(opts.rows, function(n, i) { return i; }).length;
+    	if (!num_rows) $self.html(opts.msg);
     	if (opts.checkable) {
 	    	$wrapper.on( "click", ".row", function() {
 	    		var $this = $(this);

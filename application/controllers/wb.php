@@ -34,39 +34,12 @@ class Wb extends CI_Controller {
 
 		$this->load->helper('array');
 
-		$this->data['title'] = 'Tensor: Search archives';
+		$this->data['title'] = 'Tensor: Import';
 		$this->data['proxy_url'] = base_url().strtolower(get_class()).'/proxy';
 
 		$this->config->load('archives');
 		$this->data['archives'] = $this->config->item('archives');
 		usort($this->data['archives'], "cmp_archives");
-
-		$this->template->add_css(APPPATH.'views/common/jquery-ui-1.11.4.custom/jquery-ui.min.css');
-		$this->template->add_css(APPPATH.'views/common/bootstrap/css/bootstrap.min.css');
-		$this->template->add_css(APPPATH.'views/common/tablesorter/theme.default.css');
-		$this->template->add_css(APPPATH.'views/wb.css');
-		$this->template->add_js(base_url().APPPATH.'views/common/jquery-1.11.3.min.js');
-		$this->template->add_js(base_url().APPPATH.'views/common/jquery-ui-1.11.4.custom/jquery-ui.min.js');
-		$this->template->add_js(base_url().APPPATH.'views/common/bootstrap/js/bootstrap.min.js');
-		$this->template->add_js(base_url().APPPATH.'views/common/tablesorter/jquery.tablesorter.min.js');
-		$this->template->add_js(base_url().APPPATH.'views/common/tablesorter/jquery.tablesorter.widgets.js');
-		$this->template->add_js(base_url().APPPATH.'views/common/endless_scroll/endless_scroll.min.js');
-		$this->template->add_js(base_url().APPPATH.'views/common/match-height/jquery.matchHeight.js');
-		$this->template->add_js(base_url().APPPATH.'views/common/jquery.storageapi.js');
-		$this->template->add_js(base_url().APPPATH.'views/common/linkify/linkify.js');
-		$this->template->add_js(base_url().APPPATH.'views/common/jquery.spreadsheet_model.js');
-		$this->template->add_js(base_url().APPPATH.'views/common/jquery.advanced_search.js');
-		$this->template->add_js(base_url().APPPATH.'views/pegboard.js');
-		$this->template->render("pegboard", $this->data);
-
-	}
-
-	public function manage() {
-
-		$this->load->helper('array');
-
-		$this->data['title'] = 'Tensor: Manage Content';
-		$this->data['proxy_url'] = base_url().strtolower(get_class()).'/proxy';
 
 		$this->template->add_css(APPPATH.'views/common/jquery-ui-1.11.4.custom/jquery-ui.min.css');
 		$this->template->add_css(APPPATH.'views/common/bootstrap/css/bootstrap.min.css');
@@ -85,8 +58,8 @@ class Wb extends CI_Controller {
 		$this->template->add_js(base_url().APPPATH.'views/common/linkify/linkify.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/jquery.spreadsheet_model.js');
 		$this->template->add_js(base_url().APPPATH.'views/common/jquery.advanced_search.js');
-		$this->template->add_js(base_url().APPPATH.'views/manage.js');
-		$this->template->render("manage", $this->data);
+		$this->template->add_js(base_url().APPPATH.'views/pegboard.js');
+		$this->template->render("pegboard", $this->data);
 
 	}
 
