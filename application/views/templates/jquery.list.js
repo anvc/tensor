@@ -87,12 +87,18 @@
 	    			$("body").trigger( "import_add_node", [$parent.data('uri'), $parent.data('values')] );
 	    		}   	    		
 	    	});
+    	} else {
+    		$table.on( "click", "td", function() {
+    			var $this = $(this);
+    			var $parent = $this.closest('tr');
+    			$("body").trigger( "node_not_clickable", [$parent.data('uri'), $parent.data('values'), $parent] );
+    		});        		
     	};
     	for (var j in opts.rows) {
     		var $row = $('<tr></tr>').appendTo($body);
     		$row.data('uri', j);
     		$row.data('values', opts.rows[j]);    		
-    		$('<td><div><input type="checkbox" value="'+j+'" /><a target="_blank" href="'+j+'" title="'+j+'">'+basename(j)+'</a></div><br clear="both" /></td>').appendTo($row);
+    		$('<td><div><a target="_blank" href="'+j+'" title="'+j+'">'+basename(j)+'</a></div><br clear="both" /></td>').appendTo($row);
     		for (var k in to_display) {
     			var value = ('undefined'!=typeof(opts.rows[j][to_display[k]])) ? opts.rows[j][to_display[k]][0].value : '';
     			value = value.linkify();

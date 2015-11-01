@@ -47,7 +47,7 @@
 					    echo '				<div ';
 					    echo 'class="archive" ';
 					    echo 'style="background-image:url('.base_url().APPPATH.$archive['thumbnail'].');" ';
-					    echo 'title="'.$archive['title'].': '.$archive['subtitle'].'" ';
+					    echo 'title="'.htmlspecialchars($archive['title']).': '.htmlspecialchars($archive['subtitle']).'" ';
 					    echo 'data-index="'.$index.'" ';
 					    echo 'data-categories="'.implode(',',$archive['categories']).'" ';
 					    echo 'data-request="'.htmlspecialchars(json_encode(array_merge($archive['request'],array('title'=>$archive['title']))), ENT_QUOTES, 'UTF-8' ).'"';

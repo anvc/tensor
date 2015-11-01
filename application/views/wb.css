@@ -159,10 +159,10 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 #edit_metadata .modal-dialog .v input {margin-bottom:2px;}
 #edit_metadata .modal-header {position:relative;}
 #edit_metadata .modal-header .thumb {
-	position:absolute; top:0px; left:20px; width:100px; height:54px; background-color:#eeeeee;	
+	position:absolute; top:0px; left:16px; width:100px; height:54px; background-color:#eeeeee;	
 	background-size:cover; background-position:center;
 }
-#edit_metadata .modal-header h4 {margin-left:130px; font-size:16px; letter-spacing:1px;}
+#edit_metadata .modal-header h4 {margin-left:126px; font-size:16px; letter-spacing:1px;}
 
 /* Table */
 .list_view {margin-left:16px; margin-right:16px;}

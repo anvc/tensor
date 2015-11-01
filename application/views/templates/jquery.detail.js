@@ -56,13 +56,18 @@
 	    		var is_clicked = ($this.hasClass('clicked')) ? true : false;
 	    		if (is_clicked) {
 	    			$this.removeClass('clicked');
-	    			$("body").trigger( "import_remove_node", [$this.data('uri'), $this.data('values')] );
+	    			$("body").trigger( "import_remove_node", [$this.data('uri'), $this.data('values'), $this] );
 	    		} else {
 	    			$this.addClass('clicked');
-	    			$("body").trigger( "import_add_node", [$this.data('uri'), $this.data('values')] );
+	    			$("body").trigger( "import_add_node", [$this.data('uri'), $this.data('values'), $this] );
 	    		}   		
 	    	});  
-    	};
+    	} else {
+    		$wrapper.on( "click", ".detail", function() {
+    			var $this = $(this);
+    			$("body").trigger( "node_not_clickable", [$this.data('uri'), $this.data('values'), $this] );
+    		});    		
+    	}
     	for (var j in opts.rows) {
     		var row = opts.rows[j];
     		var thumb = ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'])) ? row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value : $('link#base_url').attr('href')+'application/views/images/missing_thumb.jpg';

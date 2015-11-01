@@ -63,6 +63,11 @@
 	    			$("body").trigger( "import_add_node", [$this.data('uri'), $this.data('values')] );
 	    		}   		
 	    	});	
+		} else {
+			$wrapper.on( "click", ".tile", function() {
+    			var $this = $(this);
+    			$("body").trigger( "node_not_clickable", [$this.data('uri'), $this.data('values'), $this] );
+    		});    
 		};
     	for (var j in opts.rows) {
     		var row = opts.rows[j];

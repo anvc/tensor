@@ -553,7 +553,7 @@ function set_events() {
 		var thumb = '';
 		for (var p in values) {
 			var $p = $('<div class="row"><div class="col-xs-12 col-sm-2 p"></div><div class="col-xs-12 col-sm-10 v"></div></div>');
-			$p.find('div:first').html( pnode(p) );
+			$p.find('div:first').data('p',p).html( pnode(p) );
 			for (var j = 0; j < values[p].length; j++) {
 				$p.find('div:last').append('<input type="text" class="form-control" value="'+escapeHtml(values[p][j].value)+'" />');
 			}
