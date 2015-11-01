@@ -57,13 +57,18 @@
 	    		if (is_clicked) {
 	    			$this.removeClass('clicked');
 	    			$this.find('.clicked_layer').remove();
-	    			$("body").trigger( "import_remove_node", [$this.data('uri'), $this.data('values')] );
+	    			$("body").trigger( "import_remove_node", [$this.data('uri'), $this.data('values'), $this] );
 	    		} else {
 	    			$this.addClass('clicked');
 	    			$this.prepend('<div class="clicked_layer"></div>');
-	    			$("body").trigger( "import_add_node", [$this.data('uri'), $this.data('values')] );
+	    			$("body").trigger( "import_add_node", [$this.data('uri'), $this.data('values'), $this] );
 	    		}   		
 	    	});
+    	} else {
+    		$wrapper.on( "click", ".row", function() {
+    			var $this = $(this);
+    			$("body").trigger( "node_not_clickable", [$this.data('uri'), $this.data('values'), $this] );
+    		});
     	};
     	for (var j in opts.rows) {
     		var row = opts.rows[j];
@@ -113,7 +118,5 @@
     		return str;
     	}
     }
-    
-
     
 }( jQuery ));

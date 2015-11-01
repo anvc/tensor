@@ -242,6 +242,24 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal fade" id="edit_metadata">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="thumb"></div>
+        <h4 class="modal-title">Edit Metadata</h4>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-default pull-left">Add Additional Metadata</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Save Metadata</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <div class="modal fade" id="error">
   <div class="modal-dialog">
     <div class="modal-content">

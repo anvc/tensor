@@ -542,6 +542,31 @@ function set_events() {
 		set_collections_numbers();
 	});		
 	
+	$("body").on( "node_not_clickable", function( event, uri, values, $el ) {
+		var $edit_metadata = $('#edit_metadata');
+		var $header = $edit_metadata.find('.modal-header');
+		var $body = $edit_metadata.find('.modal-body');
+		$header.find('.thumb').css('background-image', '');
+		$body.empty();
+		$edit_metadata.modal('show');
+		values = sort_predicates_by_prop(values);
+		var thumb = '';
+		for (var p in values) {
+			var $p = $('<div class="row"><div class="col-xs-12 col-sm-2 p"></div><div class="col-xs-12 col-sm-10 v"></div></div>');
+			$p.find('div:first').html( pnode(p) );
+			for (var j = 0; j < values[p].length; j++) {
+				$p.find('div:last').append('<input type="text" class="form-control" value="'+escapeHtml(values[p][j].value)+'" />');
+			}
+			$body.append($p);
+			if ('http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail' == p && 'undefined'!=typeof(values[p][0])) {
+				thumb = values[p][0].value;
+			}
+		}
+		if (thumb.length) {
+			$header.find('.thumb').css('background-image', 'url('+thumb+')');
+		}
+	});		
+	
 	$("body").on( "collection_add_node", function( event, obj ) {
 		var collections = storage.get('collections');
 		if ('undefined'==typeof(collections)) collections = [];
@@ -945,4 +970,58 @@ function rtrim(str, charlist) {
 	  var re = new RegExp('[' + charlist + ']+$', 'g');
 	  return (str + '')
 	    .replace(re, '');
+}
+
+function pnode(uri) {
+	var namespaces = {
+		'rdf':'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+		'rdfs':'http://www.w3.org/2000/01/rdf-schema#',
+		'dc':'http://purl.org/dc/elements/1.1/',
+		'dcterms':'http://purl.org/dc/terms/',
+		'ctag':'http://commontag.org/ns#',
+		'art':'http://simile.mit.edu/2003/10/ontologies/artstor#',
+		'sioc':'http://rdfs.org/sioc/ns#',
+		'sioctypes':'http://rdfs.org/sioc/types#',
+		'foaf':'http://xmlns.com/foaf/0.1/',
+		'owl':'http://www.w3.org/2002/07/owl#',
+		'ov':'http://open.vocab.org/terms/',
+		'oac':'http://www.openannotation.org/ns/',
+		'scalar':'http://scalar.usc.edu/2012/01/scalar-ns#',
+		'shoah':'http://tempuri.org/'
+	};
+	for (var j in namespaces) {
+		if (uri.substr(0, namespaces[j].length) == namespaces[j]) return j + ':' + uri.substr(namespaces[j].length);
+	}
+	return '';
+}
+
+function sort_predicates_by_prop(obj) {
+    ps = [];
+    for (var p in obj) {
+    	ps.push(pnode(p).toLowerCase());
+	}
+    ps.sort();
+    var results = {};
+    for (var j = 0; j < ps.length; j++) {
+    	p = ps[j];
+    	for (var key in obj) {
+    		if (pnode(key).toLowerCase() == p) {
+    			results[key] = obj[key];
+    			continue;
+    		}
+    	}
+    }
+    return results;
+}
+
+// http://stackoverflow.com/questions/1787322/htmlspecialchars-equivalent-in-javascript
+function escapeHtml(text) {
+	  var map = {
+	    '&': '&amp;',
+	    '<': '&lt;',
+	    '>': '&gt;',
+	    '"': '&quot;',
+	    "'": '&#039;'
+	  };
+	  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
