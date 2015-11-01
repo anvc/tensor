@@ -252,6 +252,7 @@ function set_sync() {
 		});
 		// Scalar books
 		var base = getParameterByName('base');
+		var slug = getParameterByName('slug');
 		if (!base.length) {
 			$destinations.html('<div class="alert alert-danger" role="alert">Could not find a Scalar install to search for books.</div>');
 			return;
@@ -267,7 +268,7 @@ function set_sync() {
 				var uri = base+data[j].slug+'/';
 				var id = data[j].book_id;
 				var thumb = (data[j].thumbnail.length) ? uri+data[j].thumbnail : '';
-				var $node = $('<div class="collection"><div style="background-image:url('+thumb+');" class="thumb"></div><h5>'+data[j].title+'</h5><div class="desc">'+data[j].description+'</div></div>');
+				var $node = $('<div class="collection" data-slug="'+data[j].slug+'"><div style="background-image:url('+thumb+');" class="thumb"></div><h5>'+data[j].title+'</h5><div class="desc">'+data[j].description+'</div></div>');
 				$node.data('uri',uri);
 				$node.data('id',id);
 				$destinations.append($node);
@@ -282,6 +283,10 @@ function set_sync() {
 				};
 				sync_ui();
 			});
+			if (slug.length) {
+				var $book = $destinations.find('.collection[data-slug="'+slug+'"]');
+				if ($book.length) $book.click();
+			};
 		}).fail(function() {
 			$destinations.html('<div class="alert alert-danger" role="alert">You don\'t appear to be logged in to the Scalar install at <b><a href="'+base+'" target="_blank">'+base+'</a></b>.  Please log in to the install and try again.</div>');
 		});
