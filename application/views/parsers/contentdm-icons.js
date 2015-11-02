@@ -77,11 +77,14 @@
         		 	// Set imported and in collections
         			var imported = storage.get('imported');
         			if ('undefined'==typeof(imported)) imported = {};
-        			imported[uri] = values;
+        			if ('undefined'!=typeof(imported[uri])) imported[uri] = values;
         			storage.set('imported', imported);		
         			var collections = storage.get('collections');
+        			if ('undefined'==typeof(collections)) collections = {};
         			for (var col_id in collections) {
-        				collections[col_id].items[uri] = values;
+        				if ('undefined'!=typeof(collections[col_id].items[uri])) {
+        					collections[col_id].items[uri] = values;
+        				}
         			}
         			storage.set('collections', collections);
         	 	 }
