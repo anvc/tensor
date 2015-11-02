@@ -15,7 +15,7 @@
         	var $this = $(this);
         	var $link = $this.find('a:first');
         	if (!$link.length) return;
-        	var sourceLocation = origin+$link.attr('href');  // TODO: get the URL to the actual file
+        	var sourceLocation = origin+$link.attr('href');  
         	// URI GET values
         	var collection = $link.attr('itemcoll');
         	var id = $link.attr('item_id');
@@ -24,6 +24,7 @@
         	var height = 10000;  // some large amount ... the incoming image will be whatever size it comes in as
         	//var uri = origin+"/utils/ajaxhelper/?CISOROOT="+collection+"&CISOPTR="+id+"&action=2&DMSCALE="+scale+"&DMWIDTH="+width+"&DMHEIGHT="+height+"&DMX=0&DMY=0&DMROTATE=0";
         	var uri = origin+"/utils/ajaxhelper/?CISOROOT="+collection+"&CISOPTR="+id+"&action=2&DMSCALE="+scale+"&DMWIDTH="+width+"&DMHEIGHT="+height+"&DMX=0&DMY=0&DMTEXT=&DMROTATE=0";
+        	//var uri = origin+'/cdm/singleitem/collection'+collection+'/id/'+id+'/rec/2';
         	//var temp_url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SMPTE_Color_Bars.svg/2000px-SMPTE_Color_Bars.svg.png';
         	var temp_url = 'Loading ...';
         	results[uri] = {
@@ -37,7 +38,8 @@
         console.log(results);
         this.opts.complete_callback(results, archive);
         // Get the URL by a seperate request to CONTENTdm
-        $( document ).on( "click", "#search_spreadsheet_content .row", function() {
+        $( document ).off( ".geturl" );
+        $( document ).on( "click.geturl", "#search_spreadsheet_content .row", function() {
         	 var $row = $(this);
         	 var uri = $row.data('uri');
         	 var values = $row.data('values');
@@ -63,11 +65,13 @@
         		 	js = js.substr( 0, js.indexOf('</script>') );
         		 	console.log(js);
         		 	eval(js);  // Breaking all of the rules here
-        		 	var new_url  = 'http://digitallibrary.usc.edu/utils/getdownloaditem/collection'+collection+'/id/'+id;
+        		 	var new_title = thisImageInfo.imageinfo.title;
+        		 	if ('undefined'!=typeof(thisImageInfo.imageinfo.title[0])) new_title = thisImageInfo.imageinfo.title[0];        		 	
+        		 	var new_url  = origin+'/utils/getdownloaditem/collection'+collection+'/id/'+id;
         		 		new_url += '/type/singleitem/filename/'+thisImageInfo.imageinfo.filename[0];
         		 		new_url += '/width/'+thisImageInfo.imageinfo.width+'/height/'+thisImageInfo.imageinfo.height;
         		 		new_url += '/mapsto/image/';
-        		 		new_url += '/title/'+thisImageInfo.imageinfo.title+'/size/large';
+        		 		new_url += '/title/'+new_title+'/size/large';
         		 	values['http://simile.mit.edu/2003/10/ontologies/artstor#url'][0].value = new_url;
         		 	$row.data('values',values);
         		 	// Set imported and in collections
