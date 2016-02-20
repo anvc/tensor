@@ -139,3 +139,15 @@ $config['archives'][] = array(
 		'content_type' 	=> "xml"
 	)
 );
+$config['archives'][] = array(
+	'title'   		=> 'Wikimedia Commons',
+	'subtitle'		=> 'Freely usable media files to which anyone can contribute.',
+	'categories' 	=> array('video','image','audio','other'),
+	'thumbnail'		=> 'views/images/archives/wikimediacommons.thumb.png',
+	'request'		=> array(
+		'handler'		=> 'https',
+		'parser'  		=> "wikimediacommons",
+		'source'  		=> "/w/api.php?action=query&format=json&prop=imageinfo&list=allimages&meta=filerepoinfo&iwurl=1&titles=star+trek&iiprop=extmetadata&iilimit=5",
+		'content_type' 	=> "json"
+	)
+);
