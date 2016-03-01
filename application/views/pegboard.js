@@ -4,9 +4,6 @@ $(document).ready(function() {
 	set_sync();
 	set_events();
 });
-$(window).load(function() {
-	set_sheet();
-});
 
 /**
  * Show or hide the loading dialog
@@ -127,7 +124,7 @@ function set_collections() {
 		$(this).closest('form').submit();
 	});
 	$('#advanced_collections_link').click(function() {
-		// TODO
+		alert('Coming soon!');
 	});
 	
 	collections_ui();
@@ -201,6 +198,20 @@ function set_search() {
 		};
 		if (null!=page) search(page);
 	});	
+	$('#advanced_find_archives_link').click(function() {
+		var $manage_archives = $('#manage_archives');
+		if (!$manage_archives.is(':hidden')) {
+			$manage_archives.hide();
+			return;
+		}		
+		$manage_archives.show();
+		$manage_archives.css('min-height', $(window).height());
+		$('#advanced_find_archives_link').blur();
+		set_manage_archives();
+		$manage_archives.find('.close_btn').click(function() {
+			$manage_archives.hide();
+		});
+	});
 	
 }
 
@@ -662,48 +673,6 @@ function set_collections_numbers() {
 	
 }
 
-function set_sheet() {
-	var $search = $('.search:first');
-	var $manage = $('.collections:first');
-
-	// Set sheet height
-	//set_sheet_height();
-	
-	// Advanced search
-	$('#advanced_search_link').click(function() {
-		var $advanced_search = $('#advanced_search');
-		if (!$advanced_search.is(':hidden')) {
-			$('.spreadsheet_panel').hide();
-			return;
-		}
-		$('.spreadsheet_panel').hide();
-		$advanced_search.show();
-		$advanced_search.css('min-height', $advanced_search.parent().innerHeight());
-		$('#advanced_search_link').blur();
-		set_advanced_search();
-		$advanced_search.find('.close_btn').click(function() {
-			$advanced_search.hide();
-		});
-	});	
-	// Manage archives
-	$('#advanced_find_archives_link').click(function() {
-		var $manage_archives = $('#manage_archives');
-		if (!$manage_archives.is(':hidden')) {
-			$('.spreadsheet_panel').hide();
-			return;
-		}		
-		$('.spreadsheet_panel').hide();
-		if (!$manage_archives.is(':hidden')) return;
-		$manage_archives.show();
-		$manage_archives.css('min-height', $manage_archives.parent().innerHeight());
-		$('#advanced_find_archives_link').blur();
-		set_manage_archives();
-		$manage_archives.find('.close_btn').click(function() {
-			$manage_archives.hide();
-		});
-	});
-}
-
 function set_sheet_height() {
 	var $spreadsheets = $('.spreadsheet');
 	var h = parseInt($(window).height());
@@ -895,12 +864,9 @@ function set_manage_archives() {
     $managable_form.html(alphabeticallyOrderedDivs);	
     $managable_form.children().click(function(event, dont_trigger_click) {
     	var $this = $(this);
+    	$this.parent().find('.archive').removeClass('active');
     	var title = $this.attr('title');
-    	if ($this.hasClass('active')) {
-    		$this.removeClass('active');
-    	} else {
-    		$this.addClass('active');
-    	}
+    	$this.addClass('active');
     	if (!dont_trigger_click) $('.search').find('.archive[title="'+title+'"]').trigger('click', [true]);
     });
     // Set buttons

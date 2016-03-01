@@ -37,7 +37,7 @@
 				    </div>
 				  </form>
 				  <div class="advanced">
-				    <a href="javascript:void(null);" class="l"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Something here to balance</a>
+				  	<a href="javascript:void(null);" class="l" data-toggle="modal" data-target="#add_archive"><span class="glyphicon glyphicon-plus"></span> Add another archive</a>
 				  	<a href="javascript:void(null);" id="advanced_find_archives_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Manage</a>
 				  </div>
 				  <form id="findable_form">
@@ -134,19 +134,21 @@
 			 	<div class="tr"><div class="field"><a href="javascript:void(null);" class="add glyphicon glyphicon-plus" aria-hidden="true"></a></div><div class="value"><button type="submit" class="btn btn-sm btn-primary">Search</button></div></div>
 			  </form>
 			</div><!-- /manage_archive -->
-			<div id="manage_archives" class="spreadsheet_panel">
-			  <a href="javascript:void(null);" class="close_btn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-			  <div class="btn-group btn-group-sm" role="group">
-				  <button type="button" value="" class="btn btn-primary">All</button>
-				  <button type="button" value="affiliated" class="btn btn-default">Affiliated</button>
-				  <button type="button" value="other" class="btn btn-default">Non-affiliated</button>
-				  <button type="button" value="image" class="btn btn-default">Image</button>
-				  <button type="button" value="audio" class="btn btn-default">Audio</button>
-				  <button type="button" value="video" class="btn btn-default">Video</button>
-				  <button type="button" value="contentdm" class="btn btn-default">CONTENTdm</button>
-			  </div>
-			</div><!-- /manage_archive -->
 		</div><!-- spreadsheet -->
+
+		<div id="manage_archives" class="spreadsheet_panel col-lg-9 col-md-9 col-sm-9 col-xs-9">
+		  	<a href="javascript:void(null);" class="close_btn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+		  	<div class="btn-group btn-group-sm" role="group">
+			 	<button type="button" value="" class="btn btn-primary">All</button>
+			 	<button type="button" value="affiliated" class="btn btn-default">Affiliated</button>
+			  	<button type="button" value="other" class="btn btn-default">Non-affiliated</button>
+			  	<button type="button" value="image" class="btn btn-default">Image</button>
+			  	<button type="button" value="audio" class="btn btn-default">Audio</button>
+			  	<button type="button" value="video" class="btn btn-default">Video</button>
+			  	<button type="button" value="contentdm" class="btn btn-default">CONTENTdm</button>
+		  	</div>
+			<form id="managable_form"></form>
+		</div><!-- /manage_archive -->
 
 	</div><!-- /row -->
 </div><!-- /container -->
@@ -208,6 +210,42 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save collection</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="add_archive">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Add archive</h4>
+      </div>
+      <div class="modal-body">
+        <form id="add_archive_form">
+		  <div class="form-group">
+		    <label>Title</label>
+		    <input type="text" class="form-control" name="title" placeholder="My new archive">
+		  </div>
+		  <div class="form-group">
+		    <label>Description</label>
+		    <input type="text" class="form-control" name="description" placeholder="An archive of digital assets">
+		  </div>
+		  <div class="form-group">
+		  	<label>Parser</label><br />
+		  	<select class="form-control" name="parser" style="max-width:33%;">
+		  		<option value=""></option>
+		  		<option value="atom">ATOM</option>
+		  		<option value="contentdm">CONTENTdm</option>
+		  		<option value="scalar">Scalar</option>
+		  	</select>
+		  </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Add archive</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

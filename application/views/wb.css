@@ -51,7 +51,7 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 .archive h5 {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden}
 .archive .desc {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden;}
 .archive.clicked {background-color:#decccc;}
-#manage_archives, #advanced_search {background-color:#eeeeee; position:absolute; top:0px; left:0px; right:0px; display:none; z-index:9;}
+#manage_archives, #advanced_search {background-color:#eeeeee; display:none; z-index:9; position:absolute; top:0px; right:0px;}
 #advanced_search {padding:20px 20px 20px 20px; width:100%;}
 #manage_archives .close_btn, #advanced_search .close_btn {float:right; top:0px; right:15px; font-size:16px; cursor:pointer;}
 #advanced_form {margin-right:30px; display:table; width:90%;}
