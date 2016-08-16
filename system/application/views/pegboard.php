@@ -40,25 +40,7 @@
 				  	<a href="javascript:void(null);" class="l" data-toggle="modal" data-target="#add_archive"><span class="glyphicon glyphicon-plus"></span> Add another archive</a>
 				  	<a href="javascript:void(null);" id="advanced_find_archives_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Manage</a>
 				  </div>
-				  <form id="findable_form">
-<?
-					  $index = 0;
-					  foreach ($archives as $archive) {
-					    echo '				<div ';
-					    echo 'class="archive" ';
-					    echo 'style="background-image:url('.base_url().'system/application/'.$archive['thumbnail'].');" ';
-					    echo 'title="'.htmlspecialchars($archive['title']).': '.htmlspecialchars($archive['subtitle']).'" ';
-					    echo 'data-index="'.$index.'" ';
-					    echo 'data-categories="'.implode(',',$archive['categories']).'" ';
-					    echo 'data-request="'.htmlspecialchars(json_encode(array_merge($archive['request'],array('title'=>$archive['title']))), ENT_QUOTES, 'UTF-8' ).'"';
-					    echo '>'."\n";
-					    echo '<h5>'.$archive['title'].'</h5>'."\n";
-					    echo '<div class="desc">'.$archive['subtitle']."</div>\n";
-					    echo "</div>\n";
-					    $index++;
-					  }
-?>
-					</form>
+				  <form id="findable_form"></form>
 				</div><!-- /div -->
 			</div><!-- /search -->
 		</div><!-- /sidebar -->

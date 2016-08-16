@@ -41,20 +41,15 @@ class Wb extends CI_Controller {
 
 	public function pegboard() {
 
-		$this->load->helper('array');
-
-		$this->data['title'] = 'Tensor: Import';
+		$this->data['title'] = 'Tensor';
 		$this->data['proxy_url'] = base_url().strtolower(get_class()).'/proxy';
-
-		$this->config->load('archives');
-		$this->data['archives'] = $this->config->item('archives');
-		usort($this->data['archives'], "cmp_archives");
+		$this->data['simple_proxy_url'] = base_url().strtolower(get_class()).'/simple_proxy';
 
 		$this->template->add_css('system/application/views/common/jquery-ui-1.11.4.custom/jquery-ui.min.css');
 		$this->template->add_css('system/application/views/common/bootstrap/css/bootstrap.min.css');
 		$this->template->add_css('system/application/views/common/tablesorter/theme.default.css');
 		$this->template->add_css('system/application/views/common/spectrum/spectrum.css');
-		$this->template->add_css('system/application/views/wb.css');
+		$this->template->add_css('system/application/views/pegboard.css');
 		$this->template->add_js(base_url().'system/application/views/common/jquery-1.11.3.min.js');
 		$this->template->add_js(base_url().'system/application/views/common/jquery-ui-1.11.4.custom/jquery-ui.min.js');
 		$this->template->add_js(base_url().'system/application/views/common/bootstrap/js/bootstrap.min.js');
