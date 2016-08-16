@@ -3,7 +3,7 @@
     $.fn.parse = function(options) {
     	var model = new $.fn.spreadsheet_model(options);
     	model.parse = parse;
-    	model.fetch('json');
+    	model.fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&q=%1&maxResults=50&type=video&key=AIzaSyAI9koLGtnZpygU7nMuHVT7xJbwUU-sQBw','json');
     };
     
 	function parse(data, archive) {

@@ -1,7 +1,4 @@
 <?php
-$client_id = '';
-$client_secret = '';
-
 require(FCPATH."application/models/handlers/vimeo/autoload.php");
 $lib = new \Vimeo\Vimeo($client_id, $client_secret);
 $token = $lib->clientCredentials();
