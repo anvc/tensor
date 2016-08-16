@@ -46,7 +46,7 @@
 					  foreach ($archives as $archive) {
 					    echo '				<div ';
 					    echo 'class="archive" ';
-					    echo 'style="background-image:url('.base_url().APPPATH.$archive['thumbnail'].');" ';
+					    echo 'style="background-image:url('.base_url().'system/application/'.$archive['thumbnail'].');" ';
 					    echo 'title="'.htmlspecialchars($archive['title']).': '.htmlspecialchars($archive['subtitle']).'" ';
 					    echo 'data-index="'.$index.'" ';
 					    echo 'data-categories="'.implode(',',$archive['categories']).'" ';
