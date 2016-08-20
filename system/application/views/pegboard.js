@@ -55,6 +55,7 @@ $.fn.set_profiles = function(profiles) {
 		    	json.added = new Date().toJSON().slice(0,10);
 		    	storage.set('profiles', [json]);
 		    	$('#set_profiles').set_profiles(storage.get('profiles'));
+		    	window.location.reload();
 		    };
 			$.ajax({
 		        type: 'GET',
@@ -86,6 +87,7 @@ $.fn.list_archives = function(profiles) {
 				identifiers.push(profiles[j].archives[k].title);
 				categories = categories.concat(profiles[j].archives[k].categories);
 				var $archive = $('<div class="col-xs-12 col-sm-6 col-md-4 archive"></div>').appendTo($container);
+				$archive.data('categories', profiles[j].archives[k].categories);
 				var $wrapper = $('<div></div>').appendTo($archive);
 				$wrapper.append('<h5>'+profiles[j].archives[k].title+'</h5>');
 				$wrapper.append('<div class="desc"><div>'+profiles[j].archives[k].subtitle+'</div></div>');
@@ -96,8 +98,32 @@ $.fn.list_archives = function(profiles) {
 		categories = categories.unique().sort();
 		categories.unshift('all');
 		for (var j = 0; j < categories.length; j++) {
-			$buttons.append('<button type="button" class="btn btn-'+((0==j)?'primary':'default')+'">'+categories[j].firstLetterCap()+'</button>');
+			$buttons.append('<button type="button" data-title="'+categories[j].toLowerCase()+'" class="btn btn-'+((0==j)?'primary':'default')+'">'+categories[j].firstLetterCap()+'</button>');
 		};
+		var filter_archives = function(category) {
+			if ('undefined'==typeof(category) || !category.length) {
+				$container.children().show();
+				return;
+			};
+			$container.children().each(function() {
+				var $this = $(this);
+				if (-1!=$this.data('categories').indexOf(category)) {
+					$this.show();
+				} else {
+					$this.hide();
+				};
+			});
+		};
+		$buttons.children().click(function() {
+			var $clicked = $(this);
+			$clicked.parent().children().removeClass('btn-primary').addClass('btn-default');
+			$clicked.removeClass('btn-default').addClass('btn-primary');
+			if ('all'==$clicked.data('title')) {
+				filter_archives();
+			} else {
+				filter_archives($clicked.data('title'));
+			};
+		});
 	});
 };
 

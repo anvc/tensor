@@ -34,7 +34,7 @@ a.btn {color:#337ab7;}
 }
 #archives .archive {padding-left:0px; padding-right:0px;}
 #archives .archive > div {
-	margin-left:5px; margin-right:5px; margin-bottom:16px; height:initial; border:solid 1px #eeeeee;
+	margin-left:5px; margin-right:5px; margin-bottom:16px; height:initial; border:solid 1px #eeeeee; border-radius:5px;
 	background-position:left; background-size:contain; background-repeat:no-repeat;	cursor:pointer;
 }
 #archives .archive > div:hover {background-color:#eeeeee; border-color:#dddddd;}
@@ -43,6 +43,7 @@ a.btn {color:#337ab7;}
 #archives .desc > div {white-space:nowrap; overflow:hidden; line-height:100%;}
 #profiles {margin-bottom:12px;}
 #profiles .checkbox {margin-top:0px; margin-bottom:12px;}
+
 
 #search_spreadsheet {display:none;}
 .search {background-color:white;}
