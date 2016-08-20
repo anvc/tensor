@@ -42,7 +42,7 @@ a.btn {color:#337ab7;}
 #archives .desc {padding:5px 3px 5px 54px; margin:0px 0px 0px 0px;}
 #archives .desc > div {white-space:nowrap; overflow:hidden; line-height:100%;}
 #profiles {margin-bottom:12px;}
-#profiles .checkbox {margin-top:0px; margin-bottom:12px;}
+#profiles > div {margin-top:0px; margin-bottom:12px;}
 
 
 #search_spreadsheet {display:none;}

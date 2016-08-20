@@ -28,7 +28,7 @@ $.fn.set_profiles = function(profiles) {
 			$profiles.html('No profiles are loaded. Reset your profiles or upload one or more below.')
 		} else {
 			for (var j = 0; j < profiles.length; j++) {
-				$profiles.html('<div class="checkbox"><button type="button" class="btn btn-xs btn-default">Export</button> <button type="button" class="btn btn-xs btn-default">Remove</button> <label><input type="checkbox" value="'+j+'"'+((profiles[j].active)?' checked':'')+'> <b>'+profiles[j].name+'</b> added '+profiles[j].added+' with '+profiles[j].archives.length+' archives</label></div>');
+				$profiles.html('<div><button type="button" class="btn btn-xs btn-default">Refresh</button>&nbsp; <button type="button" class="btn btn-xs btn-default">Download</button>&nbsp; <span><b>'+profiles[j].name+'</b> updated '+profiles[j].added+' with '+profiles[j].archives.length+' archives</span> <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
 			};
 		};
 		$node.find('#resetProfiles').removeAttr('disabled');
@@ -53,6 +53,7 @@ $.fn.set_profiles = function(profiles) {
 		    	}
 		    	json.active = true;
 		    	json.added = new Date().toJSON().slice(0,10);
+		    	json.url = starter_url;
 		    	storage.set('profiles', [json]);
 		    	$('#set_profiles').set_profiles(storage.get('profiles'));
 		    	window.location.reload();

@@ -45,20 +45,19 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Set Profiles</h4>
       </div>
       <div class="modal-body">
         <form>
-          <div id="profiles"></div>
+          <div id="profiles" class="form-horizontal"></div>
           <div class="form-group">
             <label for="resetProfiles">Reset profiles</label>
-            <p class="help-block">Remove all existing profiles and load the starter set from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">GitHub</a>.</p>
+            <p class="help-block">Remove all existing profiles and load the starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">GitHub</a>.</p>
             <button type="button" id="resetProfiles" class="btn btn-default btn-xs">Reset</button>
           </div>
 	 	  <div class="form-group">
 	        <label for="uploadProfile">Upload pofile</label>
-	        <p class="help-block">Profiles can be provided by other Tensor users or downloaded from a <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">repository</a>.</p>
+	        <p class="help-block">Profiles can be provided by other Tensor users or downloaded from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">repositories</a>.</p>
 	        <input type="file" style="float:left;" id="uploadProfile">
 	        <button type="button" style="float:left;" class="btn btn-default btn-xs" id="doUploadProfile">Upload</button>
 	        <br clear="both" />
@@ -66,8 +65,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
