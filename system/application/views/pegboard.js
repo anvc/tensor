@@ -1,9 +1,119 @@
 $(document).ready(function() {
+	var base_url = $('link#base_url').attr('href');
+	// Get the current profile
+	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global	
+	$('#set_profiles').on('show.bs.modal', function () {
+		var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+		$(this).set_profiles(profiles);
+	});
+	var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+	$('#archives').list_archives(profiles);
+	/*
 	set_collections();
 	set_search();
 	set_sync();
 	set_events();
+	*/
 });
+
+$.fn.set_profiles = function(profiles) {
+	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
+	return this.each(function() {
+		var $node = $(this);
+		var $profiles = $node.find('#profiles');
+		$profiles.empty();
+		if (!profiles.length) {
+			$profiles.html('No profiles are loaded. Reset your profiles or upload one or more below.')
+		} else {
+			for (var j = 0; j < profiles.length; j++) {
+				$profiles.html('<div class="checkbox"><button type="button" class="btn btn-xs btn-default">Export</button> <button type="button" class="btn btn-xs btn-default">Remove</button> <label><input type="checkbox" value="'+j+'"'+((profiles[j].active)?' checked':'')+'> <b>'+profiles[j].name+'</b> added '+profiles[j].added+' with '+profiles[j].archives.length+' archives</label></div>');
+			};
+		};
+		$node.find('#resetProfiles').removeAttr('disabled');
+		$node.find('#resetProfiles').click(function() {
+			var $button = $(this);
+			$button.attr('disabled', 'disabled');
+			if (!confirm('Are you sure you wish to reset your profiles?')) {
+				$button.removeAttr('disabled');
+				return;
+			}
+			var starter_url = 'https://raw.githubusercontent.com/craigdietrich/tensor-profiles/master/starter.profile.js';		
+		    window['profile'] = function(json) {
+		    	if ('object'!=typeof(json)) {
+		    		alert('Something went wrong attempting to aquire the starter profile.');
+		    		$button.removeAttr('disabled');
+		    		return;
+		    	}
+		    	if ('undefined'==typeof(json.archives)) {
+		    		alert('Starter profile is formatted incorrectly!');
+		    		$button.removeAttr('disabled');
+		    		return;
+		    	}
+		    	json.active = true;
+		    	json.added = new Date().toJSON().slice(0,10);
+		    	storage.set('profiles', [json]);
+		    	$('#set_profiles').set_profiles(storage.get('profiles'));
+		    };
+			$.ajax({
+		        type: 'GET',
+		        url: starter_url+'?callback=profile',
+		        async: false,
+		        jsonp: true,
+		        contentType: "application/json",
+		        dataType: 'jsonp'
+		    });
+		});
+	});
+};
+
+$.fn.list_archives = function(profiles) {
+	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
+	return this.each(function() {
+		var $node = $(this);
+		var identifiers = [];
+		var categories = [];
+		var $buttons = $node.find('.btn-group:first');
+		$buttons.empty();
+		var $container = $node.find('.container-fluid:first');
+		$container.empty();
+		for (var j = 0; j < profiles.length; j++) {
+			if (!profiles[j].active) continue;
+			for (var k = 0; k < profiles[j].archives.length; k++) {
+				if (-1 != identifiers.indexOf(profiles[j].archives[k].title)) continue;
+				identifiers.push(profiles[j].archives[k].title);
+				categories = categories.concat(profiles[j].archives[k].categories);
+				var $archive = $('<div class="col-xs-12 col-sm-6 col-md-4 archive"></div>').appendTo($container);
+				var $wrapper = $('<div></div>').appendTo($archive);
+				$wrapper.append('<h5>'+profiles[j].archives[k].title+'</h5>');
+				$wrapper.append('<div class="desc"><div>'+profiles[j].archives[k].subtitle+'</div></div>');
+				$wrapper.css('backgroundImage','url('+profiles[j].archives[k].thumbnail+')');
+				$wrapper.prop('title', profiles[j].archives[k].subtitle);
+			}
+		}
+		categories = categories.unique().sort();
+		categories.unshift('all');
+		for (var j = 0; j < categories.length; j++) {
+			$buttons.append('<button type="button" class="btn btn-'+((0==j)?'primary':'default')+'">'+categories[j].firstLetterCap()+'</button>');
+		};
+	});
+};
+
+Array.prototype.unique = function() {
+    var unique = [];
+    for (var i = 0; i < this.length; i++) {
+        if (unique.indexOf(this[i]) == -1) {
+            unique.push(this[i]);
+        }
+    }
+    return unique;
+};
+
+String.prototype.firstLetterCap = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
 
 /**
  * Show or hide the loading dialog

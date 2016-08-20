@@ -3,7 +3,7 @@
 <div class="container-fluid">
 	<div class="row col-max-height">
 
-		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-max-height sidebar">
+		<div class="col-xs-3 col-max-height sidebar">
 			<!-- Collections -->
 			<div class="collections">
 				<div>
@@ -27,113 +27,51 @@
 				  <div class="sync"><a href="javascript:void(null);" data-toggle="modal" data-target="#sync"><span class="glyphicon glyphicon-cloud" style="position:relative;top:2px;"></span>&nbsp; Sync Collections to Scalar</a></div>
 				</div>
 			</div><!-- /collections -->
-			<!-- Archives -->
-			<div class="search">
-				<div>
-				  <form id="find_archives_form">
-				    <div class="right-inner-addon">
-				      <input name="search" class="form-control" placeholder="Filter Archives" />
-				      <a href="javascript:void(null);" class="glyphicon glyphicon-search"></a>
-				    </div>
-				  </form>
-				  <div class="advanced">
-				  	<a href="javascript:void(null);" class="l" data-toggle="modal" data-target="#add_archive"><span class="glyphicon glyphicon-plus"></span> Add another archive</a>
-				  	<a href="javascript:void(null);" id="advanced_find_archives_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Manage</a>
-				  </div>
-				  <form id="findable_form"></form>
-				</div><!-- /div -->
-			</div><!-- /search -->
 		</div><!-- /sidebar -->
 
-		<div id="welcome_msg">
-			  To begin searching archives, you can <a href="javascript:void(null);"><span class="glyphicon glyphicon-search"></span> select one</a> from<br />the archive list in the sidebar<br /><br />
-			  Imported items can be placed into collections<br /><a href="javascript:void(null);"><span class="glyphicon glyphicon-plus"></span> Create a New Collection</a> to keep your media organized<br /><br />
-			  After content has been imported, you can<br />
-			  <a href="javascript:void(null);"><span class="glyphicon glyphicon-cloud"></span> Sync</a> them
-			  to your Scalar books
-		</div>
-
-		<div id="collections_spreadsheet" class="spreadsheet col-lg-9 col-md-9 col-sm-9 col-xs-9">
-			<div id="spreadsheet_gradient"></div>
-			<div id="collection_bar" class="bar">
-				<div class="l">
-					<div id="title"></div>
-					<div class="btn-group" role="group" id="collection_view">
-					  <button type="button" class="btn btn-primary btn-xs" value="view"><span class="glyphicon glyphicon-list"></span> Contents</button>
-					  <button type="button" class="btn btn-default btn-xs" value="edit"><span class="glyphicon glyphicon-plus"></span> Add / remove</button>
-					</div>
-				</div>
-				<div class="r">
-					<button class="btn btn-xs" id="edit_collection_link" data-toggle="modal" data-target="#edit_collection">Edit</button>
-					<button class="btn btn-xs" id="delete_collection_link">Delete</button>
-				</div>
-				<div class="m">
-					<div class="btn-group view-buttons" role="group">
-						<button type="button" class="btn btn-xs btn-primary" id="icon"><img src="<?php echo base_url().APPPATH ?>views/images/icon_icon.png" />Icon</button>
-					  	<button type="button" class="btn btn-xs btn-default" id="tile"><img src="<?php echo base_url().APPPATH ?>views/images/tile_icon.png" />Tile</button>
-					  	<button type="button" class="btn btn-xs btn-default" id="list"><img src="<?php echo base_url().APPPATH ?>views/images/list_icon.png" />List</button>
-					  	<button type="button" class="btn btn-xs btn-default" id="detail"><img src="<?php echo base_url().APPPATH ?>views/images/detail_icon.png" />Detail</button>
-				  	</div>
-				</div>
-			</div>
-			<div id="collections_spreadsheet_content"></div>
-		</div><!-- spreadsheet -->
-
-		<div id="search_spreadsheet" class="spreadsheet col-lg-9 col-md-9 col-sm-9 col-xs-9">
-			<div id="search_bar" class="bar">
-				<div class="l">
-					<form id="search_form">
-					    <div class="right-inner-addon">
-					      <input type="text" name="search" class="form-control text-xs" placeholder="Search archive" />
-					      <a href="javascript:void(null);" class="glyphicon glyphicon-search glyphicon-xs"></a>
-					    </div>
-				    </form>
-				    <span id="search_into_msg">into</span>
-					<div id="select_archive" class="btn-group">
-					  <button type="button" class="btn dropdown-name" data-toggle="dropdown">No collection</button>
-					  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					    <span class="caret"></span>
-					    <span class="sr-only">Toggle Dropdown</span>
-					  </button>
-					  <ul id="into_collection" class="dropdown-menu"></ul>
-					</div>
-				</div>
-				<div class="m">
-					<div class="btn-group view-buttons" role="group">
-						<a class="page prev-page"><span class="glyphicon glyphicon-chevron-left"></span> Page <span class="num"></span></a>
-						<button type="button" class="btn btn-xs btn-primary" id="icon"><img src="<?php echo base_url().APPPATH ?>views/images/icon_icon.png" />Icon</button>
-					  	<button type="button" class="btn btn-xs btn-default" id="tile"><img src="<?php echo base_url().APPPATH ?>views/images/tile_icon.png" />Tile</button>
-					  	<button type="button" class="btn btn-xs btn-default" id="list"><img src="<?php echo base_url().APPPATH ?>views/images/list_icon.png" />List</button>
-					  	<button type="button" class="btn btn-xs btn-default" id="detail"><img src="<?php echo base_url().APPPATH ?>views/images/detail_icon.png" />Detail</button>
-					  	<a class="page next-page">Page <span class="num"></span> <span class="glyphicon glyphicon-chevron-right"></span></a>
-					</div>
-				</div>
-			</div><!-- /search_bar -->
-			<form id="search_spreadsheet_content"></form>
-			<div id="advanced_search" class="spreadsheet_panel">
-			  <a href="javascript:void(null);" class="close_btn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-			  <form id="advanced_form">
-			 	<div class="tr"><div class="field"><a href="javascript:void(null);" class="add glyphicon glyphicon-plus" aria-hidden="true"></a></div><div class="value"><button type="submit" class="btn btn-sm btn-primary">Search</button></div></div>
-			  </form>
-			</div><!-- /manage_archive -->
-		</div><!-- spreadsheet -->
-
-		<div id="manage_archives" class="spreadsheet_panel col-lg-9 col-md-9 col-sm-9 col-xs-9">
-		  	<a href="javascript:void(null);" class="close_btn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-		  	<div class="btn-group btn-group-sm" role="group">
-			 	<button type="button" value="" class="btn btn-primary">All</button>
-			 	<button type="button" value="affiliated" class="btn btn-default">Affiliated</button>
-			  	<button type="button" value="other" class="btn btn-default">Non-affiliated</button>
-			  	<button type="button" value="image" class="btn btn-default">Image</button>
-			  	<button type="button" value="audio" class="btn btn-default">Audio</button>
-			  	<button type="button" value="video" class="btn btn-default">Video</button>
-			  	<button type="button" value="contentdm" class="btn btn-default">CONTENTdm</button>
-		  	</div>
-			<form id="managable_form"></form>
+		<div id="archives" class="col-xs-9">
+		  	<span style="float:right;">
+		  		<a href="javascript:void(null);" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> Add archive</a>
+				<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#set_profiles"><span class="glyphicon glyphicon-cog"></span> Set profiles</a>
+			</span>		
+		  	<div class="btn-group btn-group-sm" role="group"></div>
+			<div class="container-fluid"></div>
 		</div><!-- /manage_archive -->
 
 	</div><!-- /row -->
 </div><!-- /container -->
+
+<div class="modal fade" id="set_profiles">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Set Profiles</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div id="profiles"></div>
+          <div class="form-group">
+            <label for="resetProfiles">Reset profiles</label>
+            <p class="help-block">Remove all existing profiles and load the starter set from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">GitHub</a>.</p>
+            <button type="button" id="resetProfiles" class="btn btn-default btn-xs">Reset</button>
+          </div>
+	 	  <div class="form-group">
+	        <label for="uploadProfile">Upload pofile</label>
+	        <p class="help-block">Profiles can be provided by other Tensor users or downloaded from a <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">repository</a>.</p>
+	        <input type="file" style="float:left;" id="uploadProfile">
+	        <button type="button" style="float:left;" class="btn btn-default btn-xs" id="doUploadProfile">Upload</button>
+	        <br clear="both" />
+	      </div>			
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="create_collection">
   <div class="modal-dialog">

@@ -1,10 +1,12 @@
 html, body, .container-fluid, .col-max-height {height:100%;}
-body {font-size:12px; overflow-x:hidden;}
+body {overflow-x:hidden;}
 small {font-weight:normal;}
 label {cursor:pointer;}
 hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px 0px 15px 0px;border:0;}
+a.btn {color:#337ab7;}
 .alert {font-size:14px;}
 .input-xs {height: 22px; padding: 5px 5px; font-size: 12px; line-height: 1.5; border-radius: 3px;}
+.help-block {margin-top:0px; margin-bottom:8px;}
 #loading {position:absolute;left:0;top:2px;right:0;z-index:99;text-align:center;display:none;}
 #loading > div {width:100px; margin:0px auto 0px auto; text-align:center; background-color:#fff8af; padding:3px 0px 3px 0px; color:#000000; border:solid 1px #c3b94c; font-weight:normal;}
 #loading .a {font-size:smaller; color:#555555;}
@@ -26,9 +28,23 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 .sidebar {border-right:solid 1px #bbbbbb;}
 
 /* Archives */
+#archives {z-index:9; position:absolute; top:0px; right:0px; margin:20px 0px 20px 0px;}
+#archives .container-fluid {
+	margin-top:16px; padding-left:0px; padding-right:0px; margin-left:-5px; margin-right:-5px;
+}
+#archives .archive {padding-left:0px; padding-right:0px;}
+#archives .archive > div {
+	margin-left:5px; margin-right:5px; margin-bottom:16px; height:initial; border:solid 1px #eeeeee;
+	background-position:left; background-size:contain; background-repeat:no-repeat;	cursor:pointer;
+}
+#archives .archive > div:hover {background-color:#eeeeee; border-color:#dddddd;}
+#archives h5 {padding:5px 3px 0px 54px; margin:0px 0px 0px 0px; white-space:nowrap; overflow:hidden; line-height:100%;}
+#archives .desc {padding:5px 3px 5px 54px; margin:0px 0px 0px 0px;}
+#archives .desc > div {white-space:nowrap; overflow:hidden; line-height:100%;}
+#profiles {margin-bottom:12px;}
+#profiles .checkbox {margin-top:0px; margin-bottom:12px;}
+
 #search_spreadsheet {display:none;}
-#welcome_msg, .welcome_msg {text-align:center; font-weight:normal; font-size:14px; color:#666666; line-height:150%; padding-top:80px;}
-#welcome_msg .glyphicon, .welcome_msg .glyphicon {font-size:smaller;} 
 .search {background-color:white;}
 .search > div {margin:0px 0px 20px 0px;}
 .search .advanced {color:#555555; font-weight:bold; margin:10px 0px 0px 0px;}
@@ -39,21 +55,12 @@ hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px
 	border-radius:5px; clear:both;
 }
 #searchable_form.hl, #findable_form.hl {border:solid 1px yellow;}
-#find_archives_form {padding-top:10px;}
 .search .notice {text-align:center; color:#555555; padding-top:8px; height:42px;}
 form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 .spreadsheet {padding-right:0px; padding-left:0px; padding-bottom:25px;}
-.archive {
-	min-height:32px; white-space:nowrap; overflow:hidden; padding:5px 0px 4px 40px; cursor:pointer; margin-bottom:4px; 
-	background-size:32px 32px; background-repeat:no-repeat; background-position:2px 5px; border-radius: 4px;	
-}
-.archive:hover {opacity:0.75;}
-.archive h5 {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden}
-.archive .desc {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden;}
-.archive.clicked {background-color:#decccc;}
-#manage_archives, #advanced_search {background-color:#eeeeee; display:none; z-index:9; position:absolute; top:0px; right:0px;}
+#managable_form .active {background-color:#dddddd; border:solid 1px #cccccc;}
 #advanced_search {padding:20px 20px 20px 20px; width:100%;}
-#manage_archives .close_btn, #advanced_search .close_btn {float:right; top:0px; right:15px; font-size:16px; cursor:pointer;}
+#advanced_search .close_btn {float:right; top:0px; right:15px; font-size:16px; cursor:pointer;}
 #advanced_form {margin-right:30px; display:table; width:90%;}
 #advanced_form .tr {display:table-row; font-size:14px;}
 #advanced_form .field, #advanced_form .value {padding:0px 8px 8px 8px; vertical-align:middle;}
@@ -62,13 +69,6 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 #advanced_form .btn-primary {float:right; margin:10px 0px 0px 0px;}
 #advanced_form .add {margin-top:10px;}
 .manage{display:none;border-left:solid 1px #bbbbbb; background-color:white;}
-#manage_archives {padding:22px 20px 20px 20px;}
-#managable_form {margin:20px 0px 20px 0px;}
-#managable_form .archive {
-	width:400px; float:left; margin:0px 20px 20px 0px; padding-top:5px; padding-bottom:5px; 
-	background-position:left 5px; height:initial; border:solid 1px #eeeeee;
-}
-#managable_form .active {background-color:#dddddd; border:solid 1px #cccccc;}
 #search_bar .l {position:relative; top:-3px;}
 #search_spreadsheet .text-xs {height:28px; width:250px; padding-bottom:0px; padding-top:0px; font-size:16px;}
 #search_spreadsheet .glyphicon-xs {padding-top:6px; padding-bottom:6px; right:1px; border-radius: 4px;}
@@ -90,7 +90,7 @@ form.bg-danger {border:1px solid #ed9191; border-radius: 3px;}
 
 /* Collections */
 #collections_spreadsheet {display:none;}
-.collections {background-color:white;}
+.collections {background-color:white; margin-top:-2px;}
 .collections > div {margin:20px 0px 0px 0px;}
 .collections .advanced {color:#555555; font-weight:bold; margin:10px 0px 0px 0px;}
 .collections .advanced a.l {float:left;}
