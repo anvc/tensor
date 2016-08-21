@@ -9,6 +9,14 @@ $(document).ready(function() {
 	});
 	var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
 	$('#archives').list_archives(profiles);
+	$('body').on("show_archive", function(e, archive) {
+		$('#archives').hide();
+		$('#search').data('archive',archive).show().find('#search_form input:first').focus().prop('placeholder','Search '+archive.title).val('');
+	});
+	$('#search_close').click(function() {
+		$('#search').hide();
+		$('#archives').show();
+	});
 	/*
 	set_collections();
 	set_search();
@@ -88,6 +96,7 @@ $.fn.list_archives = function(profiles) {
 				identifiers.push(profiles[j].archives[k].title);
 				categories = categories.concat(profiles[j].archives[k].categories);
 				var $archive = $('<div class="col-xs-12 col-sm-6 col-md-4 archive"></div>').appendTo($container);
+				$archive.data('archive', profiles[j].archives[k]);
 				$archive.data('categories', profiles[j].archives[k].categories);
 				var $wrapper = $('<div></div>').appendTo($archive);
 				$wrapper.append('<h5>'+profiles[j].archives[k].title+'</h5>');
@@ -96,6 +105,9 @@ $.fn.list_archives = function(profiles) {
 				$wrapper.prop('title', profiles[j].archives[k].subtitle);
 			}
 		}
+		$container.children().click(function() {
+			$('body').trigger("show_archive", [$(this).data('archive')]);
+		});
 		categories = categories.unique().sort();
 		categories.unshift('all');
 		for (var j = 0; j < categories.length; j++) {

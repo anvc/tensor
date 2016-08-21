@@ -2,9 +2,8 @@
 
 <div class="container-fluid">
 	<div class="row col-max-height">
-
+		<!-- Sidebar -->
 		<div class="col-xs-3 col-max-height sidebar">
-			<!-- Collections -->
 			<div class="collections">
 				<div>
 				  <form id="filter_collections_form">
@@ -26,9 +25,9 @@
 				  </form>
 				  <div class="sync"><a href="javascript:void(null);" data-toggle="modal" data-target="#sync"><span class="glyphicon glyphicon-cloud" style="position:relative;top:2px;"></span>&nbsp; Sync Collections to Scalar</a></div>
 				</div>
-			</div><!-- /collections -->
-		</div><!-- /sidebar -->
-
+			</div>
+		</div>
+		<!-- List of archives -->
 		<div id="archives" class="col-xs-9">
 		  	<span style="float:right;">
 		  		<a href="javascript:void(null);" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> Add archive</a>
@@ -36,10 +35,38 @@
 			</span>		
 		  	<div class="btn-group btn-group-sm" role="group"></div>
 			<div class="container-fluid"></div>
-		</div><!-- /manage_archive -->
-
-	</div><!-- /row -->
-</div><!-- /container -->
+		</div>
+		<!-- Search an archive -->
+		<div id="search" class="col-xs-9">
+			<a href="javascript:void(null);" id="search_close" class="glyphicon glyphicon-remove"></a>
+			<form id="search_form">
+				<div class="right-inner-addon">
+				<input type="text" name="search" class="form-control" placeholder="Search archive" />
+				<a href="javascript:void(null);" class="glyphicon glyphicon-search glyphicon-xs"></a>
+			</div>
+			</form>
+			<div id="search_collection" class="btn-group" role="group">
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					No collection
+				    <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu"></ul>
+			</div>
+			<div id="search_view" class="btn-group btn-group-sm" role="group">
+				<button type="button" class="btn btn-primary" id="icon">Icon</button>
+				<button type="button" class="btn btn-default" id="tile">Tile</button>
+				<button type="button" class="btn btn-default" id="list">List</button>
+				<button type="button" class="btn btn-default" id="detail">Detail</button>
+			</div>
+			<div id="search_pagination">
+				<a href="javascript:void(null);" class="prev-page"><span class="glyphicon glyphicon-chevron-left"></span> Prev</a>
+				&nbsp;<span class="page">0</span> of <span class="total">0</span>&nbsp;
+				<a href="javascript:void(null);" class="next-page">Next <span class="glyphicon glyphicon-chevron-right"></span></a>			
+			</div>
+			<div id="search_results"></div>
+		</div>
+	</div>
+</div>
 
 <div class="modal fade" id="set_profiles">
   <div class="modal-dialog">
