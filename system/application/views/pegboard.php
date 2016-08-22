@@ -30,7 +30,7 @@
 		<!-- List of archives -->
 		<div id="archives" class="col-xs-9">
 		  	<span style="float:right;">
-		  		<a href="javascript:void(null);" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> Add archive</a>
+		  		<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#add_archive"><span class="glyphicon glyphicon-plus"></span> Add archive</a>
 				<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#set_profiles"><span class="glyphicon glyphicon-cog"></span> Set profiles</a>
 			</span>		
 		  	<div class="btn-group btn-group-sm" role="group"></div>
@@ -38,6 +38,7 @@
 		</div>
 		<!-- Search an archive -->
 		<div id="search" class="col-xs-9">
+			<span id="search_close_circle"></span>
 			<a href="javascript:void(null);" id="search_close" class="glyphicon glyphicon-remove"></a>
 			<form id="search_form">
 				<div class="right-inner-addon">
@@ -72,11 +73,19 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Set Profiles</h4>
+        <h4 class="modal-title">Set my profiles</h4>
       </div>
       <div class="modal-body">
         <form>
-          <div id="profiles" class="form-horizontal"></div>
+          <div id="profiles"></div>
+          <hr />
+          <div class="form-group">
+            <label for="createProfile">Create profile</label>
+            <p class="help-block">Create a new, empty profile to which you can add new archives.</p>
+            <input type="text" class="form-control input-xs" style="width:auto;min-width:200px;float:left;margin-right:10px;" placeholder="Profile title" />
+            <button type="button" id="createProfile" class="btn btn-default btn-xs" style="float:left;">Create</button>
+            <br clear="both" />
+          </div>          
           <div class="form-group">
             <label for="resetProfiles">Reset profiles</label>
             <p class="help-block">Remove all existing profiles and load the starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">GitHub</a>.</p>
@@ -94,6 +103,66 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="add_archive">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Add an archive</h4>
+      </div>
+      <form class="form-horizontal">
+        <div class="modal-body">
+		  <div class="form-group">
+		  	<label for="profile" class="col-sm-3 control-label">Profile</label>
+		  	<div class="col-sm-9">
+			  	<select class="form-control" id="profile" name="profile" style="width:auto;"></select>
+			</div>
+		  </div>        
+		  <div class="form-group">
+		    <label for="title" class="col-sm-3 control-label">Title</label>
+		    <div class="col-sm-9">
+		    	<input type="text" class="form-control" id="title" name="title" placeholder="My Archive" required>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="description" class="col-sm-3 control-label">Description</label>
+		    <div class="col-sm-9">
+		    	<input type="text" class="form-control" id="description" name="description" placeholder="An archive of digital assets" required>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="thumbnail" class="col-sm-3 control-label">Thumbnail URL</label>
+		    <div class="col-sm-9">
+		    	<input type="text" class="form-control" id="thumbnail" name="thumbnaiul" placeholder="http://">
+		    </div>
+		  </div>		  
+		  <div class="form-group">
+		  	<label for="parser" class="col-sm-3 control-label">Parser</label>
+		  	<div class="col-sm-9">
+			  	<select class="form-control" id="parser" name="parser" style="width:auto;" required>
+			  		<option value=""></option>
+			  		<option value="scalar">Scalar</option>
+			  		<option value="omeka">Omeka</option>
+			  		<option value="contentdm">CONTENTdm</option>
+			  	</select>
+			</div>
+		  </div>
+		  <div class="form-group">
+		    <label for="categories" class="col-sm-3 control-label">Categories</label>
+		    <div class="col-sm-9">
+		   		<input type="text" class="form-control" id="categories" name="categories" placeholder="image, video, audio, ...">
+		 	</div>
+		  </div>			  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Add archive</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -155,42 +224,6 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save collection</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<div class="modal fade" id="add_archive">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Add archive</h4>
-      </div>
-      <div class="modal-body">
-        <form id="add_archive_form">
-		  <div class="form-group">
-		    <label>Title</label>
-		    <input type="text" class="form-control" name="title" placeholder="My new archive">
-		  </div>
-		  <div class="form-group">
-		    <label>Description</label>
-		    <input type="text" class="form-control" name="description" placeholder="An archive of digital assets">
-		  </div>
-		  <div class="form-group">
-		  	<label>Parser</label><br />
-		  	<select class="form-control" name="parser" style="max-width:33%;">
-		  		<option value=""></option>
-		  		<option value="atom">ATOM</option>
-		  		<option value="contentdm">CONTENTdm</option>
-		  		<option value="scalar">Scalar</option>
-		  	</select>
-		  </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Add archive</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

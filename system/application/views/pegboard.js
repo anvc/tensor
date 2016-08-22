@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	var base_url = $('link#base_url').attr('href');
-	// Get the current profile
+	// Get the current profiles
 	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
 	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global	
 	$('#set_profiles').on('show.bs.modal', function () {
@@ -9,13 +9,23 @@ $(document).ready(function() {
 	});
 	var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
 	$('#archives').list_archives(profiles);
+	// Show the search page for a chosen archive
 	$('body').on("show_archive", function(e, archive) {
 		$('#archives').hide();
 		$('#search').data('archive',archive).show().find('#search_form input:first').focus().prop('placeholder','Search '+archive.title).val('');
 	});
-	$('#search_close').click(function() {
+	$('#search_close_circle, #search_close').click(function(e) {
+		e.stopPropagation();
 		$('#search').hide();
 		$('#archives').show();
+	});
+	$('#add_archive').on('show.bs.modal', function () {
+		$(this).add_archive();
+	});
+	$('#add_archive').find('form').submit(function() {
+		var $form = $(this);
+		$form.closest('.modal').add_archive($form);
+		return false;
 	});
 	/*
 	set_collections();
@@ -36,6 +46,7 @@ $.fn.set_profiles = function(profiles) {
 			$profiles.html('No profiles are loaded. Reset your profiles or upload one or more below.')
 		} else {
 			for (var j = 0; j < profiles.length; j++) {
+				if ('undefined'==typeof(profiles[j].archives)) continue;
 				$profiles.html('<div><button type="button" class="btn btn-xs btn-default">Refresh</button>&nbsp; <button type="button" class="btn btn-xs btn-default">Download</button>&nbsp; <span><b>'+profiles[j].name+'</b> updated '+profiles[j].added+' with '+profiles[j].archives.length+' archives</span> <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
 			};
 		};
@@ -64,7 +75,7 @@ $.fn.set_profiles = function(profiles) {
 		    	json.url = starter_url;
 		    	storage.set('profiles', [json]);
 		    	$('#set_profiles').set_profiles(storage.get('profiles'));
-		    	window.location.reload();
+		    	$('#archives').list_archives(storage.get('profiles'));
 		    };
 			$.ajax({
 		        type: 'GET',
@@ -138,6 +149,56 @@ $.fn.list_archives = function(profiles) {
 			};
 		});
 	});
+};
+
+$.fn.add_archive = function($form) {
+	if ('undefined'!=typeof($form)) {
+		if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+		if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global	
+		var profile = $form.find('#profile').val();
+		if (!profile.length) {
+		   // TODO: create profile	
+		}
+		var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+		console.log(profiles);
+		var profile_index = null;
+		for (var j = 0; j < profiles.length; j++) {
+			if (profiles[j].filename == profile) {
+				profile_index = j;
+				break;
+			}
+		}
+		if (null===profile_index) {
+			alert('Could not find selected profile');
+			return;
+		}
+		var identifier = $form.find('#title').val().replace(/[^a-z0-9]/gi,'').toLowerCase();
+		var categories = $form.find('#categories').val().split(/[\s,]+/);
+		profiles[j].archives.push({
+			"title": $form.find('#title').val(),
+			"identifier": identifier,
+			"parser":$form.find('#parser').val(),
+			"subtitle": $form.find('#description').val(),
+			"categories": categories,
+			"thumbnail": $form.find('#thumbnail').val()			
+		});
+    	profiles[j].added = new Date().toJSON().slice(0,10);
+    	storage.set('profiles', profiles);
+    	$('#archives').list_archives(storage.get('profiles'));
+    	$('#add_archive').modal('hide');
+	} else {
+		if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+		if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
+		return this.each(function() {
+			var $modal = $(this);
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+			var profile_options = '<option value="">Create new profile</option>';
+			for (var j = 0; j < profiles.length; j++) {
+				profile_options += '<option value="'+profiles[j].filename+'">'+profiles[j].name+'</option>';
+			}
+			$modal.find('#profile').empty().html(profile_options);
+		});
+	}
 };
 
 Array.prototype.unique = function() {
