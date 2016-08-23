@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	var base_url = $('link#base_url').attr('href');
-	// Get the current profiles
+	// Profiles
 	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
 	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global	
 	$('#set_profiles').on('show.bs.modal', function () {
@@ -9,7 +9,7 @@ $(document).ready(function() {
 	});
 	var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
 	$('#archives').list_archives(profiles);
-	// Show the search page for a chosen archive
+	// Archives
 	$('body').on("show_archive", function(e, archive) {
 		$('#archives').hide();
 		$('#search').data('archive',archive).show().find('#search_form input:first').focus().prop('placeholder','Search '+archive.title).val('');
@@ -27,12 +27,6 @@ $(document).ready(function() {
 		$form.closest('.modal').add_archive($form);
 		return false;
 	});
-	/*
-	set_collections();
-	set_search();
-	set_sync();
-	set_events();
-	*/
 });
 
 $.fn.set_profiles = function(profiles) {
@@ -51,7 +45,7 @@ $.fn.set_profiles = function(profiles) {
 			};
 		};
 		$node.find('#resetProfiles').removeAttr('disabled');
-		$node.find('#resetProfiles').click(function() {
+		$node.find('#resetProfiles').unbind('click').click(function() {
 			var $button = $(this);
 			$button.attr('disabled', 'disabled');
 			if (!confirm('Are you sure you wish to reset your profiles?')) {
@@ -116,7 +110,7 @@ $.fn.list_archives = function(profiles) {
 				$wrapper.prop('title', profiles[j].archives[k].subtitle);
 			}
 		}
-		$container.children().click(function() {
+		$container.children().unbind('click').click(function() {
 			$('body').trigger("show_archive", [$(this).data('archive')]);
 		});
 		categories = categories.unique().sort();
@@ -138,7 +132,7 @@ $.fn.list_archives = function(profiles) {
 				};
 			});
 		};
-		$buttons.children().click(function() {
+		$buttons.children().unbind('click').click(function() {
 			var $clicked = $(this);
 			$clicked.parent().children().removeClass('btn-primary').addClass('btn-default');
 			$clicked.removeClass('btn-default').addClass('btn-primary');
