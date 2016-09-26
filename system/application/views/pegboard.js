@@ -8,6 +8,7 @@ $(document).ready(function() {
 		$(this).set_profiles(profiles);
 	});
 	var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+	if ($.isEmptyObject(profiles)) $('#set_profiles').modal();
 	$('#archives').list_archives(profiles);
 	// Archives
 	$('body').on("show_archive", function(e, archive) {
@@ -29,29 +30,38 @@ $(document).ready(function() {
 	});
 });
 
+// List profiles in an editable way in the provided HTML element
 $.fn.set_profiles = function(profiles) {
 	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
 	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
 	return this.each(function() {
 		var $node = $(this);
 		var $profiles = $node.find('#profiles');
+		if ('undefined'==typeof(profiles)) profiles = [];
 		$profiles.empty();
 		if (!profiles.length) {
-			$profiles.html('No profiles are loaded. Reset your profiles or upload one or more below.')
+			$node.find('.has-profiles').hide();
+			$node.find('.no-profiles').show();
 		} else {
+			$node.find('.has-profiles').show();
+			$node.find('.no-profiles').hide();
+			$profiles.html('<p class="help-block">Profiles currently loaded in your Tensor app that contribute to your list of archives.</p>');
 			for (var j = 0; j < profiles.length; j++) {
 				if ('undefined'==typeof(profiles[j].archives)) continue;
-				$profiles.html('<div><button type="button" class="btn btn-xs btn-default">Refresh</button>&nbsp; <button type="button" class="btn btn-xs btn-default">Download</button>&nbsp; <span><b>'+profiles[j].name+'</b> updated '+profiles[j].added+' with '+profiles[j].archives.length+' archives</span> <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+				$profiles.append('<div class="profile"><button type="button" class="btn btn-default">Refresh</button>&nbsp; <button type="button" class="btn btn-default">Download</button>&nbsp; <span class="desc"><b>'+profiles[j].name+'</b><br />Updated '+profiles[j].added+' with '+profiles[j].archives.length+' archives</span> <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
 			};
+			$profiles.append('<br clear="both" />');
 		};
-		$node.find('#resetProfiles').removeAttr('disabled');
-		$node.find('#resetProfiles').unbind('click').click(function() {
+		$node.find('#resetProfiles, #startProfiles').removeAttr('disabled');
+		$node.find('#resetProfiles, #startProfiles').unbind('click').click(function() {
 			var $button = $(this);
+			var is_new = ('startProfiles'==$button.attr('id')) ? true : false;
 			$button.attr('disabled', 'disabled');
-			if (!confirm('Are you sure you wish to reset your profiles?')) {
+			if (!is_new && !confirm('Are you sure you wish to reset your profiles?')) {
 				$button.removeAttr('disabled');
 				return;
 			}
+			// This URL shouldn't ever change
 			var starter_url = 'https://raw.githubusercontent.com/craigdietrich/tensor-profiles/master/starter.profile.js';		
 		    window['profile'] = function(json) {
 		    	if ('object'!=typeof(json)) {
@@ -64,7 +74,6 @@ $.fn.set_profiles = function(profiles) {
 		    		$button.removeAttr('disabled');
 		    		return;
 		    	}
-		    	json.active = true;
 		    	json.added = new Date().toJSON().slice(0,10);
 		    	json.url = starter_url;
 		    	storage.set('profiles', [json]);
@@ -88,30 +97,51 @@ $.fn.list_archives = function(profiles) {
 	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
 	return this.each(function() {
 		var $node = $(this);
-		var identifiers = [];
 		var categories = [];
 		var $buttons = $node.find('.btn-group:first');
 		$buttons.empty();
 		var $container = $node.find('.container-fluid:first');
 		$container.empty();
 		for (var j = 0; j < profiles.length; j++) {
-			if (!profiles[j].active) continue;
 			for (var k = 0; k < profiles[j].archives.length; k++) {
-				if (-1 != identifiers.indexOf(profiles[j].archives[k].title)) continue;
-				identifiers.push(profiles[j].archives[k].title);
-				categories = categories.concat(profiles[j].archives[k].categories);
+				categories = categories.concat(profiles[j].archives[k].categories); 
+				var parser_url = $('link#base_url').attr('href')+'parsers/'+profiles[j].archives[k].parser+'/';
+				var thumb_url = parser_url+'thumb.png';
+				if ('undefined'!=typeof(profiles[j].archives[k].thumbnail)) thumb_url = profiles[j].archives[k].thumbnail;
+				// Archive object
 				var $archive = $('<div class="col-xs-12 col-sm-6 col-md-4 archive"></div>').appendTo($container);
 				$archive.data('archive', profiles[j].archives[k]);
 				$archive.data('categories', profiles[j].archives[k].categories);
+				$archive.data('error', false);
+				// Archive HTML
 				var $wrapper = $('<div></div>').appendTo($archive);
 				$wrapper.append('<h5>'+profiles[j].archives[k].title+'</h5>');
 				$wrapper.append('<div class="desc"><div>'+profiles[j].archives[k].subtitle+'</div></div>');
-				$wrapper.css('backgroundImage','url('+profiles[j].archives[k].thumbnail+')');
+				$wrapper.css('backgroundImage','url('+thumb_url+')');
 				$wrapper.prop('title', profiles[j].archives[k].subtitle);
+				// Test if a corresponding parser exists on the server
+				var test_img = new Image();
+				test_img.archive = $archive;
+				test_img.onerror = function() {
+					this.archive.data('error', "Could not find the corresponding parser folder for this archive.");
+					thumb_url = $('link#base_url').attr('href')+'system/application/views/images/missing_thumb.jpg';
+					this.archive.children().css('backgroundImage','url('+thumb_url+')');
+				};
+				test_img.src = thumb_url;
 			}
 		}
 		$container.children().unbind('click').click(function() {
-			$('body').trigger("show_archive", [$(this).data('archive')]);
+			var $this = $(this);
+			if ($this.data('error').length) {
+				var parser_name = $this.data('archive').parser;
+				var $error = $('#error');
+				$error.find('.modal-title').text('No parser found!');
+				$error.find('.modal-body').empty().append('The parser folder "'+parser_name+'" is not present in this Tensor install\'s file system. Contact an administrator to add the parser\'s files to /parsers/'+parser_name+'.');
+				$error.find('.modal-body').append('<br /><br />Once added you will be able to use this archive and add new archives based on the same parser.');
+				$error.modal();
+				return;
+			};
+			$('body').trigger("show_archive", [$this.data('archive')]);
 		});
 		categories = categories.unique().sort();
 		categories.unshift('all');
@@ -185,12 +215,30 @@ $.fn.add_archive = function($form) {
 		if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
 		return this.each(function() {
 			var $modal = $(this);
+			// Profiles
 			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
 			var profile_options = '<option value="">Create new profile</option>';
 			for (var j = 0; j < profiles.length; j++) {
 				profile_options += '<option value="'+profiles[j].filename+'">'+profiles[j].name+'</option>';
 			}
-			$modal.find('#profile').empty().html(profile_options);
+			var check_profile_options = function() {
+				if ($modal.find('#profile').val().length) {
+					$modal.find('#profile').next().hide();
+				} else {
+					$modal.find('#profile').next().show();
+				}
+			};
+			$modal.find('#profile').empty().html(profile_options).unbind('change').change(check_profile_options);
+			check_profile_options();
+			// Parsers
+			$.getJSON($('link#base_url').attr('href')+'wb/parsers', function(json) {
+				var options = '';
+				for (var j = 0; j < json.length; j++) {
+					options += '<option value="'+json[j]+'">'+json[j]+'</option>';
+				}					
+				$modal.find('#parser').empty().html(options);
+			});
+		
 		});
 	}
 };

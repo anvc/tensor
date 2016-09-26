@@ -39,6 +39,21 @@ class Wb extends CI_Controller {
 
 	}
 
+	public function parsers() {
+
+		$parsers = array();
+		$path = FCPATH.'parsers';
+		if (!file_exists($path)) die ('{"error":"No parsers folder in the Tensor root folder"}');
+		$ffs = scandir($path);
+    	foreach ($ffs as $ff){
+        	if($ff != '.' && $ff != '..' && is_dir($path.'/'.$ff)) {
+            	$parsers[] = $ff;
+      	 	}
+    	}
+    	echo json_encode($parsers);
+
+	}
+
 	public function pegboard() {
 
 		$this->data['title'] = 'Tensor';

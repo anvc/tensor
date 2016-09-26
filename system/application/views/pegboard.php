@@ -19,8 +19,8 @@
 				  <form id="collections_form">
 					<div class="collection all">
 						<div class="color" style="background-color:#ffffff;"><span class="num_items">0</span></div>
-						<h5>All imported media</h5>
-					    <div class="desc">All media imported from the archives</div>
+						<h5>All pegged media</h5>
+					    <div class="desc">All media pegged from archives</div>
 					</div>
 				  </form>
 				  <div class="sync"><a href="javascript:void(null);" data-toggle="modal" data-target="#sync"><span class="glyphicon glyphicon-cloud" style="position:relative;top:2px;"></span>&nbsp; Sync Collections to Scalar</a></div>
@@ -32,7 +32,7 @@
 		  	<span style="float:right;">
 		  		<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#add_archive"><span class="glyphicon glyphicon-plus"></span> Add archive</a>
 				<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#set_profiles"><span class="glyphicon glyphicon-cog"></span> Set profiles</a>
-			</span>		
+			</span>
 		  	<div class="btn-group btn-group-sm" role="group"></div>
 			<div class="container-fluid"></div>
 		</div>
@@ -62,7 +62,7 @@
 			<div id="search_pagination">
 				<a href="javascript:void(null);" class="prev-page"><span class="glyphicon glyphicon-chevron-left"></span> Prev</a>
 				&nbsp;<span class="page">0</span> of <span class="total">0</span>&nbsp;
-				<a href="javascript:void(null);" class="next-page">Next <span class="glyphicon glyphicon-chevron-right"></span></a>			
+				<a href="javascript:void(null);" class="next-page">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
 			</div>
 			<div id="search_results"></div>
 		</div>
@@ -78,30 +78,51 @@
       <div class="modal-body">
         <form>
           <div id="profiles"></div>
-          <hr />
+          <div class="form-group no-profiles">
+            <p class="help-block">Load the Tensor starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">GitHub</a>.</p>
+            <button class="btn btn-success" type="button" id="startProfiles">Load starter profile</button>
+          </div>
           <div class="form-group">
-            <label for="createProfile">Create profile</label>
             <p class="help-block">Create a new, empty profile to which you can add new archives.</p>
-            <input type="text" class="form-control input-xs" style="width:auto;min-width:200px;float:left;margin-right:10px;" placeholder="Profile title" />
-            <button type="button" id="createProfile" class="btn btn-default btn-xs" style="float:left;">Create</button>
-            <br clear="both" />
-          </div>          
+		    <div class="input-group">
+		      <input type="text" class="form-control" placeholder="Profile title">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" type="button">Create</button>
+		      </span>
+		    </div>
+          </div>
           <div class="form-group">
-            <label for="resetProfiles">Reset profiles</label>
-            <p class="help-block">Remove all existing profiles and load the starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">GitHub</a>.</p>
-            <button type="button" id="resetProfiles" class="btn btn-default btn-xs">Reset</button>
+            <p class="help-block">Add a Tensor profile based on a URL.</p>
+		    <div class="input-group">
+		      <input type="text" class="form-control" placeholder="http://">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" type="button">Add</button>
+		      </span>
+		    </div>
           </div>
 	 	  <div class="form-group">
-	        <label for="uploadProfile">Upload pofile</label>
-	        <p class="help-block">Profiles can be provided by other Tensor users or downloaded from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">repositories</a>.</p>
-	        <input type="file" style="float:left;" id="uploadProfile">
-	        <button type="button" style="float:left;" class="btn btn-default btn-xs" id="doUploadProfile">Upload</button>
-	        <br clear="both" />
-	      </div>			
+	        <p class="help-block">Upload a file containing a Tensor profile</p>
+		    <div class="input-group">
+		      <span class="input-group-btn">
+				<label class="btn btn-default" for="file-selector">
+				    <input id="file-selector" type="file" style="display:none;" onchange="$('#upload-file-info').val($(this).val());">
+				    Browse
+				</label>
+		      </span>
+		      <input type="text" class="form-control" id="upload-file-info">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" type="button">Upload</button>
+		      </span>
+		    </div>
+	      </div>
+          <div class="form-group has-profiles">
+            <p class="help-block">Remove all existing profiles and load the starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">GitHub</a>.</p>
+            <button class="btn btn-default" type="button" id="resetProfiles">Reset</button>
+          </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <div class="modal-footer has-profiles">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -119,9 +140,18 @@
 		  <div class="form-group">
 		  	<label for="profile" class="col-sm-3 control-label">Profile</label>
 		  	<div class="col-sm-9">
-			  	<select class="form-control" id="profile" name="profile" style="width:auto;"></select>
+			  	<select class="form-control" id="profile" name="profile" style="width:auto;float:left;margin-right:12px;"></select>
+			  	<input type="text" class="form-control" name="new_profile" style="width:auto;float:left;" placeholder="New profile name..." />
 			</div>
-		  </div>        
+		  </div>
+		  <div class="form-group">
+		  	<label for="parser" class="col-sm-3 control-label">Parser</label>
+		  	<div class="col-sm-9">
+			  	<select class="form-control" id="parser" name="parser" style="width:auto;" required>
+			  		<option value=""></option>
+			  	</select>
+			</div>
+		  </div>
 		  <div class="form-group">
 		    <label for="title" class="col-sm-3 control-label">Title</label>
 		    <div class="col-sm-9">
@@ -135,28 +165,25 @@
 		    </div>
 		  </div>
 		  <div class="form-group">
+		    <label for="url" class="col-sm-3 control-label">Archive URL</label>
+		    <div class="col-sm-9">
+		    	<input type="text" class="form-control" id="url" name="url" placeholder="http://">
+		    	<small>For example, the archive's home or start page</small>
+		    </div>
+		  </div>
+		  <div class="form-group">
 		    <label for="thumbnail" class="col-sm-3 control-label">Thumbnail URL</label>
 		    <div class="col-sm-9">
-		    	<input type="text" class="form-control" id="thumbnail" name="thumbnaiul" placeholder="http://">
+		    	<input type="text" class="form-control" id="thumbnail" name="thumbnail" placeholder="http://">
+		    	<small>Leave empty to use the parser's default thumbnail</small>
 		    </div>
-		  </div>		  
-		  <div class="form-group">
-		  	<label for="parser" class="col-sm-3 control-label">Parser</label>
-		  	<div class="col-sm-9">
-			  	<select class="form-control" id="parser" name="parser" style="width:auto;" required>
-			  		<option value=""></option>
-			  		<option value="scalar">Scalar</option>
-			  		<option value="omeka">Omeka</option>
-			  		<option value="contentdm">CONTENTdm</option>
-			  	</select>
-			</div>
 		  </div>
 		  <div class="form-group">
 		    <label for="categories" class="col-sm-3 control-label">Categories</label>
 		    <div class="col-sm-9">
 		   		<input type="text" class="form-control" id="categories" name="categories" placeholder="image, video, audio, ...">
 		 	</div>
-		  </div>			  
+		  </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

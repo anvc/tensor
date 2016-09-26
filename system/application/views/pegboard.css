@@ -1,9 +1,11 @@
 html, body, .container-fluid, .col-max-height {height:100%;}
 body {overflow-x:hidden;}
 small {font-weight:normal;}
+.form-group small {color:#777777; padding-left:8px;}
 label {cursor:pointer;}
 hr {height:1px;color:#bbbbbb;background-color:#bbbbbb;overflow:hidden;margin:8px 0px 15px 0px;border:0;}
-a.btn {color:#337ab7;}
+a.btn-default, button.btn-default {color:#337ab7;}
+.modal-footer a.btn-default, .modal-footer button.btn-default {color:#333;}
 .alert {font-size:14px;}
 .input-xs {height: 22px; padding: 5px 5px; font-size: 12px; line-height: 1.5; border-radius: 3px;}
 .help-block {margin-top:0px; margin-bottom:8px;}
@@ -48,7 +50,7 @@ a.btn {color:#337ab7;}
 }
 .collections .collection .num_items {color:#555555; font-weight:normal; font-size:14px;}
 .collections .collection:hover {opacity:0.75;}
-.collections .collection h5 {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden}
+.collections .collection h5 {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden; font-weight:normal;}
 .collections .collection .desc {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden;}
 
 /* Archives */
@@ -66,8 +68,11 @@ a.btn {color:#337ab7;}
 #archives h5 {padding:5px 3px 0px 54px; margin:0px 0px 0px 0px; white-space:nowrap; overflow:hidden; line-height:100%;}
 #archives .desc {padding:5px 3px 5px 54px; margin:0px 0px 0px 0px;}
 #archives .desc > div {white-space:nowrap; overflow:hidden; line-height:100%;}
-#profiles {margin-bottom:12px;}
+#profiles {}
 #profiles > div {margin-top:0px; margin-bottom:12px;}
+#profiles > div > * {float:left; margin-right:12px;}
+#profiles > div > span {line-height:125%;}
+#profiles > div > button:last-of-type {float:right; margin-right:0px;}
 
 /* Search */
 #search {margin:18px 0px 0px 0px; display:none;}
