@@ -3,6 +3,7 @@
 	var defaults = {
 			page: null,
 			query: null, 
+			url: null,
 			parser: null,
     		proxy_url: null,
     		error_callback: null,
@@ -40,6 +41,7 @@
         	return {
         		page:(opts.page)?opts.page:'',
         		query:(opts.query)?opts.query:'',
+        		url:(opts.url)?opts.url:'',
         		parser:(opts.parser)?opts.parser:'',
         		proxy_url:(opts.proxy_url)?opts.proxy_url:''
         	};
