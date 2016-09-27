@@ -71,6 +71,15 @@ $.fn.set_profiles = function(profiles) {
 					    });
 					});
 				}
+				var $download = $profile.find('button:first');
+				$download.unbind('click').click(function() {
+					var profile = $(this).closest('.profile').data('profile');
+					var text = 'profile('+JSON.stringify(profile,null,2)+');';
+					var filename = profile.uri.split(/[\\/]/).pop();
+					// FileSaver.js
+					var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+					saveAs(blob, filename+".txt");					
+				});
 			};
 			$profiles.append('<br clear="both" />');
 		};

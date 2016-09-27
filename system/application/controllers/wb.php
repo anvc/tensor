@@ -75,6 +75,7 @@ class Wb extends CI_Controller {
 		$this->template->add_js(base_url().'system/application/views/common/spectrum/spectrum.js');
 		$this->template->add_js(base_url().'system/application/views/common/jquery.storageapi.js');
 		$this->template->add_js(base_url().'system/application/views/common/linkify/linkify.js');
+		$this->template->add_js(base_url().'system/application/views/common/FileSaver.min.js');
 		$this->template->add_js(base_url().'system/application/views/common/jquery.spreadsheet_model.js');
 		$this->template->add_js(base_url().'system/application/views/common/jquery.importrdf.js');
 		$this->template->add_js(base_url().'system/application/views/common/jquery.advanced_search.js');
