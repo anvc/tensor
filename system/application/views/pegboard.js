@@ -52,8 +52,25 @@ $.fn.set_profiles = function(profiles) {
 			$profiles.html('<p class="help-block">Profiles currently loaded in your Tensor app that contribute to your list of archives.</p>');
 			for (var j = 0; j < profiles.length; j++) {
 				if ('undefined'==typeof(profiles[j].archives)) continue;
-				var $profile = $('<div class="profile"><button type="button" class="btn btn-default">Refresh</button>&nbsp; <button type="button" class="btn btn-default">Download</button>&nbsp; <span class="desc"><b title="'+profiles[j].uri+'">'+profiles[j].name+'</b><br />Updated '+profiles[j].added+' with '+profiles[j].archives.length+' archives</span> <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>').appendTo($profiles);
+				var $profile = $('<div class="profile"><button type="button" class="btn btn-default">Download</button>&nbsp; <span class="desc"><b title="'+profiles[j].uri+'">'+profiles[j].name+'</b><br />Updated '+profiles[j].added+' with '+profiles[j].archives.length+' archives </span> <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>').appendTo($profiles);
 				$profile.data('profile', profiles[j]);
+				if (-1!=profiles[j].uri.indexOf('://')) {
+					var $refresh = $('<a href="javascript:void(null);" class="btn btn-xs btn-default">Refresh from server</a>').appendTo($profile.find('span:first'));
+					$refresh.click(function() {
+						var uri = $(this).closest('.profile').data('profile').uri;
+						if (!confirm('Continuing will overwrite any local changes you may have made to this profile. Do you wish to continue?')) {
+							return;
+						};
+						$.ajax({
+					        type: 'GET',
+					        url: uri+'?callback=profile',
+					        async: false,
+					        jsonp: true,
+					        contentType: "application/json",
+					        dataType: 'jsonp'
+					    });
+					});
+				}
 			};
 			$profiles.append('<br clear="both" />');
 		};
@@ -82,6 +99,7 @@ $.fn.set_profiles = function(profiles) {
 				$button.removeAttr('disabled');
 				return;
 			}
+			storage.set('profiles', []);
 			// This URL shouldn't ever change
 			var starter_url = 'https://raw.githubusercontent.com/craigdietrich/tensor-profiles/master/starter.profile.js';
 			$.ajax({
@@ -121,13 +139,37 @@ $.fn.set_profiles = function(profiles) {
 		        contentType: "application/json",
 		        dataType: 'jsonp'
 			});
+			$(this).closest('.input-group').find('input').val('').blur();
 		});		
+		// File upload
+		$node.find('#profileUpload').unbind('click').click(function() {
+			var input = document.getElementById('profile-file-selector');
+		    if ('undefined'==typeof(input.files[0])) {
+		      alert("Please select a file to upload'");
+		      return;
+		    }
+		    file = input.files[0];
+		    fr = new FileReader();
+		    fr.onload = function() {
+		    	if (!fr.result) {
+		    		alert('Could not read the uploaded file');
+		    		return;
+		    	};
+		    	if ('profile('!=fr.result.substr(0,8)) {
+		    		alert('Uploaded file does not appear to be a Tensor JSONP file');
+		    		return;
+		    	};
+		    	var json = fr.result.substring(fr.result.indexOf("(") + 1, fr.result.lastIndexOf(")"));
+		    	window['profile'](json, true);
+		    };
+		    fr.readAsText(file);
+		    $(this).closest('.input-group').find('input').val('').blur();
+		});
 	});
 };
 
 // Accept a profile and commit it to storage
-window['profile'] = function(json, append_to_existing) {
-	if ('undefined'==typeof(append_to_existing)) append_to_existing = false;
+window['profile'] = function(json) {
 	if ('object'!=typeof(json)) {
 		try {
 		    json = $.parseJSON(json);
@@ -146,7 +188,13 @@ window['profile'] = function(json, append_to_existing) {
 	json.added = new Date().toJSON().slice(0,10);
 	if ('undefined'==typeof(json.archives)) json.archives = [];
 	var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : [];
-	if (!append_to_existing) profiles = [];  // Start over
+	// See if we're replacing base on the URI
+	for (var j = 0; j < profiles.length; j++) {
+		if (profiles[j].uri == json.uri) {
+			profiles.splice(j, 1);
+			break;
+		}
+	}
 	profiles.push(json);
 	storage.set('profiles', profiles);
 	$('#set_profiles').set_profiles(storage.get('profiles'));

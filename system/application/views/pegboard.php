@@ -99,21 +99,21 @@
 		      </span>
 		    </div>
           </form>
-	 	  <div class="form-group">
+	 	  <form class="form-group" enctype="multipart/form-data">
 	        <p class="help-block">Upload a file containing a Tensor profile</p>
 		    <div class="input-group">
 		      <span class="input-group-btn">
-				<label class="btn btn-default" for="file-selector">
-				    <input id="file-selector" type="file" style="display:none;" onchange="$('#upload-file-info').val($(this).val());">
+				<label class="btn btn-default" for="profile-file-selector">
+				    <input id="profile-file-selector" type="file" style="display:none;" onchange="$('#profile-file-info').val($(this).val());">
 				    Browse
 				</label>
 		      </span>
-		      <input type="text" class="form-control" id="upload-file-info">
+		      <input type="text" class="form-control" id="profile-file-info">
 		      <span class="input-group-btn">
-		        <button class="btn btn-default" type="button">Upload</button>
+		        <button class="btn btn-default" type="submit" id="profileUpload">Upload</button>
 		      </span>
 		    </div>
-	      </div>
+	      </form>
           <div class="form-group has-profiles">
             <p class="help-block">Remove all existing profiles and load the starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">GitHub</a>.</p>
             <button class="btn btn-default" type="button" id="resetProfiles">Reset</button>
