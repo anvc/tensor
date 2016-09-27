@@ -299,32 +299,38 @@ $.fn.add_archive = function($form) {
 		if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global	
 		var profile = $form.find('#profile').val();
 		if (!profile.length) {
-		   // TODO: create profile	
-		}
-		var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
-		console.log(profiles);
-		var profile_index = null;
-		for (var j = 0; j < profiles.length; j++) {
-			if (profiles[j].filename == profile) {
-				profile_index = j;
-				break;
+		   var new_profile = $form.find('#new_profile').val();
+		   if (!new_profile.length) {
+			   alert('Please enter a name for the new profile, or select an existing profile.');
+			   return;
+		   }
+		   // TODO: create profile | get the new profile_index
+		} else {
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+			var profile_index = null;
+			for (var j = 0; j < profiles.length; j++) {
+				if (profiles[j].uri == profile) {
+					profile_index = j;
+					break;
+				}
 			}
 		}
 		if (null===profile_index) {
 			alert('Could not find selected profile');
 			return;
 		}
-		var identifier = $form.find('#title').val().replace(/[^a-z0-9]/gi,'').toLowerCase();
 		var categories = $form.find('#categories').val().split(/[\s,]+/);
-		profiles[j].archives.push({
-			"title": $form.find('#title').val(),
-			"identifier": identifier,
-			"parser":$form.find('#parser').val(),
-			"subtitle": $form.find('#description').val(),
-			"categories": categories,
-			"thumbnail": $form.find('#thumbnail').val()			
-		});
-    	profiles[j].added = new Date().toJSON().slice(0,10);
+		// Create the new archive
+		var obj = {
+				"title": $form.find('#title').val(),
+				"subtitle": $form.find('#subtitle').val(),
+				"parser":$form.find('#parser').val(),
+				"url": $form.find('#url').val(),
+				"categories": categories		
+			};
+		if ($form.find('#thumbnail').val().length) obj.thumbnail = $form.find('#thumbnail').val();
+		profiles[profile_index].archives.push(obj);
+    	profiles[profile_index].added = new Date().toJSON().slice(0,10);  // Not great semantics, but ...
     	storage.set('profiles', profiles);
     	$('#archives').list_archives(storage.get('profiles'));
     	$('#add_archive').modal('hide');
@@ -337,7 +343,7 @@ $.fn.add_archive = function($form) {
 			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
 			var profile_options = '<option value="">Create new profile</option>';
 			for (var j = 0; j < profiles.length; j++) {
-				profile_options += '<option value="'+profiles[j].filename+'">'+profiles[j].name+'</option>';
+				profile_options += '<option value="'+profiles[j].uri+'">'+profiles[j].name+'</option>';
 			}
 			var check_profile_options = function() {
 				if ($modal.find('#profile').val().length) {

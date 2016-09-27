@@ -42,9 +42,11 @@
 			<a href="javascript:void(null);" id="search_close" class="glyphicon glyphicon-remove"></a>
 			<form id="search_form">
 				<div class="right-inner-addon">
-				<input type="text" name="search" class="form-control" placeholder="Search archive" />
-				<a href="javascript:void(null);" class="glyphicon glyphicon-search glyphicon-xs"></a>
-			</div>
+					<input type="text" name="search" class="form-control" placeholder="Search archive" />
+					<a href="javascript:void(null);" class="glyphicon glyphicon-trash glyphicon-xs"></a>
+					<a href="javascript:void9null);" class="glyphicon glyphicon-pencil glyphicon-xs two"></a>
+					<a href="javascript:void(null);" class="glyphicon glyphicon-search glyphicon-xs three"></a>
+				</div>
 			</form>
 			<div id="search_collection" class="btn-group" role="group">
 				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -139,13 +141,13 @@
 		  	<label for="profile" class="col-sm-3 control-label">Profile</label>
 		  	<div class="col-sm-9">
 			  	<select class="form-control" id="profile" name="profile" style="width:auto;float:left;margin-right:12px;"></select>
-			  	<input type="text" class="form-control" name="new_profile" style="width:auto;float:left;" placeholder="New profile name..." />
+			  	<input type="text" class="form-control" id="new_profile" name="new_profile" style="width:auto;float:left;" placeholder="New profile name..." />
 			</div>
 		  </div>
 		  <div class="form-group">
 		  	<label for="parser" class="col-sm-3 control-label">Parser</label>
 		  	<div class="col-sm-9">
-			  	<select class="form-control" id="parser" name="parser" style="width:auto;" required>
+			  	<select class="form-control" id="parser" name="parser" required>
 			  		<option value=""></option>
 			  	</select>
 			</div>
@@ -157,15 +159,15 @@
 		    </div>
 		  </div>
 		  <div class="form-group">
-		    <label for="description" class="col-sm-3 control-label">Description</label>
+		    <label for="subtitle" class="col-sm-3 control-label">Description</label>
 		    <div class="col-sm-9">
-		    	<input type="text" class="form-control" id="description" name="description" placeholder="An archive of digital assets" required>
+		    	<input type="text" class="form-control" id="subtitle" name="subtitle" placeholder="An archive of digital assets" required>
 		    </div>
 		  </div>
 		  <div class="form-group">
 		    <label for="url" class="col-sm-3 control-label">Archive URL</label>
 		    <div class="col-sm-9">
-		    	<input type="text" class="form-control" id="url" name="url" placeholder="http://">
+		    	<input type="text" class="form-control" id="url" name="url" placeholder="http://" required>
 		    	<small>For example, the archive's home or start page</small>
 		    </div>
 		  </div>
