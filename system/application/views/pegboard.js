@@ -4,11 +4,11 @@ $(document).ready(function() {
 	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
 	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global	
 	$('#set_profiles').on('show.bs.modal', function () {
-		var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+		var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : [];
 		$(this).set_profiles(profiles);
 	});
-	var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
-	if ($.isEmptyObject(profiles)) $('#set_profiles').modal();
+	var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : [];
+	if (!profiles.length) $('#set_profiles').modal();
 	$('#archives').list_archives(profiles);
 	// Archives
 	$('body').on("show_archive", function(e, archive) {
@@ -37,21 +37,42 @@ $.fn.set_profiles = function(profiles) {
 	return this.each(function() {
 		var $node = $(this);
 		var $profiles = $node.find('#profiles');
+		$node.submit(function(event){
+			event.preventDefault();
+		});
 		if ('undefined'==typeof(profiles)) profiles = [];
 		$profiles.empty();
 		if (!profiles.length) {
 			$node.find('.has-profiles').hide();
 			$node.find('.no-profiles').show();
+		// List profiles
 		} else {
 			$node.find('.has-profiles').show();
 			$node.find('.no-profiles').hide();
 			$profiles.html('<p class="help-block">Profiles currently loaded in your Tensor app that contribute to your list of archives.</p>');
 			for (var j = 0; j < profiles.length; j++) {
 				if ('undefined'==typeof(profiles[j].archives)) continue;
-				$profiles.append('<div class="profile"><button type="button" class="btn btn-default">Refresh</button>&nbsp; <button type="button" class="btn btn-default">Download</button>&nbsp; <span class="desc"><b>'+profiles[j].name+'</b><br />Updated '+profiles[j].added+' with '+profiles[j].archives.length+' archives</span> <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+				var $profile = $('<div class="profile"><button type="button" class="btn btn-default">Refresh</button>&nbsp; <button type="button" class="btn btn-default">Download</button>&nbsp; <span class="desc"><b title="'+profiles[j].uri+'">'+profiles[j].name+'</b><br />Updated '+profiles[j].added+' with '+profiles[j].archives.length+' archives</span> <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>').appendTo($profiles);
+				$profile.data('profile', profiles[j]);
 			};
 			$profiles.append('<br clear="both" />');
 		};
+		// Delete
+		$profiles.find('.close').unbind('click').click(function() {
+			var profile = $(this).closest('.profile').data('profile');
+			if (!confirm('Are you sure you wish to remove '+profile.name+'? This action cannot be undone.')) return;
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : [];
+			for (var j = 0; j < profiles.length; j++) {
+				if (profile.uri === profiles[j].uri) {
+					profiles.splice(j, 1);
+					break;
+				}
+			}
+			storage.set('profiles', profiles);
+			$('#set_profiles').set_profiles(storage.get('profiles'));
+			$('#archives').list_archives(storage.get('profiles'));			
+		});
+		// Start, Reset
 		$node.find('#resetProfiles, #startProfiles').removeAttr('disabled');
 		$node.find('#resetProfiles, #startProfiles').unbind('click').click(function() {
 			var $button = $(this);
@@ -62,24 +83,7 @@ $.fn.set_profiles = function(profiles) {
 				return;
 			}
 			// This URL shouldn't ever change
-			var starter_url = 'https://raw.githubusercontent.com/craigdietrich/tensor-profiles/master/starter.profile.js';		
-		    window['profile'] = function(json) {
-		    	if ('object'!=typeof(json)) {
-		    		alert('Something went wrong attempting to aquire the starter profile.');
-		    		$button.removeAttr('disabled');
-		    		return;
-		    	}
-		    	if ('undefined'==typeof(json.archives)) {
-		    		alert('Starter profile is formatted incorrectly!');
-		    		$button.removeAttr('disabled');
-		    		return;
-		    	}
-		    	json.added = new Date().toJSON().slice(0,10);
-		    	json.url = starter_url;
-		    	storage.set('profiles', [json]);
-		    	$('#set_profiles').set_profiles(storage.get('profiles'));
-		    	$('#archives').list_archives(storage.get('profiles'));
-		    };
+			var starter_url = 'https://raw.githubusercontent.com/craigdietrich/tensor-profiles/master/starter.profile.js';
 			$.ajax({
 		        type: 'GET',
 		        url: starter_url+'?callback=profile',
@@ -89,7 +93,64 @@ $.fn.set_profiles = function(profiles) {
 		        dataType: 'jsonp'
 		    });
 		});
+		// Create new
+		$node.find('#createNewProfile').unbind('click').click(function() {
+			var value = $(this).closest('.input-group').find('input[type="text"]').val();
+			if (!value.length) {
+				alert('Please enter a name for the new profile.');
+				return;
+			};
+			var json = {};
+			json.name = value;
+			json.uri = '_'+(new Date().getTime());
+			window['profile'](json,true);
+			$(this).closest('.input-group').find('input[type="text"]').val('').blur();
+		});
+		// From URL
+		$node.find('#profileFromURL').unbind('click').click(function() {
+			var value = $(this).closest('.input-group').find('input[type="text"]').val();
+			if (!value.length) {
+				alert('Please enter the URL to the profile.');
+				return;
+			};
+			$.ajax({
+		        type: 'GET',
+		        url: value+'?callback=profile',
+		        async: false,
+		        jsonp: true,
+		        contentType: "application/json",
+		        dataType: 'jsonp'
+			});
+		});		
 	});
+};
+
+// Accept a profile and commit it to storage
+window['profile'] = function(json, append_to_existing) {
+	if ('undefined'==typeof(append_to_existing)) append_to_existing = false;
+	if ('object'!=typeof(json)) {
+		try {
+		    json = $.parseJSON(json);
+		} catch (e) {
+			console.log(e);
+		    alert('The source does not appear to be a Tensor profile!');
+		    $('#set_profiles').find('.btn').removeAttr('disabled');
+		    return;
+		};
+	};
+	if ('undefined'==typeof(json.name) || 'undefined'==typeof(json.uri)) {
+		alert('The profile to be saved is missing properties!');
+		$('#set_profiles').find('.btn').removeAttr('disabled');
+		return;
+	};
+	json.added = new Date().toJSON().slice(0,10);
+	if ('undefined'==typeof(json.archives)) json.archives = [];
+	var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : [];
+	if (!append_to_existing) profiles = [];  // Start over
+	profiles.push(json);
+	storage.set('profiles', profiles);
+	$('#set_profiles').set_profiles(storage.get('profiles'));
+	$('#archives').list_archives(storage.get('profiles'));
 };
 
 $.fn.list_archives = function(profiles) {

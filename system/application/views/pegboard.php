@@ -76,30 +76,29 @@
         <h4 class="modal-title">Set my profiles</h4>
       </div>
       <div class="modal-body">
-        <form>
           <div id="profiles"></div>
           <div class="form-group no-profiles">
             <p class="help-block">Load the Tensor starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">GitHub</a>.</p>
             <button class="btn btn-success" type="button" id="startProfiles">Load starter profile</button>
           </div>
-          <div class="form-group">
+          <form class="form-group">
             <p class="help-block">Create a new, empty profile to which you can add new archives.</p>
 		    <div class="input-group">
-		      <input type="text" class="form-control" placeholder="Profile title">
+		      <input type="text" class="form-control" placeholder="Profile name...">
 		      <span class="input-group-btn">
-		        <button class="btn btn-default" type="button">Create</button>
+		        <button class="btn btn-default" type="submit" id="createNewProfile">Create</button>
 		      </span>
 		    </div>
-          </div>
-          <div class="form-group">
+          </form>
+          <form class="form-group">
             <p class="help-block">Add a Tensor profile based on a URL.</p>
 		    <div class="input-group">
 		      <input type="text" class="form-control" placeholder="http://">
 		      <span class="input-group-btn">
-		        <button class="btn btn-default" type="button">Add</button>
+		        <button class="btn btn-default" type="button" id="profileFromURL">Add</button>
 		      </span>
 		    </div>
-          </div>
+          </form>
 	 	  <div class="form-group">
 	        <p class="help-block">Upload a file containing a Tensor profile</p>
 		    <div class="input-group">
@@ -119,7 +118,6 @@
             <p class="help-block">Remove all existing profiles and load the starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">GitHub</a>.</p>
             <button class="btn btn-default" type="button" id="resetProfiles">Reset</button>
           </div>
-        </form>
       </div>
       <div class="modal-footer has-profiles">
         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

@@ -69,7 +69,8 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #archives .desc {padding:5px 3px 5px 54px; margin:0px 0px 0px 0px;}
 #archives .desc > div {white-space:nowrap; overflow:hidden; line-height:100%;}
 #profiles {}
-#profiles > div {margin-top:0px; margin-bottom:12px;}
+#profiles > div {margin-top:0px; margin-bottom:12px; min-height:32px;}
+#profiles > div:last-of-type {margin-bottom:0px;}
 #profiles > div > * {float:left; margin-right:12px;}
 #profiles > div > span {line-height:125%;}
 #profiles > div > button:last-of-type {float:right; margin-right:0px;}
