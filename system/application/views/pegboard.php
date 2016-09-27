@@ -42,19 +42,12 @@
 			<a href="javascript:void(null);" id="search_close" class="glyphicon glyphicon-remove"></a>
 			<form id="search_form">
 				<div class="right-inner-addon">
-					<input type="text" name="search" class="form-control" placeholder="Search archive" />
+					<input type="text" name="search" class="form-control" placeholder="Search archive" required />
 					<a href="javascript:void(null);" class="glyphicon glyphicon-trash glyphicon-xs"></a>
-					<a href="javascript:void9null);" class="glyphicon glyphicon-pencil glyphicon-xs two"></a>
+					<a href="javascript:void(null);" class="glyphicon glyphicon-pencil glyphicon-xs two"></a>
 					<a href="javascript:void(null);" class="glyphicon glyphicon-search glyphicon-xs three"></a>
 				</div>
 			</form>
-			<div id="search_collection" class="btn-group" role="group">
-				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					No collection
-				    <span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu"></ul>
-			</div>
 			<div id="search_view" class="btn-group btn-group-sm" role="group">
 				<button type="button" class="btn btn-primary" id="icon">Icon</button>
 				<button type="button" class="btn btn-default" id="tile">Tile</button>

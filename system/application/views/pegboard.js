@@ -14,6 +14,19 @@ $(document).ready(function() {
 	$('body').on("show_archive", function(e, archive) {
 		$('#archives').hide();
 		$('#search').data('archive',archive).show().find('#search_form input:first').focus().prop('placeholder','Search '+archive.title).val('');
+		$('#search').find('.glyphicon-search').unbind('click').click(function() {
+			$(this).closest('form').submit();
+		});
+		$('#search').find('.glyphicon-pencil').unbind('click').click(function() {
+			alert('Coming soon: edit this archive\'s settings');
+		});
+		$('#search').find('.glyphicon-trash').unbind('click').click(function() {
+			alert('Coming soon: delete this archive');
+		});		
+		$('#search_form').unbind('submit').submit(function() {
+			$('#search').search();
+			return false;
+		});
 	});
 	$('#search_close_circle, #search_close').click(function(e) {
 		e.stopPropagation();
@@ -210,6 +223,7 @@ window['profile'] = function(json) {
 	$('#archives').list_archives(storage.get('profiles'));
 };
 
+// List the various archives stored in the various profiles (the default page)
 $.fn.list_archives = function(profiles) {
 	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
 	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
@@ -293,6 +307,7 @@ $.fn.list_archives = function(profiles) {
 	});
 };
 
+// The add archive modal
 $.fn.add_archive = function($form) {
 	if ('undefined'!=typeof($form)) {
 		if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
@@ -367,6 +382,76 @@ $.fn.add_archive = function($form) {
 	}
 };
 
+// Run a search on the selected archive
+$.fn.search = function(page) {
+
+	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
+	return this.each(function() {
+		var $node = $(this);	
+		var archive = $node.data('archive');
+		var base_url = $('link#base_url').attr('href');
+		var proxy_url = $('link#proxy_url').attr('href');
+		// Default values
+		if ('undefined'==typeof(page)) page = 1;
+		var $form = $node.find('form:first');
+		var $input = $form.find('[name="search"]:first');
+		var sq = $input.val();
+		// Validation
+		var obj = $.fn.parse_search(sq);
+		if (!obj.terms.length) {
+			alert('Please enter one or more search terms');
+			return;
+		}
+		// Run search
+		var parser = base_url+'parsers/'+archive.parser+'/parser.js';
+		//archive.source = archive.source.replace('%2',page);
+		//archive.source = archive.source.replace('%1',obj.terms.join('%20'));
+		$.extend(archive, {page:page,query:obj.terms.join(' '),parser:archive.parser,proxy_url:proxy_url,error_callback:error_callback,complete_callback:complete_callback});
+		$.getScript(parser, function() {
+			loading(true, archive.title);
+			$.fn.parse(archive);
+		}).fail(function() {
+			var $error = $('#error');
+			$error.find('[class="modal-body"]').html('<p>Could not find parser</p>');
+			$error.modal();
+		});			
+		
+	});
+	
+};
+
+function error_callback(error, archive) {
+
+	loading(false, archive.title);
+	var $error = $('#error');
+	if ('200 OK'==error) error = 'There were internal errors';
+	var html = '<p>There was an error attempting to gather results:</p>';
+	html += '<p><b>'+error+'</b></p>';
+	html += '<p>Please try again</p>';
+	$error.find('[class="modal-body"]').html(html);
+	$error.modal();
+	
+}
+
+function complete_callback(_results, archive) {
+
+	loading(false, archive.title);
+	$('#search_results').search_results();
+
+}
+
+function loading(bool, archive_title) {
+	var $loading = $('#loading');
+	if (bool) {
+		if ('undefined'!=typeof(archive_title)) $loading.children(':first').append('<div class="a" title="'+archive_title+'">'+archive_title+'</div>');
+		$loading.show();
+	} else {
+		if ('undefined'!=typeof(archive_title)) $loading.find('.a[title="'+archive_title+'"]').remove();
+		if (!$loading.find('.a').length) $loading.hide();
+	}
+}
+
 Array.prototype.unique = function() {
     var unique = [];
     for (var i = 0; i < this.length; i++) {
@@ -379,23 +464,6 @@ Array.prototype.unique = function() {
 
 String.prototype.firstLetterCap = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
-}
-
-/**
- * Show or hide the loading dialog
- * @param bool whether to turn off or on
- * @param archive_title title of the archive be added to the list
- * @return null
- */
-function loading(bool, archive_title) {
-	var $loading = $('#loading');
-	if (bool) {
-		if ('undefined'!=typeof(archive_title)) $loading.children(':first').append('<div class="a" title="'+archive_title+'">'+archive_title+'</div>');
-		$loading.show();
-	} else {
-		if ('undefined'!=typeof(archive_title)) $loading.find('.a[title="'+archive_title+'"]').remove();
-		if (!$loading.find('.a').length) $loading.hide();
-	}
 }
 
 /**
@@ -1126,93 +1194,6 @@ function do_sync(items, destinations) {
 		});
 	};
 	
-}
-
-/**
- * Setup search on archives in the searchable form based on keyword in the search form
- * @return null
- */
-function search(page) {
-
-	if ('undefined'==typeof(page)) page = 1;
-	var $search_form = $('#search_form');
-	var $search = $search_form.find('[name="search"]:first');
-	
-	$search_form.children().removeClass('has-warning');
-	$search_form.find('.glyphicon').removeClass('bg-danger');
-	var sq = $search.val();
-	if (!sq.length) {
-		$search_form.children().addClass('has-warning');
-		$search_form.find('.glyphicon').addClass('bg-danger');
-		return;
-	}
-
-	var obj = $.fn.parse_search(sq);
-	if (!obj.terms.length) {
-		alert('Please enter one or more search terms');
-		return;
-	}
-
-	do_search(obj, $('#findable_form').children('.clicked'), page);
-	
-};
-
-/**
- * Run search
- * @param obj search object including terms
- * @param $archives list of archives to run search on
- * @return null
- */
-function do_search(obj, $archives, page) {
-	
-	do_search.results = {}; 
-	do_search.total = $archives.length;
-	do_search.returned = 0;
-	if ('undefined'==typeof(page)) page = 1;
-	do_search.page = page;
-
-	$archives.each(function() {
-		var $archive = $(this);
-		var archive = $.extend({}, $archive.data('request'));
-		var proxy_url = $('link#proxy_url').attr('href');
-		var parser_path = $('link#base_url').attr('href')+'application/views/parsers/'+archive.parser+'.js';
-		archive.source = archive.source.replace('%2',page);
-		archive.source = archive.source.replace('%1',obj.terms.join('%20'));
-		$.extend(archive, {page:page,query:obj.terms.join(' '),proxy_url:proxy_url,error_callback:store_error_callback,complete_callback:store_complete_callback});
-		$.getScript(parser_path, function() {
-			loading(true, archive.title);
-			$.fn.parse(archive);
-		}).fail(function() {
-			var $error = $('#error');
-			$error.find('[class="modal-body"]').html('<p>Could not find parser</p>');
-			$error.modal();
-		});			
-	});
-	
-}
-
-function store_error_callback(error, archive) {
-	
-	loading(false, archive.title);
-	do_search.returned++;
-	var $error = $('#error');
-	if ('200 OK'==error) error = error+', but the request returned empty';
-	var html = '<p>There was an error attempting to gather results from the triples store:</p>';
-	html += '<p><b>'+error+'</b></p>';
-	html += '<p>Please try again</p>';
-	$error.find('[class="modal-body"]').html(html);
-	$error.modal();
-	if (do_search.returned==do_search.total) search_results_ui();
-	
-}
-
-function store_complete_callback(_results, archive) {
-
-	loading(false, archive.title);
-	do_search.returned++;
-	jQuery.extend(do_search.results, _results); 
-	if (do_search.returned==do_search.total) search_results_ui();
-
 }
 
 function set_advanced_search() {

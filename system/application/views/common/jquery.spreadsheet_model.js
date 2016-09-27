@@ -1,10 +1,9 @@
 (function( $ ) {
 	
 	var defaults = {
-    		source: null,
-    		content_type: null,
-    		page: null,
-    		proxy: true,
+			page: null,
+			query: null, 
+			parser: null,
     		proxy_url: null,
     		error_callback: null,
     		complete_callback: null
@@ -19,7 +18,7 @@
     	this.parse = function() {alert('You need to override spreadsheet_model\'s parse() method!')}; 
     	
         this.fetch = function(data_type) {
-        	if (!opts.proxy) {
+        	if (!opts.proxy_url) {
         		alert('Non-proxy ajax requests not supported');
         		return;
         	};	
@@ -39,12 +38,10 @@
         
         var proxy_data = function() {
         	return {
-        		handler:(opts.handler)?opts.handler:'',
-        		source:(opts.source)?opts.source:'',
-        		content_type:(opts.content_type)?opts.content_type:'',
-        		parser:(opts.parser)?opts.parser:'',
         		page:(opts.page)?opts.page:'',
-        		query:(opts.query)?opts.query:''
+        		query:(opts.query)?opts.query:'',
+        		parser:(opts.parser)?opts.parser:'',
+        		proxy_url:(opts.proxy_url)?opts.proxy_url:''
         	};
         };
         
