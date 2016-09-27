@@ -78,7 +78,7 @@
       <div class="modal-body">
           <div id="profiles"></div>
           <div class="form-group no-profiles">
-            <p class="help-block">Load the Tensor starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">GitHub</a>.</p>
+            <p class="help-block">Load the Tensor starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">github.com/craigdietrich/tensor-profiles</a>.</p>
             <button class="btn btn-success" type="button" id="startProfiles">Load starter profile</button>
           </div>
           <form class="form-group">
@@ -100,7 +100,7 @@
 		    </div>
           </form>
 	 	  <form class="form-group" enctype="multipart/form-data">
-	        <p class="help-block">Upload a file containing a Tensor profile</p>
+	        <p class="help-block">Upload a file containing a Tensor profile.</p>
 		    <div class="input-group">
 		      <span class="input-group-btn">
 				<label class="btn btn-default" for="profile-file-selector">

@@ -62,7 +62,7 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #archives .archive {padding-left:0px; padding-right:0px;}
 #archives .archive > div {
 	margin-left:5px; margin-right:5px; margin-bottom:16px; height:initial; border:solid 1px #eeeeee; border-radius:5px;
-	background-position:left; background-size:contain; background-repeat:no-repeat;	cursor:pointer;
+	background-position:left; /* background-size:contain' */ background-size:17% auto; background-repeat:no-repeat;	cursor:pointer;
 }
 #archives .archive > div:hover {background-color:#eeeeee; border-color:#dddddd;}
 #archives h5 {padding:5px 3px 0px 54px; margin:0px 0px 0px 0px; white-space:nowrap; overflow:hidden; line-height:100%;}
@@ -74,6 +74,7 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #profiles > div > * {float:left; margin-right:12px;}
 #profiles > div > span {line-height:125%;}
 #profiles > div > button:last-of-type {float:right; margin-right:0px; font-size:2.2em;}
+#profile-file-info {border-left:0;}
 
 /* Search */
 #search {margin:18px 0px 0px 0px; display:none;}
