@@ -30,6 +30,7 @@ $(document).ready(function() {
 	});
 	$('#search_close_circle, #search_close').click(function(e) {
 		e.stopPropagation();
+		$('#search_results').empty();
 		$('#search').hide();
 		$('#archives').show();
 	});
