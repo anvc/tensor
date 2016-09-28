@@ -61,7 +61,7 @@
     	var to_display = predicates_to_display();
         $table.data('namespaces_reversed',opts.namespaces_reversed);
     	$('<th style="white-space:nowrap;">rdf:resource</th>').appendTo($row);
-    	for (var j in to_display) {
+    	for (var j = 0; j < to_display.length; j++) {
     		var $cell = $('<th>'+pnode(to_display[j])+'</th>').appendTo($row);
     	}
     }
@@ -99,7 +99,7 @@
     		$row.data('uri', j);
     		$row.data('values', opts.rows[j]);    		
     		$('<td><div><a target="_blank" href="'+j+'" title="'+j+'">'+basename(j)+'</a></div><br clear="both" /></td>').appendTo($row);
-    		for (var k in to_display) {
+    		for (var k = 0; k < to_display.length; k++) {
     			var value = ('undefined'!=typeof(opts.rows[j][to_display[k]])) ? opts.rows[j][to_display[k]][0].value : '';
     			value = value.linkify();
     			$('<td><div class="'+basename(to_display[k])+'">'+value+'</div><br clear="both" /></td>').appendTo($row);
@@ -142,7 +142,7 @@
     	if ('undefined'==typeof(uri)) {
     		return arr;
     	};
-    	for (var j in arr) {
+    	for (var j = 0; j < arr.length; j++) {
     		if ('undefined'!=typeof(opts.rows[uri][arr[j]])) _arr.push(arr[j]);
     	}
     	return _arr;

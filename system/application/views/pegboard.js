@@ -41,6 +41,12 @@ $(document).ready(function() {
 		$form.closest('.modal').add_archive($form);
 		return false;
 	});
+	$('#search_view').find('button').unbind('click').click(function() {
+		var $this = $(this);
+		$this.parent().children().removeClass('btn-primary').addClass('btn-default');
+		$this.removeClass('btn-default').addClass('btn-primary');
+		$('#search_results').search_results();
+	});
 });
 
 // List profiles in an editable way in the provided HTML element
@@ -385,8 +391,6 @@ $.fn.add_archive = function($form) {
 // Run a search on the selected archive
 $.fn.search = function(page) {
 
-	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
-	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
 	return this.each(function() {
 		var $node = $(this);	
 		var archive = $node.data('archive');
@@ -410,6 +414,8 @@ $.fn.search = function(page) {
 		$.extend(archive, {page:page,query:obj.terms.join(' '),parser:archive.parser,proxy_url:proxy_url,error_callback:error_callback,complete_callback:complete_callback});
 		$.getScript(parser, function() {
 			loading(true, archive.title);
+			$.fn.search.page = page;
+			$.fn.search.results = [];
 			$.fn.parse(archive);
 		}).fail(function() {
 			var $error = $('#error');
@@ -432,14 +438,40 @@ function error_callback(error, archive) {
 	$error.find('[class="modal-body"]').html(html);
 	$error.modal();
 	
-}
+};
 
 function complete_callback(_results, archive) {
 
 	loading(false, archive.title);
+	$.fn.search.results = _results;
+	$('#search_form').find('input').blur();
 	$('#search_results').search_results();
 
-}
+};
+
+// Display search results in one of many templates
+$.fn.search_results = function() {
+	
+	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
+	return this.each(function() {
+		var $node = $(this);		
+		var view = $('#search_view').find('button[class*="btn-primary"]').attr('id'); 
+		if ('undefined'!=typeof($.fn.spreadsheet_view)) $.fn.spreadsheet_view.remove();
+		//results = sort_rdfjson_by_prop(results, 'http://purl.org/dc/terms/title');
+		//$('.num_results').html( $.map(results, function(n, i) { return i; }).length );
+		$('.page').text($.fn.search.page);
+		$('.prev-page, .next-page').hide();
+		if ($.fn.search.page > 1) $('.prev-page').show().data('page', $.fn.search.page - 1);
+		$('.next-page').show().data('page', $.fn.search.page + 1);
+		var view_path = $('link#base_url').attr('href')+'system/application/views/templates/jquery.'+view+'.js';
+		$.getScript(view_path, function() {
+			$node.empty();
+			$node.attr('class',view+'_view').spreadsheet_view({rows:$.fn.search.results,check:get_imported(),num_archives:1});
+		});		
+	});
+	
+};
 
 function loading(bool, archive_title) {
 	var $loading = $('#loading');
@@ -847,70 +879,6 @@ function collections_ui(col_id, view, col_view) {
 			$('#collections_spreadsheet_content').attr('class',view+'_view').spreadsheet_view({rows:results,check:check,num_archives:2,checkable:checkable,msg:welcome_msg});
 		});
 	}
-	
-}
-
-/**
- * Set the UI for search results in one of many possible views
- * @view str optional view to set 
- * @return null
- */
-function search_ui(index) {
-
-	var $search_spreadsheet = $('#search_spreadsheet');
-	$search_spreadsheet.show();	
-	
-	var $archive = $('#findable_form').children('.archive').eq(index);
-	$search_spreadsheet.find('[name="search"]').val('').attr('placeholder', $archive.find('h5').text()).focus();
-	$search_spreadsheet.find('.page').css('visibility','hidden');
-	$('#search_spreadsheet_content').html('<div class="welcome_msg"><br />You can search the archive by entering terms<br />in the <a href="javascript:void(null);"><span class="glyphicon glyphicon-search"></span> search field</a> above<br /><br />You can choose to have imported content populate a specific<br />collection by selecting it in the adjacent pulldown</div>');
-	
-	$('#select_archive').find('button:first').html('No collection');
-	var $into_collection = $('#into_collection');
-	$into_collection.empty();
-	$into_collection.append('<li><a data-index="" href="javascript:void(null);">No collection</a></li>');
-	var collections = get_collections();
-	for (var j in collections) {
-		$into_collection.append('<li><a data-index="'+j+'" href="javascript:void(null);"><span class="color" style="background-color:'+collections[j].color+'"></span>'+collections[j].title+'</a></li>');
-	};
-	$into_collection.find('a').click(function() {
-		var $this = $(this);
-		$('#select_archive').find('button:first').html($this.parent().html());
-		var $collections_form = $('#collections_form');
-		$collections_form.find('.collection').removeClass('clicked');
-		var index = parseInt($this.data('index'));
-		if (!isNaN(index)) $collections_form.find('.collection:not(.all)').eq(index).addClass('clicked');
-		collections_ui.col_id = (isNaN(index)) ? null : index;
-	});
-	if (null!=collections_ui.col_id) {
-		$into_collection.find('a').eq(collections_ui.col_id+1).click();
-	}
-	
-}
-
-/**
- * Set the UI for when results are returned
- */
-function search_results_ui(view) {
-	
-	// Presets
-	var $error = $('#error');
-	if (jQuery.isEmptyObject(do_search.results) && $error.is(':hidden')) {};
-	if ('undefined'==typeof(view)) view = $('#search_spreadsheet').find('.view-buttons').find('button[class*="btn-primary"]').attr('id');
-	if ('undefined'!=typeof($.fn.spreadsheet_view)) $.fn.spreadsheet_view.remove();
-	// Sort results, but only if there's more than one archive being search
-	if (do_search.total > 1) do_search.results = sort_rdfjson_by_prop(do_search.results, 'http://purl.org/dc/terms/title');
-	// Set num results
-	$('.num_results').html( $.map(do_search.results, function(n, i) { return i; }).length );
-	// Pagination
-	$('.page').css('visibility','hidden');
-	if (do_search.page > 1) $('.prev-page').css('visibility','visible').find('.num').html(do_search.page-1);
-	$('.next-page').css('visibility','visible').find('.num').html(do_search.page+1);
-	// Load current view
-	var view_path = $('link#base_url').attr('href')+'application/views/templates/jquery.'+view+'.js';
-	$.getScript(view_path, function() {
-		$('#search_spreadsheet_content').attr('class',view+'_view').spreadsheet_view({rows:do_search.results,check:get_imported(),num_archives:do_search.total});
-	});	
 	
 }
 

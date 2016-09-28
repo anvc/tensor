@@ -56,7 +56,7 @@
 			</div>
 			<div id="search_pagination">
 				<a href="javascript:void(null);" class="prev-page"><span class="glyphicon glyphicon-chevron-left"></span> Prev</a>
-				&nbsp;<span class="page">0</span> of <span class="total">0</span>&nbsp;
+				&nbsp;Page <span class="page">0</span>&nbsp;
 				<a href="javascript:void(null);" class="next-page">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
 			</div>
 			<div id="search_results"></div>

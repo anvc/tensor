@@ -84,7 +84,7 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #search_collection .btn-default {color:#337ab7;}
 #search_view {float:left; margin:2px 10px 0px 0px;}
 #search_pagination {float:left; margin:6px 0px 0px 0px;}
-#search_results {clear:both; padding-top:10px;}
+#search_results {clear:both;}
 
 /* Sync */
 .sync {text-align:center; padding:6px 0px 6px 0px;}
@@ -108,7 +108,7 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #edit_metadata .modal-header h4 {margin-left:126px; font-size:16px; letter-spacing:1px;}
 
 /* Table */
-.list_view {margin-left:16px; margin-right:16px;}
+.list_view {margin-left:2px; margin-right:2px; padding-top:8px;}
 thead tr th:last-child {text-align:center;}
 tbody tr td:not(.metadata) {text-align:center; cursor:pointer;}
 th {border-left:solid 1px #bbbbbb; background-color:#eeeeee; font-weight:normal !important;}
@@ -124,7 +124,7 @@ table input[type=checkbox] {margin-top:2px; margin-right:12px; float:left;}
 tr.static:hover td {background-color:initial !important; color:#333 !important;}
 
 /* Tiles */
-.tiles {margin-top:10px; margin-bottom:20px;}
+.tiles {padding-top:12px; padding-bottom:30px; margin-left:-12px; margin-right:-12px;}
 .tile {width:200px; padding:4px; margin:5px 10px 10px 10px; float:left; position:relative; cursor:pointer;}
 .tile.clicked {}
 .tile > .clicked_layer {
@@ -144,7 +144,7 @@ tr.static:hover td {background-color:initial !important; color:#333 !important;}
 .tile > .desc {font-size:12px; position:relative; z-index:1;}
 
 /* Details */
-.details {padding-bottom:40px;}
+.details {padding-bottom:40px; margin-left:-12px; margin-right:-12px;}
 .details > .detail {padding-top:20px; border-bottom:solid 1px #bbbbbb; padding-bottom:16px; cursor:pointer;}
 .detail.clicked {background-color:#decccc;}
 .details .dcterms-title {margin-bottom:4px;}
@@ -154,7 +154,7 @@ tr.static:hover td {background-color:initial !important; color:#333 !important;}
 .details input[type="checkbox"] {position:absolute; top:3px; left:19px;}
 
 /* Icons */
-.icons {padding-bottom:40px; cursor:pointer;}
+.icons {padding-bottom:40px; cursor:pointer; margin-left:-23px; margin-right:-23px;}
 .icons > .row {width:85px; margin:20px 10px 0px 10px; float:left; position:relative;}
 .icons > .row.clicked {}
 .icons > .row > .clicked_layer {
