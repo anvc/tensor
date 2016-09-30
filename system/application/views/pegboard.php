@@ -34,6 +34,13 @@
 				<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#set_profiles"><span class="glyphicon glyphicon-cog"></span> Set profiles</a>
 			</span>
 		  	<div class="btn-group btn-group-sm" role="group"></div>
+		  	<form id="search_archives_form">
+				<div class="right-inner-addon">
+			    	<input name="search" class="form-control" placeholder="Search archives" />
+				  	<a href="javascript:void(null);" class="glyphicon glyphicon-search"></a>
+				</div>
+				<a class="search_archives_clear" href="javascript:void(null);">clear</a>
+			</form>
 			<div class="container-fluid"></div>
 		</div>
 		<!-- Search an archive -->

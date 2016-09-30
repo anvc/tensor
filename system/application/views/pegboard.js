@@ -28,6 +28,27 @@ $(document).ready(function() {
 			return false;
 		});
 	});
+	$('#search_archives_form').unbind('submit').submit(function() {
+		var sq = $(this).find('input:first').val().toLowerCase();
+		var $archives = $('#archives').find('.container-fluid:first .archive');
+		$archives.hide();
+		$archives.each(function() {
+			var $this = $(this);
+			if (-1!=$this.data('archive').title.toLowerCase().indexOf(sq)) {
+				$this.show();
+			} else if (-1!=$this.data('archive').subtitle.toLowerCase().indexOf(sq)) {
+				$this.show();
+			} else if (-1!=$this.data('archive').url.toLowerCase().indexOf(sq)) {
+				$this.show();
+			};
+		});
+		$('.search_archives_clear').show().unbind('click').click(function() {
+			$(this).hide().closest('#archives').find('.archive').show().closest('#archives').find('input[name="search"]').val('');
+		});
+		return false;
+	}).find('a').unbind('click').click(function() {
+		$(this).closest('form').submit();
+	});
 	$('#search_close_circle, #search_close').click(function(e) {
 		e.stopPropagation();
 		$('#search_results').empty();
@@ -72,7 +93,12 @@ $.fn.set_profiles = function(profiles) {
 			$profiles.html('<p class="help-block">Profiles currently loaded in your Tensor app that contribute to your list of archives.</p>');
 			for (var j = 0; j < profiles.length; j++) {
 				if ('undefined'==typeof(profiles[j].archives)) continue;
-				var $profile = $('<div class="profile"><button type="button" class="btn btn-default">Download</button>&nbsp; <span class="desc"><b title="'+profiles[j].uri+'">'+profiles[j].name+'</b><br />Updated '+profiles[j].added+' with '+profiles[j].archives.length+' archives </span> <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>').appendTo($profiles);
+				var archive_titles = [];
+				for (var k = 0; k < profiles[j].archives.length; k++) {
+					archive_titles.push(profiles[j].archives[k].title);
+				};
+				if (!archive_titles.length) archive_titles = 'No archives';
+				var $profile = $('<div class="profile"><button type="button" class="btn btn-default">Download</button>&nbsp; <span class="desc"><b title="'+profiles[j].uri+'">'+profiles[j].name+'</b><br />Updated '+profiles[j].added+' with <a href="javascript:void(null);" data-toggle="tooltip" data-placement="top" title="'+archive_titles.join(', ')+'">'+profiles[j].archives.length+' archive'+((profiles[j].archives.length>1)?'s':'')+'</a> </span> <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>').appendTo($profiles);
 				$profile.data('profile', profiles[j]);
 				if (-1!=profiles[j].uri.indexOf('://')) {
 					var $refresh = $('<a href="javascript:void(null);" class="btn btn-xs btn-default">Refresh from server</a>').appendTo($profile.find('span:first'));
@@ -101,6 +127,7 @@ $.fn.set_profiles = function(profiles) {
 					saveAs(blob, filename+".txt");					
 				});
 			};
+			$('[data-toggle="tooltip"]').tooltip({trigger:'click'}); 
 			$profiles.append('<br clear="both" />');
 		};
 		// Delete

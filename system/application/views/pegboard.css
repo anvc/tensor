@@ -53,14 +53,20 @@ a.btn-default, button.btn-default {color:#337ab7;}
 
 /* Archives */
 #archives {z-index:9; position:absolute; top:0px; right:0px; margin:20px 0px 20px 0px;}
-#archives .container-fluid {
-	margin-top:16px; padding-left:0px; padding-right:0px; margin-left:-5px; margin-right:-5px;
-}
+#archives .btn-group {float:left; margin-right:12px;}
 #archives .btn-group .btn {min-width:46px;}
+#search_archives_form {float:left;}
+#search_archives_form input {height:30px;}
+#search_archives_form > div {float:left; margin-right:6px;}
+#search_archives_form > a {float:left; line-height:210%; display:none;}
+#search_archives_form .right-inner-addon a {padding-top:8px;}
+#archives .container-fluid {
+	clear:both; padding-top:14px; padding-left:0px; padding-right:0px; margin-left:-5px; margin-right:-5px;
+}
 #archives .archive {padding-left:0px; padding-right:0px;}
 #archives .archive > div {
 	margin-left:5px; margin-right:5px; margin-bottom:16px; height:initial; border:solid 1px #eeeeee; border-radius:5px;
-	background-position:left; /* background-size:contain' */ background-size:17% auto; background-repeat:no-repeat;	cursor:pointer;
+	background-position:left; /* background-size:contain' */ background-size:44px auto; background-repeat:no-repeat;	cursor:pointer;
 }
 #archives .archive > div:hover {background-color:#eeeeee; border-color:#dddddd;}
 #archives h5 {padding:5px 3px 0px 54px; margin:0px 0px 0px 0px; white-space:nowrap; overflow:hidden; line-height:100%;}
