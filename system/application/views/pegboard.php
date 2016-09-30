@@ -8,7 +8,7 @@
 				<div>
 				  <form id="filter_collections_form">
 				    <div class="right-inner-addon">
-				      <input name="search" class="form-control" placeholder="Filter Collections" />
+				      <input name="search" class="form-control" placeholder="Search collections" />
 				      <a href="javascript:void(null);" class="glyphicon glyphicon-search"></a>
 				    </div>
 				  </form>

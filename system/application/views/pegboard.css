@@ -26,8 +26,10 @@ a.btn-default, button.btn-default {color:#337ab7;}
 
 /* Sidebar */
 .sidebar {border-right:solid 1px #bbbbbb;}
-.collections {background-color:white; margin-top:-2px;}
+.collections {background-color:white;}
 .collections > div {margin:20px 0px 0px 0px;}
+#filter_collections_form input {height:30px;}
+#filter_collections_form .right-inner-addon a {padding-top:8px;}
 .collections .advanced {color:#555555; font-weight:bold; margin:10px 0px 0px 0px;}
 .collections .advanced a.l {float:left;}
 .collections .advanced a {float:right; font-weight:normal;}

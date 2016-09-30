@@ -97,7 +97,7 @@ $.fn.set_profiles = function(profiles) {
 				for (var k = 0; k < profiles[j].archives.length; k++) {
 					archive_titles.push(profiles[j].archives[k].title);
 				};
-				if (!archive_titles.length) archive_titles = 'No archives';
+				if (!archive_titles.length) archive_titles = ['No archives'];
 				var $profile = $('<div class="profile"><button type="button" class="btn btn-default">Download</button>&nbsp; <span class="desc"><b title="'+profiles[j].uri+'">'+profiles[j].name+'</b><br />Updated '+profiles[j].added+' with <a href="javascript:void(null);" data-toggle="tooltip" data-placement="top" title="'+archive_titles.join(', ')+'">'+profiles[j].archives.length+' archive'+((profiles[j].archives.length>1)?'s':'')+'</a> </span> <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>').appendTo($profiles);
 				$profile.data('profile', profiles[j]);
 				if (-1!=profiles[j].uri.indexOf('://')) {
@@ -177,7 +177,7 @@ $.fn.set_profiles = function(profiles) {
 			var json = {};
 			json.name = value;
 			json.uri = '_'+(new Date().getTime());
-			window['profile'](json,true);
+			window['profile'](json);
 			$(this).closest('.input-group').find('input[type="text"]').val('').blur();
 		});
 		// From URL
@@ -216,7 +216,7 @@ $.fn.set_profiles = function(profiles) {
 		    		return;
 		    	};
 		    	var json = fr.result.substring(fr.result.indexOf("(") + 1, fr.result.lastIndexOf(")"));
-		    	window['profile'](json, true);
+		    	window['profile'](json);
 		    };
 		    fr.readAsText(file);
 		    $(this).closest('.input-group').find('input').val('').blur();
@@ -253,8 +253,9 @@ window['profile'] = function(json) {
 	}
 	profiles.push(json);
 	storage.set('profiles', profiles);
-	$('#set_profiles').set_profiles(storage.get('profiles'));
+	if (!$('.modal.in:not(#set_profiles)').length) $('#set_profiles').set_profiles(storage.get('profiles'));
 	$('#archives').list_archives(storage.get('profiles'));
+	return profiles.length - 1;
 };
 
 // List the various archives stored in the various profiles (the default page)
@@ -353,7 +354,10 @@ $.fn.add_archive = function($form) {
 			   alert('Please enter a name for the new profile, or select an existing profile.');
 			   return;
 		   }
-		   // TODO: create profile | get the new profile_index
+		   var json = {};
+		   json.name = new_profile;
+		   json.uri = '_'+(new Date().getTime());
+		   var profile_index = window['profile'](json);
 		} else {
 			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
 			var profile_index = null;
@@ -378,6 +382,7 @@ $.fn.add_archive = function($form) {
 				"categories": categories		
 			};
 		if ($form.find('#thumbnail').val().length) obj.thumbnail = $form.find('#thumbnail').val();
+		if ('undefined'==typeof(profiles)) var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
 		profiles[profile_index].archives.push(obj);
     	profiles[profile_index].added = new Date().toJSON().slice(0,10);  // Not great semantics, but ...
     	storage.set('profiles', profiles);
