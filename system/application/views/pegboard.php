@@ -23,15 +23,15 @@
 					    <div class="desc">All media pegged from archives</div>
 					</div>
 				  </form>
-				  <div class="sync"><a href="javascript:void(null);" data-toggle="modal" data-target="#sync"><span class="glyphicon glyphicon-cloud" style="position:relative;top:2px;"></span>&nbsp; Sync Collections to Scalar</a></div>
 				</div>
 			</div>
 		</div>
 		<!-- List of archives -->
 		<div id="archives" class="col-xs-9">
 		  	<span style="float:right;">
+		  		<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#set_profiles"><span class="glyphicon glyphicon-cog"></span> Set profiles</a>
 		  		<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#add_archive"><span class="glyphicon glyphicon-plus"></span> Add archive</a>
-				<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#set_profiles"><span class="glyphicon glyphicon-cog"></span> Set profiles</a>
+				<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#sync"><span class="glyphicon glyphicon-cloud"></span> Sync media</a>
 			</span>
 		  	<div class="btn-group btn-group-sm" role="group"></div>
 		  	<form id="search_archives_form">
@@ -39,7 +39,6 @@
 			    	<input name="search" class="form-control" placeholder="Search archives" />
 				  	<a href="javascript:void(null);" class="glyphicon glyphicon-search"></a>
 				</div>
-				<a class="search_archives_clear" href="javascript:void(null);">clear</a>
 			</form>
 			<div class="container-fluid"></div>
 		</div>

@@ -56,9 +56,9 @@ a.btn-default, button.btn-default {color:#337ab7;}
 /* Archives */
 #archives {z-index:9; position:absolute; top:0px; right:0px; margin:20px 0px 20px 0px;}
 #archives .btn-group {float:left; margin-right:12px;}
-#archives .btn-group .btn {min-width:46px;}
+#archives .btn-group button:first-of-type {min-width:90px; text-align:left;}
 #search_archives_form {float:left;}
-#search_archives_form input {height:30px;}
+#search_archives_form input {height:30px; font-size:12px;}
 #search_archives_form > div {float:left; margin-right:6px;}
 #search_archives_form > a {float:left; line-height:210%; display:none;}
 #search_archives_form .right-inner-addon a {padding-top:8px;}
