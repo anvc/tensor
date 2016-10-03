@@ -27,6 +27,7 @@ $(document).ready(function() {
 			$('#search').search();
 			return false;
 		});
+		$('#import_to').import();
 	});
 	$('#search_archives_form').unbind('submit').submit(function() {
 		var sq = $(this).find('input:first').val().toLowerCase();
@@ -511,6 +512,26 @@ $.fn.search_results = function() {
 			$node.empty();
 			$node.attr('class',view+'_view').spreadsheet_view({rows:$.fn.search.results,check:get_imported(),num_archives:1});
 		});		
+	});
+	
+};
+
+// The "import to" button with attached import action
+$.fn.import = function(page) {
+
+	return this.each(function() {
+		var $node = $(this);
+		$node.empty();
+		var archive = $('#search').data('archive');
+		// Create the split button with a list of the collections
+		var collections = [];  // TODO
+		$node.append('<button type="button" class="btn btn-primary">Import</button>');
+		$node.append('<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>');
+		var $list = $('<ul class="dropdown-menu"><li class="dropdown-menu-title">Import to...</li><li><a href="javascript:void(null);" data-title="all"><i>No collection</i></a><ul>').appendTo($node);
+		for (var j = 0; j < collections.length; j++) {
+			$node.append('<li><a href="javascript:void(null);" data-title="'+categories[j].toLowerCase()+'">'+categories[j].firstLetterCap()+'</a></li>');
+		};
+		// Import actions
 	});
 	
 };

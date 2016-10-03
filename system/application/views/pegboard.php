@@ -7,20 +7,21 @@
 			<div class="collections">
 				<div>
 				  <form id="filter_collections_form">
-				    <div class="right-inner-addon">
-				      <input name="search" class="form-control" placeholder="Search collections" />
-				      <a href="javascript:void(null);" class="glyphicon glyphicon-search"></a>
-				    </div>
+				  	<div>
+				  		<button class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Add collection</button>
+				  	</div>
+				  	<div>
+					    <div class="right-inner-addon">
+					      <input name="search" class="form-control" placeholder="Collections" />
+					      <a href="javascript:void(null);" class="glyphicon glyphicon-search"></a>
+					    </div>
+					</div>
 				  </form>
-				  <div class="advanced">
-				    <a href="javascript:void(null);" class="l" data-toggle="modal" data-target="#create_collection"><span class="glyphicon glyphicon-plus"></span> Create New Collection</a>
-				  	<a href="javascript:void(null);" id="advanced_collections_link"><span class="glyphicon glyphicon glyphicon-cog" aria-hidden="true"></span> Manage</a>
-				  </div>
 				  <form id="collections_form">
 					<div class="collection all">
 						<div class="color" style="background-color:#ffffff;"><span class="num_items">0</span></div>
-						<h5>All pegged media</h5>
-					    <div class="desc">All media pegged from archives</div>
+						<h5>All imported media</h5>
+					    <div class="desc">All media imported from archives</div>
 					</div>
 				  </form>
 				</div>
@@ -31,12 +32,12 @@
 		  	<span style="float:right;">
 		  		<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#set_profiles"><span class="glyphicon glyphicon-cog"></span> Set profiles</a>
 		  		<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#add_archive"><span class="glyphicon glyphicon-plus"></span> Add archive</a>
-				<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#sync"><span class="glyphicon glyphicon-cloud"></span> Sync media</a>
+				<a href="javascript:void(null);" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sync"><span class="glyphicon glyphicon-cloud"></span>&nbsp; Sync media</a>
 			</span>
 		  	<div class="btn-group btn-group-sm" role="group"></div>
 		  	<form id="search_archives_form">
 				<div class="right-inner-addon">
-			    	<input name="search" class="form-control" placeholder="Search archives" />
+			    	<input name="search" class="form-control" placeholder="Archives" />
 				  	<a href="javascript:void(null);" class="glyphicon glyphicon-search"></a>
 				</div>
 			</form>
@@ -60,11 +61,7 @@
 				<button type="button" class="btn btn-default" id="list">List</button>
 				<button type="button" class="btn btn-default" id="detail">Detail</button>
 			</div>
-			<div id="search_pagination">
-				<a href="javascript:void(null);" class="prev-page"><span class="glyphicon glyphicon-chevron-left"></span> Prev</a>
-				&nbsp;Page <span class="page">0</span>&nbsp;
-				<a href="javascript:void(null);" class="next-page">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
-			</div>
+			<div id="import_to" class="btn-group btn-group-sm" role="group"></div>
 			<div id="search_results"></div>
 		</div>
 	</div>
