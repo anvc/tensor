@@ -4,11 +4,11 @@
 	<div class="row col-max-height">
 		<!-- Sidebar -->
 		<div class="col-xs-3 col-max-height sidebar">
-			<div class="collections">
+			<div id="collections">
 				<div>
 				  <form id="filter_collections_form">
 				  	<div>
-				  		<button class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Add collection</button>
+				  		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_collection"><span class="glyphicon glyphicon-plus"></span> Add collection</button>
 				  	</div>
 				  	<div>
 					    <div class="right-inner-addon">
@@ -190,67 +190,42 @@
   </div>
 </div>
 
-<div class="modal fade" id="create_collection">
+<div class="modal fade" id="add_collection">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Create Collection</h4>
+        <h4 class="modal-title">Create a collection</h4>
       </div>
-      <div class="modal-body">
-        <form id="create_collection_form">
-		  <div class="form-group">
-		    <label>Title</label>
-		    <input type="text" class="form-control" name="title" placeholder="My new collection">
-		  </div>
-		  <div class="form-group">
-		    <label>Description</label>
-		    <input type="text" class="form-control" name="description" placeholder="A collection of imported media">
-		  </div>
-		  <div class="form-group">
-		  	<label>Color</label><br />
-		  	<input type="text" name="color">
-		  </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Create collection</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<div class="modal fade" id="edit_collection">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Edit Collection</h4>
-      </div>
-      <div class="modal-body">
-        <form id="create_collection_form">
-		  <div class="form-group">
-		    <label>Title</label>
-		    <input type="text" class="form-control" name="title" placeholder="My new collection">
-		  </div>
-		  <div class="form-group">
-		    <label>Description</label>
-		    <input type="text" class="form-control" name="description" placeholder="A collection of imported media">
-		  </div>
-		  <div class="form-group">
-		  	<label>Color</label><br />
-		  	<input type="text" name="color">
-		  </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save collection</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+      <form class="form-horizontal">
+	      <div class="modal-body">
+			<div class="form-group">
+		  		<label for="title" class="col-sm-3 control-label">Title</label>
+		  		<div class="col-sm-9">
+			  		<input type="text" class="form-control" id="title" name="title" placeholder="My Collection" required>
+				</div>
+		 	</div>
+			<div class="form-group">
+		  		<label for="description" class="col-sm-3 control-label">Description</label>
+		  		<div class="col-sm-9">
+			  		<input type="text" class="form-control" id="description" name="description" placeholder="A collection of imported media" required>
+				</div>
+		 	</div>
+			<div class="form-group">
+		  		<label for="description" class="col-sm-3 control-label">Color</label>
+		  		<div class="col-sm-9">
+			  		<input type="text" name="color">
+				</div>
+		 	</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        <button type="submit" class="btn btn-primary">Add collection</button>
+	      </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="sync">
   <div class="modal-dialog">

@@ -67,6 +67,17 @@ $(document).ready(function() {
 		$this.removeClass('btn-default').addClass('btn-primary');
 		$('#search_results').search_results();
 	});
+	// Collections
+	var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
+	$('#collections').list_collections(collections);	
+	$('#add_collection').on('show.bs.modal', function () {
+		$(this).add_collection();
+	});
+	$('#add_collection').find('form').submit(function() {
+		var $form = $(this);
+		$form.closest('.modal').add_collection($form);
+		return false;		
+	});
 });
 
 // List profiles in an editable way in the provided HTML element
@@ -524,16 +535,68 @@ $.fn.import = function(page) {
 		$node.empty();
 		var archive = $('#search').data('archive');
 		// Create the split button with a list of the collections
-		var collections = [];  // TODO
 		$node.append('<button type="button" class="btn btn-primary">Import</button>');
 		$node.append('<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>');
-		var $list = $('<ul class="dropdown-menu"><li class="dropdown-menu-title">Import to...</li><li><a href="javascript:void(null);" data-title="all"><i>No collection</i></a><ul>').appendTo($node);
+		var $list = $('<ul class="dropdown-menu"><li class="dropdown-menu-title">Import to...</li></ul>').appendTo($node);
+		if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
 		for (var j = 0; j < collections.length; j++) {
-			$node.append('<li><a href="javascript:void(null);" data-title="'+categories[j].toLowerCase()+'">'+categories[j].firstLetterCap()+'</a></li>');
+			$list.append('<li><a href="javascript:void(null);" data-index="'+j+'">'+collections[j].title+'</a></li>');
 		};
 		// Import actions
+		// TODO
 	});
 	
+};
+
+//List collections in the sidebar
+$.fn.list_collections = function(collections) {
+	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
+	return this.each(function() {
+		var $node = $(this);
+		$form = $node.find('#collections_form');
+		$form.children(':gt(0)').remove();  // Assume the first collection is the built-in "All imported media"
+		if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
+		for (var j = 0; j < collections.length; j++) {
+			var $col = $('<div class="collection"></div>').appendTo($form);
+			$col.append('<div class="color" style="background-color:'+collections[j].color+';"><span class="num_items">'+Object.keys(collections[j].items).length+'</span></div>');
+			$col.append('<h5>'+collections[j].title+'</h5>');
+		    $col.append('<div class="desc">'+collections[j].description+'</div>');
+		};
+	});
+};
+
+// The add collection modal
+$.fn.add_collection = function($form) {
+	if ('undefined'!=typeof($form)) {
+		if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+		if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global	
+		var obj = {};
+		obj.title = $form.find('[name="title"]').val();
+		obj.description = $form.find('[name="description"]').val();
+		obj.color = '#'+$form.find('input[name="color"]').spectrum("get").toHex();
+		obj.items = {};
+		if (!obj.title.length) {
+			alert('Please enter a title for the collection');
+			return;
+		} else if (!obj.description.length) {
+			alert('Please enter a description for the collection');
+			return;
+		};
+		if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
+		collections.push(obj);
+		storage.set('collections', collections);;		
+		$('#collections').list_collections(collections);
+    	$('#add_collection').modal('hide');
+	} else {	
+		return this.each(function() {
+			var $modal = $(this);
+			$modal.find('input').val('');
+			$modal.find('input[name="color"]').spectrum({
+			    color: "#9999ff"
+			});		
+		});
+	}
 };
 
 function loading(bool, archive_title) {

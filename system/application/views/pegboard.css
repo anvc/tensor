@@ -28,8 +28,8 @@ a.btn-default, button.btn-default {color:#337ab7;}
 
 /* Sidebar */
 .sidebar {border-right:solid 1px #bbbbbb;}
-.collections {background-color:white;}
-.collections > div {margin:20px 0px 0px 0px;}
+#collections {background-color:white;}
+#collections > div {margin:20px 0px 0px 0px;}
 #filter_collections_form > div {display:table-cell; vertical-align:middle;}
 #filter_collections_form > div:first-of-type {padding-right:6px;}
 #filter_collections_form > div:last-of-type {padding-left:6px;}
@@ -37,23 +37,23 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #filter_collections_form .right-inner-addon a {padding-top:8px; font-size:12px;}
 #collections_form {padding-top:14px; clear:both;}
 #collections_form .notice {text-align:center; color:#555555; padding-top:8px; height:34px;}
-.collections .collection {
+#collections .collection {
 	min-height:32px; white-space:nowrap; overflow:hidden; padding:5px 0px 4px 2px; cursor:pointer; margin-bottom:4px; 
 	border-radius: 4px;
 }
-.collections .collection.clicked {background-color:#decccc;}
-.collections .collection .color {
+#collections .collection.clicked {background-color:#decccc;}
+#collections .collection .color {
 	width:32px; height:32px; display:inline-block; margin-right:8px; border:solid 1px #cccccc; float:left; 
 	text-align:center; padding-top:5px; border-radius:4px;
 }
-.collections .collection .thumb {
+#collections .collection .thumb {
 	width:32px; height:32px; display:inline-block; margin-right:8px; border:solid 1px #eeeeee; float:left; 
 	padding-top:5px; background-size:32px 32px; background-color:#eeeeee;
 }
-.collections .collection .num_items {color:#555555; font-weight:normal; font-size:14px;}
-.collections .collection:hover {opacity:0.75;}
-.collections .collection h5 {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden; font-weight:normal;}
-.collections .collection .desc {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden;}
+#collections .collection .num_items {color:#555555; font-weight:normal; font-size:14px;}
+#collections .collection:hover {opacity:0.75;}
+#collections .collection h5 {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden; font-weight:normal;}
+#collections .collection .desc {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden;}
 
 /* Archives */
 #archives {z-index:9; position:absolute; top:0px; right:0px; margin:20px 0px 20px 0px;}
