@@ -106,6 +106,7 @@ $(document).ready(function() {
 		$('#collection_results').empty();
 		$('#search').hide();
 		$('#collection').hide();
+		$('#collections .collection').removeClass('clicked');
 		$('#archives').show();
 	});	
 });
@@ -588,6 +589,12 @@ $.fn.import = function() {
 			if (index > 0) collections[index].items = $.extend({}, collections[index].items, items);
 			storage.set('collections', collections);;	
 			$('#collections').list_collections(collections);
+			$('#search_results').find('.clicked').removeClass('clicked').find('.clicked_layer').remove();
+			if (!$('#imported_tour').length) {
+				$(window).joyride("destroy");
+				var $joyride = $('<ol id="imported_tour"><li data-id="collection_'+index+'" data-button="Close"><p>Your item'+((Object.keys(items).length>1)?'s have':' has')+' been imported'+((index>0)?' into this collection':'')+'.</p></li></ol>').appendTo('body');
+				$("#imported_tour").joyride({autoStart:true, timer:2000, template:{link:''}});
+			};
 		};
 		$list.find('a').unbind('click').click(function() {
 			var index = $(this).data('index');
@@ -613,7 +620,7 @@ $.fn.list_collections = function(collections) {
 		$form.find('.all .num_items').text(Object.keys(collections[0].items).length);
 		for (var j = 1; j < collections.length; j++) {  // 0: all imported media
 			var lum = luminance(collections[j].color);
-			var $col = $('<div class="collection"></div>').appendTo($form);
+			var $col = $('<div class="collection" id="collection_'+j+'"></div>').appendTo($form);
 			$col.append('<div class="color '+((lum < 80)?'dark':'light')+'" style="background-color:'+collections[j].color+';"><span class="num_items">'+Object.keys(collections[j].items).length+'</span></div>');
 			$col.append('<h5>'+collections[j].title+'</h5>');
 		    $col.append('<div class="desc">'+collections[j].description+'</div>');
@@ -700,7 +707,7 @@ $.fn.move = function(source_collection) {
 		$node.empty();
 		// Create the split button with a list of the collections
 		$node.append('<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Selected items <span class="caret"></span></button>');
-		var $list = $('<ul class="dropdown-menu"></ul>').appendTo($node);
+		var $list = $('<ul class="dropdown-menu"><li><a href="javascript:void(null);" data-index="meta">Edit metadata</a></li><li role="separator" class="divider"></li></ul>').appendTo($node);
 		if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
 		for (var j = 0; j < collections.length; j++) {  // 0: all imported media
 			if (JSON.stringify(source_collection) == JSON.stringify(collections[j])) continue;
@@ -715,11 +722,11 @@ $.fn.move = function(source_collection) {
 			};
 			$list.append('<li><a href="javascript:void(null);" data-index="'+j+'">'+title+'</a></li>');
 		};
-		// Import actions
-		var do_move = function(collection) {
-			if ('undefined'==typeof(collection)) collection = null;
+		// Move actions
+		var do_move = function(index) {
+			if ('undefined'==typeof(index)) index = 0;  // 0: all imported media
 			var items = {};
-			$('#search_results').find('.clicked').each(function() {
+			$('#collection_results').find('.clicked').each(function() {
 				var $this = $(this);
 				var uri = $this.data('uri');
 				var values = $this.data('values');
@@ -727,18 +734,54 @@ $.fn.move = function(source_collection) {
 			});
 			if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
 			if ('undefined'==typeof(collections[0])) collections[0] = {items:{}};  // 0: all imported media
-			collections[0].items = $.extend({}, collections[0].items, items);
-			// TODO: single collection
-			storage.set('collections', collections);;	
+			if ('meta'==index) {  // Edit metadata
+				alert('Coming soon: edit metadata of each item in a modal');
+			} else if ('undefined'==typeof(source_collection) && 0==index) {  // Delete from all 
+				for (var k = 0; k < collections.length; k++) {
+					for (var uri in items) {
+						if ('undefined'!=collections[k].items[uri]) delete collections[k].items[uri];
+					};
+				};
+			} else if (0==index) {  // Delete from this collection
+				for (var k = 0; k < collections.length; k++) {
+					if (JSON.stringify(source_collection) != JSON.stringify(collections[k])) continue;
+					for (var uri in items) {
+						if ('undefined'!=collections[k].items[uri]) delete collections[k].items[uri];
+					};
+					break;
+				};
+			} else if ('undefined'==typeof(source_collection)) {  // Copy from all into a collection
+				for (var uri in items) {
+					collections[index].items[uri] = items[uri];
+				};
+			} else {  // Move from one to the other
+				for (var k = 0; k < collections.length; k++) {
+					if (JSON.stringify(source_collection) != JSON.stringify(collections[k])) continue;
+					for (var uri in items) {
+						if ('undefined'!=collections[k].items[uri]) delete collections[k].items[uri];
+					};
+					break;
+				};		
+				for (var uri in items) {
+					collections[index].items[uri] = items[uri];
+				};
+			};						
+			storage.set('collections', collections);
+			var selected_index = 0;
+			$('#collections_form').find('.collection').each(function(index) {
+				if ($(this).hasClass('clicked')) selected_index = index;
+			});			
 			$('#collections').list_collections(collections);
+			$('#collections_form').find('.collection').eq(selected_index).click();
+			if ($.isNumeric(index) && !$('#moved_tour').length) {
+				$(window).joyride("destroy");
+				var $joyride = $('<ol id="moved_tour"><li data-id="collection_'+selected_index+'" data-button="Close"><p>Your item'+((Object.keys(items).length>1)?'s have':' has')+' been '+((index>0)?' moved':' copied')+'.</p></li></ol>').appendTo('body');
+				$("#moved_tour").joyride({autoStart:true, timer:2000, template:{link:''}});
+			};			
 		};
 		$list.find('a').unbind('click').click(function() {
 			var index = $(this).data('index');
-			var collection = collections[index];
-			do_move(collection);
-		});
-		$node.find('button:first').unbind('click').click(function() {
-			do_move();
+			do_move(index);
 		});
 	});
 	

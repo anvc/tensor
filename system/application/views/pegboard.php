@@ -18,7 +18,7 @@
 					</div>
 				  </form>
 				  <form id="collections_form">
-					<div class="collection all">
+					<div class="collection all" id="collection_0">
 						<div class="color" style="background-color:#ffffff;"><span class="num_items">0</span></div>
 						<h5>All imported media</h5>
 					    <div class="desc">All media imported from archives</div>

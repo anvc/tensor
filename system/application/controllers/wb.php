@@ -64,6 +64,7 @@ class Wb extends CI_Controller {
 		$this->template->add_css('system/application/views/common/bootstrap/css/bootstrap.min.css');
 		$this->template->add_css('system/application/views/common/tablesorter/theme.default.css');
 		$this->template->add_css('system/application/views/common/spectrum/spectrum.css');
+		$this->template->add_css('system/application/views/common/joyride/joyride-2.1.css');
 		$this->template->add_css('system/application/views/pegboard.css');
 		$this->template->add_js(base_url().'system/application/views/common/jquery-1.11.3.min.js');
 		$this->template->add_js(base_url().'system/application/views/common/jquery-ui-1.11.4.custom/jquery-ui.min.js');
@@ -73,6 +74,7 @@ class Wb extends CI_Controller {
 		$this->template->add_js(base_url().'system/application/views/common/endless_scroll/endless_scroll.min.js');
 		$this->template->add_js(base_url().'system/application/views/common/match-height/jquery.matchHeight.js');
 		$this->template->add_js(base_url().'system/application/views/common/spectrum/spectrum.js');
+		$this->template->add_js(base_url().'system/application/views/common/joyride/jquery.joyride-2.1.js');
 		$this->template->add_js(base_url().'system/application/views/common/jquery.storageapi.js');
 		$this->template->add_js(base_url().'system/application/views/common/linkify/linkify.js');
 		$this->template->add_js(base_url().'system/application/views/common/FileSaver.min.js');
