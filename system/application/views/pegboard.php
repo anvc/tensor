@@ -64,6 +64,27 @@
 			<div id="import_to" class="btn-group btn-group-sm" role="group"></div>
 			<div id="search_results"></div>
 		</div>
+		<!-- Contents of a collection -->
+		<div id="collection" class="col-xs-9">
+			<span id="collection_close_circle"></span>
+			<a href="javascript:void(null);" id="collection_close" class="glyphicon glyphicon-remove"></a>
+			<form id="collection_form">
+				<div class="right-inner-addon">
+					<input type="text" name="search" class="form-control" placeholder="Search collection" required />
+					<a href="javascript:void(null);" class="glyphicon glyphicon-trash glyphicon-xs"></a>
+					<a href="javascript:void(null);" class="glyphicon glyphicon-pencil glyphicon-xs two"></a>
+					<a href="javascript:void(null);" class="glyphicon glyphicon-search glyphicon-xs three"></a>
+				</div>
+			</form>
+			<div id="collection_view" class="btn-group btn-group-sm" role="group">
+				<button type="button" class="btn btn-primary" id="icon">Icon</button>
+				<button type="button" class="btn btn-default" id="tile">Tile</button>
+				<button type="button" class="btn btn-default" id="list">List</button>
+				<button type="button" class="btn btn-default" id="detail">Detail</button>
+			</div>
+			<div id="move_to" class="btn-group btn-group-sm" role="group"></div>
+			<div id="collection_results"></div>
+		</div>
 	</div>
 </div>
 

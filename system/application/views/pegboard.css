@@ -41,16 +41,18 @@ a.btn-default, button.btn-default {color:#337ab7;}
 	min-height:32px; white-space:nowrap; overflow:hidden; padding:5px 0px 4px 2px; cursor:pointer; margin-bottom:4px; 
 	border-radius: 4px;
 }
-#collections .collection.clicked {background-color:#decccc;}
+#collections .collection.clicked {background-color:#dddddd;}
 #collections .collection .color {
 	width:32px; height:32px; display:inline-block; margin-right:8px; border:solid 1px #cccccc; float:left; 
 	text-align:center; padding-top:5px; border-radius:4px;
 }
+#collections .collection .color.dark {color:#aaaaaa;}
+#collections .collection .color.light {color:#444444;}
 #collections .collection .thumb {
 	width:32px; height:32px; display:inline-block; margin-right:8px; border:solid 1px #eeeeee; float:left; 
 	padding-top:5px; background-size:32px 32px; background-color:#eeeeee;
 }
-#collections .collection .num_items {color:#555555; font-weight:normal; font-size:14px;}
+#collections .collection .num_items {font-weight:normal; font-size:14px;}
 #collections .collection:hover {opacity:0.75;}
 #collections .collection h5 {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden; font-weight:normal;}
 #collections .collection .desc {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden;}
@@ -90,12 +92,23 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #search_close {float:right; cursor:pointer; display:inline-block; margin-right:10px; font-size:larger; /* color:#2e6da4; */ color:#666666;}
 #search_close:hover {text-decoration:none;}
 #search_form {float:left; margin:0px 10px 0px 0px; min-width:250px;}
-#search_collection {float:left; margin:0px 10px 0px 0px;}
-#search_collection .btn-default {color:#337ab7;}
 #search_view {float:left; margin:2px 10px 0px 0px;}
 #import_to {float:left; margin:2px 0px 0px 0px;}
 #search_pagination {float:left; margin:6px 0px 0px 0px;}
 #search_results {clear:both;}
+
+/* Collection */
+#collection {margin:0px 0px 0px 0px; padding-top:18px; display:none; min-height:200px;}
+#collection_close_circle {position:absolute; right:19px; top:12px; border-radius:50%; width:30px; height:30px; background-color:#eeeeee; cursor:pointer;}
+#collection_close {float:right; cursor:pointer; display:inline-block; margin-right:10px; font-size:larger; /* color:#2e6da4; */ color:#666666;}
+#collection_close:hover {text-decoration:none;}
+#collection_form {float:left; margin:0px 10px 0px 0px; min-width:250px;}
+#collection_form .right-inner-addon input:first-of-type {height:30px; font-size:12px; margin-top:2px;}
+#collection_form .right-inner-addon a {font-size:12px; padding-top:8px;}
+#collection_view {float:left; margin:2px 10px 0px 0px;}
+#move_to {float:left; margin:2px 0px 0px 0px;}
+#collection_pagination {float:left; margin:6px 0px 0px 0px;}
+#collection_results {clear:both;}
 
 /* Sync */
 .sync {text-align:center; padding:6px 0px 6px 0px;}

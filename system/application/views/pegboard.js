@@ -51,6 +51,7 @@ $(document).ready(function() {
 		e.stopPropagation();
 		$('#search_results').empty();
 		$('#search').hide();
+		$('#collection').hide();
 		$('#archives').show();
 	});
 	$('#add_archive').on('show.bs.modal', function () {
@@ -78,6 +79,35 @@ $(document).ready(function() {
 		$form.closest('.modal').add_collection($form);
 		return false;		
 	});
+	$('body').on("show_collection", function(e, collection) {
+		$('#search').hide();
+		$('#archives').hide();
+		if ('undefined'!=typeof(collection)) var rgb = hexToRgb(collection.color);
+		$('#collection').css('background', (('undefined'==typeof(collection))?'#ffffff':'linear-gradient(to bottom, rgba('+rgb.r+','+rgb.g+','+rgb.b+',0.5) 0px, rgba('+rgb.r+','+rgb.g+','+rgb.b+',0) 100px)') );
+		$('#collection').data('collection',collection).show().find('#collection_form input:first').val('').prop('placeholder', (('undefined'==typeof(collection))?'All imported media':collection.title));
+		$('#collection').find('.glyphicon-search').unbind('click').click(function() {
+			$(this).closest('form').submit();
+		});
+		$('#collection').find('.glyphicon-pencil').unbind('click').click(function() {
+			alert('Coming soon: edit this collections\'s settings');
+		});
+		$('#collection').find('.glyphicon-trash').unbind('click').click(function() {
+			alert('Coming soon: delete this collection');
+		});		
+		$('#collection_form').unbind('submit').submit(function() {
+			// TODO
+			return false;
+		});
+		$('#collection_results').show_collection(collection);
+		$('#move_to').move(collection);
+	});	
+	$('#collection_close_circle, #collection_close').click(function(e) {
+		e.stopPropagation();
+		$('#collection_results').empty();
+		$('#search').hide();
+		$('#collection').hide();
+		$('#archives').show();
+	});	
 });
 
 // List profiles in an editable way in the provided HTML element
@@ -528,7 +558,7 @@ $.fn.search_results = function() {
 };
 
 // The "import to" button with attached import action
-$.fn.import = function(page) {
+$.fn.import = function() {
 
 	return this.each(function() {
 		var $node = $(this);
@@ -539,11 +569,33 @@ $.fn.import = function(page) {
 		$node.append('<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>');
 		var $list = $('<ul class="dropdown-menu"><li class="dropdown-menu-title">Import to...</li></ul>').appendTo($node);
 		if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
-		for (var j = 0; j < collections.length; j++) {
+		for (var j = 1; j < collections.length; j++) {  // 0: all imported media
 			$list.append('<li><a href="javascript:void(null);" data-index="'+j+'">'+collections[j].title+'</a></li>');
 		};
 		// Import actions
-		// TODO
+		var do_import = function(index) {
+			if ('undefined'==typeof(index)) index = 0;  // 0: all imported media
+			var items = {};
+			$('#search_results').find('.clicked').each(function() {
+				var $this = $(this);
+				var uri = $this.data('uri');
+				var values = $this.data('values');
+				items[uri] = values;
+			});
+			if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
+			if ('undefined'==typeof(collections[0])) collections[0] = {items:{}};  // 0: all imported media
+			collections[0].items = $.extend({}, collections[0].items, items);
+			if (index > 0) collections[index].items = $.extend({}, collections[index].items, items);
+			storage.set('collections', collections);;	
+			$('#collections').list_collections(collections);
+		};
+		$list.find('a').unbind('click').click(function() {
+			var index = $(this).data('index');
+			do_import(index);
+		});
+		$node.find('button:first').unbind('click').click(function() {
+			do_import();
+		});
 	});
 	
 };
@@ -557,12 +609,22 @@ $.fn.list_collections = function(collections) {
 		$form = $node.find('#collections_form');
 		$form.children(':gt(0)').remove();  // Assume the first collection is the built-in "All imported media"
 		if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
-		for (var j = 0; j < collections.length; j++) {
+		if ('undefined'==typeof(collections[0])) collections[0] = {items:{}};  // 0: all imported media
+		$form.find('.all .num_items').text(Object.keys(collections[0].items).length);
+		for (var j = 1; j < collections.length; j++) {  // 0: all imported media
+			var lum = luminance(collections[j].color);
 			var $col = $('<div class="collection"></div>').appendTo($form);
-			$col.append('<div class="color" style="background-color:'+collections[j].color+';"><span class="num_items">'+Object.keys(collections[j].items).length+'</span></div>');
+			$col.append('<div class="color '+((lum < 80)?'dark':'light')+'" style="background-color:'+collections[j].color+';"><span class="num_items">'+Object.keys(collections[j].items).length+'</span></div>');
 			$col.append('<h5>'+collections[j].title+'</h5>');
 		    $col.append('<div class="desc">'+collections[j].description+'</div>');
+		    $col.data('collection', collections[j]);
 		};
+		$form.children().unbind('click').click(function() {
+			var $clicked = $(this);
+			$clicked.parent().find('.collection').removeClass('clicked');
+			$clicked.addClass('clicked');
+			$('body').trigger("show_collection", [$clicked.data('collection')]);
+		});
 	});
 };
 
@@ -584,6 +646,7 @@ $.fn.add_collection = function($form) {
 			return;
 		};
 		if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
+		if ('undefined'==typeof(collections[0])) collections[0] = {items:{}};  // 0: all imported media
 		collections.push(obj);
 		storage.set('collections', collections);;		
 		$('#collections').list_collections(collections);
@@ -597,6 +660,88 @@ $.fn.add_collection = function($form) {
 			});		
 		});
 	}
+};
+
+//Display the contents of a collection
+$.fn.show_collection = function(collection) {
+	
+	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
+	return this.each(function() {
+		var $node = $(this);		
+		if ('undefined'==typeof(collection)) {
+			if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
+			var items = ('undefined'==typeof(collections[0])) ? {} : collections[0].items;
+		} else {
+			var items = collection.items;
+		}
+		var view = $('#collection_view').find('button[class*="btn-primary"]').attr('id'); 
+		if ('undefined'!=typeof($.fn.spreadsheet_view)) $.fn.spreadsheet_view.remove();
+		//results = sort_rdfjson_by_prop(results, 'http://purl.org/dc/terms/title');
+		//$('.num_results').html( $.map(results, function(n, i) { return i; }).length );
+		$('.page').text($.fn.search.page);
+		$('.prev-page, .next-page').hide();
+		if ($.fn.search.page > 1) $('.prev-page').show().data('page', $.fn.search.page - 1);
+		$('.next-page').show().data('page', $.fn.search.page + 1);
+		var view_path = $('link#base_url').attr('href')+'system/application/views/templates/jquery.'+view+'.js';
+		$.getScript(view_path, function() {
+			$node.empty();
+			$node.attr('class',view+'_view').spreadsheet_view({rows:items,num_archives:1});
+		});		
+	});
+	
+};
+
+//The "move" button with attached move action
+$.fn.move = function(source_collection) {
+
+	return this.each(function() {
+		var $node = $(this);
+		$node.empty();
+		// Create the split button with a list of the collections
+		$node.append('<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Selected items <span class="caret"></span></button>');
+		var $list = $('<ul class="dropdown-menu"></ul>').appendTo($node);
+		if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
+		for (var j = 0; j < collections.length; j++) {  // 0: all imported media
+			if (JSON.stringify(source_collection) == JSON.stringify(collections[j])) continue;
+			if ('undefined'==typeof(source_collection) && 0==j) {
+				var title = 'Remove from all collections';
+			} else if (0==j) {
+				var title = 'Remove from this collection';
+			} else if ('undefined'==typeof(source_collection)) {
+				var title = 'Copy into '+collections[j].title;
+			} else {
+				var title = 'Move to '+collections[j].title;
+			};
+			$list.append('<li><a href="javascript:void(null);" data-index="'+j+'">'+title+'</a></li>');
+		};
+		// Import actions
+		var do_move = function(collection) {
+			if ('undefined'==typeof(collection)) collection = null;
+			var items = {};
+			$('#search_results').find('.clicked').each(function() {
+				var $this = $(this);
+				var uri = $this.data('uri');
+				var values = $this.data('values');
+				items[uri] = values;
+			});
+			if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
+			if ('undefined'==typeof(collections[0])) collections[0] = {items:{}};  // 0: all imported media
+			collections[0].items = $.extend({}, collections[0].items, items);
+			// TODO: single collection
+			storage.set('collections', collections);;	
+			$('#collections').list_collections(collections);
+		};
+		$list.find('a').unbind('click').click(function() {
+			var index = $(this).data('index');
+			var collection = collections[index];
+			do_move(collection);
+		});
+		$node.find('button:first').unbind('click').click(function() {
+			do_move();
+		});
+	});
+	
 };
 
 function loading(bool, archive_title) {
@@ -622,6 +767,28 @@ Array.prototype.unique = function() {
 
 String.prototype.firstLetterCap = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+var hexToRgb = function(hex) {  // http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+	if ('undefined'==typeof(hex)) return hex;
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+        return r + r + g + g + b + b;
+    });
+
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+};
+
+var luminance = function(hex) {
+    var rgb = hexToRgb(hex);
+    if (!rgb) return hex;
+    return 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b;
 }
 
 /**
