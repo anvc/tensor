@@ -248,6 +248,26 @@
   </div>
 </div>
 
+<div class="modal" id="edit_metadata">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="thumb"></div>
+        <h4 class="modal-title">Edit metadata <span class="count"></span></h4>
+      </div>
+      <div class="modal-body">
+      	<form class="form-horizontal"></form>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-default pull-left">Add additional metadata</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="sync">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -272,24 +292,6 @@
 		<div style="float:left;" class="sync_details"></div>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <button type="button" class="btn btn-primary">Synchronize</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<div class="modal fade" id="edit_metadata">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <div class="thumb"></div>
-        <h4 class="modal-title">Edit Metadata</h4>
-      </div>
-      <div class="modal-body"></div>
-      <div class="modal-footer">
-      	<button type="button" class="btn btn-default pull-left">Add Additional Metadata</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary">Save Metadata</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

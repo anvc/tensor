@@ -735,7 +735,8 @@ $.fn.move = function(source_collection) {
 			if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
 			if ('undefined'==typeof(collections[0])) collections[0] = {items:{}};  // 0: all imported media
 			if ('meta'==index) {  // Edit metadata
-				alert('Coming soon: edit metadata of each item in a modal');
+				$('#edit_metadata').metadata(items, source_collection);
+				return;
 			} else if ('undefined'==typeof(source_collection) && 0==index) {  // Delete from all 
 				for (var k = 0; k < collections.length; k++) {
 					for (var uri in items) {
@@ -787,6 +788,67 @@ $.fn.move = function(source_collection) {
 	
 };
 
+//Edit metadata modal
+$.fn.metadata = function(items, source_collection) {	
+	
+	return this.each(function() {
+		var $node = $(this);
+		
+		if (!Object.keys(items).length) {
+			alert('Please select one or more items to edit');
+			return;
+		}
+		
+		var show_metadata = function(item) {
+			console.log('showing '+item);
+			$node.modal();
+			$form = $node.find('form:first');
+			$form.empty();
+			$(window).scrollTop(0);
+			var total = Object.keys(items).length;
+			$node.find('.modal-title .count').text('(item ' + (item+1) + ' of ' + total + ')');
+			var count = 0;
+			for (var uri in items) {
+				if (count != item) {
+					count++;
+					continue;
+				}
+				console.log(items[uri]);
+				for (var p in items[uri]) {
+					for (var j = 0; j < items[uri][p].length; j++) {
+						var ns_name = pnode(p);
+						var $row = $('<div class="form-group"></div>').appendTo($form);
+						$row.append('<label for="'+ns_name+'" class="col-sm-3 control-label">'+ns_name+'</label>');
+					    $row.append('<div class="col-sm-9"><input type="text" class="form-control" id="'+ns_name+'" value="'+escapeHtml(items[uri][p][j].value)+'"></div>');
+					    if ('art:thumbnail'==ns_name) {
+					    	$row.find('div').append('<a href="'+items[uri][p][j].value+'" target="_blank"><img src="'+items[uri][p][j].value+'" class="img-thumbnail" /></a>');
+					    } else if (-1!=items[uri][p][j].value.indexOf('://')) {
+					    	$row.find('div').append('<a href="'+items[uri][p][j].value+'" class="visit_link" target="_blank">Visit link</a>');
+					    }
+					};
+				};
+				$node.find('button:last').unbind('click').click(function() {
+					console.log('save metadata ...');
+					$node.on('hidden.bs.modal', function (e) {
+						item++;
+						if (item == total) {
+							$node.off('hidden.bs.modal');
+							return;
+						};
+						show_metadata(item);
+					});
+					$node.modal('hide');
+				});
+				break;
+			};
+		};
+		
+		show_metadata(0);
+		
+	});
+	
+};
+
 function loading(bool, archive_title) {
 	var $loading = $('#loading');
 	if (bool) {
@@ -832,7 +894,46 @@ var luminance = function(hex) {
     var rgb = hexToRgb(hex);
     if (!rgb) return hex;
     return 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b;
-}
+};
+
+var pnode = function(uri) {
+	var namespaces = {
+			'rdf':'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+			'rdfs':'http://www.w3.org/2000/01/rdf-schema#',
+			'dc':'http://purl.org/dc/elements/1.1/',
+			'dcterms':'http://purl.org/dc/terms/',
+			'ctag':'http://commontag.org/ns#',
+			'art':'http://simile.mit.edu/2003/10/ontologies/artstor#',
+			'sioc':'http://rdfs.org/sioc/ns#',
+			'sioctypes':'http://rdfs.org/sioc/types#',
+			'foaf':'http://xmlns.com/foaf/0.1/',
+			'owl':'http://www.w3.org/2002/07/owl#',
+			'ov':'http://open.vocab.org/terms/',
+			'oac':'http://www.openannotation.org/ns/',
+			'scalar':'http://scalar.usc.edu/2012/01/scalar-ns#',
+			'shoah':'http://tempuri.org/',
+			'prov':'http://www.w3.org/ns/prov#',
+			'exif':'http://ns.adobe.com/exif/1.0/',
+			'iptc':'http://ns.exiftool.ca/IPTC/IPTC/1.0/',
+			'bibo':'http://purl.org/ontology/bibo/'
+		};
+	for (var prefix in namespaces) {
+		if (-1!=uri.indexOf(namespaces[prefix])) {
+			return prefix + ':' + uri.replace(namespaces[prefix],'');
+		};
+	};
+};
+
+function escapeHtml(text) {  // http://stackoverflow.com/questions/1787322/htmlspecialchars-equivalent-in-javascript
+	  var map = {
+	    '&': '&amp;',
+	    '<': '&lt;',
+	    '>': '&gt;',
+	    '"': '&quot;',
+	    "'": '&#039;'
+	  };
+	  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+};
 
 /**
  * Set UI for the collections sidebar
