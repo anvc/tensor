@@ -92,10 +92,22 @@ $(document).ready(function() {
 			alert('Coming soon: edit this collections\'s settings');
 		});
 		$('#collection').find('.glyphicon-trash').unbind('click').click(function() {
-			alert('Coming soon: delete this collection');
+			if (!confirm('Are you sure you wish to delete this collection?')) return;
+			if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
+			if ('undefined'==typeof(collections[0])) collections[0] = {items:{}};  // 0: all imported media
+			var selected_index = 0;
+			$('#collections').find('.collection').each(function(index) {
+				if (!$(this).hasClass('clicked')) return;
+				collections.splice(index, 1);
+				storage.set('collections', collections);;		
+				$('#collections').list_collections(collections);
+				$('#collection_results').empty();
+				$('#collection').hide();
+				$('#archives').show();		    	
+			});
 		});		
 		$('#collection_form').unbind('submit').submit(function() {
-			// TODO
+			$('#collection').search();
 			return false;
 		});
 		$('#collection_results').show_collection(collection);
@@ -800,7 +812,6 @@ $.fn.metadata = function(items, source_collection) {
 		}
 		
 		var show_metadata = function(item) {
-			console.log('showing '+item);
 			$node.modal();
 			$form = $node.find('form:first');
 			$form.empty();
@@ -813,7 +824,6 @@ $.fn.metadata = function(items, source_collection) {
 					count++;
 					continue;
 				}
-				console.log(items[uri]);
 				for (var p in items[uri]) {
 					for (var j = 0; j < items[uri][p].length; j++) {
 						var ns_name = pnode(p);
@@ -828,7 +838,7 @@ $.fn.metadata = function(items, source_collection) {
 					};
 				};
 				$node.find('button:last').unbind('click').click(function() {
-					console.log('save metadata ...');
+					// TODO
 					$node.on('hidden.bs.modal', function (e) {
 						item++;
 						if (item == total) {
