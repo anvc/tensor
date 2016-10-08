@@ -25,7 +25,11 @@ class Wb extends CI_Controller {
 	public function proxy() {
 
 		$this->load->model('proxy_model');
-		$this->data['results'] = $this->proxy_model->get();
+		if (isset($_REQUEST['data']) && !empty($_REQUEST['data'])) {
+			$this->data['results'] = $this->proxy_model->put();
+		} else {
+			$this->data['results'] = $this->proxy_model->get();
+		}
 		$this->load->view('proxy', $this->data);
 
 	}

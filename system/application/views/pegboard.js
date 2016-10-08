@@ -506,9 +506,7 @@ $.fn.search = function(page) {
 		}
 		// Run search
 		var parser = base_url+'parsers/'+archive.parser+'/parser.js';
-		//archive.source = archive.source.replace('%2',page);
-		//archive.source = archive.source.replace('%1',obj.terms.join('%20'));
-		$.extend(archive, {page:page,query:obj.terms.join(' '),parser:archive.parser,proxy_url:proxy_url,error_callback:error_callback,complete_callback:complete_callback});
+		$.extend(archive, {page:page,query:obj.terms.join(' '),parser:archive.parser,proxy_url:proxy_url,error_callback:error_callback,complete_callback:parse_complete_callback});
 		$.getScript(parser, function() {
 			loading(true, archive.title);
 			$.fn.search.page = page;
@@ -537,7 +535,7 @@ function error_callback(error, archive) {
 	
 };
 
-function complete_callback(_results, archive) {
+function parse_complete_callback(_results, archive) {
 
 	loading(false, archive.title);
 	$.fn.search.results = _results;
@@ -857,6 +855,55 @@ $.fn.metadata = function(items, source_collection) {
 		
 	});
 	
+};
+
+//Push items to through a saver
+$.fn.sync = function($form) {
+
+	if ('undefined'!=typeof($form)) {
+		return this.each(function() {
+			var $node = $(this);	
+			var archive = $node.data('archive');
+			var base_url = $('link#base_url').attr('href');
+			var proxy_url = $('link#proxy_url').attr('href');
+			// Default values
+			if ('undefined'==typeof(page)) page = 1;
+			var $form = $node.find('form:first');
+			var $input = $form.find('[name="search"]:first');
+			var sq = $input.val();
+			// Validation
+			var obj = $.fn.parse_search(sq);
+			if (!obj.terms.length) {
+				alert('Please enter one or more search terms');
+				return;
+			}
+			// Run search
+			var parser = base_url+'parsers/'+archive.parser+'/parser.js';
+			$.extend(archive, {page:page,query:obj.terms.join(' '),parser:archive.parser,proxy_url:proxy_url,error_callback:error_callback,complete_callback:sync_complete_callback});
+			$.getScript(parser, function() {
+				loading(true, archive.title);
+				$.fn.search.page = page;
+				$.fn.search.results = [];
+				$.fn.parse(archive);
+			}).fail(function() {
+				var $error = $('#error');
+				$error.find('[class="modal-body"]').html('<p>Could not find parser</p>');
+				$error.modal();
+			});			
+		});		
+	} else {
+		// TODO: set up sync modal
+	};
+	
+};
+
+function sync_complete_callback(data, archive) {
+
+	loading(false, archive.title);
+	console.log(data);
+	$('#search_form').find('input').blur();
+	$('#search_results').search_results();
+
 };
 
 function loading(bool, archive_title) {
@@ -1536,46 +1583,6 @@ function set_sheet_height() {
 	var $spreadsheets = $('.spreadsheet');
 	var h = parseInt($(window).height());
 	$spreadsheets.css('min-height',h);
-}
-
-/** 
- * Setup sync between imported items and destinations
- * $return null
- */
-function sync() {
-	
-	var items = {};
-	var destinations = [];
-	var collections = get_collections();
-	var $sync_collections = $('#sync_collections');
-	var $sync_destinations = $('#sync_destinations');
-	// Items
-	if ($sync_collections.find('.all').hasClass('clicked')) {
-		items = get_imported();
-	} else {
-		$sync_collections.find('.collection:not(.all)').each(function(index) {
-			var $this = $(this);
-			if (!$this.hasClass('clicked')) return;
-			$.extend(items, collections[index].items);
-		});
-	};
-	if ($.isEmptyObject(items)) {
-		alert('There are no items to import.  Please select one or more collections that contain items.');
-		return;
-	}
-	// Destinations
-	$sync_destinations.find('.collection').each(function(index) {
-		var $this = $(this);
-		if (!$this.hasClass('clicked')) return;
-		destinations.push({'uri':rtrim($this.data('uri'),'/'),'id':$this.data('id')});
-	});
-	if (!destinations.length) {
-		alert('Please select one or more destination Scalar books.');
-		return;
-	}
-	// Run sync
-	do_sync(items, destinations);
-	
 }
 
 /** 

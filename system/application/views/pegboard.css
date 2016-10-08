@@ -112,15 +112,6 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #edit_metadata .img-thumbnail {max-width:100px; margin-top:2px;}
 #edit_metadata .visit_link {margin:2px 0px 0px 14px; font-size:12px;}
 
-/* Sync */
-.sync {text-align:center; padding:6px 0px 6px 0px;}
-#sync .modal-dialog {width:90%;}
-#sync .modal-body h4 {margin-top:0px; padding-top:0px;}
-#sync .sync_details {font-size:14px; padding-top:7px;}
-#sync_collections .collection, #sync_destinations .collection {
-	width:250px; float:left; overflow:hidden; margin-left:10px; margin-right:10px;
-}
-
 /* Table */
 .list_view {margin-left:2px; margin-right:2px; padding-top:8px;}
 thead tr th:last-child {text-align:center;}
