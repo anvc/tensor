@@ -37,25 +37,31 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #filter_collections_form .right-inner-addon a {padding-top:8px; font-size:12px;}
 #collections_form {padding-top:14px; clear:both;}
 #collections_form .notice {text-align:center; color:#555555; padding-top:8px; height:34px;}
-#collections .collection {
+.collection {
 	min-height:32px; white-space:nowrap; overflow:hidden; padding:5px 0px 4px 2px; cursor:pointer; margin-bottom:4px; 
 	border-radius: 4px;
 }
-#collections .collection.clicked {background-color:#dddddd;}
-#collections .collection .color {
+.collection.clicked {background-color:#dddddd;}
+.collection .color {
 	width:32px; height:32px; display:inline-block; margin-right:8px; border:solid 1px #cccccc; float:left; 
 	text-align:center; padding-top:5px; border-radius:4px;
 }
-#collections .collection .color.dark {color:#aaaaaa;}
-#collections .collection .color.light {color:#444444;}
-#collections .collection .thumb {
+.collection .color.dark {color:#aaaaaa;}
+.collection .color.light {color:#444444;}
+.collection .thumb {
 	width:32px; height:32px; display:inline-block; margin-right:8px; border:solid 1px #eeeeee; float:left; 
 	padding-top:5px; background-size:32px 32px; background-color:#eeeeee;
 }
-#collections .collection .num_items {font-weight:normal; font-size:14px;}
-#collections .collection:hover {opacity:0.75;}
-#collections .collection h5 {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden; font-weight:normal;}
-#collections .collection .desc {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden;}
+.collection .num_items {font-weight:normal; font-size:14px;}
+.collection:hover {opacity:0.75;}
+.collection h5 {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden; font-weight:normal;}
+.collection .desc {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden;}
+#sync_collections, #sync_destinations, #sync .modal-body > h4 {clear:both;}
+#sync .modal-body > h4:last-of-type {padding-top:12px;}
+#sync_collections .collection {padding-right:4px; padding-left:4px;}
+#add_destination {clear:both; padding-top:6px;}
+#add_destination .btn-group, #add_destination .form-group {margin-right:4px;}
+#sync_destinations .close {position:absolute; top:1px; right:0px;}
 
 /* Archives */
 #archives {z-index:9; position:absolute; top:0px; right:0px; margin:20px 0px 20px 0px;}

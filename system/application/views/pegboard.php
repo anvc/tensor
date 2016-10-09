@@ -276,17 +276,16 @@
         <h4 class="modal-title">Sync my media</h4>
       </div>
       <div class="modal-body">
-        <h4>Select one or more source collections</h4>
+        <h4>Select a source collection:</h4>
       	<div id="sync_collections"></div>
-      	<br clear="both" /><br />
-        <h4>Select a destination</h4>
-      	<div id="sync_destination"></div>
-      	<br clear="both" />
+        <h4>Select a destination:</h4>
+      	<div id="sync_destinations"></div>
+      	<form class="form-inline" id="add_destination"></form>
       </div>
       <div class="modal-footer">
 		<div class="progress">
 			<div id="content_progress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-				<span>Content 0 of 0</span>
+				<span>0 of 0</span>
 			</div>
 		</div>
 		<div style="float:left;" class="sync_details"></div>

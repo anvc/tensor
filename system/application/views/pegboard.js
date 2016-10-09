@@ -121,6 +121,15 @@ $(document).ready(function() {
 		$('#collections .collection').removeClass('clicked');
 		$('#archives').show();
 	});	
+	// Sync
+	$('#sync').on('show.bs.modal', function () {
+		$(this).sync();
+	});
+	$('#sync').find('form').submit(function() {
+		var $form = $(this);
+		$form.closest('.modal').sync($form);
+		return false;
+	});
 });
 
 // List profiles in an editable way in the provided HTML element
@@ -861,38 +870,117 @@ $.fn.metadata = function(items, source_collection) {
 $.fn.sync = function($form) {
 
 	if ('undefined'!=typeof($form)) {
-		return this.each(function() {
-			var $node = $(this);	
-			var archive = $node.data('archive');
-			var base_url = $('link#base_url').attr('href');
-			var proxy_url = $('link#proxy_url').attr('href');
-			// Default values
-			if ('undefined'==typeof(page)) page = 1;
-			var $form = $node.find('form:first');
-			var $input = $form.find('[name="search"]:first');
-			var sq = $input.val();
-			// Validation
-			var obj = $.fn.parse_search(sq);
-			if (!obj.terms.length) {
-				alert('Please enter one or more search terms');
-				return;
-			}
-			// Run search
-			var parser = base_url+'parsers/'+archive.parser+'/parser.js';
-			$.extend(archive, {page:page,query:obj.terms.join(' '),parser:archive.parser,proxy_url:proxy_url,error_callback:error_callback,complete_callback:sync_complete_callback});
-			$.getScript(parser, function() {
-				loading(true, archive.title);
-				$.fn.search.page = page;
-				$.fn.search.results = [];
-				$.fn.parse(archive);
-			}).fail(function() {
-				var $error = $('#error');
-				$error.find('[class="modal-body"]').html('<p>Could not find parser</p>');
-				$error.modal();
-			});			
-		});		
+		var base_url = $('link#base_url').attr('href');
+		var proxy_url = $('link#proxy_url').attr('href');
+		// Destination archive
+		var parser = '';
+		// Items in the selected collection
+		$('#search_results').find('.clicked').each(function() {
+			var $this = $(this);
+			var uri = $this.data('uri');
+			var values = $this.data('values');
+			items[uri] = values;
+		});
+		// Run search
+		var parser = base_url+'parsers/'+archive.parser+'/parser.js';
+		$.extend(archive, {data:items,parser:parser,proxy_url:proxy_url,error_callback:error_callback,complete_callback:sync_complete_callback});
+		$.getScript(parser, function() {
+			loading(true, archive.title);
+			$.fn.search.page = page;
+			$.fn.search.results = [];
+			$.fn.parse(archive);
+		}).fail(function() {
+			var $error = $('#error');
+			$error.find('[class="modal-body"]').html('<p>Could not find parser</p>');
+			$error.modal();
+		});			
 	} else {
-		// TODO: set up sync modal
+		return this.each(function() {
+			var $node = $(this);			
+			var $sources = $node.find('#sync_collections');
+			var $destinations = $node.find('#sync_destinations');
+			$sources.empty();
+			$destinations.empty();
+			// Propagate collections
+			if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
+			if ('undefined'==typeof(collections[0])) collections[0] = {items:{}};  // 0: all imported media
+			for (var j = 0; j < collections.length; j++) { 
+				if (0==j) {  // 0: all imported media
+					collections[j].color = '#ffffff';
+					collections[j].title = $('#collection_0').find('h5').text();
+					collections[j].description = $('#collection_0').find('.desc').text();
+				}
+				var lum = luminance(collections[j].color);
+				var $col = $('<div class="collection col-sm-3" data-index="'+j+'"></div>').appendTo($sources);
+				$col.append('<div class="color '+((lum < 80)?'dark':'light')+'" style="background-color:'+collections[j].color+';"><span class="num_items">'+Object.keys(collections[j].items).length+'</span></div>');
+				$col.append('<h5>'+collections[j].title+'</h5>');
+			    $col.append('<div class="desc">'+collections[j].description+'</div>');
+			    $col.data('collection', collections[j]);
+			};
+			$sources.children().unbind('click').click(function() {
+				var $clicked = $(this);
+				$clicked.parent().find('.collection').removeClass('clicked');
+				$clicked.addClass('clicked');
+			});
+			// Destinations
+			var set_destinations = function() {
+				var $destinations = $node.find('#sync_destinations');
+				$destinations.empty();
+				var temp_bg_url = $('link#base_url').attr('href')+'parsers/scalar/thumb.png';
+				var destinations = ('undefined'!=typeof(storage.get('destinations'))) ? storage.get('destinations') : [];
+				for (var j = 0; j < destinations.length; j++) { 
+					var $col = $('<div class="collection col-sm-3" data-index="'+j+'"></div>').appendTo($destinations);
+					$col.append('<button type="button" class="close">&times;</button>');
+					$col.append('<div class="color" style="background-image:url('+temp_bg_url+');background-size:contain;border:0;"><span class="num_items"></div>');
+					$col.append('<h5>'+destinations[j].title+'</h5>');
+				    $col.append('<div class="desc">'+destinations[j].url+'</div>');
+				    $col.data('destination', destinations[j]);
+				};
+				$destinations.children().unbind('click').click(function() {
+					var $clicked = $(this);
+					$clicked.parent().find('.collection').removeClass('clicked');
+					$clicked.addClass('clicked');
+				});
+				$destinations.find('.close').unbind('click').click(function(e) {
+					e.stopPropagation();
+					if (!confirm('Are you sure you wish to remove this destination from your list of destinations?')) return;
+					var destinations = ('undefined'!=typeof(storage.get('destinations'))) ? storage.get('destinations') : [];
+					var index = $(this).data('index');
+					destinations.splice(index, 1);
+					storage.set('destinations', destinations);
+					set_destinations();					
+				});
+			};			
+			set_destinations();
+			// Add destination form
+			var $form = $node.find('#add_destination');
+			$form.empty();
+			var $pulldown = $('<div class="btn-group"><button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="btn-name">Parser</span> <span class="caret"></span></button><ul class="dropdown-menu"></ul></div>').appendTo($form);
+			var $name = $pulldown.find('.btn-name');
+			var $menu = $pulldown.find('.dropdown-menu');
+			$menu.append('<li><a href="javascript:void(null);">Scalar</a></li>');
+			$form.append('<div class="form-group"><input type="text" name="title" class="form-control input-sm" placeholder="Title..." required></div>');
+			$form.append('<div class="form-group"><input type="url" name="url" class="form-control input-sm" placeholder="Destination URL..." required></div>');
+			$form.append('<div class="form-group"><button type="submit" class="btn btn-default btn-sm">Add</button></div>');
+			$menu.find('a').unbind('click').click(function() {
+				$name.text($(this).text());
+			});
+			$form.unbind('submit').submit(function() {
+				var parser = $name.text();
+				var title = $form.find('[name="title"]').val();
+				var url = $form.find('[name="url"]').val();
+				if ('parser'==parser.toLowerCase()) {
+					alert('Please choose a parser');
+					return false;
+				};
+				var destinations = ('undefined'!=typeof(storage.get('destinations'))) ? storage.get('destinations') : [];
+				var dest = {parser:parser.toLowerCase(),title:title,url:url};
+				destinations.push(dest);
+				storage.set('destinations', destinations);
+				set_destinations();
+				return false;
+			});
+		});
 	};
 	
 };
