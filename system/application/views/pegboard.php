@@ -285,10 +285,10 @@
       <div class="modal-footer">
 		<div class="progress">
 			<div id="content_progress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-				<span>0 of 0</span>
+				<span>Content 0 of 0</span>
 			</div>
 		</div>
-		<div style="float:left;" class="sync_details"></div>
+		<div id="progress_log"></div>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <button type="button" class="btn btn-primary">Synchronize</button>
       </div>
