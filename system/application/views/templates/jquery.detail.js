@@ -86,11 +86,12 @@
     		row = sort_predicates_by_prop(row);
     		for (var p in row) {
     			var o = [];
+    			var pp = pnode(p);
     			for (k = 0; k < row[p].length; k++) {
-    				var value = ('undefined'==typeof(row[p][k]) || 'undefined'==typeof(row[p][k].value)) ? '' : row[p][k].value.linkify();
+    				var linkified = (-1==pp.indexOf('dcterms:description')) ? row[p][k].value.toString().linkify() : row[p][k].value.toString();
+    				var value = ('undefined'==typeof(row[p][k]) || 'undefined'==typeof(row[p][k].value)) ? '' : linkified;
     				o.push(value);
     			}
-    			var pp = pnode(p);
                 if(pp.indexOf('dcterms:title') > -1) {
                     $uri = $('<div class="row '+pp.replace(/:/g, "-")+'"></div>').prependTo($p);
                     $('<div class="urn col-lg-3 col-md-3 col-sm-3 col-xs-3"><b>'+pp+'</b></div>').appendTo($uri);

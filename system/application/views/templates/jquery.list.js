@@ -105,7 +105,6 @@
     		$('<td><div><a target="_blank" href="'+j+'" title="'+j+'">'+basename(j)+'</a></div><br clear="both" /></td>').appendTo($row);
     		for (var k = 0; k < to_display.length; k++) {
     			var value = ('undefined'!=typeof(opts.rows[j][to_display[k]])) ? opts.rows[j][to_display[k]][0].value : '';
-    			value = value.linkify();
     			$('<td><div class="'+basename(to_display[k])+'">'+value+'</div><br clear="both" /></td>').appendTo($row);
     		}
     		if ('undefined'!=typeof(opts.check[j])) {

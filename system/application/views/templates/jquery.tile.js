@@ -92,10 +92,10 @@
     				$source.append(row[p][0].value);
     				$source.show();
     			} else if ('dcterms:description'==pp) {
-    				var value = ('undefined'==typeof(row[p][0]) || 'undefined'==typeof(row[p][0].value)) ? '' : row[p][0].value.linkify();
+    				var value = ('undefined'==typeof(row[p][0]) || 'undefined'==typeof(row[p][0].value)) ? '' : row[p][0].value;
 	                $desc.append(value);   				
     			} else if ('dcterms:title'==pp) {
-    				var value = ('undefined'==typeof(row[p][0]) || 'undefined'==typeof(row[p][0].value)) ? '[No title]' : row[p][0].value.linkify();
+    				var value = ('undefined'==typeof(row[p][0]) || 'undefined'==typeof(row[p][0].value)) ? '[No title]' : row[p][0].value;
 	                $title.append(value);
     			}
     		} 		
