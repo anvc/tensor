@@ -75,8 +75,9 @@
     	for (var j in opts.rows) {
     		var row = opts.rows[j];
     		var thumb = '';
-    		if ('undefined'==typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail']) || 
-        		'undefined'==typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0]) || 
+    		if (!row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'] || 
+        		!row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0] || 
+        		!row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value ||
         		!row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value.length) {
         		thumb = $('link#base_url').attr('href')+'system/application/views/images/missing_thumb.jpg';
         		if (-1!=j.toLowerCase().indexOf('pdf')) thumb = $('link#base_url').attr('href')+'system/application/views/images/pdf_logo.png';
