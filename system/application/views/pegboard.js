@@ -219,13 +219,22 @@ $.fn.set_profiles = function(profiles) {
 			// This URL shouldn't ever change
 			var starter_url = 'https://raw.githubusercontent.com/craigdietrich/tensor-profiles/master/starter.profile.js';
 			$.ajax({
-		        type: 'GET',
-		        url: starter_url+'?callback=profile',
-		        async: false,
-		        jsonp: true,
-		        contentType: "application/json",
-		        dataType: 'jsonp'
-		    });
+			    url: starter_url,
+			    dataType: 'text',
+			    type: 'GET',
+			    async: true,
+			    statusCode: {
+			        404: function (response) {
+			            alert('Could not find the start profile on GitHub');
+			        },
+			        200: function (response) {
+			            var data = eval(response);
+			        }
+			    },
+			    error: function (jqXHR, status, errorThrown) {
+			        alert('There was an error: '+errorThrown);
+			    }
+			});			
 		});
 		// Create new
 		$node.find('#createNewProfile').unbind('click').click(function() {
