@@ -15,7 +15,7 @@ class Proxy_model extends CI_Model {
 		$url =@ (string) $_REQUEST['url'];
 
 		if (empty($page)) $page = 1;
-		if (empty($query)) return self::error('Missing the query string');
+		//if (empty($query)) return self::error('Missing the query string');
 		if (empty($parser)) return self::error('Missing the parser name');
 
 		$parser_path = FCPATH."/parsers/$parser/handler.php";

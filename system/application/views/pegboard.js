@@ -13,15 +13,18 @@ $(document).ready(function() {
 	// Archives
 	$('body').on("show_archive", function(e, archive) {
 		$('#archives').hide();
-		$('#search').data('archive',archive).show().find('#search_form input:first').focus().prop('placeholder','Search '+archive.title).val('');
+		$('#search').data('archive',archive).show().find('#search_form input:first').focus().prop('placeholder',((archive.title.length>21)?archive.title.substr(0,24)+'...':archive.title)).val('');
 		$('#search').find('.glyphicon-search').unbind('click').click(function() {
 			$(this).closest('form').submit();
+			$('#search').find('.glyphicon').blur();
 		});
 		$('#search').find('.glyphicon-pencil').unbind('click').click(function() {
 			alert('Coming soon: edit this archive\'s settings');
+			$('#search').find('.glyphicon').blur();
 		});
 		$('#search').find('.glyphicon-trash').unbind('click').click(function() {
 			alert('Coming soon: delete this archive');
+			$('#search').find('.glyphicon').blur();
 		});		
 		$('#search_form').unbind('submit').submit(function() {
 			$('#search').search();
@@ -545,22 +548,21 @@ $.fn.search = function(page) {
 		var sq = $input.val();
 		// Validation
 		var obj = $.fn.parse_search(sq);
-		if (!obj.terms.length) {
-			alert('Please enter one or more search terms');
-			return;
-		}
 		// Run search
 		var parser = base_url+'parsers/'+archive.parser+'/parser.js';
 		$.extend(archive, {page:page,query:obj.terms.join(' '),parser:archive.parser,proxy_url:proxy_url,error_callback:error_callback,complete_callback:parse_complete_callback});
 		$.getScript(parser, function() {
+			try {
+				$.fn.parse(archive);
+			} catch(err) {
+				$('#error').modal().find('[class="modal-body"]').html('<p>'+err+'</p>');
+				return;
+			};
 			loading(true, archive.title);
 			$.fn.search.page = page;
 			$.fn.search.results = [];
-			$.fn.parse(archive);
 		}).fail(function() {
-			var $error = $('#error');
-			$error.find('[class="modal-body"]').html('<p>Could not find parser</p>');
-			$error.modal();
+			$('#error').modal().find('[class="modal-body"]').html('<p>Could not find parser</p>');
 		});			
 		
 	});
