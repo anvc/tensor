@@ -95,13 +95,22 @@
         <h4 class="modal-title">Set my profiles</h4>
       </div>
       <div class="modal-body">
+      	  <p>
+      	  Profiles store the archives and collections that you accumulate as you use Tensor in this browser. You can export ("Download")
+      	  your profiles and send to others so that they can use these same archives and collections.  If others export their profiles, you
+      	  can load them in here to do the same.  
+      	  </p>
+      	  <p>
+      	  If this is confusing, no problem: simply load the <i>Starter Profile</i>, close this window, and start 
+      	  using Tensor. You'll see how adding new archives and collections relates to the profiles as you use the system.
+      	  </p>
           <div id="profiles"></div>
           <div class="form-group no-profiles">
-            <p class="help-block">Load the Tensor starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">github.com/craigdietrich/tensor-profiles</a>.</p>
+            <p>Load the Tensor starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">github.com/craigdietrich/tensor-profiles</a>:</p>
             <button class="btn btn-success" type="button" id="startProfiles">Load starter profile</button>
           </div>
           <form class="form-group">
-            <p class="help-block">Create a new, empty profile to which you can add new archives.</p>
+            <p class="help-block">Create a new, empty profile to which you can add new archives and collections:</p>
 		    <div class="input-group">
 		      <input type="text" class="form-control" placeholder="Profile name...">
 		      <span class="input-group-btn">
@@ -109,37 +118,40 @@
 		      </span>
 		    </div>
           </form>
-          <form class="form-group">
-            <p class="help-block">Add a Tensor profile based on a URL.</p>
-		    <div class="input-group">
-		      <input type="text" class="form-control" placeholder="http://">
-		      <span class="input-group-btn">
-		        <button class="btn btn-default" type="button" id="profileFromURL">Add</button>
-		      </span>
-		    </div>
-          </form>
-	 	  <form class="form-group" enctype="multipart/form-data">
-	        <p class="help-block">Upload a file containing a Tensor profile.</p>
-		    <div class="input-group">
-		      <span class="input-group-btn">
-				<label class="btn btn-default" for="profile-file-selector">
-				    <input id="profile-file-selector" type="file" style="display:none;" onchange="$('#profile-file-info').val($(this).val());">
-				    Browse
-				</label>
-		      </span>
-		      <input type="text" class="form-control" id="profile-file-info">
-		      <span class="input-group-btn">
-		        <button class="btn btn-default" type="submit" id="profileUpload">Upload</button>
-		      </span>
-		    </div>
-	      </form>
-          <div class="form-group has-profiles">
-            <p class="help-block">Remove all existing profiles and load the starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">GitHub</a>.</p>
-            <button class="btn btn-default" type="button" id="resetProfiles">Reset</button>
+          <p><a href="javascript:void(null);" id="more_profile_options">More profile options <span class="caret"></span></a></p>
+          <div class="more_profile_options">
+	          <form class="form-group">
+	            <p class="help-block">Add a Tensor profile based on a URL:</p>
+			    <div class="input-group">
+			      <input type="text" class="form-control" placeholder="http://">
+			      <span class="input-group-btn">
+			        <button class="btn btn-default" type="button" id="profileFromURL">Add</button>
+			      </span>
+			    </div>
+	          </form>
+		 	  <form class="form-group" enctype="multipart/form-data">
+		        <p class="help-block">Upload a file containing a Tensor profile:</p>
+			    <div class="input-group">
+			      <span class="input-group-btn">
+					<label class="btn btn-default" for="profile-file-selector">
+					    <input id="profile-file-selector" type="file" style="display:none;" onchange="$('#profile-file-info').val($(this).val());">
+					    Browse
+					</label>
+			      </span>
+			      <input type="text" class="form-control" id="profile-file-info">
+			      <span class="input-group-btn">
+			        <button class="btn btn-default" type="submit" id="profileUpload">Upload</button>
+			      </span>
+			    </div>
+		      </form>
+	          <div class="form-group has-profiles">
+	            <p class="help-block">Remove all existing profiles and load the starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">GitHub</a>:</p>
+	            <button class="btn btn-default" type="button" id="resetProfiles">Reset</button>
+	          </div>
           </div>
       </div>
       <div class="modal-footer has-profiles">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Continue</button>
       </div>
     </div>
   </div>

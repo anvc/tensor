@@ -186,3 +186,4 @@ tr.static:hover td {background-color:initial !important; color:#333 !important;}
 /* Modals */
 #error .modal-body {background-color:#ffdbdb;}
 #error .modal-header, #error .modal-footer {border-color:#ff4b4b;}
+.more_profile_options {display:none;}

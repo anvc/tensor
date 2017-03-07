@@ -134,7 +134,7 @@ $(document).ready(function() {
 // List profiles in an editable way in the provided HTML element
 $.fn.set_profiles = function(profiles) {
 	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
-	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
+	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global
 	return this.each(function() {
 		var $node = $(this);
 		var $profiles = $node.find('#profiles');
@@ -143,6 +143,16 @@ $.fn.set_profiles = function(profiles) {
 		});
 		if ('undefined'==typeof(profiles)) profiles = [];
 		$profiles.empty();
+		$node.find('#more_profile_options').off('click').click(function() {;
+		$node.find('.more_profile_options').toggle(function() {
+			var $this = $(this);
+			if ($this.is(':hidden')) {
+				$('#more_profile_options').blur().find('.caret').css('transform', '');
+			} else {
+				$('#more_profile_options').blur().find('.caret').css('transform', 'rotate(180deg)');
+			};
+		});
+	});		
 		if (!profiles.length) {
 			$node.find('.has-profiles').hide();
 			$node.find('.no-profiles').show();
@@ -150,7 +160,7 @@ $.fn.set_profiles = function(profiles) {
 		} else {
 			$node.find('.has-profiles').show();
 			$node.find('.no-profiles').hide();
-			$profiles.html('<p class="help-block">Profiles currently loaded in your Tensor app that contribute to your list of archives.</p>');
+			$profiles.html('<p>Profiles currently loaded in your Tensor app:</p>');
 			for (var j = 0; j < profiles.length; j++) {
 				if ('undefined'==typeof(profiles[j].archives)) continue;
 				var archive_titles = [];
@@ -168,13 +178,22 @@ $.fn.set_profiles = function(profiles) {
 							return;
 						};
 						$.ajax({
-					        type: 'GET',
-					        url: uri+'?callback=profile',
-					        async: false,
-					        jsonp: true,
-					        contentType: "application/json",
-					        dataType: 'jsonp'
-					    });
+						    url: starter_url,
+						    dataType: 'text',
+						    type: 'GET',
+						    async: true,
+						    statusCode: {
+						        404: function (response) {
+						            alert('Could not find the start profile on GitHub');
+						        },
+						        200: function (response) {
+						            var data = eval(response);
+						        }
+						    },
+						    error: function (jqXHR, status, errorThrown) {
+						        alert('There was an error: '+errorThrown);
+						    }
+						});		
 					});
 				}
 				var $download = $profile.find('button:first');
@@ -257,13 +276,22 @@ $.fn.set_profiles = function(profiles) {
 				return;
 			};
 			$.ajax({
-		        type: 'GET',
-		        url: value+'?callback=profile',
-		        async: false,
-		        jsonp: true,
-		        contentType: "application/json",
-		        dataType: 'jsonp'
-			});
+			    url: value,
+			    dataType: 'text',
+			    type: 'GET',
+			    async: true,
+			    statusCode: {
+			        404: function (response) {
+			            alert('Could not find the start profile on GitHub');
+			        },
+			        200: function (response) {
+			            var data = eval(response);
+			        }
+			    },
+			    error: function (jqXHR, status, errorThrown) {
+			        alert('There was an error: '+errorThrown);
+			    }
+			});		
 			$(this).closest('.input-group').find('input').val('').blur();
 		});		
 		// File upload
@@ -371,7 +399,7 @@ $.fn.list_archives = function(profiles) {
 			if ($this.data('error').length) {
 				var parser_name = $this.data('archive').parser;
 				var $error = $('#error');
-				$error.find('.modal-title').text('No parser found!');
+				$error.find('.modal-title').text('No parser found');
 				$error.find('.modal-body').empty().append('The parser folder "'+parser_name+'" is not present in this Tensor install\'s file system. Contact an administrator to add the parser\'s files to /parsers/'+parser_name+'.');
 				$error.find('.modal-body').append('<br /><br />Once added you will be able to use this archive and add new archives based on the same parser.');
 				$error.modal();
