@@ -722,6 +722,21 @@ $.fn.add_collection = function($form) {
 			$modal.find('input[name="color"]').spectrum({
 			    color: "#9999ff"
 			});		
+			// Profiles
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+			var profile_options = '<option value="">Create new profile</option>';
+			for (var j = 0; j < profiles.length; j++) {
+				profile_options += '<option value="'+profiles[j].uri+'">'+profiles[j].name+'</option>';
+			}
+			var check_profile_options = function() {
+				if ($modal.find('#profile').val().length) {
+					$modal.find('#profile').next().hide();
+				} else {
+					$modal.find('#profile').next().show();
+				}
+			};
+			$modal.find('#profile').empty().html(profile_options).unbind('change').change(check_profile_options);
+			check_profile_options();
 		});
 	}
 };

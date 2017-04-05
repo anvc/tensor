@@ -30,8 +30,8 @@
 		<!-- List of archives -->
 		<div id="archives" class="col-xs-9">
 		  	<span style="float:right;">
-		  		<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#set_profiles"><span class="glyphicon glyphicon-cog"></span> Set profiles</a>
 		  		<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#add_archive"><span class="glyphicon glyphicon-plus"></span> Add archive</a>
+		  		<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#set_profiles"><span class="glyphicon glyphicon-cog"></span> Set profiles</a>
 				<a href="javascript:void(null);" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sync"><span class="glyphicon glyphicon-cloud"></span>&nbsp; Sync media</a>
 			</span>
 		  	<div class="btn-group btn-group-sm" role="group"></div>
@@ -232,6 +232,13 @@
       </div>
       <form class="form-horizontal">
 	      <div class="modal-body">
+		    <div class="form-group">
+		  	  <label for="profile" class="col-sm-3 control-label">Profile</label>
+		  	  <div class="col-sm-9">
+			  	<select class="form-control" id="profile" name="profile" style="width:auto;float:left;margin-right:12px;"></select>
+			  	<input type="text" class="form-control" id="new_profile" name="new_profile" style="width:auto;float:left;" placeholder="New profile name..." />
+			  </div>
+		    </div>
 			<div class="form-group">
 		  		<label for="title" class="col-sm-3 control-label">Title</label>
 		  		<div class="col-sm-9">
