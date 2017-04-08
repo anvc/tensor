@@ -13,6 +13,7 @@ class Proxy_model extends CI_Model {
 		$query =@ (string) $_REQUEST['query'];
 		$parser =@ (string) $_REQUEST['parser'];
 		$url =@ (string) $_REQUEST['url'];
+		$url_override =@ (string) $_REQUEST['url_override'];
 
 		if (empty($page)) $page = 1;
 		//if (empty($query)) return self::error('Missing the query string');

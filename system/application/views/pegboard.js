@@ -591,11 +591,25 @@ function parse_complete_callback(_results, archive) {
 
 };
 
+function update_complete_callback(_results, reboot) {  // _results are added to existing results
+	
+	if ('undefined'==typeof(reboot)) reboot = false;
+	for (var uri in _results) {
+		if ('undefined'==typeof($.fn.search.results[uri])) continue;
+		$.extend($.fn.search.results[uri], _results[uri]);
+		$('#search_results .row').each(function() {
+			var $this = $(this);
+			if ($this.data('uri') != uri) return;
+			$this.highlight();
+		});
+	};
+	if (reboot) $('#search_results').search_results();
+	
+};
+
 // Display search results in one of many templates
 $.fn.search_results = function() {
 	
-	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
-	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
 	return this.each(function() {
 		var $node = $(this);		
 		var view = $('#search_view').find('button[class*="btn-primary"]').attr('id'); 
@@ -1067,7 +1081,7 @@ function sync_complete_callback(data) {
 function loading(bool, archive_title) {
 	var $loading = $('#loading');
 	if (bool) {
-		if ('undefined'!=typeof(archive_title)) $loading.children(':first').append('<div class="a" title="'+archive_title+'">'+archive_title+'</div>');
+		if ('undefined'!=typeof(archive_title) && !$loading.find('[title="'+archive_title+'"]').length) $loading.children(':first').append('<div class="a" title="'+archive_title+'">'+archive_title+'</div>');
 		$loading.show();
 	} else {
 		if ('undefined'!=typeof(archive_title)) $loading.find('.a[title="'+archive_title+'"]').remove();
@@ -1149,3 +1163,20 @@ function escapeHtml(text) {  // http://stackoverflow.com/questions/1787322/htmls
 	  };
 	  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 };
+
+jQuery.fn.highlight = function () {  // http://stackoverflow.com/questions/848797/yellow-fade-effect-with-jquery
+    $(this).each(function () {
+        var el = $(this);
+        $("<div/>")
+        .width(el.outerWidth())
+        .height(el.outerHeight())
+        .css({
+            "position": "absolute",
+            "left": el.offset().left,
+            "top": el.offset().top,
+            "background-color": "#ffff99",
+            "opacity": ".7",
+            "z-index": "9999999"
+        }).appendTo('body').fadeOut(1000).queue(function () { $(this).remove(); });
+    });
+}

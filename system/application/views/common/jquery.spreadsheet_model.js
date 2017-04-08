@@ -5,6 +5,7 @@
 			query: null,  /* The query string when getting */
 			data: null,  /* The data object when putting */
 			url: null,  /* Base URL of the archive */
+			url_override: null, /* Force the handler to this URL */
 			parser: null,  /* Name of the parser directory */
     		proxy_url: null,  /* The URL to the proxy controller */
     		error_callback: null,
@@ -46,6 +47,7 @@
         		query:(opts.query)?opts.query:'',
         		data:(opts.data)?opts.data:'',
         		url:(opts.url)?opts.url:'',
+        		url_override:(opts.url_override)?opts.url_override:'',
         		parser:(opts.parser)?opts.parser:'',
         		proxy_url:(opts.proxy_url)?opts.proxy_url:''
         	};
