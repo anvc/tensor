@@ -72,8 +72,7 @@ $(document).ready(function() {
 		$('#search_results').search_results();
 	});
 	// Collections
-	var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
-	$('#collections').list_collections(collections);	
+	$('#collections').list_collections(profiles);	
 	$('#add_collection').on('show.bs.modal', function () {
 		$(this).add_collection();
 	});
@@ -102,8 +101,8 @@ $(document).ready(function() {
 			$('#collections').find('.collection').each(function(index) {
 				if (!$(this).hasClass('clicked')) return;
 				collections.splice(index, 1);
-				storage.set('collections', collections);;		
-				$('#collections').list_collections(collections);
+				storage.set('collections', collections);;	
+				$('#collections').list_collections();
 				$('#collection_results').empty();
 				$('#collection').hide();
 				$('#archives').show();		    	
@@ -134,197 +133,206 @@ $(document).ready(function() {
 	});
 });
 
-// List profiles in an editable way in the provided HTML element
+//List profiles in an editable way in the provided HTML element
 $.fn.set_profiles = function(profiles) {
-	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
-	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global
-	return this.each(function() {
-		var $node = $(this);
-		var $profiles = $node.find('#profiles');
-		$node.submit(function(event){
-			event.preventDefault();
-		});
-		if ('undefined'==typeof(profiles)) profiles = [];
-		$profiles.empty();
-		$node.find('#more_profile_options').off('click').click(function() {;
-		$node.find('.more_profile_options').toggle(function() {
-			var $this = $(this);
-			if ($this.is(':hidden')) {
-				$('#more_profile_options').blur().find('.caret').css('transform', '');
-			} else {
-				$('#more_profile_options').blur().find('.caret').css('transform', 'rotate(180deg)');
-			};
-		});
-	});		
-		if (!profiles.length) {
-			$node.find('.has-profiles').hide();
-			$node.find('.no-profiles').show();
-		// List profiles
-		} else {
-			$node.find('.has-profiles').show();
-			$node.find('.no-profiles').hide();
-			$profiles.html('<p>Profiles currently loaded in your Tensor app:</p>');
-			for (var j = 0; j < profiles.length; j++) {
-				if ('undefined'==typeof(profiles[j].archives)) continue;
-				var archive_titles = [];
-				for (var k = 0; k < profiles[j].archives.length; k++) {
-					archive_titles.push(profiles[j].archives[k].title);
-				};
-				if (!archive_titles.length) archive_titles = ['No archives'];
-				var $profile = $('<div class="profile"><button type="button" class="btn btn-default">Download</button>&nbsp; <span class="desc"><b title="'+profiles[j].uri+'">'+profiles[j].name+'</b><br />Updated '+profiles[j].added+' with <a href="javascript:void(null);" data-toggle="tooltip" data-placement="top" title="'+archive_titles.join(', ')+'">'+profiles[j].archives.length+' archive'+((profiles[j].archives.length>1)?'s':'')+'</a> </span> <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>').appendTo($profiles);
-				$profile.data('profile', profiles[j]);
-				if (-1!=profiles[j].uri.indexOf('://')) {
-					var $refresh = $('<a href="javascript:void(null);" class="btn btn-xs btn-default">Refresh from server</a>').appendTo($profile.find('span:first'));
-					$refresh.click(function() {
-						var uri = $(this).closest('.profile').data('profile').uri;
-						if (!confirm('Continuing will overwrite any local changes you may have made to this profile. Do you wish to continue?')) {
-							return;
-						};
-						$.ajax({
-						    url: starter_url,
-						    dataType: 'text',
-						    type: 'GET',
-						    async: true,
-						    statusCode: {
-						        404: function (response) {
-						            alert('Could not find the start profile on GitHub');
-						        },
-						        200: function (response) {
-						            var data = eval(response);
-						        }
-						    },
-						    error: function (jqXHR, status, errorThrown) {
-						        alert('There was an error: '+errorThrown);
-						    }
-						});		
-					});
-				}
-				var $download = $profile.find('button:first');
-				$download.unbind('click').click(function() {
-					var profile = $(this).closest('.profile').data('profile');
-					var text = 'profile('+JSON.stringify(profile,null,2)+');';
-					var filename = profile.uri.split(/[\\/]/).pop();
-					// FileSaver.js
-					var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
-					saveAs(blob, filename+".txt");					
-				});
-			};
-			$('[data-toggle="tooltip"]').tooltip({trigger:'click'}); 
-			$profiles.append('<br clear="both" />');
-		};
-		// Delete
-		$profiles.find('.close').unbind('click').click(function() {
-			var profile = $(this).closest('.profile').data('profile');
-			if (!confirm('Are you sure you wish to remove '+profile.name+'? This action cannot be undone.')) return;
-			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : [];
-			for (var j = 0; j < profiles.length; j++) {
-				if (profile.uri === profiles[j].uri) {
-					profiles.splice(j, 1);
-					break;
-				}
-			}
-			storage.set('profiles', profiles);
-			$('#set_profiles').set_profiles(storage.get('profiles'));
-			$('#archives').list_archives(storage.get('profiles'));			
-		});
-		// Start, Reset
-		$node.find('#resetProfiles, #startProfiles').removeAttr('disabled');
-		$node.find('#resetProfiles, #startProfiles').unbind('click').click(function() {
-			var $button = $(this);
-			var is_new = ('startProfiles'==$button.attr('id')) ? true : false;
-			$button.attr('disabled', 'disabled');
-			if (!is_new && !confirm('Are you sure you wish to reset your profiles?')) {
-				$button.removeAttr('disabled');
-				return;
-			}
-			storage.set('profiles', []);
-			// This URL shouldn't ever change
-			var starter_url = 'https://raw.githubusercontent.com/craigdietrich/tensor-profiles/master/starter.profile.js';
-			$.ajax({
-			    url: starter_url,
-			    dataType: 'text',
-			    type: 'GET',
-			    async: true,
-			    statusCode: {
-			        404: function (response) {
-			            alert('Could not find the start profile on GitHub');
-			        },
-			        200: function (response) {
-			            var data = eval(response);
-			        }
-			    },
-			    error: function (jqXHR, status, errorThrown) {
-			        alert('There was an error: '+errorThrown);
-			    }
-			});			
-		});
-		// Create new
-		$node.find('#createNewProfile').unbind('click').click(function() {
-			var value = $(this).closest('.input-group').find('input[type="text"]').val();
-			if (!value.length) {
-				alert('Please enter a name for the new profile.');
-				return;
-			};
-			var json = {};
-			json.name = value;
-			json.uri = '_'+(new Date().getTime());
-			window['profile'](json);
-			$(this).closest('.input-group').find('input[type="text"]').val('').blur();
-		});
-		// From URL
-		$node.find('#profileFromURL').unbind('click').click(function() {
-			var value = $(this).closest('.input-group').find('input[type="text"]').val();
-			if (!value.length) {
-				alert('Please enter the URL to the profile.');
-				return;
-			};
-			$.ajax({
-			    url: value,
-			    dataType: 'text',
-			    type: 'GET',
-			    async: true,
-			    statusCode: {
-			        404: function (response) {
-			            alert('Could not find the start profile on GitHub');
-			        },
-			        200: function (response) {
-			            var data = eval(response);
-			        }
-			    },
-			    error: function (jqXHR, status, errorThrown) {
-			        alert('There was an error: '+errorThrown);
-			    }
-			});		
-			$(this).closest('.input-group').find('input').val('').blur();
-		});		
-		// File upload
-		$node.find('#profileUpload').unbind('click').click(function() {
-			var input = document.getElementById('profile-file-selector');
-		    if ('undefined'==typeof(input.files[0])) {
-		      alert("Please select a file to upload'");
-		      return;
-		    }
-		    file = input.files[0];
-		    fr = new FileReader();
-		    fr.onload = function() {
-		    	if (!fr.result) {
-		    		alert('Could not read the uploaded file');
-		    		return;
-		    	};
-		    	if ('profile('!=fr.result.substr(0,8)) {
-		    		alert('Uploaded file does not appear to be a Tensor JSONP file');
-		    		return;
-		    	};
-		    	var json = fr.result.substring(fr.result.indexOf("(") + 1, fr.result.lastIndexOf(")"));
-		    	window['profile'](json);
-		    };
-		    fr.readAsText(file);
-		    $(this).closest('.input-group').find('input').val('').blur();
-		});
-	});
+    if ('undefined' == typeof(ns)) ns = $.initNamespaceStorage('tensor_ns'); // global
+    if ('undefined' == typeof(storage)) storage = ns.localStorage; // global
+    return this.each(function() {
+        var $node = $(this);
+        var $profiles = $node.find('#profiles');
+        $node.submit(function(event) {
+            event.preventDefault();
+        });
+        if ('undefined' == typeof(profiles)) profiles = [];
+        $profiles.empty();
+        $node.find('#more_profile_options').off('click').click(function() {;
+            $node.find('.more_profile_options').toggle(function() {
+                var $this = $(this);
+                if ($this.is(':hidden')) {
+                    $('#more_profile_options').blur().find('.caret').css('transform', '');
+                } else {
+                    $('#more_profile_options').blur().find('.caret').css('transform', 'rotate(180deg)');
+                };
+            });
+        });
+        if (!profiles.length) {
+            $node.find('.has-profiles').hide();
+            $node.find('.no-profiles').show();
+            // List profiles
+        } else {
+            $node.find('.has-profiles').show();
+            $node.find('.no-profiles').hide();
+            $profiles.html('<p>Profiles currently loaded in your Tensor app:</p>');
+            for (var j = 0; j < profiles.length; j++) {
+                if ('undefined' == typeof(profiles[j].archives)) profiles[j].archives = [];
+                var archive_titles = [];
+                for (var k = 0; k < profiles[j].archives.length; k++) {
+                    archive_titles.push(profiles[j].archives[k].title);
+                };
+                if (!archive_titles.length) archive_titles = ['No archives'];
+                if ('undefined' == typeof(profiles[j].collections)) profiles[j].collections = [];
+                var collection_titles = [];
+                for (var k = 0; k < profiles[j].collections.length; k++) {
+                    collection_titles.push(profiles[j].collections[k].title);
+                };
+                if (!collection_titles.length) collection_titles = ['No collections'];
+                var $profile = $('<div class="profile"><button type="button" class="btn btn-default">Download</button>&nbsp; <span class="desc"><b title="' + profiles[j].uri + '">' + profiles[j].name + '</b><br />Updated ' + profiles[j].added + ', <a href="javascript:void(null);" data-toggle="tooltip" data-placement="top" title="' + archive_titles.join(', ') + '">' + profiles[j].archives.length + ' archive' + ((profiles[j].archives.length == 0 || profiles[j].archives.length > 1) ? 's' : '') + '</a>, <a href="javascript:void(null);" data-toggle="tooltip" data-placement="top" title="' + collection_titles.join(', ') + '">' + profiles[j].collections.length + ' collection' + ((profiles[j].collections.length == 0 || profiles[j].collections.length > 1) ? 's' : '') + '</a> </span> <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>').appendTo($profiles);
+                $profile.data('profile', profiles[j]);
+                if (-1 != profiles[j].uri.indexOf('://')) {
+                    var $refresh = $('<a href="javascript:void(null);" class="btn btn-xs btn-default">Refresh from server</a>').appendTo($profile.find('span:first'));
+                    $refresh.click(function() {
+                        var uri = $(this).closest('.profile').data('profile').uri;
+                        if (!confirm('Continuing will overwrite any local changes you may have made to this profile. Do you wish to continue?')) {
+                            return;
+                        };
+                        $.ajax({
+                            url: uri,
+                            dataType: 'text',
+                            type: 'GET',
+                            async: true,
+                            statusCode: {
+                                404: function(response) {
+                                    alert('Could not find the start profile on GitHub');
+                                },
+                                200: function(response) {
+                                    var data = eval(response);
+                                }
+                            },
+                            error: function(jqXHR, status, errorThrown) {
+                                alert('There was an error: ' + errorThrown);
+                            }
+                        });
+                    });
+                };
+                var $download = $profile.find('button:first');
+                $download.unbind('click').click(function() {
+                    var profile = $(this).closest('.profile').data('profile');
+                    var text = 'profile(' + JSON.stringify(profile, null, 2) + ');';
+                    var filename = profile.uri.split(/[\\/]/).pop();
+                    var blob = new Blob([text], {
+                        type: "text/plain;charset=utf-8"
+                    }); // FileSaver.js
+                    saveAs(blob, filename + ".txt");
+                });
+            };
+            $('[data-toggle="tooltip"]').tooltip({
+                trigger: 'click'
+            });
+            $profiles.append('<br clear="both" />');
+        };
+        // Delete
+        $profiles.find('.close').unbind('click').click(function() {
+            var profile = $(this).closest('.profile').data('profile');
+            if (!confirm('Are you sure you wish to remove ' + profile.name + '? This action cannot be undone.')) return;
+            var profiles = ('undefined' != typeof(storage.get('profiles'))) ? storage.get('profiles') : [];
+            for (var j = 0; j < profiles.length; j++) {
+                if (profile.uri === profiles[j].uri) {
+                    profiles.splice(j, 1);
+                    break;
+                }
+            }
+            storage.set('profiles', profiles);
+            $('#set_profiles').set_profiles(storage.get('profiles'));
+            $('#archives').list_archives(storage.get('profiles'));
+            $('#collections').list_collections(storage.get('profiles'));
+        });
+        // Start, Reset
+        $node.find('#resetProfiles, #startProfiles').removeAttr('disabled');
+        $node.find('#resetProfiles, #startProfiles').unbind('click').click(function() {
+            var $button = $(this);
+            $button.attr('disabled', 'disabled');
+            var is_new = ('startProfiles' == $button.attr('id')) ? true : false;
+            if (!is_new && !confirm('Are you sure you wish to reset your profiles? This action cannot be undone.')) {
+                $button.removeAttr('disabled');
+                return;
+            }
+            storage.set('profiles', []);
+            var starter_url = 'https://raw.githubusercontent.com/craigdietrich/tensor-profiles/master/starter.profile.js'; // This URL shouldn't ever change
+            $.ajax({
+                url: starter_url,
+                dataType: 'text',
+                type: 'GET',
+                async: true,
+                statusCode: {
+                    404: function(response) {
+                        alert('Could not find the start profile on GitHub');
+                    },
+                    200: function(response) {
+                        var data = eval(response);
+                    }
+                },
+                error: function(jqXHR, status, errorThrown) {
+                    alert('There was an error: ' + errorThrown);
+                }
+            });
+        });
+        // Create new
+        $node.find('#createNewProfile').unbind('click').click(function() {
+            var value = $(this).closest('.input-group').find('input[type="text"]').val();
+            if (!value.length) {
+                alert('Please enter a name for the new profile.');
+                return;
+            };
+            var json = {};
+            json.name = value;
+            json.uri = '_' + (new Date().getTime());
+            window['profile'](json);
+            $(this).closest('.input-group').find('input[type="text"]').val('').blur();
+        });
+        // From URL
+        $node.find('#profileFromURL').unbind('click').click(function() {
+            var value = $(this).closest('.input-group').find('input[type="text"]').val();
+            if (!value.length) {
+                alert('Please enter the URL to the profile.');
+                return;
+            };
+            $.ajax({
+                url: value,
+                dataType: 'text',
+                type: 'GET',
+                async: true,
+                statusCode: {
+                    404: function(response) {
+                        alert('Could not find the start profile on GitHub');
+                    },
+                    200: function(response) {
+                        var data = eval(response);
+                    }
+                },
+                error: function(jqXHR, status, errorThrown) {
+                    alert('There was an error: ' + errorThrown);
+                }
+            });
+            $(this).closest('.input-group').find('input').val('').blur();
+        });
+        // File upload
+        $node.find('#profileUpload').unbind('click').click(function() {
+            var input = document.getElementById('profile-file-selector');
+            if ('undefined' == typeof(input.files[0])) {
+                alert("Please select a file to upload");
+                return;
+            }
+            file = input.files[0];
+            fr = new FileReader();
+            fr.onload = function() {
+                if (!fr.result) {
+                    alert('Could not read the uploaded file');
+                    return;
+                };
+                if ('profile(' != fr.result.substr(0, 8)) {
+                    alert('Uploaded file does not appear to be a Tensor JSONP file');
+                    return;
+                };
+                var json = fr.result.substring(fr.result.indexOf("(") + 1, fr.result.lastIndexOf(")"));
+                window['profile'](json);
+            };
+            fr.readAsText(file);
+            $(this).closest('.input-group').find('input').val('').blur();
+        });
+    });
 };
 
-// Accept a profile and commit it to storage
+// Accept a profile from JSONP and commit it to storage
 window['profile'] = function(json) {
 	if ('object'!=typeof(json)) {
 		try {
@@ -343,9 +351,9 @@ window['profile'] = function(json) {
 	};
 	json.added = new Date().toJSON().slice(0,10);
 	if ('undefined'==typeof(json.archives)) json.archives = [];
+	if ('undefined'==typeof(json.collections)) json.collections = [];
 	var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : [];
-	// See if we're replacing base on the URI
-	for (var j = 0; j < profiles.length; j++) {
+	for (var j = 0; j < profiles.length; j++) {  // See if we're replacing base on the URI
 		if (profiles[j].uri == json.uri) {
 			profiles.splice(j, 1);
 			break;
@@ -355,10 +363,11 @@ window['profile'] = function(json) {
 	storage.set('profiles', profiles);
 	if (!$('.modal.in:not(#set_profiles)').length) $('#set_profiles').set_profiles(storage.get('profiles'));
 	$('#archives').list_archives(storage.get('profiles'));
+	$('#collections').list_collections(storage.get('profiles'));
 	return profiles.length - 1;
 };
 
-// List the various archives stored in the various profiles (the default page)
+// List the various archives stored in the various profiles (the default Tensor view)
 $.fn.list_archives = function(profiles) {
 	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
 	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
@@ -397,14 +406,15 @@ $.fn.list_archives = function(profiles) {
 				test_img.src = thumb_url;
 			}
 		}
+		// Display the archive or an error if the parser can't be found
 		$container.children().unbind('click').click(function() {
 			var $this = $(this);
 			if ($this.data('error').length) {
 				var parser_name = $this.data('archive').parser;
 				var $error = $('#error');
 				$error.find('.modal-title').text('No parser found');
-				$error.find('.modal-body').empty().append('The parser folder "'+parser_name+'" is not present in this Tensor install\'s file system. Contact an administrator to add the parser\'s files to /parsers/'+parser_name+'.');
-				$error.find('.modal-body').append('<br /><br />Once added you will be able to use this archive and add new archives based on the same parser.');
+				$error.find('.modal-body').empty().append('The parser folder "'+parser_name+'" is not present in this Tensor install\'s file system. Contact an administrator to add the parser\'s files to <strong>/parsers/'+parser_name+'</strong>.');
+				$error.find('.modal-body').append('<br /><br />Once the parser is added you will be able to use this archive and also add new archives based on the same parser.');
 				$error.modal();
 				return;
 			};
@@ -458,9 +468,9 @@ $.fn.add_archive = function($form) {
 	if ('undefined'!=typeof($form)) {
 		if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
 		if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global	
-		var profile = $form.find('#profile').val();
+		var profile = $form.find('[name="profile"]').val();
 		if (!profile.length) {
-		   var new_profile = $form.find('#new_profile').val();
+		   var new_profile = $form.find('[name="new_profile"]').val();
 		   if (!new_profile.length) {
 			   alert('Please enter a name for the new profile, or select an existing profile.');
 			   return;
@@ -493,11 +503,12 @@ $.fn.add_archive = function($form) {
 				"categories": categories		
 			};
 		if ($form.find('#thumbnail').val().length) obj.thumbnail = $form.find('#thumbnail').val();
-		if ('undefined'==typeof(profiles)) var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+		var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
 		profiles[profile_index].archives.push(obj);
     	profiles[profile_index].added = new Date().toJSON().slice(0,10);  // Not great semantics, but ...
     	storage.set('profiles', profiles);
     	$('#archives').list_archives(storage.get('profiles'));
+    	$('#collections').list_collections(storage.get('profiles'));
     	$('#add_archive').modal('hide');
 	} else {
 		if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
@@ -509,22 +520,22 @@ $.fn.add_archive = function($form) {
 			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
 			var profile_options = '<option value="">Create new profile</option>';
 			for (var j = 0; j < profiles.length; j++) {
-				profile_options += '<option value="'+profiles[j].uri+'">'+profiles[j].name+'</option>';
+				profile_options += '<option value="'+profiles[j].uri+'"'+((j==profiles.length-1)?' selected':'')+'>'+profiles[j].name+'</option>';
 			}
 			var check_profile_options = function() {
-				if ($modal.find('#profile').val().length) {
-					$modal.find('#profile').next().hide();
+				if ($modal.find('[name="profile"]').val().length) {
+					$modal.find('[name="profile"]').next().hide();
 				} else {
-					$modal.find('#profile').next().show();
+					$modal.find('[name="profile"]').next().show();
 				}
 			};
-			$modal.find('#profile').empty().html(profile_options).unbind('change').change(check_profile_options);
+			$modal.find('[name="profile"]').empty().html(profile_options).unbind('change').change(check_profile_options);
 			check_profile_options();
 			// Parsers
 			$.getJSON($('link#base_url').attr('href')+'wb/parsers', function(json) {
 				var options = '';
 				for (var j = 0; j < json.length; j++) {
-					options += '<option value="'+json[j]+'">'+json[j]+'</option>';
+					options += '<option value="'+json[j]+'"'+((j==Math.floor(json.length/2))?' selected':'')+'>'+json[j]+'</option>';
 				}					
 				$modal.find('#parser').empty().html(options);
 			});
@@ -614,8 +625,6 @@ $.fn.search_results = function() {
 		var $node = $(this);		
 		var view = $('#search_view').find('button[class*="btn-primary"]').attr('id'); 
 		if ('undefined'!=typeof($.fn.spreadsheet_view)) $.fn.spreadsheet_view.remove();
-		//results = sort_rdfjson_by_prop(results, 'http://purl.org/dc/terms/title');
-		//$('.num_results').html( $.map(results, function(n, i) { return i; }).length );
 		$('.page').text($.fn.search.page);
 		$('.prev-page, .next-page').hide();
 		if ($.fn.search.page > 1) $('.prev-page').show().data('page', $.fn.search.page - 1);
@@ -636,17 +645,10 @@ $.fn.import = function() {
 		var $node = $(this);
 		$node.empty();
 		var archive = $('#search').data('archive');
-		// Create the split button with a list of the collections
-		$node.append('<button type="button" class="btn btn-primary">Import</button>');
-		$node.append('<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>');
-		var $list = $('<ul class="dropdown-menu"><li class="dropdown-menu-title">Import to...</li></ul>').appendTo($node);
-		if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
-		for (var j = 1; j < collections.length; j++) {  // 0: all imported media
-			$list.append('<li><a href="javascript:void(null);" data-index="'+j+'">'+collections[j].title+'</a></li>');
-		};
-		// Import actions
-		var do_import = function(index) {
-			if ('undefined'==typeof(index)) index = 0;  // 0: all imported media
+		// Import action
+		var do_import = function(profile_index, collection_index) {
+			if ('undefined'==typeof(profile_index)) profile_index = 0; 
+			if ('undefined'==typeof(collection_index)) collection_index = 0;
 			var items = {};
 			$('#search_results').find('.clicked').each(function() {
 				var $this = $(this);
@@ -654,55 +656,82 @@ $.fn.import = function() {
 				var values = $this.data('values');
 				items[uri] = values;
 			});
-			if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
-			if ('undefined'==typeof(collections[0])) collections[0] = {items:{}};  // 0: all imported media
-			collections[0].items = $.extend({}, collections[0].items, items);
-			if (index > 0) collections[index].items = $.extend({}, collections[index].items, items);
-			storage.set('collections', collections);;	
-			$('#collections').list_collections(collections);
+			if ($.isEmptyObject(items)) {
+				alert('Please select one or more items to import');
+				return;
+			};
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+			if ('undefined'==typeof(profiles[profile_index])) {
+				alert('There are no collections to import into. First create a new profile then place a new collection in it to be able to import.');
+				return;
+			};
+			if ('undefined'==typeof(profiles[profile_index].collections[collection_index])) {
+				alert('A collection needs to be created before you can import');
+				return;
+			};
+			profiles[profile_index].collections[collection_index].items = $.extend({}, profiles[profile_index].collections[collection_index].items, items);
+			storage.set('profiles', profiles);	
+			$('#collections').list_collections(profiles);
 			$('#search_results').find('.clicked').removeClass('clicked').find('.clicked_layer').remove();
 			if (!$('#imported_tour').length) {
 				$(window).joyride("destroy");
-				var $joyride = $('<ol id="imported_tour"><li data-id="collection_'+index+'" data-button="Close"><p>Your item'+((Object.keys(items).length>1)?'s have':' has')+' been imported'+((index>0)?' into this collection':'')+'.</p></li></ol>').appendTo('body');
+				var $joyride = $('<ol id="imported_tour"><li data-id="collection_'+profile_index+'_'+collection_index+'" data-button="Close"><p>Your item'+((Object.keys(items).length>1)?'s have':' has')+' been imported into this collection.</p></li></ol>').appendTo('body');
 				$("#imported_tour").joyride({autoStart:true, timer:2000, template:{link:''}});
 			};
 		};
-		$list.find('a').unbind('click').click(function() {
-			var index = $(this).data('index');
-			do_import(index);
-		});
+		// Create the split button with a list of the collections
+		$node.append('<button type="button" class="btn btn-primary">Import</button>');
+		$node.append('<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>');
+		var $list = $('<ul class="dropdown-menu"><li class="dropdown-menu-title">Import to...</li></ul>').appendTo($node);
+		$list.parent().on('show.bs.dropdown', function () {  // Update the list live so that collections can be added at any time
+			$list.children().not('.dropdown-menu-title').remove();
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+			for (var j = 0; j < profiles.length; j++) {
+				if ('undefined'==typeof(profiles[j].collections)) profiles[j].collections = [];
+				for (var k = 0; k < profiles[j].collections.length; k++) {
+					$list.append('<li><a href="javascript:void(null);" data-profile-index="'+j+'" data-collection-index="'+k+'">'+profiles[j].collections[k].title+'</a></li>');
+				};
+			};
+			$list.find('a').unbind('click').click(function() {
+				do_import(parseInt($(this).data('profile-index')), parseInt($(this).data('collection-index')));
+			});
+		})
 		$node.find('button:first').unbind('click').click(function() {
-			do_import();
+			do_import(0, 0);
 		});
 	});
 	
 };
 
-//List collections in the sidebar
-$.fn.list_collections = function(collections) {
+// List collections in the sidebar
+$.fn.list_collections = function(profiles) {
 	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
 	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
 	return this.each(function() {
 		var $node = $(this);
 		$form = $node.find('#collections_form');
 		$form.children(':gt(0)').remove();  // Assume the first collection is the built-in "All imported media"
-		if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
-		if ('undefined'==typeof(collections[0])) collections[0] = {items:{}};  // 0: all imported media
-		$form.find('.all .num_items').text(Object.keys(collections[0].items).length);
-		for (var j = 1; j < collections.length; j++) {  // 0: all imported media
-			var lum = luminance(collections[j].color);
-			var $col = $('<div class="collection" id="collection_'+j+'"></div>').appendTo($form);
-			$col.append('<div class="color '+((lum < 80)?'dark':'light')+'" style="background-color:'+collections[j].color+';"><span class="num_items">'+Object.keys(collections[j].items).length+'</span></div>');
-			$col.append('<h5>'+collections[j].title+'</h5>');
-		    $col.append('<div class="desc">'+collections[j].description+'</div>');
-		    $col.data('collection', collections[j]);
+		var items = {};
+		for (var j = 0; j < profiles.length; j++) {
+			for (var k = 0; k < profiles[j].collections.length; k++) {
+				if ('undefined'==typeof(profiles[j].collections[k].items)) profiles[j].collections[k].items = {};
+				$.extend(items, profiles[j].collections[k].items);
+				var lum = luminance(profiles[j].collections[k].color);
+				var $col = $('<div class="collection" id="collection_'+j+'_'+k+'"></div>').appendTo($form);
+				$col.append('<div class="color '+((lum < 80)?'dark':'light')+'" style="background-color:'+profiles[j].collections[k].color+';"><span class="num_items">'+Object.keys(profiles[j].collections[k].items).length+'</span></div>');
+				$col.append('<h5>'+profiles[j].collections[k].title+'</h5>');
+				$col.append('<div class="desc">'+profiles[j].collections[k].description+'</div>');
+				$col.data('collection', profiles[j].collections[k]);
+			};
 		};
-		$form.children().unbind('click').click(function() {
+		$form.find('.all .num_items').text( Object.keys(items).length );
+		$form.children().unbind('click').mousedown(function() {
 			var $clicked = $(this);
 			$clicked.parent().find('.collection').removeClass('clicked');
 			$clicked.addClass('clicked');
 			$('body').trigger("show_collection", [$clicked.data('collection')]);
 		});
+		
 	});
 };
 
@@ -711,6 +740,31 @@ $.fn.add_collection = function($form) {
 	if ('undefined'!=typeof($form)) {
 		if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
 		if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global	
+		var profile = $form.find('[name="profile"]').val();
+		if (!profile.length) {
+		   var new_profile = $form.find('[name="new_profile"]').val();
+		   if (!new_profile.length) {
+			   alert('Please enter a name for the new profile, or select an existing profile.');
+			   return;
+		   }
+		   var json = {};
+		   json.name = new_profile;
+		   json.uri = '_'+(new Date().getTime());
+		   var profile_index = window['profile'](json);
+		} else {
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+			var profile_index = null;
+			for (var j = 0; j < profiles.length; j++) {
+				if (profiles[j].uri == profile) {
+					profile_index = j;
+					break;
+				}
+			}
+		};
+		if (null===profile_index) {
+			alert('Could not find selected profile');
+			return;
+		};
 		var obj = {};
 		obj.title = $form.find('[name="title"]').val();
 		obj.description = $form.find('[name="description"]').val();
@@ -723,11 +777,10 @@ $.fn.add_collection = function($form) {
 			alert('Please enter a description for the collection');
 			return;
 		};
-		if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
-		if ('undefined'==typeof(collections[0])) collections[0] = {items:{}};  // 0: all imported media
-		collections.push(obj);
-		storage.set('collections', collections);;		
-		$('#collections').list_collections(collections);
+		var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+		profiles[profile_index].collections.push(obj);
+		storage.set('profiles', profiles);	
+		$('#collections').list_collections(profiles);
     	$('#add_collection').modal('hide');
 	} else {	
 		return this.each(function() {
@@ -740,16 +793,16 @@ $.fn.add_collection = function($form) {
 			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
 			var profile_options = '<option value="">Create new profile</option>';
 			for (var j = 0; j < profiles.length; j++) {
-				profile_options += '<option value="'+profiles[j].uri+'">'+profiles[j].name+'</option>';
+				profile_options += '<option value="'+profiles[j].uri+'"'+((j==profiles.length-1)?' selected':'')+'>'+profiles[j].name+'</option>';
 			}
 			var check_profile_options = function() {
-				if ($modal.find('#profile').val().length) {
-					$modal.find('#profile').next().hide();
+				if ($modal.find('[name="profile"]').val().length) {
+					$modal.find('[name="profile"]').next().hide();
 				} else {
-					$modal.find('#profile').next().show();
+					$modal.find('[name="profile"]').next().show();
 				}
 			};
-			$modal.find('#profile').empty().html(profile_options).unbind('change').change(check_profile_options);
+			$modal.find('[name="profile"]').empty().html(profile_options).unbind('change').change(check_profile_options);
 			check_profile_options();
 		});
 	}
@@ -762,16 +815,20 @@ $.fn.show_collection = function(collection) {
 	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
 	return this.each(function() {
 		var $node = $(this);		
-		if ('undefined'==typeof(collection)) {
-			if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
-			var items = ('undefined'==typeof(collections[0])) ? {} : collections[0].items;
+		if ('undefined'==typeof(collection)) {  // All imported media
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+			var items = {};
+			for (var j = 0; j < profiles.length; j++) {
+				for (var k = 0; k < profiles[j].collections.length; k++) {
+					if ('undefined'==typeof(profiles[j].collections[k].items)) profiles[j].collections[k].items = {};
+					$.extend(items, profiles[j].collections[k].items);
+				};
+			};
 		} else {
 			var items = collection.items;
-		}
+		};
 		var view = $('#collection_view').find('button[class*="btn-primary"]').attr('id'); 
 		if ('undefined'!=typeof($.fn.spreadsheet_view)) $.fn.spreadsheet_view.remove();
-		//results = sort_rdfjson_by_prop(results, 'http://purl.org/dc/terms/title');
-		//$('.num_results').html( $.map(results, function(n, i) { return i; }).length );
 		$('.page').text($.fn.search.page);
 		$('.prev-page, .next-page').hide();
 		if ($.fn.search.page > 1) $('.prev-page').show().data('page', $.fn.search.page - 1);
@@ -788,29 +845,13 @@ $.fn.show_collection = function(collection) {
 //The "move" button with attached move action
 $.fn.move = function(source_collection) {
 
+	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global	
 	return this.each(function() {
 		var $node = $(this);
 		$node.empty();
-		// Create the split button with a list of the collections
-		$node.append('<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Selected items <span class="caret"></span></button>');
-		var $list = $('<ul class="dropdown-menu"><li><a href="javascript:void(null);" data-index="meta">Edit metadata</a></li><li role="separator" class="divider"></li></ul>').appendTo($node);
-		if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
-		for (var j = 0; j < collections.length; j++) {  // 0: all imported media
-			if (JSON.stringify(source_collection) == JSON.stringify(collections[j])) continue;
-			if ('undefined'==typeof(source_collection) && 0==j) {
-				var title = 'Remove from all collections';
-			} else if (0==j) {
-				var title = 'Remove from this collection';
-			} else if ('undefined'==typeof(source_collection)) {
-				var title = 'Copy into '+collections[j].title;
-			} else {
-				var title = 'Move to '+collections[j].title;
-			};
-			$list.append('<li><a href="javascript:void(null);" data-index="'+j+'">'+title+'</a></li>');
-		};
 		// Move actions
-		var do_move = function(index) {
-			if ('undefined'==typeof(index)) index = 0;  // 0: all imported media
+		var do_move = function(action, profile_index, collection_index) {
 			var items = {};
 			$('#collection_results').find('.clicked').each(function() {
 				var $this = $(this);
@@ -818,57 +859,89 @@ $.fn.move = function(source_collection) {
 				var values = $this.data('values');
 				items[uri] = values;
 			});
-			if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
-			if ('undefined'==typeof(collections[0])) collections[0] = {items:{}};  // 0: all imported media
-			if ('meta'==index) {  // Edit metadata
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+			if ('meta'==action) {  // Edit metadata
 				$('#edit_metadata').metadata(items, source_collection);
 				return;
-			} else if ('undefined'==typeof(source_collection) && 0==index) {  // Delete from all 
-				for (var k = 0; k < collections.length; k++) {
-					for (var uri in items) {
-						if ('undefined'!=collections[k].items[uri]) delete collections[k].items[uri];
+			} else if ('remove'==action && isNaN(profile_index)) {  // Delete from all
+				for (var j = 0; j < profiles.length; j++) {
+					for (var k = 0; k < profiles[j].collections.length; k++) {
+						for (var uri in items) {
+							if ('undefined'!=profiles[j].collections[k].items[uri]) delete profiles[j].collections[k].items[uri];
+						};
 					};
 				};
-			} else if (0==index) {  // Delete from this collection
-				for (var k = 0; k < collections.length; k++) {
-					if (JSON.stringify(source_collection) != JSON.stringify(collections[k])) continue;
-					for (var uri in items) {
-						if ('undefined'!=collections[k].items[uri]) delete collections[k].items[uri];
+			} else if ('remove'==action) {  // Delete from this collection
+				for (var j = 0; j < profiles.length; j++) {
+					for (var k = 0; k < profiles[j].collections.length; k++) {
+						if (JSON.stringify(source_collection) != JSON.stringify(profiles[j].collections[k])) continue;
+						for (var uri in items) {
+							if ('undefined'!=profiles[j].collections[k].items[uri]) delete profiles[j].collections[k].items[uri];
+						};
+						break;
 					};
-					break;
 				};
-			} else if ('undefined'==typeof(source_collection)) {  // Copy from all into a collection
+			} else if ('copy'==action) {  // Copy from all into a collection
 				for (var uri in items) {
-					collections[index].items[uri] = items[uri];
+					profiles[profile_index].collections[collection_index].items[uri] = items[uri];
 				};
-			} else {  // Move from one to the other
-				for (var k = 0; k < collections.length; k++) {
-					if (JSON.stringify(source_collection) != JSON.stringify(collections[k])) continue;
-					for (var uri in items) {
-						if ('undefined'!=collections[k].items[uri]) delete collections[k].items[uri];
-					};
-					break;
-				};		
+			} else if ('move'==action) {  // Move from one to the other
+				for (var j = 0; j < profiles.length; j++) {
+					for (var k = 0; k < profiles[j].collections.length; k++) {
+						if (JSON.stringify(source_collection) != JSON.stringify(profiles[j].collections[k])) continue;
+						for (var uri in items) {
+							if ('undefined'!=profiles[j].collections[k].items[uri]) delete profiles[j].collections[k].items[uri];
+						};
+						break;
+					};	
+				};
 				for (var uri in items) {
-					collections[index].items[uri] = items[uri];
+					profiles[profile_index].collections[collection_index].items[uri] = items[uri];
 				};
-			};						
-			storage.set('collections', collections);
+			} else {
+				alert('Could not figure out the action!');
+			};			
+			storage.set('profiles', profiles);
 			var selected_index = 0;
 			$('#collections_form').find('.collection').each(function(index) {
 				if ($(this).hasClass('clicked')) selected_index = index;
 			});			
-			$('#collections').list_collections(collections);
-			$('#collections_form').find('.collection').eq(selected_index).click();
-			if ($.isNumeric(index) && !$('#moved_tour').length) {
+			$('#collections').list_collections(profiles);
+			$('#collections_form').find('.collection').eq(selected_index).mousedown();
+			if (!isNaN(profile_index) && !$('#moved_tour').length) {
 				$(window).joyride("destroy");
-				var $joyride = $('<ol id="moved_tour"><li data-id="collection_'+selected_index+'" data-button="Close"><p>Your item'+((Object.keys(items).length>1)?'s have':' has')+' been '+((index>0)?' moved':' copied')+'.</p></li></ol>').appendTo('body');
+				var $joyride = $('<ol id="moved_tour"><li data-id="collection_'+profile_index+'_'+collection_index+'" data-button="Close"><p>Your item'+((Object.keys(items).length>1)?'s have':' has')+' been '+(('move'==action)?'moved':'copied')+'.</p></li></ol>').appendTo('body');
 				$("#moved_tour").joyride({autoStart:true, timer:2000, template:{link:''}});
-			};			
+			};
 		};
-		$list.find('a').unbind('click').click(function() {
-			var index = $(this).data('index');
-			do_move(index);
+		// Create the split button with a list of the collections
+		$node.append('<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Selected items <span class="caret"></span></button>');
+		var $list = $('<ul class="dropdown-menu"><li><a href="javascript:void(null);" data-action="meta">Edit metadata</a></li><li role="separator" class="divider"></li></ul>').appendTo($node);
+		$list.parent().on('show.bs.dropdown', function () {  // Update the list live so that collections can be added at any time
+			$list.children().not(':first').not('.divider').remove();
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+			if ('undefined'==typeof(source_collection)) {
+				$list.append('<li><a href="javascript:void(null);" data-action="remove">Remove from all collections</a></li>');
+			};
+			for (var j = 0; j < profiles.length; j++) {
+				for (var k = 0; k < profiles[j].collections.length; k++) {
+					if (JSON.stringify(source_collection) == JSON.stringify(profiles[j].collections[k])) {
+						$list.find('.divider').after('<li><a href="javascript:void(null);" data-action="remove" data-profile-index="'+j+'" data-collection-index="'+k+'">Remove from this collection</a></li>');
+						continue;
+					};
+					if ('undefined'==typeof(source_collection)) {
+						var action = 'copy';
+						var title = 'Copy into '+profiles[j].collections[k].title;
+					} else {
+						var action = 'move';
+						var title = 'Move to '+profiles[j].collections[k].title;
+					};
+					$list.append('<li><a href="javascript:void(null);" data-action="'+action+'" data-profile-index="'+j+'" data-collection-index="'+k+'">'+title+'</a></li>');
+				};
+			};
+			$list.find('a').unbind('click').click(function() {
+				do_move($(this).data('action'), parseInt($(this).data('profile-index')), parseInt($(this).data('collection-index')));
+			});
 		});
 	});
 	
@@ -879,12 +952,10 @@ $.fn.metadata = function(items, source_collection) {
 	
 	return this.each(function() {
 		var $node = $(this);
-		
 		if (!Object.keys(items).length) {
 			alert('Please select one or more items to edit');
 			return;
 		}
-		
 		var show_metadata = function(item) {
 			$node.modal();
 			$form = $node.find('form:first');
@@ -903,10 +974,10 @@ $.fn.metadata = function(items, source_collection) {
 						var ns_name = pnode(p);
 						var $row = $('<div class="form-group"></div>').appendTo($form);
 						$row.append('<label for="'+ns_name+'" class="col-sm-3 control-label">'+ns_name+'</label>');
-					    $row.append('<div class="col-sm-9"><input type="text" class="form-control" id="'+ns_name+'" value="'+escapeHtml(items[uri][p][j].value)+'"></div>');
+					    $row.append('<div class="col-sm-9"><input type="text" class="form-control" id="'+ns_name+'" value="'+escapeHtml(items[uri][p][j].value.toString())+'"></div>');
 					    if ('art:thumbnail'==ns_name) {
 					    	$row.find('div').append('<a href="'+items[uri][p][j].value+'" target="_blank"><img src="'+items[uri][p][j].value+'" class="img-thumbnail" /></a>');
-					    } else if (-1!=items[uri][p][j].value.indexOf('://')) {
+					    } else if (-1!=items[uri][p][j].value.toString().indexOf('://')) {
 					    	$row.find('div').append('<a href="'+items[uri][p][j].value+'" class="visit_link" target="_blank">Visit link</a>');
 					    }
 					};
@@ -926,9 +997,7 @@ $.fn.metadata = function(items, source_collection) {
 				break;
 			};
 		};
-		
 		show_metadata(0);
-		
 	});
 	
 };
@@ -943,11 +1012,11 @@ $.fn.sync = function($form) {
 		var parser = 'scalar';
 		// Items in the selected collection
 		var items = {};
-		if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
-		if ('undefined'==typeof(collections[0])) collections[0] = {items:{}};  // 0: all imported media		
+		var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};	
 		$('#sync_collections').find('.clicked').each(function() {
-			var index = $(this).data('index');
-			var collection = collections[index];
+			var profile_index = $(this).data('profile-index');
+			var collection_index = $(this).data('collection-index');
+			var collection = profiles[profile_index].collections[collections_index];
 			items = collection.items;
 		});
 		if ($.isEmptyObject(items)) {
@@ -1056,6 +1125,7 @@ $.fn.sync = function($form) {
 				destinations.push(dest);
 				storage.set('destinations', destinations);
 				set_destinations();
+				$form.find('input').val('');
 				return false;
 			});
 		});
@@ -1144,7 +1214,8 @@ var pnode = function(uri) {
 			'prov':'http://www.w3.org/ns/prov#',
 			'exif':'http://ns.adobe.com/exif/1.0/',
 			'iptc':'http://ns.exiftool.ca/IPTC/IPTC/1.0/',
-			'bibo':'http://purl.org/ontology/bibo/'
+			'bibo':'http://purl.org/ontology/bibo/',
+			'id3':'http://id3.org/id3v2.4.0#'
 		};
 	for (var prefix in namespaces) {
 		if (-1!=uri.indexOf(namespaces[prefix])) {

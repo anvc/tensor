@@ -21,7 +21,7 @@
 					<div class="collection all" id="collection_0">
 						<div class="color" style="background-color:#ffffff;"><span class="num_items">0</span></div>
 						<h5>All imported media</h5>
-					    <div class="desc">All media imported from archives</div>
+					    <div class="desc">Media contained in all collections</div>
 					</div>
 				  </form>
 				</div>
@@ -49,7 +49,7 @@
 			<a href="javascript:void(null);" id="search_close" class="glyphicon glyphicon-remove"></a>
 			<form id="search_form">
 				<div class="right-inner-addon">
-					<input type="text" name="search" class="form-control" placeholder="Search archive" required />
+					<input type="text" name="search" class="form-control" placeholder="Search archive" />
 					<a href="javascript:void(null);" class="glyphicon glyphicon-trash glyphicon-xs"></a>
 					<a href="javascript:void(null);" class="glyphicon glyphicon-pencil glyphicon-xs two"></a>
 					<a href="javascript:void(null);" class="glyphicon glyphicon-search glyphicon-xs three"></a>
@@ -169,8 +169,8 @@
 		  <div class="form-group">
 		  	<label for="profile" class="col-sm-3 control-label">Profile</label>
 		  	<div class="col-sm-9">
-			  	<select class="form-control" id="profile" name="profile" style="width:auto;float:left;margin-right:12px;"></select>
-			  	<input type="text" class="form-control" id="new_profile" name="new_profile" style="width:auto;float:left;" placeholder="New profile name..." />
+			  	<select class="form-control" name="profile" style="width:auto;float:left;margin-right:12px;"></select>
+			  	<input type="text" class="form-control" name="new_profile" style="width:auto;float:left;" placeholder="New profile name..." />
 			</div>
 		  </div>
 		  <div class="form-group">
@@ -184,13 +184,13 @@
 		  <div class="form-group">
 		    <label for="title" class="col-sm-3 control-label">Title</label>
 		    <div class="col-sm-9">
-		    	<input type="text" class="form-control" id="title" name="title" placeholder="My Archive" required>
+		    	<input type="text" class="form-control" id="title" name="title" placeholder="E.g., My Archive" required>
 		    </div>
 		  </div>
 		  <div class="form-group">
 		    <label for="subtitle" class="col-sm-3 control-label">Description</label>
 		    <div class="col-sm-9">
-		    	<input type="text" class="form-control" id="subtitle" name="subtitle" placeholder="An archive of digital assets" required>
+		    	<input type="text" class="form-control" id="subtitle" name="subtitle" placeholder="E.g., An archive of digital assets" required>
 		    </div>
 		  </div>
 		  <div class="form-group">
@@ -210,7 +210,7 @@
 		  <div class="form-group">
 		    <label for="categories" class="col-sm-3 control-label">Categories</label>
 		    <div class="col-sm-9">
-		   		<input type="text" class="form-control" id="categories" name="categories" placeholder="image, video, audio, ...">
+		   		<input type="text" class="form-control" id="categories" name="categories" placeholder="E.g., image, video, audio, ...">
 		 	</div>
 		  </div>
         </div>
@@ -235,20 +235,20 @@
 		    <div class="form-group">
 		  	  <label for="profile" class="col-sm-3 control-label">Profile</label>
 		  	  <div class="col-sm-9">
-			  	<select class="form-control" id="profile" name="profile" style="width:auto;float:left;margin-right:12px;"></select>
-			  	<input type="text" class="form-control" id="new_profile" name="new_profile" style="width:auto;float:left;" placeholder="New profile name..." />
+			  	<select class="form-control" name="profile" style="width:auto;float:left;margin-right:12px;"></select>
+			  	<input type="text" class="form-control" name="new_profile" style="width:auto;float:left;" placeholder="New profile name..." />
 			  </div>
 		    </div>
 			<div class="form-group">
 		  		<label for="title" class="col-sm-3 control-label">Title</label>
 		  		<div class="col-sm-9">
-			  		<input type="text" class="form-control" id="title" name="title" placeholder="My Collection" required>
+			  		<input type="text" class="form-control" id="title" name="title" placeholder="E.g., My Collection" required>
 				</div>
 		 	</div>
 			<div class="form-group">
 		  		<label for="description" class="col-sm-3 control-label">Description</label>
 		  		<div class="col-sm-9">
-			  		<input type="text" class="form-control" id="description" name="description" placeholder="A collection of imported media" required>
+			  		<input type="text" class="form-control" id="description" name="description" placeholder="E.g., A collection of imported media" required>
 				</div>
 		 	</div>
 			<div class="form-group">
