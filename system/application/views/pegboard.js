@@ -23,8 +23,19 @@ $(document).ready(function() {
 			$('#search').find('.glyphicon').blur();
 		});
 		$('#search').find('.glyphicon-trash').unbind('click').click(function() {
-			alert('Coming soon: delete this archive');
-			$('#search').find('.glyphicon').blur();
+			if (!confirm('Are you sure you wish to delete this archive?')) return;
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : [];
+			$('#archives').show();
+			$('#search').hide();
+			for (var j = 0; j < profiles.length; j++) {
+				for (var k = 0; k < profiles[j].archives.length; k++) {
+					if (JSON.stringify(archive) != JSON.stringify(profiles[j].archives[k])) continue;
+					profiles[j].archives.splice(k, 1);
+					break;
+				};
+			};		    	
+			storage.set('profiles', profiles);
+			$('#archives').list_archives(profiles);
 		});		
 		$('#search_form').unbind('submit').submit(function() {
 			$('#search').search();
@@ -95,18 +106,23 @@ $(document).ready(function() {
 		});
 		$('#collection').find('.glyphicon-trash').unbind('click').click(function() {
 			if (!confirm('Are you sure you wish to delete this collection?')) return;
-			if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
-			if ('undefined'==typeof(collections[0])) collections[0] = {items:{}};  // 0: all imported media
-			var selected_index = 0;
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : [];
 			$('#collections').find('.collection').each(function(index) {
 				if (!$(this).hasClass('clicked')) return;
-				collections.splice(index, 1);
-				storage.set('collections', collections);;	
-				$('#collections').list_collections();
-				$('#collection_results').empty();
-				$('#collection').hide();
-				$('#archives').show();		    	
+				for (var j = 0; j < profiles.length; j++) {
+					for (var k = 0; k < profiles[j].collections.length; k++) {
+						if ('undefined'==typeof(profiles[j].collections[k].items)) profiles[j].collections[k].items = {};
+						if (JSON.stringify(collection) != JSON.stringify(profiles[j].collections[k])) continue;
+						profiles[j].collections.splice(k, 1);
+						break;
+					};
+				};		    	
 			});
+			storage.set('profiles', profiles);
+			$('#collections').list_collections(storage.get('profiles'));
+			$('#collection_results').empty();
+			$('#collection').hide();
+			$('#archives').show();
 		});		
 		$('#collection_form').unbind('submit').submit(function() {
 			$('#collection').search();
