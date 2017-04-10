@@ -131,6 +131,12 @@ $(document).ready(function() {
 		$('#collection_results').show_collection(collection);
 		$('#move_to').move(collection);
 	});	
+	$('#collection_view').find('button').unbind('click').click(function() {
+		var $this = $(this);
+		$this.parent().children().removeClass('btn-primary').addClass('btn-default');
+		$this.removeClass('btn-default').addClass('btn-primary');
+		$('#collection_results').show_collection( $('#collections_form .clicked').data('collection') );
+	});
 	$('#collection_close_circle, #collection_close').click(function(e) {
 		e.stopPropagation();
 		$('#collection_results').empty();
