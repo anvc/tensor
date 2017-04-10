@@ -824,7 +824,7 @@ $.fn.add_collection = function($form) {
 	}
 };
 
-//Display the contents of a collection
+// Display the contents of a collection
 $.fn.show_collection = function(collection) {
 	
 	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
@@ -858,7 +858,7 @@ $.fn.show_collection = function(collection) {
 	
 };
 
-//The "move" button with attached move action
+// The "move" button with attached move action
 $.fn.move = function(source_collection) {
 
 	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
@@ -963,7 +963,7 @@ $.fn.move = function(source_collection) {
 	
 };
 
-//Edit metadata modal
+// Edit metadata modal
 $.fn.metadata = function(items, source_collection) {	
 	
 	return this.each(function() {
@@ -1018,7 +1018,7 @@ $.fn.metadata = function(items, source_collection) {
 	
 };
 
-//Push items to through a saver
+// Push items to through a saver
 $.fn.sync = function($form) {
 
 	if ('undefined'!=typeof($form)) {
@@ -1032,8 +1032,18 @@ $.fn.sync = function($form) {
 		$('#sync_collections').find('.clicked').each(function() {
 			var profile_index = $(this).data('profile-index');
 			var collection_index = $(this).data('collection-index');
-			var collection = profiles[profile_index].collections[collections_index];
-			items = collection.items;
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+			if (isNaN(profile_index)) {  // all
+				for (var j = 0; j < profiles.length; j++) {
+					for (var k = 0; k < profiles[j].collections.length; k++) {
+						if ('undefined'==typeof(profiles[j].collections[k].items)) profiles[j].collections[k].items = {};
+						$.extend(items, profiles[j].collections[k].items);
+					};
+				};
+			} else {	
+				var collection = profiles[profile_index].collections[collection_index];
+				items = collection.items;
+			};
 		});
 		if ($.isEmptyObject(items)) {
 			alert('Please select a source collection that contains one or more items');
@@ -1065,20 +1075,18 @@ $.fn.sync = function($form) {
 			$sources.empty();
 			$destinations.empty();
 			// Propagate collections
-			if ('undefined'==typeof(collections)) var collections = ('undefined'!=typeof(storage.get('collections'))) ? storage.get('collections') : [];
-			if ('undefined'==typeof(collections[0])) collections[0] = {items:{}};  // 0: all imported media
-			for (var j = 0; j < collections.length; j++) { 
-				if (0==j) {  // 0: all imported media
-					collections[j].color = '#ffffff';
-					collections[j].title = $('#collection_0').find('h5').text();
-					collections[j].description = $('#collection_0').find('.desc').text();
-				}
-				var lum = luminance(collections[j].color);
-				var $col = $('<div class="collection col-sm-3" data-index="'+j+'"></div>').appendTo($sources);
-				$col.append('<div class="color '+((lum < 80)?'dark':'light')+'" style="background-color:'+collections[j].color+';"><span class="num_items">'+Object.keys(collections[j].items).length+'</span></div>');
-				$col.append('<h5>'+collections[j].title+'</h5>');
-			    $col.append('<div class="desc">'+collections[j].description+'</div>');
-			    $col.data('collection', collections[j]);
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+			$('#collection_0').clone().attr('id', 'sync_collection_0').addClass('col-sm-3').appendTo($sources);
+			for (var j = 0; j < profiles.length; j++) {
+				for (var k = 0; k < profiles[j].collections.length; k++) { 
+					var lum = luminance(profiles[j].collections[k].color);
+					if ('undefined'==typeof(profiles[j].collections[k].items)) profiles[j].collections[k].items = {};
+					var $col = $('<div class="collection col-sm-3" data-profile-index="'+j+'" data-collection-index="'+k+'"></div>').appendTo($sources);
+					$col.append('<div class="color '+((lum < 80)?'dark':'light')+'" style="background-color:'+profiles[j].collections[k].color+';"><span class="num_items">'+Object.keys(profiles[j].collections[k].items).length+'</span></div>');
+					$col.append('<h5>'+profiles[j].collections[k].title+'</h5>');
+					$col.append('<div class="desc">'+profiles[j].collections[k].description+'</div>');
+					$col.data('collection', profiles[j].collections[k]);
+				};
 			};
 			$sources.children().unbind('click').click(function() {
 				var $clicked = $(this);
