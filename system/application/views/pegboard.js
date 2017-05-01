@@ -1063,7 +1063,7 @@ $.fn.sync = function($form) {
 			alert('Please select a destination');
 			return;
 		};
-		// Run search
+		// Run sync
 		var parser_url = base_url+'parsers/'+parser+'/parser.js';
 		$.getScript(parser_url, function() {
 			$form.find('button:last').prop('disabled','disabled');
@@ -1099,65 +1099,86 @@ $.fn.sync = function($form) {
 				$clicked.parent().find('.collection').removeClass('clicked');
 				$clicked.addClass('clicked');
 			});
-			// Destinations
-			var set_destinations = function() {
+			// Destination is predefined by GET vars (e.g., from Scalar
+			if (getVar('parser') && getVar('parent') && getVar('title')) {
+				$('#sync_destinations').prev().text('Destination:');
+				var parser = decodeURIComponent(getVar('parser'));
+				var parent = decodeURIComponent(getVar('parent'));
+				var title = decodeURIComponent(getVar('title'));
 				var $destinations = $node.find('#sync_destinations');
 				$destinations.empty();
 				var temp_bg_url = $('link#base_url').attr('href')+'parsers/scalar/thumb.png';
-				var destinations = ('undefined'!=typeof(storage.get('destinations'))) ? storage.get('destinations') : [];
-				for (var j = 0; j < destinations.length; j++) { 
-					var $col = $('<div class="collection col-sm-3" data-index="'+j+'"></div>').appendTo($destinations);
-					$col.append('<button type="button" class="close">&times;</button>');
-					$col.append('<div class="color" style="background-image:url('+temp_bg_url+');background-size:contain;border:0;"><span class="num_items"></div>');
-					$col.append('<h5>'+destinations[j].title+'</h5>');
-				    $col.append('<div class="desc">'+destinations[j].url+'</div>');
-				    $col.data('destination', destinations[j]);
-				};
-				$destinations.children().unbind('click').click(function() {
-					var $clicked = $(this);
-					$clicked.parent().find('.collection').removeClass('clicked');
-					$clicked.addClass('clicked');
-				});
-				$destinations.find('.close').unbind('click').click(function(e) {
-					e.stopPropagation();
-					if (!confirm('Are you sure you wish to remove this destination from your list of destinations?')) return;
+				var $col = $('<div class="collection col-sm-3 clicked" data-index="0"></div>').appendTo($destinations);
+				$col.append('<div class="color" style="background-image:url('+temp_bg_url+');background-size:contain;border:0;"><span class="num_items"></div>');
+				$col.append('<h5>'+title+'</h5>');
+			    $col.append('<div class="desc">'+parent+'</div>');
+			    $col.data('destination', {
+			    	parser:parser,
+			    	title:title,
+			    	url:parent
+			    });				
+			// Destinations
+			} else {
+				var set_destinations = function() {
+					$('#sync_destinations').prev().text('Select a destination:');
+					var $destinations = $node.find('#sync_destinations');
+					$destinations.empty();
+					var temp_bg_url = $('link#base_url').attr('href')+'parsers/scalar/thumb.png';
 					var destinations = ('undefined'!=typeof(storage.get('destinations'))) ? storage.get('destinations') : [];
-					var index = $(this).data('index');
-					destinations.splice(index, 1);
-					storage.set('destinations', destinations);
-					set_destinations();					
-				});
-			};			
-			set_destinations();
-			// Add destination form
-			var $form = $node.find('#add_destination');
-			$form.empty();
-			var $pulldown = $('<div class="btn-group"><button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="btn-name">Parser</span> <span class="caret"></span></button><ul class="dropdown-menu"></ul></div>').appendTo($form);
-			var $name = $pulldown.find('.btn-name');
-			var $menu = $pulldown.find('.dropdown-menu');
-			$menu.append('<li><a href="javascript:void(null);">Scalar</a></li>');
-			$form.append('<div class="form-group"><input type="text" name="title" class="form-control input-sm" placeholder="Title..." required></div>');
-			$form.append('<div class="form-group"><input type="url" name="url" class="form-control input-sm" placeholder="Destination URL..." required></div>');
-			$form.append('<div class="form-group"><button type="submit" class="btn btn-default btn-sm">Add</button></div>');
-			$menu.find('a').unbind('click').click(function() {
-				$name.text($(this).text());
-			});
-			$form.unbind('submit').submit(function() {
-				var parser = $name.text();
-				var title = $form.find('[name="title"]').val();
-				var url = $form.find('[name="url"]').val();
-				if ('parser'==parser.toLowerCase()) {
-					alert('Please choose a parser');
-					return false;
-				};
-				var destinations = ('undefined'!=typeof(storage.get('destinations'))) ? storage.get('destinations') : [];
-				var dest = {parser:parser.toLowerCase(),title:title,url:url};
-				destinations.push(dest);
-				storage.set('destinations', destinations);
+					for (var j = 0; j < destinations.length; j++) { 
+						var $col = $('<div class="collection col-sm-3" data-index="'+j+'"></div>').appendTo($destinations);
+						$col.append('<button type="button" class="close">&times;</button>');
+						$col.append('<div class="color" style="background-image:url('+temp_bg_url+');background-size:contain;border:0;"><span class="num_items"></div>');
+						$col.append('<h5>'+destinations[j].title+'</h5>');
+					    $col.append('<div class="desc">'+destinations[j].url+'</div>');
+					    $col.data('destination', destinations[j]);
+					};
+					$destinations.children().unbind('click').click(function() {
+						var $clicked = $(this);
+						$clicked.parent().find('.collection').removeClass('clicked');
+						$clicked.addClass('clicked');
+					});
+					$destinations.find('.close').unbind('click').click(function(e) {
+						e.stopPropagation();
+						if (!confirm('Are you sure you wish to remove this destination from your list of destinations?')) return;
+						var destinations = ('undefined'!=typeof(storage.get('destinations'))) ? storage.get('destinations') : [];
+						var index = $(this).data('index');
+						destinations.splice(index, 1);
+						storage.set('destinations', destinations);
+						set_destinations();					
+					});
+				};			
 				set_destinations();
-				$form.find('input').val('');
-				return false;
-			});
+				// Add destination form
+				var $form = $node.find('#add_destination');
+				$form.empty();
+				var $pulldown = $('<div class="btn-group"><button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="btn-name">Parser</span> <span class="caret"></span></button><ul class="dropdown-menu"></ul></div>').appendTo($form);
+				var $name = $pulldown.find('.btn-name');
+				var $menu = $pulldown.find('.dropdown-menu');
+				$menu.append('<li><a href="javascript:void(null);">Scalar</a></li>');
+				$form.append('<div class="form-group"><input type="text" name="title" class="form-control input-sm" placeholder="Title..." required></div>');
+				$form.append('<div class="form-group"><input type="url" name="url" class="form-control input-sm" placeholder="Destination URL..." required></div>');
+				$form.append('<div class="form-group"><button type="submit" class="btn btn-default btn-sm">Add</button></div>');
+				$menu.find('a').unbind('click').click(function() {
+					$name.text($(this).text());
+				});
+				$form.unbind('submit').submit(function() {
+					var parser = $name.text();
+					var title = $form.find('[name="title"]').val();
+					var url = $form.find('[name="url"]').val();
+					if ('parser'==parser.toLowerCase()) {
+						alert('Please choose a parser');
+						return false;
+					};
+					var destinations = ('undefined'!=typeof(storage.get('destinations'))) ? storage.get('destinations') : [];
+					var dest = {parser:parser.toLowerCase(),title:title,url:url};
+					destinations.push(dest);
+					storage.set('destinations', destinations);
+					set_destinations();
+					$form.find('input').val('');
+					return false;
+				});
+			};
 		});
 	};
 	
@@ -1280,4 +1301,13 @@ jQuery.fn.highlight = function () {  // http://stackoverflow.com/questions/84879
             "z-index": "9999999"
         }).appendTo('body').fadeOut(1000).queue(function () { $(this).remove(); });
     });
-}
+};
+
+function getVar(requested) {
+	var vars = {};
+	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+		vars[key] = value;
+	});
+	if ('undefined'==typeof(vars[requested])) return false;
+	return vars[requested];
+};

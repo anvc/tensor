@@ -34,15 +34,6 @@ class Wb extends CI_Controller {
 
 	}
 
-	public function simple_proxy() {
-
-		$url =@ $_REQUEST['url'];
-		$content = file_get_contents($url);
-		echo $content;
-		exit;
-
-	}
-
 	public function parsers() {
 
 		$parsers = array();
@@ -62,7 +53,6 @@ class Wb extends CI_Controller {
 
 		$this->data['title'] = 'Tensor';
 		$this->data['proxy_url'] = base_url().strtolower(get_class()).'/proxy';
-		$this->data['simple_proxy_url'] = base_url().strtolower(get_class()).'/simple_proxy';
 
 		$this->template->add_css('system/application/views/common/jquery-ui-1.11.4.custom/jquery-ui.min.css');
 		$this->template->add_css('system/application/views/common/bootstrap/css/bootstrap.min.css');
