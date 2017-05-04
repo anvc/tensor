@@ -36,12 +36,13 @@ $(document).ready(function() {
 			};		    	
 			storage.set('profiles', profiles);
 			$('#archives').list_archives(profiles);
-		});		
+		});
 		$('#search_form').unbind('submit').submit(function() {
 			$('#search').search();
 			return false;
 		});
 		$('#import_to').import();
+		$('#visit_archive').attr('href', archive.url);
 	});
 	$('#search_archives_form').unbind('submit').submit(function() {
 		var sq = $(this).find('input:first').val().toLowerCase();

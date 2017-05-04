@@ -62,6 +62,7 @@
 				<button type="button" class="btn btn-default" id="detail">Detail</button>
 			</div>
 			<div id="import_to" class="btn-group btn-group-sm" role="group"></div>
+			<a id="visit_archive" href="javascript:void(null);" target="_blank">Visit archive</a>
 			<div id="search_results"></div>
 		</div>
 		<!-- Contents of a collection -->
