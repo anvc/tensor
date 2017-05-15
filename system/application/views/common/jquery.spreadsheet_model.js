@@ -6,6 +6,7 @@
 			data: null,  /* The data object when putting */
 			url: null,  /* Base URL of the archive */
 			url_override: null, /* Force the handler to this URL */
+			autocomplete: null, /* A string to be completed */
 			parser: null,  /* Name of the parser directory */
     		proxy_url: null,  /* The URL to the proxy controller */
     		error_callback: null,
@@ -19,8 +20,19 @@
     	this.opts = opts;
     	
     	this.parse = function() {alert('You need to override spreadsheet_model\'s parse() method!')}; 
-    	
     	this.save = function() {alert('You need to override spreadsheet_model\'s save() method!')}; 
+    	
+    	this.autocomplete = function(callback) {
+        	$(options.input).off('keyup').keyup(function(event) {
+        		if (13 == event.keyCode) return;  // Enter key, which fires the actual search
+        		if (!event.target.value.length) return;
+        		var obj = $.extend({}, opts, {autocomplete:event.target.value,parse:function(data) {
+        			if ('undefined'==typeof(data) || !data || !data.length) return;
+        			callback(data);
+        		}});
+        		$.fn.parse(obj);
+        	});   		
+    	};
     	
         this.fetch = function(data_type) {
         	if (!opts.proxy_url) {
@@ -48,6 +60,7 @@
         		data:(opts.data)?opts.data:'',
         		url:(opts.url)?opts.url:'',
         		url_override:(opts.url_override)?opts.url_override:'',
+        		autocomplete:(opts.autocomplete)?opts.autocomplete:'',
         		parser:(opts.parser)?opts.parser:'',
         		proxy_url:(opts.proxy_url)?opts.proxy_url:''
         	};

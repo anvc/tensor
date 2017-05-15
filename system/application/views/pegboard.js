@@ -43,6 +43,15 @@ $(document).ready(function() {
 		});
 		$('#import_to').import();
 		$('#visit_archive').attr('href', archive.url);
+		var parser = base_url+'parsers/'+archive.parser+'/parser.js';
+		$.getScript(parser, function() {
+			if ('undefined'!=typeof($.fn.autocomplete)) {
+				$.extend(archive, {proxy_url:$('link#proxy_url').attr('href'),complete_callback:autocomplete_callback});
+				$('#search_form input:first').autocomplete(archive);
+			}
+		}).fail(function() {
+		  $('#error').modal().find('[class="modal-body"]').html('<p>Could not find parser</p>');
+		});
 	});
 	$('#search_archives_form').unbind('submit').submit(function() {
 		var sq = $(this).find('input:first').val().toLowerCase();
@@ -583,22 +592,16 @@ $.fn.search = function(page) {
 		// Validation
 		var obj = $.fn.parse_search(sq);
 		// Run search
-		var parser = base_url+'parsers/'+archive.parser+'/parser.js';
 		$.extend(archive, {page:page,query:obj.terms.join(' '),parser:archive.parser,proxy_url:proxy_url,error_callback:error_callback,complete_callback:parse_complete_callback});
-		$.getScript(parser, function() {
-			try {
-				$.fn.parse(archive);
-			} catch(err) {
-				$('#error').modal().find('[class="modal-body"]').html('<p>'+err+'</p>');
-				return;
-			};
-			loading(true, archive.title);
-			$.fn.search.page = page;
-			$.fn.search.results = [];
-		}).fail(function() {
-			$('#error').modal().find('[class="modal-body"]').html('<p>Could not find parser</p>');
-		});			
-		
+		try {
+			$.fn.parse(archive);
+		} catch(err) {
+			$('#error').modal().find('[class="modal-body"]').html('<p>'+err+'</p>');
+			return;
+		};
+		loading(true, archive.title);
+		$.fn.search.page = page;
+		$.fn.search.results = [];	
 	});
 	
 };
@@ -639,6 +642,15 @@ function update_complete_callback(_results, reboot) {  // _results are added to 
 	};
 	if (reboot) $('#search_results').search_results();
 	
+};
+
+function autocomplete_callback(data, options) {
+	var $parent = $(options.input).closest('form');
+	$parent.find('.list-group').remove();
+	var $list = $('<ul class="list-group" style="position:absolute;top:36px;left:0;"></ul>').appendTo($parent);
+	for (var j = 0; j < data.length; j++) {
+		$list.append('<li class="list-group-item"><a href="javascript:void(null);" style="white-space:nowrap;">'+data[j]+'</a></li>');
+	};
 };
 
 // Display search results in one of many templates

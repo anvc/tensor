@@ -97,7 +97,7 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #search_close_circle {position:absolute; right:19px; top:-5px; border-radius:50%; width:30px; height:30px; background-color:#eeeeee; cursor:pointer;}
 #search_close {float:right; cursor:pointer; display:inline-block; margin-right:10px; font-size:larger; /* color:#2e6da4; */ color:#666666;}
 #search_close:hover {text-decoration:none;}
-#search_form {float:left; margin:0px 10px 0px 0px; min-width:250px;}
+#search_form {float:left; margin:0px 10px 0px 0px; width:250px; position:relative;}
 #search_view {float:left; margin:2px 10px 0px 0px;}
 #import_to {float:left; margin:2px 0px 0px 0px;}
 #visit_archive {float:left; margin:9px 0px 0px 14px; font-size:12px;}
