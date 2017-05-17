@@ -26,7 +26,8 @@
         	$(options.input).off('keyup').keyup(function(event) {
         		if (13 == event.keyCode) return;  // Enter key, which fires the actual search
         		if (!event.target.value.length) return;
-        		var obj = $.extend({}, opts, {autocomplete:event.target.value,parse:function(data) {
+        		var value = event.target.value.split(' ').pop();  // Only the last word
+        		var obj = $.extend({}, opts, {autocomplete:value,parse:function(data) {
         			if ('undefined'==typeof(data) || !data || !data.length) return;
         			callback(data);
         		}});

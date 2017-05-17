@@ -49,7 +49,7 @@
 			<a href="javascript:void(null);" id="search_close" class="glyphicon glyphicon-remove"></a>
 			<form id="search_form">
 				<div class="right-inner-addon">
-					<input type="text" name="search" class="form-control" placeholder="Search archive" />
+					<input type="text" name="search" class="form-control" placeholder="Search archive" tabindex="1" />
 					<a href="javascript:void(null);" class="glyphicon glyphicon-trash glyphicon-xs"></a>
 					<a href="javascript:void(null);" class="glyphicon glyphicon-pencil glyphicon-xs two"></a>
 					<a href="javascript:void(null);" class="glyphicon glyphicon-search glyphicon-xs three"></a>

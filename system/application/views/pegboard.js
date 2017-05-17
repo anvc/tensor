@@ -13,7 +13,7 @@ $(document).ready(function() {
 	// Archives
 	$('body').on("show_archive", function(e, archive) {
 		$('#archives').hide();
-		$('#search').data('archive',archive).show().find('#search_form input:first').focus().prop('placeholder',((archive.title.length>21)?archive.title.substr(0,24)+'...':archive.title)).val('');
+		$('#search').data('archive',archive).show().find('#search_form input:first').focus().prop('placeholder',archive.title).val('').closest('form').find('.list-group').remove();
 		$('#search').find('.glyphicon-search').unbind('click').click(function() {
 			$(this).closest('form').submit();
 			$('#search').find('.glyphicon').blur();
@@ -46,8 +46,8 @@ $(document).ready(function() {
 		var parser = base_url+'parsers/'+archive.parser+'/parser.js';
 		$.getScript(parser, function() {
 			if ('undefined'!=typeof($.fn.autocomplete)) {
-				$.extend(archive, {proxy_url:$('link#proxy_url').attr('href'),complete_callback:autocomplete_callback});
-				$('#search_form input:first').autocomplete(archive);
+				var autocomplete = $.extend({}, archive, {proxy_url:$('link#proxy_url').attr('href'),complete_callback:autocomplete_callback});
+				$('#search_form input:first').autocomplete(autocomplete);
 			}
 		}).fail(function() {
 		  $('#error').modal().find('[class="modal-body"]').html('<p>Could not find parser</p>');
@@ -591,6 +591,7 @@ $.fn.search = function(page) {
 		var sq = $input.val();
 		// Validation
 		var obj = $.fn.parse_search(sq);
+		$form.find('.list-group').remove();
 		// Run search
 		$.extend(archive, {page:page,query:obj.terms.join(' '),parser:archive.parser,proxy_url:proxy_url,error_callback:error_callback,complete_callback:parse_complete_callback});
 		try {
@@ -647,10 +648,33 @@ function update_complete_callback(_results, reboot) {  // _results are added to 
 function autocomplete_callback(data, options) {
 	var $parent = $(options.input).closest('form');
 	$parent.find('.list-group').remove();
-	var $list = $('<ul class="list-group" style="position:absolute;top:36px;left:0;"></ul>').appendTo($parent);
+	var $list = $('<div class="list-group" style="position:absolute;top:36px;left:0;"></div>').appendTo($parent);
 	for (var j = 0; j < data.length; j++) {
-		$list.append('<li class="list-group-item"><a href="javascript:void(null);" style="white-space:nowrap;">'+data[j]+'</a></li>');
+		$list.append('<a class="list-group-item" tabindex="'+(j+2)+'" href="javascript:void(null);" style="white-space:nowrap;">'+data[j]+'</a>');
 	};
+	$(options.input).blur(function() {
+		var self = this;
+		setTimeout(function() {
+			if ($(self).closest('form').find('.list-group').length) {
+				$(self).closest('form').find('.list-group').remove();
+			};
+		}, 250);
+	});
+	var commit = function(text) {  // Replace search string with autocompleted text
+		if (!text || !text.length) return;
+		var $input = $(options.input);
+		var arr = $input.val().split(' ');
+		arr.pop();
+		var str = (arr.join(' ')+' '+text).trim()+', ';
+		$input.focus().val(str);
+		$input[0].setSelectionRange(str.length, str.length);
+	};
+	$list.find('a').click(function() {
+		var $this = $(this);
+		var text = $this.text();
+		commit(text);
+		$this.parent().remove();
+	});
 };
 
 // Display search results in one of many templates
