@@ -567,7 +567,7 @@ $.fn.add_archive = function($form) {
 			$.getJSON($('link#base_url').attr('href')+'wb/parsers', function(json) {
 				var options = '';
 				for (var j = 0; j < json.length; j++) {
-					options += '<option value="'+json[j]+'"'+((j==Math.floor(json.length/2))?' selected':'')+'>'+json[j]+'</option>';
+					options += '<option value="'+json[j]+'"'+((j==Math.ceil(json.length/2)-1)?' selected':'')+'>'+json[j]+'</option>';
 				}					
 				$modal.find('#parser').empty().html(options);
 			});
@@ -648,15 +648,17 @@ function update_complete_callback(_results, reboot) {  // _results are added to 
 function autocomplete_callback(data, options) {
 	var $parent = $(options.input).closest('form');
 	$parent.find('.list-group').remove();
-	var $list = $('<div class="list-group" style="position:absolute;top:36px;left:0;"></div>').appendTo($parent);
+	var $list = $('<div class="list-group" role="menu" style="position:absolute;top:36px;left:0;"></div>').appendTo($parent);
 	for (var j = 0; j < data.length; j++) {
 		$list.append('<a class="list-group-item" tabindex="'+(j+2)+'" href="javascript:void(null);" style="white-space:nowrap;">'+data[j]+'</a>');
 	};
 	$(options.input).blur(function() {
 		var self = this;
 		setTimeout(function() {
-			if ($(self).closest('form').find('.list-group').length) {
-				$(self).closest('form').find('.list-group').remove();
+			var $self = $(self);
+			if ($self.closest('form').find('.list-group').length) {
+				if ($self.closest('form').find('.list-group').find(':focus').length) return;
+				$self.closest('form').find('.list-group').remove();
 			};
 		}, 250);
 	});
