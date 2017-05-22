@@ -567,7 +567,7 @@ $.fn.add_archive = function($form) {
 			$.getJSON($('link#base_url').attr('href')+'wb/parsers', function(json) {
 				var options = '';
 				for (var j = 0; j < json.length; j++) {
-					options += '<option value="'+json[j]+'"'+((j==Math.ceil(json.length/2)-1)?' selected':'')+'>'+json[j]+'</option>';
+					options += '<option value="'+json[j]+'"'+((j==Math.ceil(json.length/2)-2)?' selected':'')+'>'+json[j]+'</option>';
 				}					
 				$modal.find('#parser').empty().html(options);
 			});
