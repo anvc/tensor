@@ -1038,7 +1038,7 @@ $.fn.metadata = function(items, source_collection) {
 					    $row.append('<div class="col-sm-9"><input type="text" class="form-control" id="'+ns_name+'" value="'+escapeHtml(items[uri][p][j].value.toString())+'"></div>');
 					    if ('art:thumbnail'==ns_name) {
 					    	$row.find('div').append('<a href="'+items[uri][p][j].value+'" target="_blank"><img src="'+items[uri][p][j].value+'" class="img-thumbnail" /></a>');
-					    } else if (-1!=items[uri][p][j].value.toString().indexOf('://')) {
+					    } else if (-1!=items[uri][p][j].value.toString().indexOf('://') || '//'==items[uri][p][j].value.toString().substr(0,2)) {
 					    	$row.find('div').append('<a href="'+items[uri][p][j].value+'" class="visit_link" target="_blank">Visit link</a>');
 					    }
 					};
