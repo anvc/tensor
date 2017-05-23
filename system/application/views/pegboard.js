@@ -907,7 +907,17 @@ $.fn.show_collection = function(collection) {
 $.fn.move = function(source_collection) {
 
 	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
-	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global	
+	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global
+	var obj = {};
+	var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+	for (var j = 0; j < profiles.length; j++) {
+		for (var k = 0; k < profiles[j].collections.length; k++) {
+			if (JSON.stringify(source_collection) != JSON.stringify(profiles[j].collections[k])) continue;
+			obj.profile_index = j;
+			obj.collection_index = k;
+			break;
+		};
+	};
 	return this.each(function() {
 		var $node = $(this);
 		$node.empty();
@@ -922,7 +932,7 @@ $.fn.move = function(source_collection) {
 			});
 			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
 			if ('meta'==action) {  // Edit metadata
-				$('#edit_metadata').metadata(items, source_collection);
+				$('#edit_metadata').metadata(items, profiles[obj.profile_index].collections[obj.collection_index]);
 				return;
 			} else if ('remove'==action && isNaN(profile_index)) {  // Delete from all
 				for (var j = 0; j < profiles.length; j++) {
@@ -933,28 +943,16 @@ $.fn.move = function(source_collection) {
 					};
 				};
 			} else if ('remove'==action) {  // Delete from this collection
-				for (var j = 0; j < profiles.length; j++) {
-					for (var k = 0; k < profiles[j].collections.length; k++) {
-						if (JSON.stringify(source_collection) != JSON.stringify(profiles[j].collections[k])) continue;
-						for (var uri in items) {
-							if ('undefined'!=profiles[j].collections[k].items[uri]) delete profiles[j].collections[k].items[uri];
-						};
-						break;
-					};
+				for (var uri in items) {
+					if ('undefined'!=profiles[obj.profile_index].collections[obj.collection_index].items[uri]) delete profiles[obj.profile_index].collections[obj.collection_index].items[uri];
 				};
 			} else if ('copy'==action) {  // Copy from all into a collection
 				for (var uri in items) {
 					profiles[profile_index].collections[collection_index].items[uri] = items[uri];
 				};
 			} else if ('move'==action) {  // Move from one to the other
-				for (var j = 0; j < profiles.length; j++) {
-					for (var k = 0; k < profiles[j].collections.length; k++) {
-						if (JSON.stringify(source_collection) != JSON.stringify(profiles[j].collections[k])) continue;
-						for (var uri in items) {
-							if ('undefined'!=profiles[j].collections[k].items[uri]) delete profiles[j].collections[k].items[uri];
-						};
-						break;
-					};	
+				for (var uri in items) {
+					if ('undefined'!=profiles[obj.profile_index].collections[obj.collection_index].items[uri]) delete profiles[obj.profile_index].collections[obj.collection_index].items[uri];
 				};
 				for (var uri in items) {
 					profiles[profile_index].collections[collection_index].items[uri] = items[uri];
@@ -1011,6 +1009,18 @@ $.fn.move = function(source_collection) {
 // Edit metadata modal
 $.fn.metadata = function(items, source_collection) {	
 	
+	if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+	if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global
+	var obj = {};
+	var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+	for (var j = 0; j < profiles.length; j++) {
+		for (var k = 0; k < profiles[j].collections.length; k++) {
+			if (JSON.stringify(source_collection) != JSON.stringify(profiles[j].collections[k])) continue;
+			obj.profile_index = j;
+			obj.collection_index = k;
+			break;
+		};
+	};
 	return this.each(function() {
 		var $node = $(this);
 		if (!Object.keys(items).length) {
@@ -1044,7 +1054,21 @@ $.fn.metadata = function(items, source_collection) {
 					};
 				};
 				$node.find('button:last').unbind('click').click(function() {
-					// TODO
+					// Save current item
+					var to_save = {};
+					$form.find('input[id]').each(function() {
+						var $input = $(this);
+						var field = uri_from_pnode($input.attr('id'));
+						if ('undefined'==typeof(to_save[field])) to_save[field] = [];
+						to_save[field].push({type:(($input.val().indexOf('//')==-1)?'literal':'uri'),value:$input.val()});
+					});
+					var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+					profiles[obj.profile_index].collections[obj.collection_index].items[uri] = to_save;
+					storage.set('profiles', profiles);
+					// Refresh collection display
+					$('#collections_form .clicked').data('collection', profiles[obj.profile_index].collections[obj.collection_index]);
+					$('#collection_results').show_collection(profiles[obj.profile_index].collections[obj.collection_index]);
+					// Move to next item
 					$node.on('hidden.bs.modal', function (e) {
 						item++;
 						if (item == total) {
@@ -1286,6 +1310,26 @@ var luminance = function(hex) {
 };
 
 var pnode = function(uri) {
+	var namespaces = get_namespaces();
+	for (var prefix in namespaces) {
+		if (-1!=uri.indexOf(namespaces[prefix])) {
+			return prefix + ':' + uri.replace(namespaces[prefix],'');
+		};
+	};
+};
+
+var uri_from_pnode = function(pnode) {
+	var namespaces = get_namespaces();
+	var _prefix = pnode.split(':')[0];
+	for (var prefix in namespaces) {
+		if (prefix == _prefix) {
+			return namespaces[prefix] + pnode.split(':')[1]; 
+		}
+	}
+	return null;
+};
+
+function get_namespaces() {
 	var namespaces = {
 			'rdf':'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
 			'rdfs':'http://www.w3.org/2000/01/rdf-schema#',
@@ -1307,11 +1351,7 @@ var pnode = function(uri) {
 			'bibo':'http://purl.org/ontology/bibo/',
 			'id3':'http://id3.org/id3v2.4.0#'
 		};
-	for (var prefix in namespaces) {
-		if (-1!=uri.indexOf(namespaces[prefix])) {
-			return prefix + ':' + uri.replace(namespaces[prefix],'');
-		};
-	};
+	return namespaces;
 };
 
 function escapeHtml(text) {  // http://stackoverflow.com/questions/1787322/htmlspecialchars-equivalent-in-javascript
