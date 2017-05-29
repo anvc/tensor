@@ -104,6 +104,7 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #visit_archive {float:left; margin:9px 0px 0px 14px; font-size:12px;}
 #search_pagination {float:left; margin:6px 0px 0px 0px;}
 #search_results {clear:both;}
+#search_form .list-group {position:absolute; top:36px; left:0; z-index:9; box-shadow: 4px 4px 4px #cccccc;}
 
 /* Collection */
 #collection {margin:0px 0px 0px 0px; padding-top:18px; display:none; min-height:200px;}

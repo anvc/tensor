@@ -26,7 +26,13 @@
         	$(options.input).off('keyup').keyup(function(event) {
         		if (13 == event.keyCode) return;  // Enter key, which fires the actual search
         		if (!event.target.value.length) return;
-        		var value = event.target.value.split(' ').pop();  // Only the last word
+        		var value = '';
+        		if (-1 == event.target.value.indexOf(',')) {
+        			value = event.target.value.trim();
+        		} else {
+        			var arr = event.target.value.split(',');
+        			var value = arr[arr.length-1].trim();
+        		}
         		var obj = $.extend({}, opts, {autocomplete:value,parse:function(data) {
         			if ('undefined'==typeof(data) || !data || !data.length) return;
         			callback(data);

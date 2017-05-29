@@ -648,7 +648,7 @@ function update_complete_callback(_results, reboot) {  // _results are added to 
 function autocomplete_callback(data, options) {
 	var $parent = $(options.input).closest('form');
 	$parent.find('.list-group').remove();
-	var $list = $('<div class="list-group" role="menu" style="position:absolute;top:36px;left:0;"></div>').appendTo($parent);
+	var $list = $('<div class="list-group" role="menu"></div>').appendTo($parent);
 	for (var j = 0; j < data.length; j++) {
 		$list.append('<a class="list-group-item" tabindex="'+(j+2)+'" href="javascript:void(null);" style="white-space:nowrap;">'+data[j]+'</a>');
 	};
@@ -665,9 +665,13 @@ function autocomplete_callback(data, options) {
 	var commit = function(text) {  // Replace search string with autocompleted text
 		if (!text || !text.length) return;
 		var $input = $(options.input);
-		var arr = $input.val().split(' ');
-		arr.pop();
-		var str = (arr.join(' ')+' '+text).trim()+', ';
+		if (-1 == $input.val().indexOf(',')) {
+			var str = text.trim() + ', ';
+		} else {
+			var arr = $input.val().split(', ');
+			arr.pop();
+			var str = arr.join(', ') + ', ' + text.trim() + ', ';
+		};
 		$input.focus().val(str);
 		$input[0].setSelectionRange(str.length, str.length);
 	};
