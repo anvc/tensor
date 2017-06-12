@@ -1097,8 +1097,6 @@ $.fn.sync = function($form) {
 	if ('undefined'!=typeof($form)) {
 		var base_url = $('link#base_url').attr('href');
 		var proxy_url = $('link#proxy_url').attr('href');
-		// Destination archive
-		var parser = 'scalar';
 		// Items in the selected collection
 		var items = {};
 		var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};	
@@ -1106,7 +1104,7 @@ $.fn.sync = function($form) {
 			var profile_index = $(this).data('profile-index');
 			var collection_index = $(this).data('collection-index');
 			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
-			if (isNaN(profile_index)) {  // all
+			if (isNaN(profile_index)) {  // All
 				for (var j = 0; j < profiles.length; j++) {
 					for (var k = 0; k < profiles[j].collections.length; k++) {
 						if ('undefined'==typeof(profiles[j].collections[k].items)) profiles[j].collections[k].items = {};
@@ -1131,10 +1129,10 @@ $.fn.sync = function($form) {
 			return;
 		};
 		// Run sync
-		var parser_url = base_url+'parsers/'+parser+'/parser.js';
+		var parser_url = base_url+'parsers/'+destination.parser+'/parser.js';
 		$.getScript(parser_url, function() {
 			$form.find('button:last').prop('disabled','disabled');
-			$.fn.save({data:items,url:destination.url,parser:parser,proxy_url:proxy_url,error_callback:error_callback,complete_callback:sync_complete_callback});
+			$.fn.save({data:items,url:destination.url,parser:destination.parser,proxy_url:proxy_url,error_callback:error_callback,complete_callback:sync_complete_callback});
 		}).fail(function() {
 			var $error = $('#error');
 			$error.find('[class="modal-body"]').html('<p>Could not find parser</p>');
@@ -1190,16 +1188,22 @@ $.fn.sync = function($form) {
 					$('#sync_destinations').prev().text('Select a destination:');
 					var $destinations = $node.find('#sync_destinations');
 					$destinations.empty();
-					var temp_bg_url = $('link#base_url').attr('href')+'parsers/scalar/thumb.png';
 					var destinations = ('undefined'!=typeof(storage.get('destinations'))) ? storage.get('destinations') : [];
 					for (var j = 0; j < destinations.length; j++) { 
+						var bg_url = $('link#base_url').attr('href')+'parsers/'+destinations[j].parser+'/thumb.png'
 						var $col = $('<div class="collection col-sm-3" data-index="'+j+'"></div>').appendTo($destinations);
-						$col.append('<button type="button" class="close">&times;</button>');
-						$col.append('<div class="color" style="background-image:url('+temp_bg_url+');background-size:contain;border:0;"><span class="num_items"></div>');
+						$col.append('<button type="button" class="close" style="display:none;">&times;</button>');
+						$col.append('<div class="color" style="background-image:url('+bg_url+');background-size:contain;border:0;"><span class="num_items"></div>');
 						$col.append('<h5>'+destinations[j].title+'</h5>');
 					    $col.append('<div class="desc">'+destinations[j].url+'</div>');
 					    $col.data('destination', destinations[j]);
+					    $col.data('index', j);
 					};
+					$destinations.children().unbind('mouseover').mouseover(function() {
+						$(this).find('button:first').show();
+					}).unbind('mouseout').mouseout(function() {
+						$(this).find('button:first').hide();
+					});
 					$destinations.children().unbind('click').click(function() {
 						var $clicked = $(this);
 						$clicked.parent().find('.collection').removeClass('clicked');
@@ -1207,9 +1211,10 @@ $.fn.sync = function($form) {
 					});
 					$destinations.find('.close').unbind('click').click(function(e) {
 						e.stopPropagation();
-						if (!confirm('Are you sure you wish to remove this destination from your list of destinations?')) return;
+						$dest = $(this).closest('.collection');
+						if (!confirm('Are you sure you wish to remove the destination "'+$dest.data('destination').title+'" from your list of destinations?')) return;
 						var destinations = ('undefined'!=typeof(storage.get('destinations'))) ? storage.get('destinations') : [];
-						var index = $(this).data('index');
+						var index = $dest.data('index');
 						destinations.splice(index, 1);
 						storage.set('destinations', destinations);
 						set_destinations();					
@@ -1223,6 +1228,7 @@ $.fn.sync = function($form) {
 				var $name = $pulldown.find('.btn-name');
 				var $menu = $pulldown.find('.dropdown-menu');
 				$menu.append('<li><a href="javascript:void(null);">Scalar</a></li>');
+				$menu.append('<li><a href="javascript:void(null);">Crossroads</a></li>');
 				$form.append('<div class="form-group"><input type="text" name="title" class="form-control input-sm" placeholder="Title..." required></div>');
 				$form.append('<div class="form-group"><input type="url" name="url" class="form-control input-sm" placeholder="Destination URL..." required></div>');
 				$form.append('<div class="form-group"><button type="submit" class="btn btn-default btn-sm">Add</button></div>');
