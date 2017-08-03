@@ -177,6 +177,20 @@ $.fn.set_profiles = function(profiles) {
         });
         if ('undefined' == typeof(profiles)) profiles = [];
         $profiles.empty();
+        // Starter profiles
+        var hidden = 0;
+        $node.find('.startProfiles').show().each(function() {
+        	$starter = $(this);
+        	for (var j = 0; j < profiles.length; j++) {
+        		if (profiles[j].uri == $starter.data('url')) {
+        			$starter.hide();
+        			hidden++;
+        		}
+        	};
+        });
+        $node.find('#startProfilesWrapper').show();
+        if (hidden == $node.find('.startProfiles').length) $node.find('#startProfilesWrapper').hide();
+        // The additional profile options
         $node.find('#more_profile_options').off('click').click(function() {;
             $node.find('.more_profile_options').toggle(function() {
                 var $this = $(this);
@@ -194,6 +208,7 @@ $.fn.set_profiles = function(profiles) {
         } else {
             $node.find('.has-profiles').show();
             $node.find('.no-profiles').hide();
+            // List profiles that are presently loaded
             $profiles.html('<p>Profiles currently loaded in your Tensor app:</p>');
             for (var j = 0; j < profiles.length; j++) {
                 if ('undefined' == typeof(profiles[j].archives)) profiles[j].archives = [];
@@ -262,24 +277,43 @@ $.fn.set_profiles = function(profiles) {
                     profiles.splice(j, 1);
                     break;
                 }
-            }
+            };
             storage.set('profiles', profiles);
+            // Starter profiles
+            var hidden = 0;
+            $(this).closest('.modal-body').find('.startProfiles').show().each(function() {
+            	$starter = $(this);
+            	var profiles = ('undefined' != typeof(storage.get('profiles'))) ? storage.get('profiles') : [];
+            	for (var j = 0; j < profiles.length; j++) {
+            		if (profiles[j].uri == $starter.data('url')) {
+            			$starter.hide();
+            			hidden++;
+            		}
+            	};
+            });
+            $node.find('#startProfilesWrapper').show();
+            if (hidden == $node.find('.startProfiles').length) $node.find('#startProfilesWrapper').hide();
             $('#set_profiles').set_profiles(storage.get('profiles'));
             $('#archives').list_archives(storage.get('profiles'));
             $('#collections').list_collections(storage.get('profiles'));
         });
         // Start, Reset
-        $node.find('#resetProfiles, #startProfiles').removeAttr('disabled');
-        $node.find('#resetProfiles, #startProfiles').unbind('click').click(function() {
+        $node.find('#resetProfiles, .startProfiles').removeAttr('disabled');
+        $node.find('#resetProfiles, .startProfiles').unbind('click').click(function() {
             var $button = $(this);
             $button.attr('disabled', 'disabled');
-            var is_new = ('startProfiles' == $button.attr('id')) ? true : false;
-            if (!is_new && !confirm('Are you sure you wish to reset your profiles? This action cannot be undone.')) {
+            var is_new = ($button.hasClass('startProfiles')) ? true : false;
+            if (!is_new && !confirm('Are you sure you wish to remove all profiles? This action cannot be undone.')) {
                 $button.removeAttr('disabled');
                 return;
-            }
-            storage.set('profiles', []);
-            var starter_url = 'https://raw.githubusercontent.com/craigdietrich/tensor-profiles/master/starter.profile.js'; // This URL shouldn't ever change
+            } else if (!is_new) {
+            	storage.set('profiles', []);            	
+            	$('#set_profiles').set_profiles(storage.get('profiles'));
+            	$('#archives').list_archives(storage.get('profiles'));
+            	$('#collections').list_collections(storage.get('profiles'));            	
+            	return;
+            };
+            var starter_url = $button.data('url');
             $.ajax({
                 url: starter_url,
                 dataType: 'text',
@@ -385,7 +419,7 @@ window['profile'] = function(json) {
 	if ('undefined'==typeof(json.archives)) json.archives = [];
 	if ('undefined'==typeof(json.collections)) json.collections = [];
 	var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : [];
-	for (var j = 0; j < profiles.length; j++) {  // See if we're replacing base on the URI
+	for (var j = 0; j < profiles.length; j++) {  // See if we're replacing based on the URI
 		if (profiles[j].uri == json.uri) {
 			profiles.splice(j, 1);
 			break;

@@ -8,8 +8,8 @@ class Wb extends CI_Controller {
 
 		$this->data = array();
 
+		$this->config->load('local_settings');
 		$this->load->helper('url');
-
 		$this->load->library("template");
 		$this->template->set_layout('wrapper.php');
 

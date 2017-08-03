@@ -106,9 +106,14 @@
       	  using Tensor. You'll see how adding new archives and collections relates to the profiles as you use the system.
       	  </p>
           <div id="profiles"></div>
-          <div class="form-group no-profiles">
-            <p>Load the Tensor starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">github.com/craigdietrich/tensor-profiles</a>:</p>
-            <button class="btn btn-success" type="button" id="startProfiles">Load starter profile</button>
+          <div class="form-group" id="startProfilesWrapper">
+           	<?php 
+           	$profiles = $this->config->item('starter_profiles');
+           	echo '<p>You can load '.((count($profiles)>1)?'these':'this').' starter Tensor profile'.((count($profiles)>1)?'s':'').':</p>'."\n";
+           	foreach ($profiles as $profile) {
+           		echo '<button class="btn btn-success startProfiles" type="button" data-url="'.$profile['url'].'" data-location="'.$profile['location'].'">'.$profile['button_text'].'</button>'."\n";
+           	}
+           	?>
           </div>
           <form class="form-group">
             <p class="help-block">Create a new, empty profile to which you can add new archives and collections:</p>
@@ -146,8 +151,8 @@
 			    </div>
 		      </form>
 	          <div class="form-group has-profiles">
-	            <p class="help-block">Remove all existing profiles and load the starter profile from <a href="https://github.com/craigdietrich/tensor-profiles" target="_blank">GitHub</a>:</p>
-	            <button class="btn btn-default" type="button" id="resetProfiles">Reset</button>
+	            <p class="help-block">Remove all profiles (start over):</p>
+	            <button class="btn btn-danger" type="button" id="resetProfiles">Reset</button>
 	          </div>
           </div>
       </div>
