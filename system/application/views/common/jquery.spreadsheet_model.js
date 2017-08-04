@@ -45,7 +45,7 @@
         	if (!opts.proxy_url) {
         		alert('Non-proxy ajax requests not supported');
         		return;
-        	};	
+        	};
             $.ajax({
                 url: opts.proxy_url,
                 data: proxy_data(),

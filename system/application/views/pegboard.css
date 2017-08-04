@@ -11,7 +11,7 @@ a.btn-default, button.btn-default {color:#337ab7;}
 .alert {font-size:14px;}
 .input-xs {height: 22px; padding: 5px 5px; font-size: 12px; line-height: 1.5; border-radius: 3px;}
 .help-block {margin-top:0px; margin-bottom:8px;}
-#loading {position:absolute;left:0;top:2px;right:0;z-index:99;text-align:center;display:none;}
+#loading {position:fixed;left:0;top:2px;right:0;z-index:99;text-align:center;display:none;}
 #loading > div {width:150px; margin:0px auto 0px auto; text-align:center; background-color:#fff8af; padding:3px 0px 3px 0px; color:#000000; border:solid 1px #c3b94c; font-weight:normal; border-radius: 4px;}
 #loading .a {font-size:smaller; color:#555555;}
 .right-inner-addon {position:relative; z-index:1;}
@@ -93,7 +93,7 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #profile-file-info {border-left:0;}
 
 /* Search */
-#search {margin:18px 0px 0px 0px; display:none;}
+#search {margin:18px 0px 0px 0px; display:none; position:relative;}
 #search_close_circle {position:absolute; right:19px; top:-5px; border-radius:50%; width:30px; height:30px; background-color:#eeeeee; cursor:pointer;}
 #search_close {float:right; cursor:pointer; display:inline-block; margin-right:10px; font-size:larger; /* color:#2e6da4; */ color:#666666;}
 #search_close:hover {text-decoration:none;}
@@ -103,8 +103,14 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #import_to {float:left; margin:2px 0px 0px 0px;}
 #visit_archive {float:left; margin:9px 0px 0px 14px; font-size:12px;}
 #search_pagination {float:left; margin:6px 0px 0px 0px;}
-#search_results {clear:both;}
+#search_results {clear:both; margin-bottom:50px;}
 #search_form .list-group {position:absolute; top:36px; left:0; z-index:9; box-shadow: 4px 4px 4px #cccccc;}
+.search_pagination {display:none; position:absolute; bottom:0px; left:15px; right:15px;}
+.search_pagination.navbar {min-height:20px;}
+.search_pagination .navbar-nav {width:100%; text-align:center;}
+.search_pagination .navbar-nav > li {float:none; display:inline-block;}
+.search_pagination  .navbar-nav > li.navbar-right {float:right !important; margin-right:0px;}
+.navbar-nav > li > a {padding-top:5px; padding-bottom:5px; margin-top:5px; margin-bottom:5px; margin-left:5px; margin-right:5px;}
 
 /* Collection */
 #collection {margin:0px 0px 0px 0px; padding-top:18px; display:none; min-height:200px;}

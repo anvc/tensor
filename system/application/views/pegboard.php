@@ -64,6 +64,13 @@
 			<div id="import_to" class="btn-group btn-group-sm" role="group"></div>
 			<a id="visit_archive" href="javascript:void(null);" target="_blank">Visit archive</a>
 			<div id="search_results"></div>
+			<nav class="navbar navbar-default search_pagination" role="navigation">
+			    <ul class="nav navbar-nav">
+			      <li class="navbar-left"><a href="javascript:void(null);" class="btn btn-default prev-page" title="Go to previous page">Prev</a></li>
+			      <li><a href="javascript:void(null);" title="Return to first page">Page <span class="page">0</span></a></li>
+			      <li class="navbar-right"><a href="javascript:void(null);" class="btn btn-default next-page" title="Go to next page">Next</a></li>
+			    </ul>
+			</nav>
 		</div>
 		<!-- Contents of a collection -->
 		<div id="collection" class="col-xs-9">

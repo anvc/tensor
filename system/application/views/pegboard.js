@@ -43,6 +43,7 @@ $(document).ready(function() {
 		});
 		$('#import_to').import();
 		$('#visit_archive').attr('href', archive.url);
+		$('.search_pagination').hide();
 		var parser = base_url+'parsers/'+archive.parser+'/parser.js';
 		$.getScript(parser, function() {
 			if ('undefined'!=typeof($.fn.autocomplete)) {
@@ -615,6 +616,13 @@ $.fn.search = function(page) {
 
 	return this.each(function() {
 		var $node = $(this);	
+		$node.find('.prev-page, .next-page').unbind('click').click(function() {
+			$('#search').search( parseInt($(this).blur().data('page')) );
+		});
+		$node.find('.search_pagination .nav li:nth-child(2) a').unbind('click').click(function() {
+			$('#search').search(1);
+			$(this).blur();
+		});
 		var archive = $node.data('archive');
 		var base_url = $('link#base_url').attr('href');
 		var proxy_url = $('link#proxy_url').attr('href');
@@ -721,17 +729,20 @@ function autocomplete_callback(data, options) {
 $.fn.search_results = function() {
 	
 	return this.each(function() {
-		var $node = $(this);		
+		var $node = $(this);
 		var view = $('#search_view').find('button[class*="btn-primary"]').attr('id'); 
 		if ('undefined'!=typeof($.fn.spreadsheet_view)) $.fn.spreadsheet_view.remove();
+		$('#search').find('.search_pagination').show();
+		$node.css('min-height', $(window).height() - $('#search').find('.search_pagination').height() - 60);
 		$('.page').text($.fn.search.page);
-		$('.prev-page, .next-page').hide();
-		if ($.fn.search.page > 1) $('.prev-page').show().data('page', $.fn.search.page - 1);
-		$('.next-page').show().data('page', $.fn.search.page + 1);
+		$('.prev-page, .next-page').css('visibility', 'hidden');
+		if ($.fn.search.page > 1) $('.prev-page').css('visibility', 'visible').data('page', $.fn.search.page - 1);
+		$('.next-page').css('visibility', 'visible').data('page', $.fn.search.page + 1);
 		var view_path = $('link#base_url').attr('href')+'system/application/views/templates/jquery.'+view+'.js';
 		$.getScript(view_path, function() {
 			$node.empty();
 			$node.attr('class',view+'_view').spreadsheet_view({rows:$.fn.search.results,check:{},num_archives:1});
+			window.scrollTo(0, 0);
 		});		
 	});
 	
