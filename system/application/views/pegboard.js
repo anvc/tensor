@@ -732,8 +732,6 @@ $.fn.search_results = function() {
 		var $node = $(this);
 		var view = $('#search_view').find('button[class*="btn-primary"]').attr('id'); 
 		if ('undefined'!=typeof($.fn.spreadsheet_view)) $.fn.spreadsheet_view.remove();
-		$('#search').find('.search_pagination').show();
-		$node.css('min-height', $(window).height() - $('#search').find('.search_pagination').height() - 60);
 		$('.page').text($.fn.search.page);
 		$('.prev-page, .next-page').css('visibility', 'hidden');
 		if ($.fn.search.page > 1) $('.prev-page').css('visibility', 'visible').data('page', $.fn.search.page - 1);
@@ -742,6 +740,8 @@ $.fn.search_results = function() {
 		$.getScript(view_path, function() {
 			$node.empty();
 			$node.attr('class',view+'_view').spreadsheet_view({rows:$.fn.search.results,check:{},num_archives:1});
+			$('#search').find('.search_pagination').show();
+			$node.css('min-height', $(window).height() - $('#search').find('.search_pagination').height() - 60);
 			window.scrollTo(0, 0);
 		});		
 	});
