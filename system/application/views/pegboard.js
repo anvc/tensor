@@ -1051,6 +1051,21 @@ $.fn.move = function(source_collection) {
 				do_move($(this).data('action'), parseInt($(this).data('profile-index')), parseInt($(this).data('collection-index')));
 			});
 		});
+		var $select_all = $('<a href="javascript:void(null);" class="select_all">Select all</a>').appendTo($node);
+		$select_all.click(function() {
+			var $this = $(this);
+			var is_checked = ($this.closest('#collection').find('.clicked').length) ? true : false;
+			if (is_checked) {
+				$this.closest('#collection').find('.row').each(function() {
+					$(this).removeClass('clicked').find('.clicked_layer').remove();
+				});
+			} else {
+				$this.closest('#collection').find('.row').each(function() {
+					$(this).addClass('clicked').prepend('<div class="clicked_layer"></div>');
+				});
+			};
+			$this.blur();
+		});
 	});
 	
 };
@@ -1080,7 +1095,12 @@ $.fn.metadata = function(items, source_collection) {
 			$node.modal();
 			$form = $node.find('form:first');
 			$form.empty();
-			$(window).scrollTop(0);
+			window.scrollTo(0,0);
+			$('#edit_metadata').scrollTop(0);
+			$('.add_additional_metadata:first').unbind('click').click(function() {
+				var ontologies_url = $('link#base_url').attr('href')+'wb/ontologies';
+				$form.add_metadata({title:'Add additional metadata',ontologies_url:ontologies_url});
+			});
 			var total = Object.keys(items).length;
 			$node.find('.modal-title .count').text('(item ' + (item+1) + ' of ' + total + ')');
 			var count = 0;
@@ -1097,7 +1117,7 @@ $.fn.metadata = function(items, source_collection) {
 					    $row.append('<div class="col-sm-9"><input type="text" class="form-control" id="'+ns_name+'" value="'+escapeHtml(items[uri][p][j].value.toString())+'"></div>');
 					    if ('art:thumbnail'==ns_name) {
 					    	$row.find('div').append('<a href="'+items[uri][p][j].value+'" target="_blank"><img src="'+items[uri][p][j].value+'" class="img-thumbnail" /></a>');
-					    } else if (-1!=items[uri][p][j].value.toString().indexOf('://') || '//'==items[uri][p][j].value.toString().substr(0,2)) {
+					    } else if ('http'==items[uri][p][j].value.toString().substr(0,4) || '//'==items[uri][p][j].value.toString().substr(0,2)) {
 					    	$row.find('div').append('<a href="'+items[uri][p][j].value+'" class="visit_link" target="_blank">Visit link</a>');
 					    }
 					};

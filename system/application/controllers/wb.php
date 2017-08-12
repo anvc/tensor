@@ -9,6 +9,7 @@ class Wb extends CI_Controller {
 		$this->data = array();
 
 		$this->config->load('local_settings');
+		$this->config->load('rdf');
 		$this->load->helper('url');
 		$this->load->library("template");
 		$this->template->set_layout('wrapper.php');
@@ -63,6 +64,7 @@ class Wb extends CI_Controller {
 		$this->template->add_js(base_url().'system/application/views/common/jquery-1.11.3.min.js');
 		$this->template->add_js(base_url().'system/application/views/common/jquery-ui-1.11.4.custom/jquery-ui.min.js');
 		$this->template->add_js(base_url().'system/application/views/common/bootstrap/js/bootstrap.min.js');
+		$this->template->add_js(base_url().'system/application/views/common/bootbox.min.js');
 		$this->template->add_js(base_url().'system/application/views/common/tablesorter/jquery.tablesorter.min.js');
 		$this->template->add_js(base_url().'system/application/views/common/tablesorter/jquery.tablesorter.widgets.js');
 		$this->template->add_js(base_url().'system/application/views/common/endless_scroll/endless_scroll.min.js');
@@ -74,9 +76,21 @@ class Wb extends CI_Controller {
 		$this->template->add_js(base_url().'system/application/views/common/FileSaver.min.js');
 		$this->template->add_js(base_url().'system/application/views/common/jquery.spreadsheet_model.js');
 		$this->template->add_js(base_url().'system/application/views/common/jquery.advanced_search.js');
+		$this->template->add_js(base_url().'system/application/views/common/scalar/jquery.add_metadata.js');
 		$this->template->add_js(base_url().'system/application/views/pegboard.js');
 		$this->template->render("pegboard", $this->data);
 
+	}
+	
+	public function ontologies() {
+	
+		$this->data['content'] = $this->config->item('ontologies');
+		// Reset keys to 1..N
+		foreach ($this->data['content'] as $prefix => $values) {
+			$this->data['content'][$prefix] = array_values($values);
+		}
+		echo json_encode($this->data['content']);
+	
 	}
 
 }

@@ -62,6 +62,10 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #add_destination {clear:both; padding-top:6px;}
 #add_destination .btn-group, #add_destination .form-group {margin-right:4px;}
 #sync_destinations .close {position:absolute; top:1px; right:0px;}
+.add_metadata_modal h1 {margin-top:12px; padding-top:0;}
+.add_metadata_modal label {font-weight:normal;}
+.add_metadata_modal input[type="checkbox"] {margin-right:4px;}
+.select_all {float:left; margin:7px 0px 0px 12px; font-size:12px;}
 
 /* Archives */
 #archives {z-index:9; position:absolute; top:0px; right:0px; margin:20px 0px 20px 0px;}
