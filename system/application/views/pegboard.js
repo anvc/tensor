@@ -1127,6 +1127,7 @@ $.fn.metadata = function(items, source_collection) {
 					var to_save = {};
 					$form.find('input[id]').each(function() {
 						var $input = $(this);
+						if (!$input.val().length) return;
 						var field = uri_from_pnode($input.attr('id'));
 						if ('undefined'==typeof(to_save[field])) to_save[field] = [];
 						to_save[field].push({type:(($input.val().indexOf('//')==-1)?'literal':'uri'),value:$input.val()});
