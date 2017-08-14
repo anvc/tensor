@@ -1024,9 +1024,12 @@ $.fn.move = function(source_collection) {
 		};
 		// Create the split button with a list of the collections
 		$node.append('<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Selected items <span class="caret"></span></button>');
-		var $list = $('<ul class="dropdown-menu"><li><a href="javascript:void(null);" data-action="meta">Edit metadata</a></li><li role="separator" class="divider"></li></ul>').appendTo($node);
+		var $list = $('<ul class="dropdown-menu"></ul>').appendTo($node);
 		$list.parent().on('show.bs.dropdown', function () {  // Update the list live so that collections can be added at any time
-			$list.children().not(':first').not('.divider').remove();
+			$list.empty();
+			if ('undefined'!=typeof(source_collection)) {
+				$list.append('<li><a href="javascript:void(null);" data-action="meta">Edit metadata</a></li><li role="separator" class="divider"></li>');
+			};			
 			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
 			if ('undefined'==typeof(source_collection)) {
 				$list.append('<li><a href="javascript:void(null);" data-action="remove">Remove from all collections</a></li>');
