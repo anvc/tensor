@@ -5,7 +5,7 @@
 			query: null,  /* The query string when getting */
 			data: null,  /* The data object when putting */
 			url: null,  /* Base URL of the archive */
-			url_override: null, /* Force the handler to this URL */
+			single: 0, /* Flag that we're asking for a single resource */
 			autocomplete: null, /* A string to be completed */
 			parser: null,  /* Name of the parser directory */
     		proxy_url: null,  /* The URL to the proxy controller */
@@ -66,7 +66,7 @@
         		query:(opts.query)?opts.query:'',
         		data:(opts.data)?opts.data:'',
         		url:(opts.url)?opts.url:'',
-        		url_override:(opts.url_override)?opts.url_override:'',
+        		single:(opts.single)?1:0,
         		autocomplete:(opts.autocomplete)?opts.autocomplete:'',
         		parser:(opts.parser)?opts.parser:'',
         		proxy_url:(opts.proxy_url)?opts.proxy_url:''

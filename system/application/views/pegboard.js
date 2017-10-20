@@ -649,9 +649,32 @@ $.fn.search = function(page) {
 	
 };
 
+//Display search results in one of many templates
+$.fn.search_results = function() {
+	
+	return this.each(function() {
+		var $node = $(this);
+		var view = $('#search_view').find('button[class*="btn-primary"]').attr('id'); 
+		if ('undefined'!=typeof($.fn.spreadsheet_view)) $.fn.spreadsheet_view.remove();
+		$('.page').text($.fn.search.page);
+		$('.prev-page, .next-page').css('visibility', 'hidden');
+		if ($.fn.search.page > 1) $('.prev-page').css('visibility', 'visible').data('page', $.fn.search.page - 1);
+		$('.next-page').css('visibility', 'visible').data('page', $.fn.search.page + 1);
+		var view_path = $('link#base_url').attr('href')+'system/application/views/templates/jquery.'+view+'.js';
+		$.getScript(view_path, function() {
+			$node.empty();
+			$node.attr('class',view+'_view').spreadsheet_view({rows:$.fn.search.results,check:{},num_archives:1});
+			$('#search').find('.search_pagination').show();
+			$node.css('min-height', $(window).height() - $('#search').find('.search_pagination').height() - 60);
+			window.scrollTo(0, 0);
+		});		
+	});
+	
+};
+
 function error_callback(error, archive) {
 
-	loading(false, archive.title);
+	if ('undefined'!=typeof(archive)) loading(false, archive.title);
 	var $error = $('#error');
 	if ('200 OK'==error) error = 'There were internal errors';
 	var html = '<p>There was an error attempting to gather results:</p>';
@@ -671,7 +694,7 @@ function parse_complete_callback(_results, archive) {
 
 };
 
-function update_complete_callback(_results, reboot) {  // _results are added to existing results
+function update_complete_callback(_results, reboot) {
 	
 	if ('undefined'==typeof(reboot)) reboot = false;
 	for (var uri in _results) {
@@ -725,29 +748,6 @@ function autocomplete_callback(data, options) {
 	});
 };
 
-// Display search results in one of many templates
-$.fn.search_results = function() {
-	
-	return this.each(function() {
-		var $node = $(this);
-		var view = $('#search_view').find('button[class*="btn-primary"]').attr('id'); 
-		if ('undefined'!=typeof($.fn.spreadsheet_view)) $.fn.spreadsheet_view.remove();
-		$('.page').text($.fn.search.page);
-		$('.prev-page, .next-page').css('visibility', 'hidden');
-		if ($.fn.search.page > 1) $('.prev-page').css('visibility', 'visible').data('page', $.fn.search.page - 1);
-		$('.next-page').css('visibility', 'visible').data('page', $.fn.search.page + 1);
-		var view_path = $('link#base_url').attr('href')+'system/application/views/templates/jquery.'+view+'.js';
-		$.getScript(view_path, function() {
-			$node.empty();
-			$node.attr('class',view+'_view').spreadsheet_view({rows:$.fn.search.results,check:{},num_archives:1});
-			$('#search').find('.search_pagination').show();
-			$node.css('min-height', $(window).height() - $('#search').find('.search_pagination').height() - 60);
-			window.scrollTo(0, 0);
-		});		
-	});
-	
-};
-
 // The "import to" button with attached import action
 $.fn.import = function() {
 
@@ -764,6 +764,7 @@ $.fn.import = function() {
 				var $this = $(this);
 				var uri = $this.data('uri');
 				var values = $this.data('values');
+				values.archive = $.extend({}, archive);
 				items[uri] = values;
 			});
 			if ($.isEmptyObject(items)) {
@@ -983,6 +984,24 @@ $.fn.move = function(source_collection) {
 			if ('meta'==action) {  // Edit metadata
 				$('#edit_metadata').metadata(items, profiles[obj.profile_index].collections[obj.collection_index]);
 				return;
+			} else if ('refresh'==action) {  // Refresh metadata from source archives
+				var errors = [];
+				var complete_callback = function(_results) {
+					profiles[obj.profile_index].collections[obj.collection_index].items = $.extend({}, profiles[obj.profile_index].collections[obj.collection_index].items, _results);
+					storage.set('profiles', profiles);
+					var selected_index = 0;
+					$('#collections_form').find('.collection').each(function(index) {
+						if ($(this).hasClass('clicked')) selected_index = index;
+					});
+					$('#collections').list_collections(profiles);
+					$('#collections_form').find('.collection').eq(selected_index).mousedown();
+					if (errors.length) error_callback('There were errors:<br />'+errors.join("<br />"));
+				};
+				var e_callback = function(msg) {
+					errors.push(msg);
+				};
+				refresh_items(items, complete_callback, e_callback);
+				return;
 			} else if ('remove'==action && isNaN(profile_index)) {  // Delete from all
 				for (var j = 0; j < profiles.length; j++) {
 					for (var k = 0; k < profiles[j].collections.length; k++) {
@@ -1028,7 +1047,7 @@ $.fn.move = function(source_collection) {
 		$list.parent().on('show.bs.dropdown', function () {  // Update the list live so that collections can be added at any time
 			$list.empty();
 			if ('undefined'!=typeof(source_collection)) {
-				$list.append('<li><a href="javascript:void(null);" data-action="meta">Edit metadata</a></li><li role="separator" class="divider"></li>');
+				$list.append('<li><a href="javascript:void(null);" data-action="meta">Edit metadata</a></li><li><a href="javascript:void(null);" data-action="refresh">Refresh from source archives</a></li><li role="separator" class="divider"></li>');
 			};			
 			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
 			if ('undefined'==typeof(source_collection)) {
@@ -1125,6 +1144,9 @@ $.fn.metadata = function(items, source_collection) {
 					    }
 					};
 				};
+				$node.find('.refresh_from_source:first').unbind('click').click(function() {
+					$form.update_metadata(uri, items[uri]);
+				});
 				$node.find('button:last').unbind('click').click(function() {
 					// Save current item
 					var to_save = {};
@@ -1135,6 +1157,9 @@ $.fn.metadata = function(items, source_collection) {
 						if ('undefined'==typeof(to_save[field])) to_save[field] = [];
 						to_save[field].push({type:(($input.val().indexOf('//')==-1)?'literal':'uri'),value:$input.val()});
 					});
+					if ('undefined' != typeof(items[uri].archive)) {
+						to_save['archive'] = $.extend({}, items[uri].archive);
+					};
 					var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
 					profiles[obj.profile_index].collections[obj.collection_index].items[uri] = to_save;
 					storage.set('profiles', profiles);
@@ -1160,7 +1185,57 @@ $.fn.metadata = function(items, source_collection) {
 	
 };
 
-// Push items to through a saver
+//Update metadata from source archive and place results in the Edit Metadata modal
+$.fn.update_metadata = function(uri, item) {	
+	
+	var $form = $(this);
+	if ($.isEmptyObject(item)) {
+		alert('Please select an item to update');
+		return;
+	};
+	if ('undefined'==typeof(item.archive)) {
+		alert('Unfortunately the metadata for this item can not be refreshed because it was imported befere this feature was added.');
+		return;
+	};
+	$('.refresh_from_source').prop('disabled','disabled');
+	if (!confirm('This will overwrite existing metadata values with fields from the item\'s source archive. Are you sure you wish to continue?')) {
+		$('.refresh_from_source').removeProp('disabled','disabled');
+		return;
+	};
+	var archive = $.extend({}, item.archive);
+	var complete_callback = function(items) {
+		$form.closest('.modal').find('.modal-footer .alert').css('visibility','hidden');
+		$('.refresh_from_source').removeProp('disabled','disabled');
+		if ('undefined'==typeof(items[uri])) {
+			error_callback('Invalid returning data (URI doesn\'t exist)', archive);
+			return;
+		}
+		$form.empty();
+		for (var p in items[uri]) {
+			for (var j = 0; j < items[uri][p].length; j++) {
+				var ns_name = pnode(p);
+				var $row = $('<div class="form-group"></div>').appendTo($form);
+				$row.append('<label for="'+ns_name+'" class="col-sm-3 control-label">'+ns_name+'</label>');
+			    $row.append('<div class="col-sm-9"><input type="text" class="form-control" id="'+ns_name+'" value="'+escapeHtml(items[uri][p][j].value.toString())+'"></div>');
+			    if ('art:thumbnail'==ns_name) {
+			    	$row.find('div').append('<a href="'+items[uri][p][j].value+'" target="_blank"><img src="'+items[uri][p][j].value+'" class="img-thumbnail" /></a>');
+			    } else if ('http'==items[uri][p][j].value.toString().substr(0,4) || '//'==items[uri][p][j].value.toString().substr(0,2)) {
+			    	$row.find('div').append('<a href="'+items[uri][p][j].value+'" class="visit_link" target="_blank">Visit link</a>');
+			    }
+			};
+		};
+	};
+	var _error_callback = function(msg) {
+		$form.closest('.modal').find('.modal-footer .alert').css('visibility','hidden');
+		$('.refresh_from_source').removeProp('disabled','disabled');
+		error_callback(msg, archive);
+	};
+	$form.closest('.modal').find('.modal-footer .alert').css('visibility','visible');
+	get_single_item(uri, archive, complete_callback, _error_callback);
+
+};
+
+// Push items through a save function
 $.fn.sync = function($form) {
 
 	if ('undefined'!=typeof($form)) {
@@ -1337,6 +1412,62 @@ function sync_complete_callback(data) {
 		$sync.find('.progress-bar').width(0).find('span').text('Content 0 of 0');
 		$sync.find('.modal-footer .btn').show().removeProp('disabled');
 		$sync.find('#progress_log').empty();
+	});
+	
+};
+
+function refresh_items(items, complete_callback, error_callback) {
+	
+	var count = 0;
+	var total = Object.keys(items).length;
+	if (!total) {
+		alert('Please select one or more items to refresh');
+		return;
+	};
+	if (!confirm('This will overwrite existing metadata values with fields from each item\'s source archive. Are you sure you wish to continue?')) {
+		return;
+	};
+	var key = Object.keys(items)[count];
+	var callback = function(_results) {
+		loading(false, items[key].archive.title);
+		if ('undefined'==typeof(_results[key])) {
+			error_callback('Invalid return (could not find key "'+key+'")');
+			// don't return
+		} else {
+			var archive = items[key].archive;
+			items[key] = $.extend({}, _results[key]);
+			items[key].archive = $.extend({}, archive);
+		};
+		count++;
+		if (count >= total) {
+			complete_callback(items);
+			return;
+		} else {
+			key = Object.keys(items)[count];
+			get_single_item(key, items[key].archive, callback);
+		};
+	};
+	loading(true, items[key].archive.title);
+	get_single_item(key, items[key].archive, callback);
+	
+	
+};
+
+function get_single_item(query, archive, complete_callback, error_callback) {
+	
+	var base_url = $('link#base_url').attr('href');
+	var proxy_url = $('link#proxy_url').attr('href');
+	var parser = base_url+'parsers/'+archive.parser+'/parser.js';
+	$.getScript(parser, function() {
+		$.extend(archive, {single:true,query:query,error_callback:error_callback,complete_callback:complete_callback});
+		try {
+			$.fn.parse(archive);
+		} catch(err) {
+			error_callback(err);
+			return;
+		};
+	}).fail(function() {
+		error_callback('Could not find parser');
 	});
 	
 };

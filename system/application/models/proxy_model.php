@@ -13,7 +13,7 @@ class Proxy_model extends CI_Model {
 		$query =@ (string) $_REQUEST['query'];
 		$parser =@ (string) $_REQUEST['parser'];
 		$url =@ (string) $_REQUEST['url'];
-		$url_override =@ (string) $_REQUEST['url_override'];
+		$single = (isset($_REQUEST['single']) && !empty($_REQUEST['single'])) ? true : false;
 		$autocomplete =@ (string) $_REQUEST['autocomplete'];
 
 		if (empty($page)) $page = 1;

@@ -142,7 +142,9 @@
         ps = [];
         
         for (var p in obj) {
-        	ps.push(pnode(p).toLowerCase());  
+        	var pn = pnode(p);
+        	if (!pn) continue;
+        	ps.push(pn.toLowerCase());  
     	}
         
         ps.sort();
@@ -150,7 +152,9 @@
         for (var j = 0; j < ps.length; j++) {
         	p = ps[j];
         	for (var key in obj) {
-        		if (pnode(key).toLowerCase() == p) {
+        		var pn = pnode(key);
+        		if (!pn) continue;
+        		if (pn.toLowerCase() == p) {
         			results[key] = obj[key];
         			continue;
         		}
