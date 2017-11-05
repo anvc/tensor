@@ -42,7 +42,20 @@ $(document).ready(function() {
 			return false;
 		});
 		$('#import_to').import();
-		$('#visit_archive').attr('href', archive.url);
+		$('#archive_select_all').click(function() {
+			var $this = $(this);
+			var is_checked = ($this.closest('#search').find('.clicked').length) ? true : false;
+			if (is_checked) {
+				$this.closest('#search').find('.row').each(function() {
+					$(this).removeClass('clicked').find('.clicked_layer').remove();
+				});
+			} else {
+				$this.closest('#search').find('.row').each(function() {
+					$(this).addClass('clicked').prepend('<div class="clicked_layer"></div>');
+				});
+			};
+			$this.blur();
+		});
 		$('.search_pagination').hide();
 		var parser = base_url+'parsers/'+archive.parser+'/parser.js';
 		$.getScript(parser, function() {
@@ -800,7 +813,7 @@ $.fn.import = function() {
 			for (var j = 0; j < profiles.length; j++) {
 				if ('undefined'==typeof(profiles[j].collections)) profiles[j].collections = [];
 				for (var k = 0; k < profiles[j].collections.length; k++) {
-					$list.append('<li><a href="javascript:void(null);" data-profile-index="'+j+'" data-collection-index="'+k+'">'+profiles[j].collections[k].title+'</a></li>');
+					$list.append('<li><a href="javascript:void(null);" data-profile-index="'+j+'" data-collection-index="'+k+'"><span class="color" style="background-color:'+profiles[j].collections[k].color+'"></span>'+profiles[j].collections[k].title+'</a></li>');
 				};
 			};
 			$list.find('a').unbind('click').click(function() {
@@ -1064,7 +1077,7 @@ $.fn.move = function(source_collection) {
 						var title = 'Copy into '+profiles[j].collections[k].title;
 					} else {
 						var action = 'move';
-						var title = 'Move to '+profiles[j].collections[k].title;
+						var title = '<span class="color" style="background-color:'+profiles[j].collections[k].color+'"></span>Move to '+profiles[j].collections[k].title;
 					};
 					$list.append('<li><a href="javascript:void(null);" data-action="'+action+'" data-profile-index="'+j+'" data-collection-index="'+k+'">'+title+'</a></li>');
 				};
@@ -1444,6 +1457,7 @@ function refresh_items(items, complete_callback, error_callback) {
 			return;
 		} else {
 			key = Object.keys(items)[count];
+			loading(true, items[key].archive.title);
 			get_single_item(key, items[key].archive, callback);
 		};
 	};

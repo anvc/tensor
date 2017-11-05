@@ -62,7 +62,7 @@
 				<button type="button" class="btn btn-default" id="detail">Detail</button>
 			</div>
 			<div id="import_to" class="btn-group btn-group-sm" role="group"></div>
-			<a id="visit_archive" href="javascript:void(null);" target="_blank">Visit archive</a>
+			<a id="archive_select_all" href="javascript:void(null);">Select all</a>
 			<div id="search_results"></div>
 			<nav class="navbar navbar-default search_pagination" role="navigation">
 			    <ul class="nav navbar-nav">
