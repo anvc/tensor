@@ -91,17 +91,17 @@
     		$row.data('uri', j);
     		$row.data('values', opts.rows[j]);
     		var $thumb = $('<div class="icon_cell"><img src="'+thumb+'" /></div>').appendTo($row);
-    		var $source = $('<div class="source"></div>').appendTo($row);
     		var $url = $('<div class="url"></div>').appendTo($row);
     		var $title = $('<div class="title"></div>').appendTo($row);
+    		var $source = $('<div class="source"></div>').appendTo($row);
     		var url = j;
     		for (var p in row) {
     			var pp = pnode(p);
     			if ('art:sourceLocation'==pp && 'undefined'!=typeof(row[p][0])) {
     				url = row[p][0].value;
-    			} else if (opts.num_archives > 1 && 'dcterms:source'==pp && 'undefined'!=typeof(row[p][0])) {
+    			} else if ('dcterms:source'==pp && 'undefined'!=typeof(row[p][0])) {
     				$source.append(row[p][0].value);
-    				$source.show();
+    				//$source.show();
     			} else if ('dcterms:title'==pp) {
     				var value = ('undefined'==typeof(row[p][0]) || 'undefined'==typeof(row[p][0].value)) ? '[No title]' : row[p][0].value.linkify();
 	                $title.append(value);

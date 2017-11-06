@@ -1443,9 +1443,8 @@ function refresh_items(items, complete_callback, error_callback) {
 	var key = Object.keys(items)[count];
 	var callback = function(_results) {
 		loading(false, items[key].archive.title);
-		if ('undefined'==typeof(_results[key])) {
+		if ('undefined'==typeof(_results) || 'undefined'==typeof(_results[key])) {
 			error_callback('Invalid return (could not find key "'+key+'")');
-			// don't return
 		} else {
 			var archive = items[key].archive;
 			items[key] = $.extend({}, _results[key]);
@@ -1481,7 +1480,11 @@ function get_single_item(query, archive, complete_callback, error_callback) {
 			return;
 		};
 	}).fail(function() {
-		error_callback('Could not find parser');
+		if ('function'==typeof(error_callback)) {
+			error_callback('Could not find parser');
+		} else if ('function'==typeof(complete_callback)) {
+			complete_callback();
+		}
 	});
 	
 };
