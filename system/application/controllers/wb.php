@@ -35,7 +35,7 @@ class Wb extends CI_Controller {
 
 	}
 
-	public function parsers() {
+	public function parsers($only_installable_systems=false) {
 
 		$parsers = array();
 		$path = FCPATH.'parsers';
