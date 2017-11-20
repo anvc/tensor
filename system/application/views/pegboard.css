@@ -22,8 +22,10 @@ a.btn-default, button.btn-default {color:#337ab7;}
 .right-inner-addon a.three {position:absolute; right:43px; padding:10px 12px; text-decoration:none; z-index:9;}
 
 /* Progress bar */
-.progress {margin-top:0px; margin-bottom:16px;}
-#progress_log {display:none; width:100%; margin-top:-10px; margin-bottom:10px; background-color:white; color:red; text-align:left; max-height:50px; overflow:auto;}
+.progress {position:relative; top:7px;}
+#progress_log {
+	width:100%; margin-top:0px; margin-bottom:10px; background-color:white; color:red; 
+	text-align:left; max-height:50px; overflow:auto; font-size:smaller; display:none;}
 .progress-bar {text-align:left;}
 .progress-bar span {padding-left:5px;}
 
@@ -58,11 +60,12 @@ a.btn-default, button.btn-default {color:#337ab7;}
 .collection h5 {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden; font-weight:normal;}
 .collection .desc {margin:0px 3px 0px 0px; padding:0px 0px 0px 0px; overflow:hidden;}
 #sync_collections, #sync_destinations, #sync .modal-body > h4 {clear:both;}
-#sync .modal-body > h4:last-of-type {padding-top:12px;}
+#sync .modal-body > h4:not(:first-child) {padding-top:8px;}
 #sync_collections .collection {padding-right:4px; padding-left:4px;}
-#add_destination {clear:both; padding-top:6px;}
+#add_destination {clear:both; padding-top:6px; display:none;}
 #add_destination .btn-group, #add_destination .form-group {margin-right:4px;}
 #sync_destinations .close {position:absolute; top:1px; right:0px;}
+#sync .modal-footer {clear:both; padding-left:0; padding-right:0;}
 .add_metadata_modal h1 {margin-top:12px; padding-top:0;}
 .add_metadata_modal label {font-weight:normal;}
 .add_metadata_modal input[type="checkbox"] {margin-right:4px;}

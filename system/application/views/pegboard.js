@@ -1249,11 +1249,21 @@ $.fn.update_metadata = function(uri, item) {
 };
 
 // Push items through a save function
-$.fn.sync = function($form) {
+$.fn.sync = function($form, skip_action) {
 
 	if ('undefined'!=typeof($form)) {
 		var base_url = $('link#base_url').attr('href');
 		var proxy_url = $('link#proxy_url').attr('href');
+		// Action
+		var action = null;
+		$('#sync_actions').find('.clicked').each(function() {
+			action = $(this).data('index');
+		});
+		if (null==action) {
+			alert('Please select an action');
+			return;
+		};
+		if ('undefined'!=skip_action && skip_action) action = null;
 		// Items in the selected collection
 		var items = {};
 		var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};	
@@ -1265,14 +1275,28 @@ $.fn.sync = function($form) {
 				for (var j = 0; j < profiles.length; j++) {
 					for (var k = 0; k < profiles[j].collections.length; k++) {
 						if ('undefined'==typeof(profiles[j].collections[k].items)) profiles[j].collections[k].items = {};
+						// TODO: refresh_items(items, complete_callback, error_callback)
 						$.extend(items, profiles[j].collections[k].items);
 					};
 				};
-			} else {	
+			} else {
 				var collection = profiles[profile_index].collections[collection_index];
-				items = collection.items;
+				if ('refresh'==action) {
+					var errors = [];
+					refresh_items(profiles[profile_index].collections[collection_index].items, function(_results) {
+						profiles[profile_index].collections[collection_index].items = $.extend({}, _results);
+						storage.set('profiles', profiles);
+						if (errors.length) alert(errors);
+						$('#sync').sync($form, true);
+					}, function(msg) {
+						errors.push(msg);
+					});
+					action = 'refreshed';
+				};
+				items = collection.items;	
 			};
 		});
+		if ('refreshed'==action) return;
 		if ($.isEmptyObject(items)) {
 			alert('Please select a source collection that contains one or more items');
 			return;
@@ -1300,6 +1324,7 @@ $.fn.sync = function($form) {
 			var $node = $(this);			
 			var $sources = $node.find('#sync_collections');
 			var $destinations = $node.find('#sync_destinations');
+			var $actions = $node.find('#sync_actions');
 			$sources.empty();
 			$destinations.empty();
 			// Propagate collections
@@ -1321,7 +1346,13 @@ $.fn.sync = function($form) {
 				$clicked.parent().find('.collection').removeClass('clicked');
 				$clicked.addClass('clicked');
 			});
-			// Destination is predefined by GET vars (e.g., from Scalar
+			$actions.children().removeClass('clicked');
+			$actions.children().unbind('click').click(function() {
+				var $clicked = $(this);
+				$clicked.parent().find('.collection').removeClass('clicked');
+				$clicked.addClass('clicked');
+			});
+			// Destination is predefined by GET vars (e.g., from Scalar)
 			if (getVar('parser') && getVar('parent') && getVar('title')) {
 				$('#sync_destinations').prev().text('Destination:');
 				var parser = decodeURIComponent(getVar('parser'));
@@ -1378,6 +1409,12 @@ $.fn.sync = function($form) {
 					});
 				};			
 				set_destinations();
+				// Add destination button
+				$add_destination_btn = $('<div class="collection col-sm-3" data-index="add"></div>').appendTo($node.find('#sync_destinations'));
+				$add_destination_btn.html('<div class="color" style="border:0;"><span class="num_items"><span class="glyphicon glyphicon-plus" style="color:#2e6da4;padding-top:3px;padding-left:2px;"></span></span></div><h5>Add a destination</h5><div class="desc">Enter an URL to add a destination</div>');
+				$add_destination_btn.click(function() {
+					$('#add_destination').toggle();
+				});
 				// Add destination form
 				var $form = $node.find('#add_destination');
 				$form.empty();
@@ -1418,7 +1455,7 @@ function sync_complete_callback(data) {
 
 	var $sync = $('#sync');
 	$sync.find('.modal-footer .btn').hide();
-	var $button = $('<button class="btn btn-success">Return to archives</button>').appendTo($sync.find('.modal-footer:first'));
+	var $button = $('<button class="btn btn-success">Return to archives</button>').appendTo($sync.find('.modal-footer:first div:last'));
 	$button.click(function() {
 		$sync.modal('hide');
 		$(this).remove();
@@ -1452,14 +1489,20 @@ function refresh_items(items, complete_callback, error_callback) {
 		};
 		count++;
 		if (count >= total) {
+			$('#content_progress').removeClass('progress-bar-warning').css('width', '0%');
+			$('#content_progress span').text('');			
 			complete_callback(items);
 			return;
 		} else {
 			key = Object.keys(items)[count];
+			$('#content_progress').addClass('progress-bar-warning').css('width', ((count+1/total)*100)+'%');
+			$('#content_progress span').text('Refreshing item '+(count+1)+ ' of '+total);
 			loading(true, items[key].archive.title);
 			get_single_item(key, items[key].archive, callback);
 		};
 	};
+	$('#content_progress').addClass('progress-bar-warning').css('width', ((count+1/total)*100)+'%');
+	$('#content_progress span').text('Refreshing item '+(count+1)+ ' of '+total);
 	loading(true, items[key].archive.title);
 	get_single_item(key, items[key].archive, callback);
 	

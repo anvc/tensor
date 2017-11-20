@@ -30,8 +30,8 @@
 		<!-- List of archives -->
 		<div id="archives" class="col-xs-9">
 		  	<span style="float:right;">
-		  		<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#add_archive"><span class="glyphicon glyphicon-plus"></span> Add archive</a>
 		  		<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#set_profiles"><span class="glyphicon glyphicon-cog"></span> Set profiles</a>
+		  		<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#add_archive"><span class="glyphicon glyphicon-plus"></span> Add archive</a>
 				<a href="javascript:void(null);" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sync"><span class="glyphicon glyphicon-cloud"></span>&nbsp; Sync media</a>
 			</span>
 		  	<div class="btn-group btn-group-sm" role="group"></div>
@@ -315,16 +315,33 @@
         <h4>Select a destination:</h4>
       	<div id="sync_destinations"></div>
       	<form class="form-inline" id="add_destination"></form>
+        <h4>Select action on each item:</h4>
+      	<div id="sync_actions">
+			<div class="collection" style="width:50%;float:left;" data-index="sync">
+				<div class="color" style="border:0;"><span class="num_items"><span class="glyphicon glyphicon-repeat" style="color:#2e6da4;padding-top:3px;padding-left:1px;"></span></span></div>
+				<h5>Sync as is</h5>
+				<div class="desc">Sync with current metadata including any manual edits</div>
+			</div>
+			<div class="collection" style="width:50%;float:left;" data-index="refresh">
+				<div class="color" style="border:0;"><span class="num_items"><span class="glyphicon glyphicon-refresh" style="color:#2e6da4;padding-top:3px;padding-left:1px;"></span></span></div>
+				<h5>Refresh then sync</h5>
+				<div class="desc">Overwrite current metadata with latest from source archives</div>
+			</div>	
+      	</div>
       </div>
       <div class="modal-footer">
-		<div class="progress">
-			<div id="content_progress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-				<span>Content 0 of 0</span>
+      	<div class="col-xs-9">
+			<div class="progress">
+				<div id="content_progress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+					<span>Content 0 of 0</span>
+				</div>
 			</div>
+			<div id="progress_log"></div>
 		</div>
-		<div id="progress_log"></div>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary">Synchronize</button>
+		<div class="col-xs-3">
+        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        	<button type="button" class="btn btn-primary">Synchronize</button>
+        </div>
       </div>
     </div>
   </div>
