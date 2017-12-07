@@ -84,6 +84,15 @@
     			thumb = $('link#base_url').attr('href')+'system/application/views/images/missing_thumb.jpg';
     			if (-1!=j.toLowerCase().indexOf('pdf')) thumb = $('link#base_url').attr('href')+'system/application/views/images/pdf_logo.png';
     			if (-1!=j.toLowerCase().indexOf('mp3')) thumb = $('link#base_url').attr('href')+'system/application/views/images/mp3_logo.png';
+    			if (-1!=j.toLowerCase().indexOf('mov')) thumb = $('link#base_url').attr('href')+'system/application/views/images/video_logo.png';
+    			if ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#url']) && -1!=row['http://simile.mit.edu/2003/10/ontologies/artstor#url'][0].value.toLowerCase().indexOf('.mov')) thumb = $('link#base_url').attr('href')+'system/application/views/images/video_logo.png';
+    			if ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#url']) && -1!=row['http://simile.mit.edu/2003/10/ontologies/artstor#url'][0].value.toLowerCase().indexOf('.mp4')) thumb = $('link#base_url').attr('href')+'system/application/views/images/video_logo.png';
+    			if ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#url']) && -1!=row['http://simile.mit.edu/2003/10/ontologies/artstor#url'][0].value.toLowerCase().indexOf('.ogg')) thumb = $('link#base_url').attr('href')+'system/application/views/images/video_logo.png';
+    			if ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#url']) && -1!=row['http://simile.mit.edu/2003/10/ontologies/artstor#url'][0].value.toLowerCase().indexOf('.oga')) thumb = $('link#base_url').attr('href')+'system/application/views/images/audio_logo.png';
+    			if ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#url']) && -1!=row['http://simile.mit.edu/2003/10/ontologies/artstor#url'][0].value.toLowerCase().indexOf('.mp3')) thumb = $('link#base_url').attr('href')+'system/application/views/images/mp3_logo.png';
+    			if ('undefined'!=typeof(row['http://simile.mit.edu/2003/10/ontologies/artstor#url']) && -1!=row['http://simile.mit.edu/2003/10/ontologies/artstor#url'][0].value.toLowerCase().indexOf('.wav')) thumb = $('link#base_url').attr('href')+'system/application/views/images/audio_logo.png';
+    			if ('undefined'!=typeof(row['http://purl.org/dc/terms/type']) && -1!=row['http://purl.org/dc/terms/type'][0].value.indexOf('quote')) thumb = $('link#base_url').attr('href')+'system/application/views/images/quote_logo.png'; 
+    			if ('undefined'!=typeof(row['http://purl.org/dc/terms/type']) && -1!=row['http://purl.org/dc/terms/type'][0].value.indexOf('assertion')) thumb = $('link#base_url').attr('href')+'system/application/views/images/assertion_logo.png';
     		} else {
     			thumb = row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value;
     		}

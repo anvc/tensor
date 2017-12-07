@@ -74,7 +74,10 @@
         };
         
         var error_callback = function(jqXHR) {
-        	opts.error_callback(jqXHR.status+' '+jqXHR.statusText, opts);  	
+        	console.log(jqXHR);
+        	var msg = jqXHR.status+' '+jqXHR.statusText;
+        	if (jqXHR.responseText && jqXHR.responseText.length) msg = jqXHR.responseText;
+        	opts.error_callback(msg, opts);  	
         };
         
         var success_callback = function(data) {

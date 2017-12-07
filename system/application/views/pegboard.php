@@ -315,7 +315,7 @@
         <h4>Select a destination:</h4>
       	<div id="sync_destinations"></div>
       	<form class="form-inline" id="add_destination"></form>
-        <h4>Select action on each item:</h4>
+        <h4>Select metadata action:</h4>
       	<div id="sync_actions">
 			<div class="collection" style="width:50%;float:left;" data-index="sync">
 				<div class="color" style="border:0;"><span class="num_items"><span class="glyphicon glyphicon-repeat" style="color:#2e6da4;padding-top:3px;padding-left:1px;"></span></span></div>
