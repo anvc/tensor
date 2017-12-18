@@ -135,7 +135,7 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #collection_results {clear:both;}
 #edit_metadata .img-thumbnail {max-width:100px; margin-top:2px;}
 #edit_metadata .visit_link {margin:2px 0px 0px 14px; font-size:12px;}
-#edit_metadata .modal-footer .alert {padding-top:6px; padding-bottom:6px; margin-left:5px; visibility:hidden;}
+#edit_metadata .modal-footer .alert {padding-top:6px; padding-bottom:6px; margin-left:5px; visibility:hidden; margin-bottom:0px;}
 
 /* Table */
 .list_view {margin-left:2px; margin-right:2px; padding-top:8px;}
