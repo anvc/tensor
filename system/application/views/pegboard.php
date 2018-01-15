@@ -29,6 +29,9 @@
 		</div>
 		<!-- List of archives -->
 		<div id="archives" class="col-xs-9">
+			<div style="position:fixed; bottom:2px; left:0px; right:0px; text-align:center; font-size:12px;">
+				Tensor is new... <a href="https://scalar.me/anvc/contact/" target="_blank">submit feedback</a>
+			</div>
 		  	<span style="float:right;">
 		  		<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#set_profiles"><span class="glyphicon glyphicon-cog"></span> Set profiles</a>
 		  		<a href="javascript:void(null);" class="btn btn-default btn-sm" data-toggle="modal" data-target="#add_archive"><span class="glyphicon glyphicon-plus"></span> Add archive</a>
