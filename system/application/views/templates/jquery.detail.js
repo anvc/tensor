@@ -118,11 +118,11 @@
     				o.push(value);
     			}
                 if(pp.indexOf('dcterms:title') > -1) {
-                    $uri = $('<div class="row '+pp.replace(/:/g, "-")+'"></div>').prependTo($p);
+                    $uri = $('<div class="drow '+pp.replace(/:/g, "-")+'"></div>').prependTo($p);
                     $('<div class="urn col-lg-3 col-md-3 col-sm-3 col-xs-3"><b>'+pp+'</b></div>').appendTo($uri);
                     $('<div class="value col-lg-9 col-md-9 col-sm-9 col-xs-9">'+o.join('<br />')+'</div>').appendTo($uri);                    
                 } else {
-                    $uri = $('<div class="row '+pp.replace(/:/g, "-")+'"></div>').appendTo($p);
+                    $uri = $('<div class="drow '+pp.replace(/:/g, "-")+'"></div>').appendTo($p);
                     $('<div class="urn col-lg-3 col-md-3 col-sm-3 col-xs-3"><b>'+pp+'</b></div>').appendTo($uri);
                     $('<div class="value col-lg-9 col-md-9 col-sm-9 col-xs-9">'+o.join('<br />')+'</div>').appendTo($uri);
                 }

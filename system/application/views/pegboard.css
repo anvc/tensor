@@ -182,6 +182,7 @@ tr.static:hover td {background-color:initial !important; color:#333 !important;}
 .details .thumb {cursor:pointer;}
 .details .thumb img {width:100%;}
 .details input[type="checkbox"] {position:absolute; top:3px; left:19px;}
+.detail .drow {clear:both;}
 
 /* Icons */
 .icons {padding-bottom:40px; cursor:pointer; margin-left:-23px; margin-right:-23px;}

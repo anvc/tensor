@@ -81,7 +81,7 @@
 			<a href="javascript:void(null);" id="collection_close" class="glyphicon glyphicon-remove"></a>
 			<form id="collection_form">
 				<div class="right-inner-addon">
-					<input type="text" name="search" class="form-control" placeholder="Search collection" required />
+					<input type="text" name="search" class="form-control" placeholder="Search collection" />
 					<a href="javascript:void(null);" class="glyphicon glyphicon-trash glyphicon-xs"></a>
 					<a href="javascript:void(null);" class="glyphicon glyphicon-pencil glyphicon-xs two"></a>
 					<a href="javascript:void(null);" class="glyphicon glyphicon-search glyphicon-xs three"></a>

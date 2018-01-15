@@ -161,7 +161,18 @@ $(document).ready(function() {
 			$('#archives').show();
 		});		
 		$('#collection_form').unbind('submit').submit(function() {
-			console.log('Searching...');
+			var val = $(this).find('[name="search"]').val();
+			if (!val.length) {
+				$('#collection_results').find('.row, .tile, tbody tr, .detail').show();
+				return false;
+			}
+			$('#collection_results').find('.row, .tile, tbody tr, .detail').hide().each(function() {
+				var $row = $(this);
+				$row.children().each(function() {
+					if (-1 == $(this).text().indexOf(val)) return;
+					$row.show();
+				});
+			});
 			return false;
 		});
 		$('#collection_results').show_collection(collection);
