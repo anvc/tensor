@@ -239,6 +239,65 @@
   </div>
 </div>
 
+<div class="modal fade" id="edit_archive">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Edit archive</h4>
+      </div>
+      <form class="form-horizontal">
+        <div class="modal-body">
+		  <div class="form-group">
+		  	<label for="parser" class="col-sm-3 control-label">Parser</label>
+		  	<div class="col-sm-9">
+			  	<select class="form-control" id="parser" name="parser" required>
+			  		<option value=""></option>
+			  	</select>
+			</div>
+		  </div>
+		  <div class="form-group">
+		    <label for="title" class="col-sm-3 control-label">Title</label>
+		    <div class="col-sm-9">
+		    	<input type="text" class="form-control" id="title" name="title" placeholder="E.g., My Archive" required>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="subtitle" class="col-sm-3 control-label">Description</label>
+		    <div class="col-sm-9">
+		    	<input type="text" class="form-control" id="subtitle" name="subtitle" placeholder="E.g., An archive of digital assets" required>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="url" class="col-sm-3 control-label">Archive URL</label>
+		    <div class="col-sm-9">
+		    	<input type="text" class="form-control" id="url" name="url" placeholder="http://" required>
+		    	<small>For example, the archive's home or start page</small>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="thumbnail" class="col-sm-3 control-label">Thumbnail URL</label>
+		    <div class="col-sm-9">
+		    	<input type="text" class="form-control" id="thumbnail" name="thumbnail" placeholder="http://">
+		    	<small>Leave empty to use the parser's default thumbnail</small>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="categories" class="col-sm-3 control-label">Categories</label>
+		    <div class="col-sm-9">
+		   		<input type="text" class="form-control" id="categories" name="categories" placeholder="E.g., image, video, audio, ...">
+		 	</div>
+		  </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="add_collection">
   <div class="modal-dialog">
     <div class="modal-content">

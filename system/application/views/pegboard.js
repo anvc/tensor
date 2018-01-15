@@ -19,7 +19,23 @@ $(document).ready(function() {
 			$('#search').find('.glyphicon').blur();
 		});
 		$('#search').find('.glyphicon-pencil').unbind('click').click(function() {
-			alert('Coming soon: edit this archive\'s settings');
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : [];
+			for (var j = 0; j < profiles.length; j++) {
+				for (var k = 0; k < profiles[j].archives.length; k++) {
+					if (JSON.stringify(archive) != JSON.stringify(profiles[j].archives[k])) continue;
+					var profile_index = j;
+					var archive_index = k;
+					break;
+				};
+			};
+			archive.profile_index = profile_index;
+			archive.archive_index = archive_index;
+			$('#edit_archive').edit_archive(archive);
+			$('#edit_archive').find('form').unbind('submit').submit(function() {
+				var $form = $(this);
+				$form.closest('.modal').edit_archive(archive, $form);
+				return false;
+			});
 			$('#search').find('.glyphicon').blur();
 		});
 		$('#search').find('.glyphicon-trash').unbind('click').click(function() {
@@ -642,7 +658,57 @@ $.fn.add_archive = function($form) {
 				}					
 				$modal.find('#parser').empty().html(options);
 			});
-		
+		});
+	}
+};
+
+//The edit archive modal
+$.fn.edit_archive = function(existing_values, $form) {
+	if ('undefined'!=typeof($form)) {
+		if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+		if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global	
+		var categories = $form.find('#categories').val().split(/[\s,]+/);
+		// Create the new archive
+		var obj = {
+				"title": $form.find('#title').val(),
+				"subtitle": $form.find('#subtitle').val(),
+				"parser":$form.find('#parser').val(),
+				"url": $form.find('#url').val(),
+				"categories": categories		
+			};
+		if ($form.find('#thumbnail').val().length) obj.thumbnail = $form.find('#thumbnail').val();
+		var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+		profiles[existing_values.profile_index].archives[existing_values.archive_index] = $.extend({}, obj);
+    	storage.set('profiles', profiles);
+    	$('#archives').list_archives(storage.get('profiles'));
+    	$('#collections').list_collections(storage.get('profiles'));
+    	$('#edit_archive').modal('hide');
+    	$('#search_close').click();
+    	$('#archives').find('.archive').each(function() {
+    		var $archive = $(this);
+    		if ($archive.find('h5').html() == obj.title && $archive.find('.desc').children('div:first').html() == obj.subtitle) {
+    			$archive.click();
+    		};
+    	});
+	} else {
+		if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+		if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global		
+		return this.each(function() {
+			var $modal = $(this);
+			$modal.modal('show');
+			$modal.find('[name="title"]').val(existing_values.title);
+			$modal.find('[name="subtitle"]').val(existing_values.subtitle);
+			$modal.find('[name="url"]').val(existing_values.url);
+			$modal.find('[name="thumbnail"]').val(existing_values.thumbnail);
+			$modal.find('[name="categories"]').val(existing_values.categories.join(', '));
+			// Parsers
+			$.getJSON($('link#base_url').attr('href')+'wb/parsers', function(json) {
+				var options = '';
+				for (var j = 0; j < json.length; j++) {
+					options += '<option value="'+json[j]+'"'+((json[j]==existing_values.parser)?' selected':'')+'>'+json[j]+'</option>';
+				}					
+				$modal.find('#parser').empty().html(options);
+			});
 		});
 	}
 };
