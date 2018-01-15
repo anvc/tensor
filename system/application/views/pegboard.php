@@ -268,7 +268,7 @@
 				</div>
 		 	</div>
 			<div class="form-group">
-		  		<label for="description" class="col-sm-3 control-label">Color</label>
+		  		<label for="color" class="col-sm-3 control-label">Color</label>
 		  		<div class="col-sm-9">
 			  		<input type="text" name="color">
 				</div>
@@ -277,6 +277,50 @@
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 	        <button type="submit" class="btn btn-primary">Add collection</button>
+	      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="edit_collection">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Edit collection</h4>
+      </div>
+      <form class="form-horizontal">
+	      <div class="modal-body">
+		    <div class="form-group">
+		  	  <label for="profile" class="col-sm-3 control-label">Profile</label>
+		  	  <div class="col-sm-9">
+			  	<select class="form-control" name="profile" style="width:auto;float:left;margin-right:12px;"></select>
+			  	<input type="text" class="form-control" name="new_profile" style="width:auto;float:left;" placeholder="New profile name..." />
+			  </div>
+		    </div>
+			<div class="form-group">
+		  		<label for="title" class="col-sm-3 control-label">Title</label>
+		  		<div class="col-sm-9">
+			  		<input type="text" class="form-control" id="title" name="title" placeholder="E.g., My Collection" required>
+				</div>
+		 	</div>
+			<div class="form-group">
+		  		<label for="description" class="col-sm-3 control-label">Description</label>
+		  		<div class="col-sm-9">
+			  		<input type="text" class="form-control" id="description" name="description" placeholder="E.g., A collection of imported media" required>
+				</div>
+		 	</div>
+			<div class="form-group">
+		  		<label for="color" class="col-sm-3 control-label">Color</label>
+		  		<div class="col-sm-9">
+			  		<input type="text" name="color">
+				</div>
+		 	</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        <button type="submit" class="btn btn-primary">Save</button>
 	      </div>
       </form>
     </div>

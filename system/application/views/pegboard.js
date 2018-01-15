@@ -108,14 +108,14 @@ $(document).ready(function() {
 	});
 	// Collections
 	$('#collections').list_collections(profiles);	
-	$('#add_collection').on('show.bs.modal', function () {
-		$(this).add_collection();
-	});
-	$('#add_collection').find('form').submit(function() {
-		var $form = $(this);
-		$form.closest('.modal').add_collection($form);
-		return false;		
-	});
+			$('#add_collection').on('show.bs.modal', function () {
+				$(this).add_collection();
+			});
+			$('#add_collection').find('form').submit(function() {
+				var $form = $(this);
+				$form.closest('.modal').add_collection($form);
+				return false;		
+			});
 	$('body').on("show_collection", function(e, collection) {
 		$('#search').hide();
 		$('#archives').hide();
@@ -126,7 +126,19 @@ $(document).ready(function() {
 			$(this).closest('form').submit();
 		});
 		$('#collection').find('.glyphicon-pencil').unbind('click').click(function() {
-			alert('Coming soon: edit this collections\'s settings');
+			var arr = $('#collections_form').find('.clicked').attr('id').split('_');
+			var profile_index = parseInt(arr[1]);
+			var collection_index = parseInt(arr[2]);
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : [];
+			var existing_values = profiles[profile_index].collections[collection_index];
+			existing_values.profile_index = profile_index;
+			existing_values.collection_index = collection_index;
+			$('#edit_collection').edit_collection(existing_values);
+			$('#edit_collection').find('form').unbind('submit').submit(function() {
+				var $form = $(this);
+				$form.closest('.modal').edit_collection(existing_values, $form);
+				return false;		
+			});			
 		});
 		$('#collection').find('.glyphicon-trash').unbind('click').click(function() {
 			if (!confirm('Are you sure you wish to delete this collection?')) return;
@@ -149,7 +161,7 @@ $(document).ready(function() {
 			$('#archives').show();
 		});		
 		$('#collection_form').unbind('submit').submit(function() {
-			$('#collection').search();
+			console.log('Searching...');
 			return false;
 		});
 		$('#collection_results').show_collection(collection);
@@ -918,6 +930,90 @@ $.fn.add_collection = function($form) {
 			var profile_options = '<option value="">Create new profile</option>';
 			for (var j = 0; j < profiles.length; j++) {
 				profile_options += '<option value="'+profiles[j].uri+'"'+((j==profiles.length-1)?' selected':'')+'>'+profiles[j].name+'</option>';
+			}
+			var check_profile_options = function() {
+				if ($modal.find('[name="profile"]').val().length) {
+					$modal.find('[name="profile"]').next().hide();
+				} else {
+					$modal.find('[name="profile"]').next().show();
+				}
+			};
+			$modal.find('[name="profile"]').empty().html(profile_options).unbind('change').change(check_profile_options);
+			check_profile_options();
+		});
+	}
+};
+
+//The edit collection modal
+$.fn.edit_collection = function(existing_values, $form) {
+	if ('undefined'!=typeof($form)) {
+		if ('undefined'==typeof(ns)) ns = $.initNamespaceStorage('tensor_ns');  // global
+		if ('undefined'==typeof(storage)) storage = ns.localStorage;  // global	
+		var profile = $form.find('[name="profile"]').val();
+		if (!profile.length) {
+		   var new_profile = $form.find('[name="new_profile"]').val();
+		   if (!new_profile.length) {
+			   alert('Please enter a name for the new profile, or select an existing profile.');
+			   return;
+		   }
+		   var json = {};
+		   json.name = new_profile;
+		   json.uri = '_'+(new Date().getTime());
+		   var profile_index = window['profile'](json);
+		} else {
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+			var profile_index = null;
+			for (var j = 0; j < profiles.length; j++) {
+				if (profiles[j].uri == profile) {
+					profile_index = j;
+					break;
+				}
+			}
+		};
+		if (null===profile_index) {
+			alert('Could not find selected profile');
+			return;
+		};
+		var obj = {};
+		obj.title = $form.find('[name="title"]').val();
+		obj.description = $form.find('[name="description"]').val();
+		obj.color = '#'+$form.find('input[name="color"]').spectrum("get").toHex();
+		if (!obj.title.length) {
+			alert('Please enter a title for the collection');
+			return;
+		} else if (!obj.description.length) {
+			alert('Please enter a description for the collection');
+			return;
+		};
+		var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+		obj.items = profiles[existing_values.profile_index].collections[existing_values.collection_index].items;
+		if (profile_index == existing_values.profile_index) {
+			profiles[existing_values.profile_index].collections[existing_values.collection_index] = $.extend({}, obj);
+			$('#collections').list_collections(profiles);
+			$('#collection_'+existing_values.profile_index+'_'+existing_values.collection_index).mousedown();
+			storage.set('profiles', profiles);
+		} else {
+			profiles[existing_values.profile_index].collections.splice(existing_values.collection_index, 1);
+			profiles[profile_index].collections.push(obj);
+			storage.set('profiles', profiles);
+			$('#collections').list_collections(profiles);
+			$('#collection_'+profile_index+'_'+(profiles[profile_index].collections.length-1)).mousedown();
+		};	
+    	$('#edit_collection').modal('hide');
+	} else {	
+		return this.each(function() {
+			var $modal = $(this);
+			$modal.modal('show');
+			$modal.find('[name="title"]').val(existing_values.title);
+			$modal.find('[name="description"]').val(existing_values.description);
+			$modal.find('input[name="color"]').spectrum({
+			    color: existing_values.color
+			});		
+			// Profiles
+			var profiles = ('undefined'!=typeof(storage.get('profiles'))) ? storage.get('profiles') : {};
+			var profile_options = '<option value="">Create new profile</option>';
+			for (var j = 0; j < profiles.length; j++) {
+				profile_options += '<option value="'+profiles[j].uri+'"'+((j==existing_values.profile_index)?' selected':'')+'>'+profiles[j].name+'</option>';
 			}
 			var check_profile_options = function() {
 				if ($modal.find('[name="profile"]').val().length) {
