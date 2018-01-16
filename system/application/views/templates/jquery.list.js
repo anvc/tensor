@@ -115,7 +115,9 @@
     		for (var k in opts.rows[j]) {
     			if (-1==k.indexOf(':')) continue;
     			if ('undefined'!=typeof(opts.rows[j][k][0])) {
-    				mo += pnode(k) + ' ' +opts.rows[j][k][0].value + "\n";
+    				for (var q = 0; q < opts.rows[j][k].length; q++) {
+    					mo += pnode(k) + ' ' +opts.rows[j][k][q].value + "\n";
+    				};
     			};
 			};
 			$row.attr('title', mo);

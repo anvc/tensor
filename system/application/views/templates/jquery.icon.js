@@ -123,7 +123,9 @@
 	                $title.append(value);
     			};
     			if ('undefined'!=typeof(row[p][0])) {
-    				mo += pp + ' ' +row[p][0].value + "\n";
+    				for (var q = 0; q < row[p].length; q++) {
+    					mo += pp + ' ' +row[p][q].value + "\n";
+    				};
     			};
     		} 		
     		$url.append('<a href="'+url+'" target="_blank">'+url+'</a>');
