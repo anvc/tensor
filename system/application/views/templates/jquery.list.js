@@ -111,6 +111,14 @@
     			$row.addClass('clicked');
     			$row.find('input[type="checkbox"]').prop('checked',true);
     		}
+    		var mo = '';
+    		for (var k in opts.rows[j]) {
+    			if (-1==k.indexOf(':')) continue;
+    			if ('undefined'!=typeof(opts.rows[j][k][0])) {
+    				mo += pnode(k) + ' ' +opts.rows[j][k][0].value + "\n";
+    			};
+			};
+			$row.attr('title', mo);
     	}
         $self.find('td a').on('click', function(e) {
             e.stopPropagation();

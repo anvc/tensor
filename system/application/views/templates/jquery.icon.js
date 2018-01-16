@@ -110,6 +110,7 @@
     		var $title = $('<div class="title"></div>').appendTo($row);
     		var $source = $('<div class="source"></div>').appendTo($row);
     		var url = j;
+    		var mo = '';
     		for (var p in row) {
     			var pp = pnode(p);
     			if ('art:sourceLocation'==pp && 'undefined'!=typeof(row[p][0])) {
@@ -120,10 +121,14 @@
     			} else if ('dcterms:title'==pp) {
     				var value = ('undefined'==typeof(row[p][0]) || 'undefined'==typeof(row[p][0].value)) ? '[No title]' : row[p][0].value.linkify();
 	                $title.append(value);
-    			}
+    			};
+    			if ('undefined'!=typeof(row[p][0])) {
+    				mo += pp + ' ' +row[p][0].value + "\n";
+    			};
     		} 		
     		$url.append('<a href="'+url+'" target="_blank">'+url+'</a>');
     		if ('undefined'!=typeof(opts.check[j])) $row.click();
+    		$row.attr('title',mo);
     	}   
     	do_match_height(true);
     	$('body').on('sheet_layout_change', function() { do_match_height(); });    

@@ -109,6 +109,7 @@
     		$url = $('<div class="url"></div>').appendTo($row);
     		$title = $('<div class="title"></div>').appendTo($row);
     		$desc = $('<div class="desc"></div>').appendTo($row);
+    		var mo = '';
     		for (var p in row) {
     			var pp = pnode(p);
     			if ('art:sourceLocation'==pp && 'undefined'!=typeof(row[p][0])) {
@@ -122,10 +123,14 @@
     			} else if ('dcterms:title'==pp) {
     				var value = ('undefined'==typeof(row[p][0]) || 'undefined'==typeof(row[p][0].value)) ? '[No title]' : row[p][0].value;
 	                $title.append(value);
-    			}
+    			};
+    			if ('undefined'!=typeof(row[p][0])) {
+    				mo += pp + ' ' +row[p][0].value + "\n";
+    			};
     		} 		
     		$url.append('<a href="'+url+'" target="_blank">'+url+'</a>');
     		if ('undefined'!=typeof(opts.check[j])) $row.click();
+    		$row.attr('title', mo);
     	}    
     	$wrapper.append('<br clear="both" />');
     	do_match_height(true);
