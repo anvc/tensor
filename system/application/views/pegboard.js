@@ -892,9 +892,8 @@ $.fn.import = function() {
 				$("#imported_tour").joyride({autoStart:true, timer:2000, template:{link:''}});
 			};
 		};
-		// Create the split button with a list of the collections
-		$node.append('<button type="button" class="btn btn-primary">Import</button>');
-		$node.append('<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>');
+		// Create dropdown with a list of the collections		
+		$node.append('<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Import to collection <span class="caret"></span></button>');
 		var $list = $('<ul class="dropdown-menu"><li class="dropdown-menu-title">Import to...</li></ul>').appendTo($node);
 		$list.parent().on('show.bs.dropdown', function () {  // Update the list live so that collections can be added at any time
 			$list.children().not('.dropdown-menu-title').remove();
@@ -909,9 +908,6 @@ $.fn.import = function() {
 				do_import(parseInt($(this).data('profile-index')), parseInt($(this).data('collection-index')));
 			});
 		})
-		$node.find('button:first').unbind('click').click(function() {
-			do_import(0, 0);
-		});
 	});
 	
 };
