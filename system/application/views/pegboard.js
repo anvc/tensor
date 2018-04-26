@@ -218,7 +218,7 @@ $(document).ready(function() {
 	});
 });
 
-//List profiles in an editable way in the provided HTML element
+// List profiles in an editable way in the provided HTML element
 $.fn.set_profiles = function(profiles) {
     if ('undefined' == typeof(ns)) ns = $.initNamespaceStorage('tensor_ns'); // global
     if ('undefined' == typeof(storage)) storage = ns.localStorage; // global

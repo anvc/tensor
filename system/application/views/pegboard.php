@@ -111,17 +111,13 @@
       	  your profiles and send to others so that they can use these same archives and collections.  If others export their profiles, you
       	  can load them in here to do the same.  
       	  </p>
-      	  <p>
-      	  If this is confusing, no problem: simply load the <i>Starter Profile</i>, close this window, and start 
-      	  using Tensor. You'll see how adding new archives and collections relates to the profiles as you use the system.
-      	  </p>
           <div id="profiles"></div>
           <div class="form-group" id="startProfilesWrapper">
            	<?php 
            	$profiles = $this->config->item('starter_profiles');
-           	echo '<p>You can load '.((count($profiles)>1)?'these':'this').' starter Tensor profile'.((count($profiles)>1)?'s':'').':</p>'."\n";
+           	echo '<p>You can start by loading '.((count($profiles)>1)?'these':'this').' Tensor profile'.((count($profiles)>1)?'s':'').':</p>'."\n";
            	foreach ($profiles as $profile) {
-           		echo '<button class="btn btn-success startProfiles" type="button" data-url="'.$profile['url'].'" data-location="'.$profile['location'].'">'.$profile['button_text'].'</button>'."\n";
+           		echo '<button class="btn btn-primary startProfiles" type="button" data-url="'.$profile['url'].'" data-location="'.$profile['location'].'">'.$profile['button_text'].'</button>'."\n";
            	}
            	?>
           </div>
@@ -130,7 +126,7 @@
 		    <div class="input-group">
 		      <input type="text" class="form-control" placeholder="Profile name...">
 		      <span class="input-group-btn">
-		        <button class="btn btn-default" type="submit" id="createNewProfile">Create</button>
+		        <button class="btn btn-primary" type="submit" id="createNewProfile">Create</button>
 		      </span>
 		    </div>
           </form>
@@ -141,7 +137,7 @@
 			    <div class="input-group">
 			      <input type="text" class="form-control" placeholder="http://">
 			      <span class="input-group-btn">
-			        <button class="btn btn-default" type="button" id="profileFromURL">Add</button>
+			        <button class="btn btn-primary" type="button" id="profileFromURL">Add</button>
 			      </span>
 			    </div>
 	          </form>
@@ -156,7 +152,7 @@
 			      </span>
 			      <input type="text" class="form-control" id="profile-file-info">
 			      <span class="input-group-btn">
-			        <button class="btn btn-default" type="submit" id="profileUpload">Upload</button>
+			        <button class="btn btn-primary" type="submit" id="profileUpload">Upload</button>
 			      </span>
 			    </div>
 		      </form>
@@ -167,7 +163,7 @@
           </div>
       </div>
       <div class="modal-footer has-profiles">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Continue</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
