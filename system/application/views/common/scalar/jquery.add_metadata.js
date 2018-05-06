@@ -108,7 +108,8 @@
     			'art': 'ARTstore terms',
     			'iptc': 'Photo metadata',
     			'bibo': 'Bibliographic Ontology Specification',
-    			'id3': 'MP3 de facto metadata standard'
+    			'id3': 'MP3 de facto metadata standard',
+    			'dwc': 'Darwin Core terms'
     		};
         	// Ontologies
         	for (var prefix in data) {

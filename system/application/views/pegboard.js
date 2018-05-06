@@ -1788,7 +1788,8 @@ function get_namespaces() {
 			'exif':'http://ns.adobe.com/exif/1.0/',
 			'iptc':'http://ns.exiftool.ca/IPTC/IPTC/1.0/',
 			'bibo':'http://purl.org/ontology/bibo/',
-			'id3':'http://id3.org/id3v2.4.0#'
+			'id3':'http://id3.org/id3v2.4.0#',
+			'dwc':'http://rs.tdwg.org/dwc/terms/'
 		};
 	return namespaces;
 };
