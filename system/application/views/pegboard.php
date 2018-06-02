@@ -458,7 +458,7 @@
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#search_close_circle').click();">Close</button>
       </div>
     </div>
   </div>

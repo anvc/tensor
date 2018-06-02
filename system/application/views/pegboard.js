@@ -781,9 +781,10 @@ function error_callback(error, archive) {
 	if ('200 OK'==error) error = 'There were internal errors';
 	var html = '<p>There was an error attempting to gather results:</p>';
 	html += '<p><b>'+error+'</b></p>';
-	html += '<p>Please try again</p>';
+	html += '<p>Please try again.</p>';
 	$error.find('[class="modal-body"]').html(html);
 	$error.modal();
+	$('#loading').hide().find('.a').remove();
 	
 };
 

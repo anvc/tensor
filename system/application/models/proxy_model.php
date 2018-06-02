@@ -21,10 +21,11 @@ class Proxy_model extends CI_Model {
 
 		$parser_path = FCPATH."/parsers/$parser/handler.php";
 		if (!file_exists($parser_path)) return self::error('Could not find the parser directory or handler file');
-		require_once($parser_path);
-		if (empty($content)) {
-			$curlinfo['error'] = 'Could not resolve content';
-			return self::error($curlinfo);
+		$err = require_once($parser_path);
+		if (!empty($err) && !is_numeric($err)) {
+			return self::error(json_decode($err));
+		} elseif (empty($content)) {
+			return self::error('No content was returned. This could be caused by a number of things including Internet connection problems or the archive\'s server being unavailable.');
 		}
 
 		return $content;

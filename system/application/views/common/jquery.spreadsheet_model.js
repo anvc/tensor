@@ -84,7 +84,7 @@
         	try {
         		var obj = $.parseJSON(data);
             	if ('undefined'!=typeof(obj.error) && obj.error.length) {
-            		error_callback({status:'Proxy error:',statusText:obj.error});
+            		opts.error_callback(obj.error);
             		return;
             	};        		
         	} catch(e) {};
