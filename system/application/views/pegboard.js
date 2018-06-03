@@ -13,6 +13,7 @@ $(document).ready(function() {
 	// Archives
 	$('body').on("show_archive", function(e, archive) {
 		$('#archives').hide();
+		$('.parser_add_on').remove();
 		$('#search').data('archive',archive).show().find('#search_form input:first').focus().prop('placeholder',archive.title).val('').closest('form').find('.list-group').remove();
 		$('#search').find('.glyphicon-search').unbind('click').click(function() {
 			$(this).closest('form').submit();

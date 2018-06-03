@@ -106,13 +106,13 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #search_close_circle {position:absolute; right:19px; top:-5px; border-radius:50%; width:30px; height:30px; background-color:#eeeeee; cursor:pointer;}
 #search_close {float:right; cursor:pointer; display:inline-block; margin-right:10px; font-size:larger; /* color:#2e6da4; */ color:#666666;}
 #search_close:hover {text-decoration:none;}
-#search_form {float:left; margin:0px 10px 0px 0px; width:300px; position:relative;}
+#search_form {float:left; margin:0px 10px 8px 0px; width:300px; position:relative;}
 #search_form input {padding-right:80px;}
 #search_view {float:left; margin:2px 10px 0px 0px;}
 #import_to {float:left; margin:2px 0px 0px 0px;}
 #archive_select_all {float:left; margin:9px 0px 0px 14px; font-size:12px;}
 #search_pagination {float:left; margin:6px 0px 0px 0px;}
-#search_results {clear:both; margin-bottom:50px;}
+#search_results {clear:both; margin-bottom:50px; margin-top:-8px;}
 #search_form .list-group {position:absolute; top:36px; left:0; z-index:9; box-shadow: 4px 4px 4px #cccccc;}
 .search_pagination {display:none; position:absolute; bottom:0px; left:15px; right:15px;}
 .search_pagination.navbar {min-height:20px;}

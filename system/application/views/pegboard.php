@@ -49,7 +49,7 @@
 		<!-- Search an archive -->
 		<div id="search" class="col-xs-9">
 			<span id="search_close_circle"></span>
-			<a href="javascript:void(null);" id="search_close" class="glyphicon glyphicon-remove"></a>
+			<a href="javascript:void(null);" id="search_close" class="glyphicon glyphicon-remove"></a>	
 			<form id="search_form">
 				<div class="right-inner-addon">
 					<input type="text" name="search" class="form-control" placeholder="Search archive" tabindex="1" />
@@ -58,14 +58,16 @@
 					<a href="javascript:void(null);" class="glyphicon glyphicon-search glyphicon-xs three"></a>
 				</div>
 			</form>
-			<div id="search_view" class="btn-group btn-group-sm" role="group">
-				<button type="button" class="btn btn-primary" id="icon">Icon</button>
-				<button type="button" class="btn btn-default" id="tile">Tile</button>
-				<button type="button" class="btn btn-default" id="list">List</button>
-				<button type="button" class="btn btn-default" id="detail">Detail</button>
+			<div class="btn-group">
+				<div id="search_view" class="btn-group btn-group-sm" role="group">
+					<button type="button" class="btn btn-primary" id="icon">Icon</button>
+					<button type="button" class="btn btn-default" id="tile">Tile</button>
+					<button type="button" class="btn btn-default" id="list">List</button>
+					<button type="button" class="btn btn-default" id="detail">Detail</button>
+				</div>
+				<div id="import_to" class="btn-group btn-group-sm" role="group"></div>
+				<a id="archive_select_all" href="javascript:void(null);">Select all</a>
 			</div>
-			<div id="import_to" class="btn-group btn-group-sm" role="group"></div>
-			<a id="archive_select_all" href="javascript:void(null);">Select all</a>
 			<div id="search_results"></div>
 			<nav class="navbar navbar-default search_pagination" role="navigation">
 			    <ul class="nav navbar-nav">
