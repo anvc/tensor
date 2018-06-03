@@ -142,6 +142,7 @@
         if (!opts.checkable) {
         	$self.find('tr').addClass('static');
         }
+        $table.after('<br clear="both" />');
     }
     
     function predicates_to_display() {
@@ -149,8 +150,10 @@
    		     'http://purl.org/dc/terms/title',
 		     'http://purl.org/dc/terms/description',
 		     'http://purl.org/dc/terms/contributor',
-		     'http://purl.org/dc/terms/creator'
+		     'http://purl.org/dc/terms/creator',
+		     'http://simile.mit.edu/2003/10/ontologies/artstor#url'
     	       ];
+    	var max = 3;
     	if (opts.num_archives > 1) arr.push('http://purl.org/dc/terms/source');
     	var _arr = [];
     	for (var uri in opts.rows) break;
