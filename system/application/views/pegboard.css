@@ -112,7 +112,7 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #import_to {float:left; margin:2px 0px 0px 0px;}
 #archive_select_all {float:left; margin:9px 0px 0px 14px; font-size:12px;}
 #search_pagination {float:left; margin:6px 0px 0px 0px;}
-#search_results {clear:both; margin-bottom:50px; margin-top:-8px;}
+#search_results {clear:both; margin-bottom:50px;}
 #search_form .list-group {position:absolute; top:36px; left:0; z-index:9; box-shadow: 4px 4px 4px #cccccc;}
 .search_pagination {display:none; position:absolute; bottom:0px; left:15px; right:15px;}
 .search_pagination.navbar {min-height:20px;}

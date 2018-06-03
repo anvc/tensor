@@ -75,7 +75,13 @@ $(document).ready(function() {
 		});
 		$('.search_pagination').hide();
 		var parser = base_url+'parsers/'+archive.parser+'/parser.js';
+		delete $.fn.preload;
+		delete $.fn.autocomplete;
 		$.getScript(parser, function() {
+			if ('undefined'!=typeof($.fn.preload)) {
+				var preload = $.extend({}, archive, {proxy_url:$('link#proxy_url').attr('href')});
+				$.fn.preload(preload);
+			}
 			if ('undefined'!=typeof($.fn.autocomplete)) {
 				var autocomplete = $.extend({}, archive, {proxy_url:$('link#proxy_url').attr('href'),complete_callback:autocomplete_callback});
 				$('#search_form input:first').autocomplete(autocomplete);
