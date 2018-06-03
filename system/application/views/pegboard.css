@@ -161,13 +161,7 @@ tr.static:hover td {background-color:initial !important; color:#333 !important;}
 	position:absolute; left:-8px; top:-8px; width:216px; background-color:#decccc; z-index:0; height:102%;
 	border:solid 2px #999999; border-radius: 5px;
 }
-.tile > .img_wrapper {position:relative; z-index:1; width:192px; height:130px; margin-bottom:8px;}
-.tile > .img_wrapper > img {
-	width:100%; 
-	position: absolute; /* absolute or fixed positioning required for clip */
-	z-index:1;
-    clip: rect(0px, 192px, 130px, 0px);
-}
+.tile > .img_wrapper {position:relative; z-index:1; width:192px; height:130px; margin-bottom:8px; background-size:cover; background-position:center center;}
 .tile > .title {width:192px; overflow:hidden; font-size:12px; margin-bottom:5px; font-weight:bold; position:relative; z-index:1;}
 .tile > .source {display:none; font-size:12px; margin-bottom:1px; font-weight:normal; position:relative; z-index:1;}
 .tile > .url {font-size:12px; margin-bottom:5px; height:15px; width:200px; overflow:hidden; position:relative; z-index:1;}

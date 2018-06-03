@@ -106,7 +106,7 @@
         	} else {
         		thumb = row['http://simile.mit.edu/2003/10/ontologies/artstor#thumbnail'][0].value;
         	}
-    		$img = $('<div class="img_wrapper"><img src="'+thumb+'" /></div>').appendTo($row);
+    		$img = $('<div class="img_wrapper" style="background-image:url('+thumb+');"></div>').appendTo($row);
     		$source = $('<div class="source"></div>').appendTo($row);
     		$url = $('<div class="url"></div>').appendTo($row);
     		$title = $('<div class="title"></div>').appendTo($row);

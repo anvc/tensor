@@ -85,10 +85,17 @@ class Wb extends CI_Controller {
 	public function ontologies() {
 	
 		$this->data['content'] = $this->config->item('ontologies');
-		// Reset keys to 1..N
+		// Reset keys to 0..N
 		foreach ($this->data['content'] as $prefix => $values) {
 			$this->data['content'][$prefix] = array_values($values);
 		}
+		echo json_encode($this->data['content']);
+	
+	}
+	
+	public function namespaces() {
+		
+		$this->data['content'] = $this->config->item('namespaces');
 		echo json_encode($this->data['content']);
 	
 	}

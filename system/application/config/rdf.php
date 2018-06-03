@@ -1,4 +1,28 @@
 <?php
+// Namespaced used for RDF operations
+$config['namespaces'] = array(
+		'rdf'       => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+		'rdfs'      => 'http://www.w3.org/2000/01/rdf-schema#',
+		'dc'        => 'http://purl.org/dc/elements/1.1/',
+		'dcterms'   => 'http://purl.org/dc/terms/',
+		'ctag'      => 'http://commontag.org/ns#',
+		'art'       => 'http://simile.mit.edu/2003/10/ontologies/artstor#',
+		'sioc'      => 'http://rdfs.org/sioc/ns#',
+		'sioctypes' => 'http://rdfs.org/sioc/types#',
+		'foaf'      => 'http://xmlns.com/foaf/0.1/',
+		'owl'       => 'http://www.w3.org/2002/07/owl#',
+		'ov'		=> 'http://open.vocab.org/terms/',
+		'oac'		=> 'http://www.openannotation.org/ns/',
+		'scalar'    => 'http://scalar.usc.edu/2012/01/scalar-ns#',
+		'shoah'		=> 'http://tempuri.org/',
+		'prov'		=> 'http://www.w3.org/ns/prov#',
+		'exif'		=> 'http://ns.adobe.com/exif/1.0/',
+		'iptc'		=> 'http://ns.exiftool.ca/IPTC/IPTC/1.0/',
+		'bibo'		=> 'http://purl.org/ontology/bibo/',
+		'id3'		=> 'http://id3.org/id3v2.4.0#',
+		'dwc'		=> 'http://rs.tdwg.org/dwc/terms/'
+);
+
 // Ontology fields available for custom metadata
 $config['ontologies'] = array();
 $config['ontologies']['dcterms'] = array(
