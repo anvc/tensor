@@ -59,7 +59,7 @@ $(document).ready(function() {
 			return false;
 		});
 		$('#import_to').import();
-		$('#archive_select_all').click(function() {
+		$('#archive_select_all').off('click').click(function() {
 			var $this = $(this);
 			var is_checked = ($this.closest('#search').find('.clicked').length) ? true : false;
 			if (is_checked) {
