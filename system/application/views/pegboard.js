@@ -1712,7 +1712,8 @@ function get_single_item(query, archive, complete_callback, error_callback) {
 function loading(bool, archive_title) {
 	var $loading = $('#loading');
 	if (bool) {
-		if ('undefined'!=typeof(archive_title) && !$loading.find('[title="'+archive_title+'"]').length) $loading.children(':first').append('<div class="a" title="'+archive_title+'">'+archive_title+'</div>');
+		var $el = $('<div class="a" title="'+archive_title+'">'+archive_title+'</div>');
+		if ('undefined'!=typeof(archive_title) && !$loading.find('[title="'+archive_title+'"]').length) $loading.find('img:first').before($el);
 		$loading.show();
 	} else {
 		if ('undefined'!=typeof(archive_title)) $loading.find('.a[title="'+archive_title+'"]').remove();

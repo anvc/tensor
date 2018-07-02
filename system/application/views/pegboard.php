@@ -1,4 +1,4 @@
-<div id="loading"><div>Loading</div></div>
+<div id="loading"><div>Loading<img src="<?php echo base_url().'/system/application/views/images/loading_dots.gif' ?>" /></div></div>
 
 <div class="container-fluid">
 	<div class="row col-max-height">
