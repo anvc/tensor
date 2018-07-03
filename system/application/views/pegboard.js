@@ -1715,9 +1715,14 @@ function loading(bool, archive_title) {
 		var $el = $('<div class="a" title="'+archive_title+'">'+archive_title+'</div>');
 		if ('undefined'!=typeof(archive_title) && !$loading.find('[title="'+archive_title+'"]').length) $loading.find('img:first').before($el);
 		$loading.show();
+		loadingTimeout = setTimeout(function() {
+			var $msg = $('<div class="b">Be patient, results are being compiled</div>');
+			$('#loading').find('img:first').after($msg);
+		}, 10000);
 	} else {
-		if ('undefined'!=typeof(archive_title)) $loading.find('.a[title="'+archive_title+'"]').remove();
+		if ('undefined'!=typeof(archive_title)) $loading.find('.a[title="'+archive_title+'"], .b').remove();
 		if (!$loading.find('.a').length) $loading.hide();
+		if ('undefined' != typeof(loadingTimeout)) clearTimeout(loadingTimeout);
 	}
 }
 

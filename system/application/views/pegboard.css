@@ -14,7 +14,6 @@ a.btn-default, button.btn-default {color:#337ab7;}
 .help-block {margin-top:0px; margin-bottom:8px;}
 #loading {position:fixed;left:0;top:2px;right:0;z-index:99;text-align:center;display:none;}
 #loading > div {font-size:smaller; color:#555555; width:150px; margin:0px auto 0px auto; text-align:center; background-color:#fff8af; padding:6px 3px 3px 3px; color:#000000; border:solid 1px #c3b94c; font-weight:normal; border-radius: 4px;}
-#loading .a {}
 #loading img {width:30px; opacity:0.5; display:inline-block;}
 .right-inner-addon {position:relative; z-index:1;}
 .right-inner-addon input {padding-right:30px;}
