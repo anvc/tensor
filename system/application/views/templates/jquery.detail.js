@@ -21,7 +21,8 @@
 					'iptc':'http://ns.exiftool.ca/IPTC/IPTC/1.0/',
 					'bibo':'http://purl.org/ontology/bibo/',
 					'id3':'http://id3.org/id3v2.4.0#',
-					'dwc':'http://rs.tdwg.org/dwc/terms/'
+					'dwc':'http://rs.tdwg.org/dwc/terms/',
+					'vra':'http://purl.org/vra/'
 			},
 			rows: null,
 			default_num_predicates: 4,

@@ -92,8 +92,8 @@
         	var has_title_links = ($title_links.length) ? true : false;
         	var title_links = [];
         	// Featured
-        	$('<h1 name="featured">Featured &nbsp; <small>Fields that have special uses in Scalar\'s interface</small></h1>').appendTo($div);
-        	title_links.push('<a href="javascript:void(null);">Featured</a>');
+        	$('<h1 name="featured">featured &nbsp; <small>Fields that have special uses in Scalar\'s interface</small></h1>').appendTo($div);
+        	title_links.push('<a href="javascript:void(null);">featured</a>');
         	var $content = $('<div></div>').appendTo($div);
         	var featured = ['dcterms:source','iptc:By-line','dcterms:coverage','dcterms:spatial','dcterms:temporal','dcterms:date'];
     		for (var j = 0; j < featured.length; j+=3) {
@@ -109,7 +109,8 @@
     			'iptc': 'Photo metadata',
     			'bibo': 'Bibliographic Ontology Specification',
     			'id3': 'MP3 de facto metadata standard',
-    			'dwc': 'Darwin Core terms'
+    			'dwc': 'Darwin Core terms',
+    			'vra': 'VRA Ontology representing entities in the VRA data model'
     		};
         	// Ontologies
         	for (var prefix in data) {
