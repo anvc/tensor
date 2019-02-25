@@ -116,6 +116,7 @@
     		var mo = '';
     		for (var p in row) {
     			var pp = pnode(p);
+    			//console.log('test: '+row[p][0].value);
     			if ('art:sourceLocation'==pp && 'undefined'!=typeof(row[p][0])) {
     				url = row[p][0].value;
     			} else if ('dcterms:source'==pp && 'undefined'!=typeof(row[p][0])) {

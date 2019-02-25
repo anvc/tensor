@@ -435,9 +435,14 @@
       </div>
       <div class="modal-footer">
       	<div class="col-xs-9">
-			<div class="progress">
+			<div class="progress" style="margin-bottom:3px;margin-top:-10px;">
 				<div id="content_progress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
 					<span>Content 0 of 0</span>
+				</div>
+			</div>
+			<div class="progress">
+				<div id="relations_progress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+					<span>Relation 0 of 0</span>
 				</div>
 			</div>
 			<div id="progress_log"></div>
