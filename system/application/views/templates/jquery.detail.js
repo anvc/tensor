@@ -22,7 +22,9 @@
 					'bibo':'http://purl.org/ontology/bibo/',
 					'id3':'http://id3.org/id3v2.4.0#',
 					'dwc':'http://rs.tdwg.org/dwc/terms/',
-					'vra':'http://purl.org/vra/'
+					'vra':'http://purl.org/vra/',
+					'cp':'http://scalar.cdla.oxycreates.org/commonplace/terms/',
+					'tk':'http://localcontexts.org/tk/'  /* Temp */
 			},
 			rows: null,
 			default_num_predicates: 4,

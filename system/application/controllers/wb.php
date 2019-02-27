@@ -54,7 +54,8 @@ class Wb extends CI_Controller {
 
 		$this->data['title'] = 'Tensor';
 		$this->data['proxy_url'] = base_url().strtolower(get_class()).'/proxy';
-
+		$this->data['enable_tklabels'] = $this->config->item('enable_tklabels') ? true : false;
+		
 		$this->template->add_css('system/application/views/common/jquery-ui-1.11.4.custom/jquery-ui.min.css');
 		$this->template->add_css('system/application/views/common/bootstrap/css/bootstrap.min.css');
 		$this->template->add_css('system/application/views/common/tablesorter/theme.default.css');

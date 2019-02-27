@@ -1311,7 +1311,21 @@ $.fn.metadata = function(items, source_collection) {
 			$('#edit_metadata').scrollTop(0);
 			$('.add_additional_metadata:first').unbind('click').click(function() {
 				var ontologies_url = $('link#base_url').attr('href')+'wb/ontologies';
-				$form.add_metadata({title:'Add additional metadata',ontologies_url:ontologies_url});
+				var tklabels = ('undefined' != typeof(window['tklabels'])) ? window['tklabels'] : null;
+				$form.add_metadata({title:'Add additional metadata',ontologies_url:ontologies_url,show_featured:false,tklabels:tklabels,callback:function(){
+					setTimeout(function() {
+						$('body').addClass('modal-open');
+					}, 750);
+				}});
+			});
+			$('.add_tklabels:first').unbind('click').click(function() {
+				var ontologies_url = $('link#base_url').attr('href')+'wb/ontologies';
+				var tklabels = ('undefined' != typeof(window['tklabels'])) ? window['tklabels'] : null;
+				$form.add_metadata({title:'Update TK Labels',ontologies_url:ontologies_url,active:'tk',active_only:true,tklabels:tklabels,callback:function(){
+					setTimeout(function() {
+						$('body').addClass('modal-open');
+					}, 750);
+				}});
 			});
 			var total = Object.keys(items).length;
 			$node.find('.modal-title .count').text('(item ' + (item+1) + ' of ' + total + ')');
@@ -1331,6 +1345,7 @@ $.fn.metadata = function(items, source_collection) {
 					    	$row.find('div').append('<a href="'+items[uri][p][j].value+'" target="_blank"><img src="'+items[uri][p][j].value+'" class="img-thumbnail" /></a>');
 					    } else if ('http'==items[uri][p][j].value.toString().substr(0,4) || '//'==items[uri][p][j].value.toString().substr(0,2)) {
 					    	$row.find('div').append('<a href="'+items[uri][p][j].value+'" class="visit_link" target="_blank">Visit link</a>');
+					    	$row.addClass('has_visit_link');
 					    }
 					};
 				};
@@ -1804,7 +1819,9 @@ function get_namespaces() {
 			'bibo':'http://purl.org/ontology/bibo/',
 			'id3':'http://id3.org/id3v2.4.0#',
 			'dwc':'http://rs.tdwg.org/dwc/terms/',
-			'vra':'http://purl.org/vra/'
+			'vra':'http://purl.org/vra/',
+			'cp':'http://scalar.cdla.oxycreates.org/commonplace/terms/',
+			'tk':'http://localcontexts.org/tk/'  /* Temp */
 		};
 	return namespaces;
 };
