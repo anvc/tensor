@@ -20,6 +20,7 @@ a.btn-default, button.btn-default {color:#337ab7;}
 .right-inner-addon a {position:absolute; right:0px; padding:10px 12px; text-decoration:none; z-index:9;}
 .right-inner-addon a.two {position:absolute; right:20px; padding:10px 12px; text-decoration:none; z-index:9;}
 .right-inner-addon a.three {position:absolute; right:43px; padding:10px 12px; text-decoration:none; z-index:9;}
+.right-inner-addon a.four {position:absolute; right:66px; padding:10px 12px; text-decoration:none; z-index:9;}
 
 /* Progress bar */
 .progress {position:relative; top:7px;}

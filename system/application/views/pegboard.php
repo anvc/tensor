@@ -89,6 +89,7 @@
 					<input type="text" name="search" class="form-control" placeholder="Search collection" />
 					<a href="javascript:void(null);" class="glyphicon glyphicon-trash glyphicon-xs"></a>
 					<a href="javascript:void(null);" class="glyphicon glyphicon-pencil glyphicon-xs two"></a>
+					<!-- <a href="javascript:void(null);" class="glyphicon glyphicon-folder-open glyphicon-xs three"></a> -->
 					<a href="javascript:void(null);" class="glyphicon glyphicon-search glyphicon-xs three"></a>
 				</div>
 			</form>

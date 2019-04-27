@@ -148,6 +148,11 @@ $(document).ready(function() {
 		$('#collection').find('.glyphicon-search').unbind('click').click(function() {
 			$(this).closest('form').submit();
 		});
+		/*
+		$('#collection').find('.glyphicon-folder-open').unbind('click').click(function() {
+			$('#collection').uploadToLocalStorage({});
+		});
+		*/
 		$('#collection').find('.glyphicon-pencil').unbind('click').click(function() {
 			var arr = $('#collections_form').find('.clicked').attr('id').split('_');
 			var profile_index = parseInt(arr[1]);
