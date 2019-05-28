@@ -30,6 +30,8 @@ a.btn-default, button.btn-default {color:#337ab7;}
 }
 .progress-bar {text-align:left;}
 .progress-bar span {padding-left:5px;}
+#existing_progress {position:absolute; left:0px; top:-6px; right:0px; bottom:0px; background-color:#ffffff; text-align:left; display:none;}
+#existing_progress > div {padding-left:30px; padding-top:4px;}
 
 /* Sidebar */
 .sidebar {border-right:solid 1px #bbbbbb;}
@@ -68,6 +70,7 @@ a.btn-default, button.btn-default {color:#337ab7;}
 #add_destination .btn-group, #add_destination .form-group {margin-right:4px;}
 #sync_destinations .close {position:absolute; top:1px; right:0px;}
 #sync .modal-footer {clear:both; padding-left:0; padding-right:0;}
+#sync .modal-footer > .col-xs-2 {padding-left:0px; text-align:center;}
 .add_metadata_modal h1 {margin-top:12px; padding-top:0;}
 .add_metadata_modal label {font-weight:normal;}
 .add_metadata_modal input[type="checkbox"] {margin-right:4px;}

@@ -1652,7 +1652,7 @@ function sync_complete_callback(data) {
 
 	var $sync = $('#sync');
 	$sync.find('.modal-footer .btn').hide();
-	var $button = $('<button class="btn btn-success">Return to archives</button>').appendTo($sync.find('.modal-footer:first div:last'));
+	var $button = $('<button class="btn btn-success">Back to archives</button>').appendTo($sync.find('.modal-footer:first div:last'));
 	$button.click(function() {
 		$sync.modal('hide');
 		$(this).remove();

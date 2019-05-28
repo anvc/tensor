@@ -441,7 +441,7 @@
       	</div>
       </div>
       <div class="modal-footer">
-      	<div class="col-xs-9">
+      	<div class="col-xs-10">
 			<div class="progress" style="margin-bottom:3px;margin-top:-10px;">
 				<div id="content_progress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
 					<span>Content 0 of 0</span>
@@ -453,9 +453,13 @@
 				</div>
 			</div>
 			<div id="progress_log"></div>
+			<div id="existing_progress">
+				<div>
+					<b>Loading existing relationships.</b><br />This may take some time depending on the number of relationships in the book.
+				</div>
+			</div>
 		</div>
-		<div class="col-xs-3">
-        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		<div class="col-xs-2">
         	<button type="button" class="btn btn-primary">Synchronize</button>
         </div>
       </div>
