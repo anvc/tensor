@@ -455,7 +455,7 @@
 			<div id="progress_log"></div>
 			<div id="existing_progress">
 				<div>
-					<b>Loading existing relationships.</b><br />This may take some time depending on the number of relationships in the book.
+					<b>Loading existing relationships.</b><br />This may take some time depending on the number of relationships in the book.<br />
 				</div>
 			</div>
 		</div>

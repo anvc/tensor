@@ -448,6 +448,7 @@
 			var url = opts.dest_url+'/rdf/instancesof/media?format=json&ref=1&rec=1&callback=?';  // Only check URL field, for now
 			opts.existing = [];
 			$('#existing_progress').fadeIn();
+			$('<img src="'+$('link#base_url').attr('href')+'system/application/views/images/loading_dots.gif" />').appendTo($('#existing_progress > div'));
 			$.getJSON(url, function(json) {
 				for (var uri in json) {
 					if ('undefined'==typeof(json[uri]['http://simile.mit.edu/2003/10/ontologies/artstor#url'])) continue;
@@ -493,7 +494,7 @@
 					};
 					opts.existing.push(obj);
 				};
-				if ($('#existing_progress').is(':visible')) $('#existing_progress').fadeOut();
+				if ($('#existing_progress').is(':visible')) $('#existing_progress').fadeOut().find('img').remove();
 				callback();
 			});
 		},

@@ -32,6 +32,7 @@ a.btn-default, button.btn-default {color:#337ab7;}
 .progress-bar span {padding-left:5px;}
 #existing_progress {position:absolute; left:0px; top:-6px; right:0px; bottom:0px; background-color:#ffffff; text-align:left; display:none;}
 #existing_progress > div {padding-left:30px; padding-top:4px;}
+#existing_progress > div > img {height:8px;}
 
 /* Sidebar */
 .sidebar {border-right:solid 1px #bbbbbb;}
